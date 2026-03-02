@@ -1,0 +1,46 @@
+### IntelliJ IDEA ###
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+.kotlin
+
+### Eclipse ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+### Mac OS ###
+.DS_Store
+
+### Project ###
+.idea/
+*.iml
+__pycache__/
+*.pyc
+npm_temp/
+srv_err.txt
+srv_out.txt
+_verify.py
+_verify.txt
+_verify2.py
+_gen_err2.txt
+*.docx
+imagenes/
+DATA PARTIDAS/
