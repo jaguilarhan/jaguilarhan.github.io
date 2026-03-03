@@ -2731,11 +2731,8 @@ document.addEventListener('input', (e) => {
 // ================================================================
 // INIT – Carga desde Firebase, fallback a localStorage
 // ================================================================
-let appInitialized = false;
 
 function initApp() {
-  if (appInitialized) return;
-  appInitialized = true;
 
 document.getElementById('inp-fecha').valueAsDate = new Date();
 
