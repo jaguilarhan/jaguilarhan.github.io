@@ -556,6 +556,7 @@
   </div>
 </div>
 
+<script src="actividades_data.js"></script>
 <script src="partidas_data.js"></script>
 <script>
 // ================================================================
@@ -741,6 +742,12 @@ function calcularAvance(categoria, actsDelElemento, elemStr, nivelStr) {
 // ESTADO GLOBAL
 // ================================================================
 let actividades = JSON.parse(localStorage.getItem('obra_actividades') || '[]');
+// Si no hay actividades en localStorage, cargar las precargadas del archivo
+if (actividades.length === 0 && typeof ACTIVIDADES_INICIALES !== 'undefined' && ACTIVIDADES_INICIALES.length > 0) {
+  actividades = ACTIVIDADES_INICIALES;
+  localStorage.setItem('obra_actividades', JSON.stringify(actividades));
+  console.log('Actividades precargadas:', actividades.length);
+}
 let semanaOffset = 0;
 let partidaSeleccionada = null;
 let pendingDeleteId = null;
