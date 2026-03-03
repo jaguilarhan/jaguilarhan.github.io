@@ -741,10 +741,37 @@ function initLogin() {
       })
       .catch((error) => {
         console.warn('Firebase Auth error:', error.code, error.message);
-        let msg = '❌ Usuario o contraseña incorrectos';
-        if (error.code === 'auth/user-not-found') {
-          msg = '❌ Usuario no encontrado';
-        } else if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
+
+        // Si el usuario no existe, intentar crearlo automáticamente
+        if (error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
+          loginError.innerHTML = '⏳ Primera vez, registrando usuario...';
+          fbAuth.createUserWithEmailAndPassword(email, pass)
+            .then(() => {
+              // Creado y logueado, onAuthStateChanged → doLogin()
+              loginUser.value = '';
+              loginPass.value = '';
+            })
+            .catch((err2) => {
+              console.warn('Firebase create error:', err2.code, err2.message);
+              let msg2 = '❌ No se pudo crear el usuario';
+              if (err2.code === 'auth/email-already-in-use') {
+                msg2 = '❌ Contraseña incorrecta';
+              } else if (err2.code === 'auth/operation-not-allowed') {
+                msg2 = '❌ HABILITAR Email/Password en Firebase Console → Authentication → Sign-in method';
+              } else if (err2.code === 'auth/weak-password') {
+                msg2 = '❌ Contraseña muy corta (mínimo 6 caracteres)';
+              }
+              loginError.innerHTML = msg2 + '<br><small style="color:#999;font-weight:400">(' + err2.code + ')</small>';
+              loginPass.value = '';
+              loginPass.focus();
+              btnLogin.disabled = false;
+              btnLogin.textContent = '🔑 Ingresar';
+            });
+          return;
+        }
+
+        let msg = '❌ Error de autenticación';
+        if (error.code === 'auth/wrong-password') {
           msg = '❌ Contraseña incorrecta';
         } else if (error.code === 'auth/too-many-requests') {
           msg = '⚠️ Demasiados intentos. Espere un momento.';
@@ -752,8 +779,11 @@ function initLogin() {
           msg = '⚠️ Sin conexión a internet';
         } else if (error.code === 'auth/invalid-email') {
           msg = '❌ Usuario no válido';
+        } else if (error.code === 'auth/operation-not-allowed') {
+          msg = '❌ HABILITAR Email/Password en Firebase Console → Authentication → Sign-in method';
         }
-        loginError.textContent = msg;
+        // Mostrar código técnico para diagnóstico
+        loginError.innerHTML = msg + '<br><small style="color:#999;font-weight:400">(' + error.code + ')</small>';
         loginPass.value = '';
         loginPass.focus();
         btnLogin.disabled = false;
