@@ -595,7 +595,6 @@
   </div>
 </div>
 
-<script src="actividades_data.js"></script>
 <script src="partidas_data.js"></script>
 <script>
 // ================================================================
@@ -790,12 +789,6 @@ function calcularAvance(categoria, actsDelElemento, elemStr, nivelStr) {
 // ESTADO GLOBAL
 // ================================================================
 let actividades = JSON.parse(localStorage.getItem('obra_actividades') || '[]');
-// Si no hay actividades en localStorage, cargar las precargadas del archivo
-if (actividades.length === 0 && typeof ACTIVIDADES_INICIALES !== 'undefined' && ACTIVIDADES_INICIALES.length > 0) {
-  actividades = ACTIVIDADES_INICIALES;
-  localStorage.setItem('obra_actividades', JSON.stringify(actividades));
-  console.log('Actividades precargadas:', actividades.length);
-}
 let semanaOffset = 0;
 let partidaSeleccionada = null;
 let pendingDeleteId = null;
@@ -2196,6 +2189,7 @@ document.getElementById('btn-reporte-word').addEventListener('click', () => {
   document.getElementById('modal-reporte').classList.add('show');
 });
 
+
 document.getElementById('modal-rep-cancel').addEventListener('click', () => {
   document.getElementById('modal-reporte').classList.remove('show');
 });
@@ -2534,13 +2528,13 @@ document.addEventListener('input', (e) => {
 
 document.getElementById('inp-fecha').valueAsDate = new Date();
 
-// Render inicial con datos locales
+// Render inicial rápido con caché local
 renderLeyenda();
 renderGrid();
 renderResumen();
 renderAvance();
 
-// Cargar datos desde Firebase y actualizar si hay datos en la nube
+// Firebase es la fuente principal de datos
 (async function initFirebase() {
   try {
     const [fbAct, fbSeq, fbAv, fbLanes] = await Promise.all([
@@ -2550,74 +2544,45 @@ renderAvance();
       fbLoad('lanes', null)
     ]);
 
-    let changed = false;
-
-    // Actividades: usar Firebase si tiene datos
+    // Actividades: Firebase manda
     if (fbAct && Array.isArray(fbAct) && fbAct.length > 0) {
-      // Si Firebase tiene datos y local no, o Firebase es más completo
-      if (actividades.length === 0 || fbAct.length >= actividades.length) {
-        actividades = fbAct;
-        localStorage.setItem('obra_actividades', JSON.stringify(actividades));
-        changed = true;
-      } else {
-        // Local tiene datos que Firebase no → subir a Firebase
-        fbSave('actividades', actividades);
-      }
-    } else if (actividades.length > 0) {
-      // Firebase vacío, subir datos locales
-      fbSave('actividades', actividades);
+      actividades = fbAct.filter(a => a != null);
+      localStorage.setItem('obra_actividades', JSON.stringify(actividades));
     }
-
-    if (fbSeq && typeof fbSeq === 'object' && Object.keys(fbSeq).length > 0) {
+    if (fbSeq && typeof fbSeq === 'object') {
       seqCustom = fbSeq;
       localStorage.setItem('obra_seq_custom', JSON.stringify(seqCustom));
-      changed = true;
-    } else if (Object.keys(seqCustom).length > 0) {
-      fbSave('seq_custom', seqCustom);
     }
-
-    if (fbAv && typeof fbAv === 'object' && Object.keys(fbAv).length > 0) {
+    if (fbAv && typeof fbAv === 'object') {
       avanceManual = fbAv;
       localStorage.setItem('obra_avance_manual', JSON.stringify(avanceManual));
-      changed = true;
-    } else if (Object.keys(avanceManual).length > 0) {
-      fbSave('avance_manual', avanceManual);
     }
-
-    if (fbLanes && typeof fbLanes === 'object' && Object.keys(fbLanes).length > 0) {
+    if (fbLanes && typeof fbLanes === 'object') {
       laneAssignments = fbLanes;
       localStorage.setItem('obra_lanes', JSON.stringify(laneAssignments));
-      changed = true;
-    } else if (Object.keys(laneAssignments).length > 0) {
-      fbSave('lanes', laneAssignments);
     }
 
-    if (changed) {
-      renderGrid();
-      renderResumen();
-      renderAvance();
-    }
-    console.log('✅ Firebase sincronizado correctamente');
-    document.getElementById('fb-status').innerHTML = '🟢 Firebase OK';
-    document.getElementById('fb-status').title = 'Conectado a Firebase - Datos sincronizados';
+    renderGrid();
+    renderResumen();
+    renderAvance();
+    console.log('✅ Firebase: ' + actividades.length + ' actividades cargadas');
+    document.getElementById('fb-status').innerHTML = '🟢 ' + actividades.length + ' actividades';
+    document.getElementById('fb-status').title = 'Conectado a Firebase';
   } catch(e) {
-    console.warn('⚠️ No se pudo conectar a Firebase, usando datos locales:', e);
+    console.warn('⚠️ Sin conexión a Firebase, usando caché local:', e);
     document.getElementById('fb-status').innerHTML = '🔴 Sin conexión';
-    document.getElementById('fb-status').title = 'Sin conexión a Firebase - Datos solo locales';
+    document.getElementById('fb-status').title = 'Sin conexión a Firebase';
   }
 
-  // Listener en tiempo real para actividades (sincronización multi-dispositivo)
+  // Escuchar cambios en tiempo real (sincroniza si editas desde otro dispositivo)
   fbListen('actividades', (data) => {
     if (data && Array.isArray(data)) {
-      const fbStr = JSON.stringify(data);
-      const localStr = JSON.stringify(actividades);
-      if (fbStr !== localStr) {
-        actividades = data;
+      const filtered = data.filter(a => a != null);
+      if (JSON.stringify(filtered) !== JSON.stringify(actividades)) {
+        actividades = filtered;
         localStorage.setItem('obra_actividades', JSON.stringify(actividades));
-        renderGrid();
-        renderResumen();
-        renderAvance();
-        console.log('🔄 Actividades actualizadas desde Firebase');
+        renderGrid(); renderResumen(); renderAvance();
+        document.getElementById('fb-status').innerHTML = '🟢 ' + actividades.length + ' actividades';
       }
     }
   });
@@ -2628,14 +2593,12 @@ renderAvance();
       localStorage.setItem('obra_lanes', JSON.stringify(laneAssignments));
     }
   });
-
   fbListen('seq_custom', (data) => {
     if (data && typeof data === 'object') {
       seqCustom = data;
       localStorage.setItem('obra_seq_custom', JSON.stringify(seqCustom));
     }
   });
-
   fbListen('avance_manual', (data) => {
     if (data && typeof data === 'object') {
       avanceManual = data;
@@ -2647,4 +2610,3 @@ renderAvance();
 <div class="clipboard-indicator" id="clipboard-indicator">📋 Actividad copiada — Ctrl+V para pegar</div>
 </body>
 </html>
-

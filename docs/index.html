@@ -313,6 +313,8 @@
   </div>
   <div class="header-btns">
     <span id="fb-status" style="font-size:.7rem;display:flex;align-items:center;gap:4px;opacity:.8" title="Estado Firebase">🔄 Conectando...</span>
+    <button class="btn-word" id="btn-subir-fb" style="background:#1565c0" title="Sube TODAS las actividades locales a Firebase (sobreescribe)">⬆️ Subir a Firebase</button>
+    <button class="btn-word" id="btn-bajar-fb" style="background:#6a1b9a" title="Descarga actividades desde Firebase (sobreescribe local)">⬇️ Bajar de Firebase</button>
     <button class="btn-word" id="btn-reporte-word">📄 Reporte Word</button>
   </div>
 </header>
@@ -2196,6 +2198,59 @@ document.getElementById('btn-reporte-word').addEventListener('click', () => {
   document.getElementById('modal-reporte').classList.add('show');
 });
 
+// ── SUBIR todo a Firebase (forzar) ──
+document.getElementById('btn-subir-fb').addEventListener('click', async () => {
+  if (!confirm('¿Subir TODAS las actividades locales a Firebase?\nEsto SOBREESCRIBIRÁ lo que haya en la nube.')) return;
+  try {
+    const btn = document.getElementById('btn-subir-fb');
+    btn.textContent = '⏳ Subiendo...'; btn.disabled = true;
+    await fbDB.ref(FB_ROOT).set({
+      actividades: actividades,
+      lanes: laneAssignments,
+      seq_custom: seqCustom,
+      avance_manual: avanceManual
+    });
+    btn.textContent = '✅ ¡Subido!';
+    setTimeout(() => { btn.textContent = '⬆️ Subir a Firebase'; btn.disabled = false; }, 2000);
+    alert('✅ Datos subidos exitosamente a Firebase.\n\nAhora abre workea.me y tus actividades estarán ahí.');
+  } catch(e) {
+    alert('❌ Error al subir: ' + e.message);
+    document.getElementById('btn-subir-fb').textContent = '⬆️ Subir a Firebase';
+    document.getElementById('btn-subir-fb').disabled = false;
+  }
+});
+
+// ── BAJAR todo de Firebase (forzar) ──
+document.getElementById('btn-bajar-fb').addEventListener('click', async () => {
+  if (!confirm('¿Descargar actividades desde Firebase?\nEsto SOBREESCRIBIRÁ tus datos locales.')) return;
+  try {
+    const btn = document.getElementById('btn-bajar-fb');
+    btn.textContent = '⏳ Bajando...'; btn.disabled = true;
+    const [fbAct, fbSeq, fbAv, fbLn] = await Promise.all([
+      fbLoad('actividades', []),
+      fbLoad('seq_custom', {}),
+      fbLoad('avance_manual', {}),
+      fbLoad('lanes', {})
+    ]);
+    actividades = Array.isArray(fbAct) ? fbAct : [];
+    seqCustom = fbSeq || {};
+    avanceManual = fbAv || {};
+    laneAssignments = fbLn || {};
+    localStorage.setItem('obra_actividades', JSON.stringify(actividades));
+    localStorage.setItem('obra_seq_custom', JSON.stringify(seqCustom));
+    localStorage.setItem('obra_avance_manual', JSON.stringify(avanceManual));
+    localStorage.setItem('obra_lanes', JSON.stringify(laneAssignments));
+    renderGrid(); renderResumen(); renderAvance();
+    btn.textContent = '✅ ¡Descargado!';
+    setTimeout(() => { btn.textContent = '⬇️ Bajar de Firebase'; btn.disabled = false; }, 2000);
+    alert('✅ ' + actividades.length + ' actividades descargadas de Firebase.');
+  } catch(e) {
+    alert('❌ Error al descargar: ' + e.message);
+    document.getElementById('btn-bajar-fb').textContent = '⬇️ Bajar de Firebase';
+    document.getElementById('btn-bajar-fb').disabled = false;
+  }
+});
+
 document.getElementById('modal-rep-cancel').addEventListener('click', () => {
   document.getElementById('modal-reporte').classList.remove('show');
 });
@@ -2552,16 +2607,30 @@ renderAvance();
 
     let changed = false;
 
-    // Actividades: usar Firebase si tiene datos
+    // Actividades: MERGE por ID (nunca perder datos)
     if (fbAct && Array.isArray(fbAct) && fbAct.length > 0) {
-      // Si Firebase tiene datos y local no, o Firebase es más completo
-      if (actividades.length === 0 || fbAct.length >= actividades.length) {
+      if (actividades.length === 0) {
+        // Local vacío → usar Firebase
         actividades = fbAct;
         localStorage.setItem('obra_actividades', JSON.stringify(actividades));
         changed = true;
       } else {
-        // Local tiene datos que Firebase no → subir a Firebase
-        fbSave('actividades', actividades);
+        // Ambos tienen datos → merge por ID (unir sin duplicar)
+        const localMap = new Map(actividades.map(a => [a.id, a]));
+        const fbMap = new Map(fbAct.map(a => [a.id, a]));
+        // Agregar las de Firebase que no estén en local
+        fbAct.forEach(a => { if (!localMap.has(a.id)) localMap.set(a.id, a); });
+        // Agregar las locales que no estén en Firebase
+        actividades.forEach(a => { if (!fbMap.has(a.id)) fbMap.set(a.id, a); });
+        // Resultado final: unión de ambos
+        const merged = Array.from(new Map([...fbAct.map(a=>[a.id,a]), ...actividades.map(a=>[a.id,a])]).values());
+        if (merged.length !== actividades.length || merged.length !== fbAct.length) {
+          actividades = merged;
+          localStorage.setItem('obra_actividades', JSON.stringify(actividades));
+          fbSave('actividades', actividades);
+          changed = true;
+          console.log(`🔀 Merge: ${fbAct.length} Firebase + ${localMap.size} local = ${merged.length} total`);
+        }
       }
     } else if (actividades.length > 0) {
       // Firebase vacío, subir datos locales
@@ -2606,18 +2675,20 @@ renderAvance();
     document.getElementById('fb-status').title = 'Sin conexión a Firebase - Datos solo locales';
   }
 
-  // Listener en tiempo real para actividades (sincronización multi-dispositivo)
+  // Listener en tiempo real para actividades (merge por ID, nunca perder datos)
   fbListen('actividades', (data) => {
     if (data && Array.isArray(data)) {
-      const fbStr = JSON.stringify(data);
+      // Merge: unir local + firebase por ID
+      const merged = Array.from(new Map([...data.map(a=>[a.id,a]), ...actividades.map(a=>[a.id,a])]).values());
+      const mergedStr = JSON.stringify(merged);
       const localStr = JSON.stringify(actividades);
-      if (fbStr !== localStr) {
-        actividades = data;
+      if (mergedStr !== localStr) {
+        actividades = merged;
         localStorage.setItem('obra_actividades', JSON.stringify(actividades));
         renderGrid();
         renderResumen();
         renderAvance();
-        console.log('🔄 Actividades actualizadas desde Firebase');
+        console.log('🔄 Actividades sincronizadas:', actividades.length);
       }
     }
   });
