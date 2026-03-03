@@ -6,6 +6,44 @@
 <title>Control de Actividades de Obra – Estructuras</title>
 <script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+<!-- Firebase SDK (compat) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script>
+  // Inicializar Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyC20KbwElcjYmTauZXKha5k6h1_wHwQr24",
+    authDomain: "proyect3082.firebaseapp.com",
+    databaseURL: "https://proyect3082-default-rtdb.firebaseio.com",
+    projectId: "proyect3082",
+    storageBucket: "proyect3082.firebasestorage.app",
+    messagingSenderId: "788964461190",
+    appId: "1:788964461190:web:cc40ec843d14f6f6769f07"
+  };
+  const fbApp = firebase.initializeApp(firebaseConfig);
+  const fbDB = firebase.database();
+  const FB_ROOT = 'obra_data';
+
+  // ── Helpers Firebase ──
+  function fbSave(key, data) {
+    try {
+      fbDB.ref(FB_ROOT + '/' + key).set(data);
+    } catch(e) { console.warn('Firebase save error:', e); }
+  }
+  function fbLoad(key, defVal) {
+    return fbDB.ref(FB_ROOT + '/' + key).once('value').then(snap => {
+      const v = snap.val();
+      return v != null ? v : defVal;
+    }).catch(e => { console.warn('Firebase load error:', e); return defVal; });
+  }
+  // Escuchar cambios en tiempo real (opcional, para multi-dispositivo)
+  function fbListen(key, callback) {
+    fbDB.ref(FB_ROOT + '/' + key).on('value', snap => {
+      const v = snap.val();
+      if (v != null) callback(v);
+    });
+  }
+</script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #222; min-height: 100vh; }
@@ -274,6 +312,7 @@
     <div class="proyecto">MEJORAMIENTO Y AMPLIACIÓN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA · Sub Presupuesto 01 – ESTRUCTURAS</div>
   </div>
   <div class="header-btns">
+    <span id="fb-status" style="font-size:.7rem;display:flex;align-items:center;gap:4px;opacity:.8" title="Estado Firebase">🔄 Conectando...</span>
     <button class="btn-word" id="btn-reporte-word">📄 Reporte Word</button>
   </div>
 </header>
@@ -682,8 +721,15 @@ let laneAssignments = JSON.parse(localStorage.getItem('obra_lanes') || '{}'); //
 let seqEditMode = false;
 
 function getLane(actId) { return laneAssignments[actId] != null ? laneAssignments[actId] : -1; }
-function setLane(actId, lane) { laneAssignments[actId] = lane; localStorage.setItem('obra_lanes', JSON.stringify(laneAssignments)); }
-function guardarLanes() { localStorage.setItem('obra_lanes', JSON.stringify(laneAssignments)); }
+function setLane(actId, lane) {
+  laneAssignments[actId] = lane;
+  localStorage.setItem('obra_lanes', JSON.stringify(laneAssignments));
+  fbSave('lanes', laneAssignments);
+}
+function guardarLanes() {
+  localStorage.setItem('obra_lanes', JSON.stringify(laneAssignments));
+  fbSave('lanes', laneAssignments);
+}
 
 // ================================================================
 // NORMALIZAR EJES: "3/B , 3/A" → "3/A , 3/B" (orden alfabético)
@@ -702,9 +748,11 @@ function getSecuencia(cat) {
 }
 function guardarSeqCustom() {
   localStorage.setItem('obra_seq_custom', JSON.stringify(seqCustom));
+  fbSave('seq_custom', seqCustom);
 }
 function guardarAvanceManual() {
   localStorage.setItem('obra_avance_manual', JSON.stringify(avanceManual));
+  fbSave('avance_manual', avanceManual);
 }
 
 // ================================================================
@@ -824,9 +872,10 @@ function pegarCard() {
 
 function guardar() {
   localStorage.setItem('obra_actividades', JSON.stringify(actividades));
+  fbSave('actividades', actividades);
 }
 
-// Datos se guardan y cargan exclusivamente desde localStorage (sin servidor)
+// Datos se guardan en localStorage (cache local) y Firebase (persistencia nube)
 
 // ================================================================
 // AUTOCOMPLETADO
@@ -2480,14 +2529,120 @@ document.addEventListener('input', (e) => {
 });
 
 // ================================================================
-// INIT
+// INIT – Carga desde Firebase, fallback a localStorage
 // ================================================================
 
 document.getElementById('inp-fecha').valueAsDate = new Date();
+
+// Render inicial con datos locales
 renderLeyenda();
 renderGrid();
 renderResumen();
 renderAvance();
+
+// Cargar datos desde Firebase y actualizar si hay datos en la nube
+(async function initFirebase() {
+  try {
+    const [fbAct, fbSeq, fbAv, fbLanes] = await Promise.all([
+      fbLoad('actividades', null),
+      fbLoad('seq_custom', null),
+      fbLoad('avance_manual', null),
+      fbLoad('lanes', null)
+    ]);
+
+    let changed = false;
+
+    // Actividades: usar Firebase si tiene datos
+    if (fbAct && Array.isArray(fbAct) && fbAct.length > 0) {
+      // Si Firebase tiene datos y local no, o Firebase es más completo
+      if (actividades.length === 0 || fbAct.length >= actividades.length) {
+        actividades = fbAct;
+        localStorage.setItem('obra_actividades', JSON.stringify(actividades));
+        changed = true;
+      } else {
+        // Local tiene datos que Firebase no → subir a Firebase
+        fbSave('actividades', actividades);
+      }
+    } else if (actividades.length > 0) {
+      // Firebase vacío, subir datos locales
+      fbSave('actividades', actividades);
+    }
+
+    if (fbSeq && typeof fbSeq === 'object' && Object.keys(fbSeq).length > 0) {
+      seqCustom = fbSeq;
+      localStorage.setItem('obra_seq_custom', JSON.stringify(seqCustom));
+      changed = true;
+    } else if (Object.keys(seqCustom).length > 0) {
+      fbSave('seq_custom', seqCustom);
+    }
+
+    if (fbAv && typeof fbAv === 'object' && Object.keys(fbAv).length > 0) {
+      avanceManual = fbAv;
+      localStorage.setItem('obra_avance_manual', JSON.stringify(avanceManual));
+      changed = true;
+    } else if (Object.keys(avanceManual).length > 0) {
+      fbSave('avance_manual', avanceManual);
+    }
+
+    if (fbLanes && typeof fbLanes === 'object' && Object.keys(fbLanes).length > 0) {
+      laneAssignments = fbLanes;
+      localStorage.setItem('obra_lanes', JSON.stringify(laneAssignments));
+      changed = true;
+    } else if (Object.keys(laneAssignments).length > 0) {
+      fbSave('lanes', laneAssignments);
+    }
+
+    if (changed) {
+      renderGrid();
+      renderResumen();
+      renderAvance();
+    }
+    console.log('✅ Firebase sincronizado correctamente');
+    document.getElementById('fb-status').innerHTML = '🟢 Firebase OK';
+    document.getElementById('fb-status').title = 'Conectado a Firebase - Datos sincronizados';
+  } catch(e) {
+    console.warn('⚠️ No se pudo conectar a Firebase, usando datos locales:', e);
+    document.getElementById('fb-status').innerHTML = '🔴 Sin conexión';
+    document.getElementById('fb-status').title = 'Sin conexión a Firebase - Datos solo locales';
+  }
+
+  // Listener en tiempo real para actividades (sincronización multi-dispositivo)
+  fbListen('actividades', (data) => {
+    if (data && Array.isArray(data)) {
+      const fbStr = JSON.stringify(data);
+      const localStr = JSON.stringify(actividades);
+      if (fbStr !== localStr) {
+        actividades = data;
+        localStorage.setItem('obra_actividades', JSON.stringify(actividades));
+        renderGrid();
+        renderResumen();
+        renderAvance();
+        console.log('🔄 Actividades actualizadas desde Firebase');
+      }
+    }
+  });
+
+  fbListen('lanes', (data) => {
+    if (data && typeof data === 'object') {
+      laneAssignments = data;
+      localStorage.setItem('obra_lanes', JSON.stringify(laneAssignments));
+    }
+  });
+
+  fbListen('seq_custom', (data) => {
+    if (data && typeof data === 'object') {
+      seqCustom = data;
+      localStorage.setItem('obra_seq_custom', JSON.stringify(seqCustom));
+    }
+  });
+
+  fbListen('avance_manual', (data) => {
+    if (data && typeof data === 'object') {
+      avanceManual = data;
+      localStorage.setItem('obra_avance_manual', JSON.stringify(avanceManual));
+    }
+  });
+})();
 </script>
 <div class="clipboard-indicator" id="clipboard-indicator">📋 Actividad copiada — Ctrl+V para pegar</div>
 </body>
