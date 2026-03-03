@@ -67,12 +67,14 @@
   .login-box h2 { color: #1a237e; font-size: 1.3rem; margin-bottom: 4px; }
   .login-box .login-subtitle { color: #777; font-size: .78rem; margin-bottom: 24px; }
   .login-box label { display: block; text-align: left; font-size: .78rem; font-weight: 600; color: #555; margin-bottom: 4px; }
-  .login-box input[type="password"] {
+  .login-box input[type="password"],
+  .login-box input[type="text"] {
     width: 100%; padding: 10px 14px; border: 2px solid #ddd; border-radius: 8px;
     font-size: .95rem; font-family: inherit; transition: border-color .2s;
     margin-bottom: 6px;
   }
-  .login-box input[type="password"]:focus { outline: none; border-color: #1a237e; }
+  .login-box input[type="password"]:focus,
+  .login-box input[type="text"]:focus { outline: none; border-color: #1a237e; }
   .login-box .login-error {
     color: #c62828; font-size: .78rem; font-weight: 600; min-height: 20px;
     margin-bottom: 10px; transition: opacity .3s;
@@ -357,9 +359,11 @@
   <div class="login-box">
     <div class="login-icon">🏗️</div>
     <h2>Control de Obra</h2>
-    <p class="login-subtitle">Ingrese la contraseña para acceder al sistema</p>
-    <label for="login-pass">Contraseña</label>
-    <input type="password" id="login-pass" placeholder="Ingrese contraseña..." autofocus/>
+    <p class="login-subtitle">Ingrese sus credenciales para acceder al sistema</p>
+    <label for="login-user">Usuario</label>
+    <input type="text" id="login-user" placeholder="Ingrese usuario..." autofocus autocomplete="username"/>
+    <label for="login-pass" style="margin-top:10px">Contraseña</label>
+    <input type="password" id="login-pass" placeholder="Ingrese contraseña..." autocomplete="current-password"/>
     <div class="login-error" id="login-error">&nbsp;</div>
     <div class="login-remember">
       <input type="checkbox" id="login-remember" checked/>
@@ -665,11 +669,14 @@
 // ================================================================
 // LOGIN SYSTEM
 // ================================================================
-const VALID_PASSWORDS = ['laboratorio', 'torata'];
+const VALID_CREDENTIALS = [
+  { user: 'laboratorio', pass: 'torata' }
+];
 let isLoggedIn = false;
 
 function initLogin() {
   const loginScreen = document.getElementById('login-screen');
+  const loginUser = document.getElementById('login-user');
   const loginPass = document.getElementById('login-pass');
   const loginError = document.getElementById('login-error');
   const btnLogin = document.getElementById('btn-login');
@@ -682,7 +689,10 @@ function initLogin() {
   // Evento: botón ingresar
   btnLogin.addEventListener('click', attemptLogin);
 
-  // Evento: Enter en el campo de contraseña
+  // Evento: Enter en los campos
+  loginUser.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { loginPass.focus(); }
+  });
   loginPass.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') attemptLogin();
   });
@@ -695,11 +705,17 @@ function initLogin() {
   }
 
   function attemptLogin() {
+    const user = loginUser.value.trim().toLowerCase();
     const pass = loginPass.value.trim().toLowerCase();
     loginError.innerHTML = '&nbsp;';
 
+    if (!user) {
+      loginError.textContent = '⚠️ Ingrese el usuario';
+      loginUser.focus();
+      return;
+    }
     if (!pass) {
-      loginError.textContent = '⚠️ Ingrese una contraseña';
+      loginError.textContent = '⚠️ Ingrese la contraseña';
       loginPass.focus();
       return;
     }
@@ -707,26 +723,29 @@ function initLogin() {
     btnLogin.disabled = true;
     btnLogin.textContent = '⏳ Verificando...';
 
-    // Verificar contra contraseñas válidas
-    // Primero intentar cargar contraseñas desde Firebase (por si se cambian remotamente)
-    fbLoad('passwords', null).then(fbPasswords => {
-      let validPasswords = VALID_PASSWORDS;
-      if (fbPasswords && Array.isArray(fbPasswords)) {
-        validPasswords = fbPasswords.map(p => p.toLowerCase());
+    // Verificar credenciales: primero Firebase, luego local
+    fbLoad('credentials', null).then(fbCreds => {
+      let validCreds = VALID_CREDENTIALS;
+      if (fbCreds && Array.isArray(fbCreds) && fbCreds.length > 0) {
+        validCreds = fbCreds;
       } else {
-        // Guardar las contraseñas por defecto en Firebase para administración futura
-        fbSave('passwords', VALID_PASSWORDS);
+        // Guardar credenciales por defecto en Firebase
+        fbSave('credentials', VALID_CREDENTIALS);
       }
 
-      if (validPasswords.includes(pass)) {
-        // Login exitoso
+      const match = validCreds.some(c =>
+        c.user.toLowerCase() === user && c.pass.toLowerCase() === pass
+      );
+
+      if (match) {
         if (loginRemember.checked) {
           localStorage.setItem('obra_session', 'active');
         }
+        loginUser.value = '';
         loginPass.value = '';
         doLogin();
       } else {
-        loginError.textContent = '❌ Contraseña incorrecta';
+        loginError.textContent = '❌ Usuario o contraseña incorrectos';
         loginPass.value = '';
         loginPass.focus();
         btnLogin.disabled = false;
@@ -734,14 +753,18 @@ function initLogin() {
       }
     }).catch(() => {
       // Sin conexión a Firebase, verificar localmente
-      if (VALID_PASSWORDS.includes(pass)) {
+      const match = VALID_CREDENTIALS.some(c =>
+        c.user.toLowerCase() === user && c.pass.toLowerCase() === pass
+      );
+      if (match) {
         if (loginRemember.checked) {
           localStorage.setItem('obra_session', 'active');
         }
+        loginUser.value = '';
         loginPass.value = '';
         doLogin();
       } else {
-        loginError.textContent = '❌ Contraseña incorrecta';
+        loginError.textContent = '❌ Usuario o contraseña incorrectos';
         loginPass.value = '';
         loginPass.focus();
         btnLogin.disabled = false;
@@ -778,7 +801,9 @@ function doLogout() {
   appMain.style.display = 'none';
   btnLogin.disabled = false;
   btnLogin.textContent = '🔑 Ingresar';
-  document.getElementById('login-pass').focus();
+  document.getElementById('login-user').value = '';
+  document.getElementById('login-pass').value = '';
+  document.getElementById('login-user').focus();
 }
 
 // Ejecutar login al cargar
@@ -2702,6 +2727,8 @@ async function generarWordJS(desde, hasta, residente, inspector, actsRango) {
 document.addEventListener('input', (e) => {
   const el = e.target;
   if (el.tagName === 'INPUT' && (el.type === 'text' || el.type === '' || !el.type)) {
+    // No forzar mayúsculas en el login
+    if (el.id === 'login-user' || el.id === 'login-pass') return;
     const start = el.selectionStart;
     const end = el.selectionEnd;
     el.value = el.value.toUpperCase();
