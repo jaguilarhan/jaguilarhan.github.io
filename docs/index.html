@@ -9,6 +9,7 @@
 <!-- Firebase SDK (compat) -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script>
   // Inicializar Firebase
   const firebaseConfig = {
@@ -47,6 +48,51 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #222; min-height: 100vh; }
+
+  /* ===== LOGIN SCREEN ===== */
+  .login-screen {
+    position: fixed; inset: 0; z-index: 10000;
+    background: linear-gradient(135deg, #1a237e 0%, #283593 40%, #3949ab 100%);
+    display: flex; align-items: center; justify-content: center;
+    transition: opacity .5s, visibility .5s;
+  }
+  .login-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+  .login-box {
+    background: #fff; border-radius: 16px; padding: 40px 36px; width: 380px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.35); text-align: center;
+    animation: loginIn .4s ease;
+  }
+  @keyframes loginIn { from { transform: translateY(30px) scale(.95); opacity:0; } to { transform: translateY(0) scale(1); opacity:1; } }
+  .login-box .login-icon { font-size: 3rem; margin-bottom: 8px; }
+  .login-box h2 { color: #1a237e; font-size: 1.3rem; margin-bottom: 4px; }
+  .login-box .login-subtitle { color: #777; font-size: .78rem; margin-bottom: 24px; }
+  .login-box label { display: block; text-align: left; font-size: .78rem; font-weight: 600; color: #555; margin-bottom: 4px; }
+  .login-box input[type="password"] {
+    width: 100%; padding: 10px 14px; border: 2px solid #ddd; border-radius: 8px;
+    font-size: .95rem; font-family: inherit; transition: border-color .2s;
+    margin-bottom: 6px;
+  }
+  .login-box input[type="password"]:focus { outline: none; border-color: #1a237e; }
+  .login-box .login-error {
+    color: #c62828; font-size: .78rem; font-weight: 600; min-height: 20px;
+    margin-bottom: 10px; transition: opacity .3s;
+  }
+  .login-box .btn-login {
+    width: 100%; padding: 11px; background: #1a237e; color: #fff; border: none;
+    border-radius: 8px; font-size: .95rem; font-weight: 700; cursor: pointer;
+    transition: background .2s; letter-spacing: .5px;
+  }
+  .login-box .btn-login:hover { background: #283593; }
+  .login-box .btn-login:disabled { background: #9fa8da; cursor: not-allowed; }
+  .login-box .login-footer { margin-top: 20px; font-size: .68rem; color: #aaa; }
+  .login-box .login-remember { display: flex; align-items: center; gap: 6px; margin-bottom: 16px; font-size: .78rem; color: #555; }
+  .login-box .login-remember input { accent-color: #1a237e; }
+  /* Botón cerrar sesión en header */
+  .btn-logout {
+    padding: 5px 12px; background: rgba(255,255,255,.15); color: #fff; border: 1px solid rgba(255,255,255,.3);
+    border-radius: 16px; cursor: pointer; font-size: .72rem; transition: all .2s;
+  }
+  .btn-logout:hover { background: rgba(255,255,255,.25); }
 
   /* HEADER */
   header {
@@ -306,18 +352,37 @@
 </head>
 <body>
 
-<header>
+<!-- ===== PANTALLA DE LOGIN ===== -->
+<div class="login-screen" id="login-screen">
+  <div class="login-box">
+    <div class="login-icon">🏗️</div>
+    <h2>Control de Obra</h2>
+    <p class="login-subtitle">Ingrese la contraseña para acceder al sistema</p>
+    <label for="login-pass">Contraseña</label>
+    <input type="password" id="login-pass" placeholder="Ingrese contraseña..." autofocus/>
+    <div class="login-error" id="login-error">&nbsp;</div>
+    <div class="login-remember">
+      <input type="checkbox" id="login-remember" checked/>
+      <label for="login-remember" style="margin:0;font-weight:400;color:#555">Recordar en este dispositivo</label>
+    </div>
+    <button class="btn-login" id="btn-login">🔑 Ingresar</button>
+    <div class="login-footer">MEJORAMIENTO Y AMPLIACIÓN LABORATORIO AMBIENTAL<br/>SAN AGUSTÍN DE TORATA</div>
+  </div>
+</div>
+
+<header style="display:none" id="app-header">
   <div>
     <h1>🏗️ Control de Actividades de Obra</h1>
     <div class="proyecto">MEJORAMIENTO Y AMPLIACIÓN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA · Sub Presupuesto 01 – ESTRUCTURAS</div>
   </div>
   <div class="header-btns">
     <span id="fb-status" style="font-size:.7rem;display:flex;align-items:center;gap:4px;opacity:.8" title="Estado Firebase">🔄 Conectando...</span>
+    <button class="btn-logout" id="btn-logout" title="Cerrar sesión">🚪 Salir</button>
     <button class="btn-word" id="btn-reporte-word">📄 Reporte Word</button>
   </div>
 </header>
 
-<div class="app">
+<div class="app" id="app-main" style="display:none">
 
   <!-- PANEL IZQUIERDO -->
   <aside class="panel-left">
@@ -597,6 +662,128 @@
 
 <script src="partidas_data.js"></script>
 <script>
+// ================================================================
+// LOGIN SYSTEM
+// ================================================================
+const VALID_PASSWORDS = ['laboratorio', 'torata'];
+let isLoggedIn = false;
+
+function initLogin() {
+  const loginScreen = document.getElementById('login-screen');
+  const loginPass = document.getElementById('login-pass');
+  const loginError = document.getElementById('login-error');
+  const btnLogin = document.getElementById('btn-login');
+  const btnLogout = document.getElementById('btn-logout');
+  const loginRemember = document.getElementById('login-remember');
+
+  // Evento: cerrar sesión (siempre activo)
+  btnLogout.addEventListener('click', doLogout);
+
+  // Evento: botón ingresar
+  btnLogin.addEventListener('click', attemptLogin);
+
+  // Evento: Enter en el campo de contraseña
+  loginPass.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') attemptLogin();
+  });
+
+  // Verificar si hay sesión guardada
+  const savedSession = localStorage.getItem('obra_session');
+  if (savedSession === 'active') {
+    doLogin();
+    return;
+  }
+
+  function attemptLogin() {
+    const pass = loginPass.value.trim().toLowerCase();
+    loginError.innerHTML = '&nbsp;';
+
+    if (!pass) {
+      loginError.textContent = '⚠️ Ingrese una contraseña';
+      loginPass.focus();
+      return;
+    }
+
+    btnLogin.disabled = true;
+    btnLogin.textContent = '⏳ Verificando...';
+
+    // Verificar contra contraseñas válidas
+    // Primero intentar cargar contraseñas desde Firebase (por si se cambian remotamente)
+    fbLoad('passwords', null).then(fbPasswords => {
+      let validPasswords = VALID_PASSWORDS;
+      if (fbPasswords && Array.isArray(fbPasswords)) {
+        validPasswords = fbPasswords.map(p => p.toLowerCase());
+      } else {
+        // Guardar las contraseñas por defecto en Firebase para administración futura
+        fbSave('passwords', VALID_PASSWORDS);
+      }
+
+      if (validPasswords.includes(pass)) {
+        // Login exitoso
+        if (loginRemember.checked) {
+          localStorage.setItem('obra_session', 'active');
+        }
+        loginPass.value = '';
+        doLogin();
+      } else {
+        loginError.textContent = '❌ Contraseña incorrecta';
+        loginPass.value = '';
+        loginPass.focus();
+        btnLogin.disabled = false;
+        btnLogin.textContent = '🔑 Ingresar';
+      }
+    }).catch(() => {
+      // Sin conexión a Firebase, verificar localmente
+      if (VALID_PASSWORDS.includes(pass)) {
+        if (loginRemember.checked) {
+          localStorage.setItem('obra_session', 'active');
+        }
+        loginPass.value = '';
+        doLogin();
+      } else {
+        loginError.textContent = '❌ Contraseña incorrecta';
+        loginPass.value = '';
+        loginPass.focus();
+        btnLogin.disabled = false;
+        btnLogin.textContent = '🔑 Ingresar';
+      }
+    });
+  }
+}
+
+function doLogin() {
+  isLoggedIn = true;
+  const loginScreen = document.getElementById('login-screen');
+  const appHeader = document.getElementById('app-header');
+  const appMain = document.getElementById('app-main');
+
+  loginScreen.classList.add('hidden');
+  appHeader.style.display = '';
+  appMain.style.display = '';
+
+  // Iniciar la app
+  setTimeout(initApp, 100);
+}
+
+function doLogout() {
+  isLoggedIn = false;
+  localStorage.removeItem('obra_session');
+  const loginScreen = document.getElementById('login-screen');
+  const appHeader = document.getElementById('app-header');
+  const appMain = document.getElementById('app-main');
+  const btnLogin = document.getElementById('btn-login');
+
+  loginScreen.classList.remove('hidden');
+  appHeader.style.display = 'none';
+  appMain.style.display = 'none';
+  btnLogin.disabled = false;
+  btnLogin.textContent = '🔑 Ingresar';
+  document.getElementById('login-pass').focus();
+}
+
+// Ejecutar login al cargar
+document.addEventListener('DOMContentLoaded', initLogin);
+
 // ================================================================
 // PARTIDAS: cargadas desde partidas_data.js (506 partidas del Presupuesto Total)
 // ================================================================
@@ -2525,6 +2712,11 @@ document.addEventListener('input', (e) => {
 // ================================================================
 // INIT – Carga desde Firebase, fallback a localStorage
 // ================================================================
+let appInitialized = false;
+
+function initApp() {
+  if (appInitialized) return;
+  appInitialized = true;
 
 document.getElementById('inp-fecha').valueAsDate = new Date();
 
@@ -2606,6 +2798,8 @@ renderAvance();
     }
   });
 })();
+
+} // end initApp
 </script>
 <div class="clipboard-indicator" id="clipboard-indicator">📋 Actividad copiada — Ctrl+V para pegar</div>
 </body>
