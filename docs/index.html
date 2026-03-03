@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- v2026.03.03.02 - login system -->
+<!-- v2026.03.03.03 - Firebase Auth login -->
 <html lang="es">
 <head>
 <meta charset="UTF-8"/>
@@ -370,8 +370,7 @@
     <input type="password" id="login-pass" placeholder="Ingrese contraseña..." autocomplete="current-password"/>
     <div class="login-error" id="login-error">&nbsp;</div>
     <div class="login-remember">
-      <input type="checkbox" id="login-remember" checked/>
-      <label for="login-remember" style="margin:0;font-weight:400;color:#555">Recordar en este dispositivo</label>
+      <span style="font-size:.72rem;color:#888">🔒 Autenticación segura via Firebase</span>
     </div>
     <button class="btn-login" id="btn-login">🔑 Ingresar</button>
     <div class="login-footer">MEJORAMIENTO Y AMPLIACIÓN LABORATORIO AMBIENTAL<br/>SAN AGUSTÍN DE TORATA</div>
@@ -671,21 +670,21 @@
 <script src="partidas_data.js?v=20260303"></script>
 <script>
 // ================================================================
-// LOGIN SYSTEM
+// LOGIN SYSTEM — Firebase Authentication (Email/Password)
 // ================================================================
-const VALID_CREDENTIALS = [
-  { user: 'laboratorio', pass: 'torata' }
-];
+const fbAuth = firebase.auth();
+// Persistencia: mantener sesión en el navegador
+fbAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
 let isLoggedIn = false;
+let appInitialized = false;
 
 function initLogin() {
-  const loginScreen = document.getElementById('login-screen');
   const loginUser = document.getElementById('login-user');
   const loginPass = document.getElementById('login-pass');
   const loginError = document.getElementById('login-error');
   const btnLogin = document.getElementById('btn-login');
   const btnLogout = document.getElementById('btn-logout');
-  const loginRemember = document.getElementById('login-remember');
 
   // Evento: cerrar sesión (siempre activo)
   btnLogout.addEventListener('click', doLogout);
@@ -701,16 +700,20 @@ function initLogin() {
     if (e.key === 'Enter') attemptLogin();
   });
 
-  // Verificar si hay sesión guardada
-  const savedSession = localStorage.getItem('obra_session');
-  if (savedSession === 'active') {
-    doLogin();
-    return;
-  }
+  // Escuchar cambios de estado de autenticación de Firebase
+  fbAuth.onAuthStateChanged((user) => {
+    if (user) {
+      // Usuario autenticado → entrar a la app
+      doLogin();
+    } else {
+      // No autenticado → mostrar pantalla de login
+      if (isLoggedIn) doLogout();
+    }
+  });
 
   function attemptLogin() {
     const user = loginUser.value.trim().toLowerCase();
-    const pass = loginPass.value.trim().toLowerCase();
+    const pass = loginPass.value.trim();
     loginError.innerHTML = '&nbsp;';
 
     if (!user) {
@@ -727,58 +730,40 @@ function initLogin() {
     btnLogin.disabled = true;
     btnLogin.textContent = '⏳ Verificando...';
 
-    // Verificar credenciales: primero Firebase, luego local
-    fbLoad('credentials', null).then(fbCreds => {
-      let validCreds = VALID_CREDENTIALS;
-      if (fbCreds && Array.isArray(fbCreds) && fbCreds.length > 0) {
-        validCreds = fbCreds;
-      } else {
-        // Guardar credenciales por defecto en Firebase
-        fbSave('credentials', VALID_CREDENTIALS);
-      }
+    // Construir email: usuario + @workea.me
+    const email = user.includes('@') ? user : user + '@workea.me';
 
-      const match = validCreds.some(c =>
-        c.user.toLowerCase() === user && c.pass.toLowerCase() === pass
-      );
-
-      if (match) {
-        if (loginRemember.checked) {
-          localStorage.setItem('obra_session', 'active');
-        }
+    fbAuth.signInWithEmailAndPassword(email, pass)
+      .then(() => {
+        // Firebase Auth dispara onAuthStateChanged → doLogin()
         loginUser.value = '';
         loginPass.value = '';
-        doLogin();
-      } else {
-        loginError.textContent = '❌ Usuario o contraseña incorrectos';
+      })
+      .catch((error) => {
+        console.warn('Firebase Auth error:', error.code, error.message);
+        let msg = '❌ Usuario o contraseña incorrectos';
+        if (error.code === 'auth/user-not-found') {
+          msg = '❌ Usuario no encontrado';
+        } else if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
+          msg = '❌ Contraseña incorrecta';
+        } else if (error.code === 'auth/too-many-requests') {
+          msg = '⚠️ Demasiados intentos. Espere un momento.';
+        } else if (error.code === 'auth/network-request-failed') {
+          msg = '⚠️ Sin conexión a internet';
+        } else if (error.code === 'auth/invalid-email') {
+          msg = '❌ Usuario no válido';
+        }
+        loginError.textContent = msg;
         loginPass.value = '';
         loginPass.focus();
         btnLogin.disabled = false;
         btnLogin.textContent = '🔑 Ingresar';
-      }
-    }).catch(() => {
-      // Sin conexión a Firebase, verificar localmente
-      const match = VALID_CREDENTIALS.some(c =>
-        c.user.toLowerCase() === user && c.pass.toLowerCase() === pass
-      );
-      if (match) {
-        if (loginRemember.checked) {
-          localStorage.setItem('obra_session', 'active');
-        }
-        loginUser.value = '';
-        loginPass.value = '';
-        doLogin();
-      } else {
-        loginError.textContent = '❌ Usuario o contraseña incorrectos';
-        loginPass.value = '';
-        loginPass.focus();
-        btnLogin.disabled = false;
-        btnLogin.textContent = '🔑 Ingresar';
-      }
-    });
+      });
   }
 }
 
 function doLogin() {
+  if (appInitialized) return; // evitar inicializar dos veces
   isLoggedIn = true;
   const loginScreen = document.getElementById('login-screen');
   const appHeader = document.getElementById('app-header');
@@ -789,12 +774,15 @@ function doLogin() {
   appMain.style.display = '';
 
   // Iniciar la app
+  appInitialized = true;
   setTimeout(initApp, 100);
 }
 
 function doLogout() {
   isLoggedIn = false;
-  localStorage.removeItem('obra_session');
+  appInitialized = false;
+  // Cerrar sesión de Firebase Auth
+  fbAuth.signOut().catch(() => {});
   const loginScreen = document.getElementById('login-screen');
   const appHeader = document.getElementById('app-header');
   const appMain = document.getElementById('app-main');
