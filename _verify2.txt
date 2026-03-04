@@ -1,0 +1,5 @@
+﻿
+
+  /* MODAL REPORTE */
+  .modal-reporte { max-width: 600px; }
+  .reporte-opts { display: grid; 

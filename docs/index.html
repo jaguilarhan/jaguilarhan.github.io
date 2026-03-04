@@ -1,14 +1,19 @@
 ﻿<!DOCTYPE html>
+<!-- v2026.03.03.04 - Firebase Auth login - deploy fix -->
 <html lang="es">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+<meta http-equiv="Pragma" content="no-cache"/>
+<meta http-equiv="Expires" content="0"/>
 <title>Control de Actividades de Obra – Estructuras</title>
 <script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
 <!-- Firebase SDK (compat) -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script>
   // Inicializar Firebase
   const firebaseConfig = {
@@ -47,6 +52,53 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #222; min-height: 100vh; }
+
+  /* ===== LOGIN SCREEN ===== */
+  .login-screen {
+    position: fixed; inset: 0; z-index: 10000;
+    background: linear-gradient(135deg, #1a237e 0%, #283593 40%, #3949ab 100%);
+    display: flex; align-items: center; justify-content: center;
+    transition: opacity .5s, visibility .5s;
+  }
+  .login-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+  .login-box {
+    background: #fff; border-radius: 16px; padding: 40px 36px; width: 380px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.35); text-align: center;
+    animation: loginIn .4s ease;
+  }
+  @keyframes loginIn { from { transform: translateY(30px) scale(.95); opacity:0; } to { transform: translateY(0) scale(1); opacity:1; } }
+  .login-box .login-icon { font-size: 3rem; margin-bottom: 8px; }
+  .login-box h2 { color: #1a237e; font-size: 1.3rem; margin-bottom: 4px; }
+  .login-box .login-subtitle { color: #777; font-size: .78rem; margin-bottom: 24px; }
+  .login-box label { display: block; text-align: left; font-size: .78rem; font-weight: 600; color: #555; margin-bottom: 4px; }
+  .login-box input[type="password"],
+  .login-box input[type="text"] {
+    width: 100%; padding: 10px 14px; border: 2px solid #ddd; border-radius: 8px;
+    font-size: .95rem; font-family: inherit; transition: border-color .2s;
+    margin-bottom: 6px;
+  }
+  .login-box input[type="password"]:focus,
+  .login-box input[type="text"]:focus { outline: none; border-color: #1a237e; }
+  .login-box .login-error {
+    color: #c62828; font-size: .78rem; font-weight: 600; min-height: 20px;
+    margin-bottom: 10px; transition: opacity .3s;
+  }
+  .login-box .btn-login {
+    width: 100%; padding: 11px; background: #1a237e; color: #fff; border: none;
+    border-radius: 8px; font-size: .95rem; font-weight: 700; cursor: pointer;
+    transition: background .2s; letter-spacing: .5px;
+  }
+  .login-box .btn-login:hover { background: #283593; }
+  .login-box .btn-login:disabled { background: #9fa8da; cursor: not-allowed; }
+  .login-box .login-footer { margin-top: 20px; font-size: .68rem; color: #aaa; }
+  .login-box .login-remember { display: flex; align-items: center; gap: 6px; margin-bottom: 16px; font-size: .78rem; color: #555; }
+  .login-box .login-remember input { accent-color: #1a237e; }
+  /* Botón cerrar sesión en header */
+  .btn-logout {
+    padding: 5px 12px; background: rgba(255,255,255,.15); color: #fff; border: 1px solid rgba(255,255,255,.3);
+    border-radius: 16px; cursor: pointer; font-size: .72rem; transition: all .2s;
+  }
+  .btn-logout:hover { background: rgba(255,255,255,.25); }
 
   /* HEADER */
   header {
@@ -294,7 +346,11 @@
   .modal-edit .edit-partida-info strong { color: #1a237e; display: block; }
 
   /* MODAL REPORTE */
-
+  .modal-reporte { max-width: 600px; }
+  .reporte-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .reporte-opts label { font-size: .78rem; font-weight: 600; color: #555; display: block; margin-bottom: 3px; }
+  .reporte-opts input, .reporte-opts select { width: 100%; padding: 6px 8px; border: 1px solid #ccc; border-radius: 5px; font-size: .8rem; }
+  .reporte-opts .full { grid-column: 1 / -1; }
 
   @media (max-width: 1100px) { .grid-semana { grid-template-columns: repeat(4,1fr); } }
   @media (max-width: 768px) { .app { grid-template-columns: 1fr; } .grid-semana { grid-template-columns: repeat(2,1fr); } }
@@ -302,18 +358,38 @@
 </head>
 <body>
 
-<header>
+<!-- ===== PANTALLA DE LOGIN ===== -->
+<div class="login-screen" id="login-screen">
+  <div class="login-box">
+    <div class="login-icon">🏗️</div>
+    <h2>Control de Obra</h2>
+    <p class="login-subtitle">Ingrese sus credenciales para acceder al sistema</p>
+    <label for="login-user">Usuario</label>
+    <input type="text" id="login-user" placeholder="Ingrese usuario..." autofocus autocomplete="username"/>
+    <label for="login-pass" style="margin-top:10px">Contraseña</label>
+    <input type="password" id="login-pass" placeholder="Ingrese contraseña..." autocomplete="current-password"/>
+    <div class="login-error" id="login-error">&nbsp;</div>
+    <div class="login-remember">
+      <span style="font-size:.72rem;color:#888">🔒 Autenticación segura via Firebase</span>
+    </div>
+    <button class="btn-login" id="btn-login">🔑 Ingresar</button>
+    <div class="login-footer">MEJORAMIENTO Y AMPLIACIÓN LABORATORIO AMBIENTAL<br/>SAN AGUSTÍN DE TORATA</div>
+  </div>
+</div>
+
+<header style="display:none" id="app-header">
   <div>
     <h1>🏗️ Control de Actividades de Obra</h1>
     <div class="proyecto">MEJORAMIENTO Y AMPLIACIÓN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA · Sub Presupuesto 01 – ESTRUCTURAS</div>
   </div>
   <div class="header-btns">
     <span id="fb-status" style="font-size:.7rem;display:flex;align-items:center;gap:4px;opacity:.8" title="Estado Firebase">🔄 Conectando...</span>
+    <button class="btn-logout" id="btn-logout" title="Cerrar sesión">🚪 Salir</button>
     <button class="btn-word" id="btn-reporte-word">📄 Reporte Word</button>
   </div>
 </header>
 
-<div class="app">
+<div class="app" id="app-main" style="display:none">
 
   <!-- PANEL IZQUIERDO -->
   <aside class="panel-left">
@@ -556,8 +632,170 @@
 
 <!-- REPORTE WORD: Se abre en reporte.html -->
 
-<script src="partidas_data.js"></script>
+<script src="partidas_data.js?v=20260303"></script>
 <script>
+// ================================================================
+// LOGIN SYSTEM — Firebase Authentication (Email/Password)
+// ================================================================
+const fbAuth = firebase.auth();
+// Persistencia: mantener sesión en el navegador
+fbAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
+let isLoggedIn = false;
+let appInitialized = false;
+
+function initLogin() {
+  const loginUser = document.getElementById('login-user');
+  const loginPass = document.getElementById('login-pass');
+  const loginError = document.getElementById('login-error');
+  const btnLogin = document.getElementById('btn-login');
+  const btnLogout = document.getElementById('btn-logout');
+
+  // Evento: cerrar sesión (siempre activo)
+  btnLogout.addEventListener('click', doLogout);
+
+  // Evento: botón ingresar
+  btnLogin.addEventListener('click', attemptLogin);
+
+  // Evento: Enter en los campos
+  loginUser.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { loginPass.focus(); }
+  });
+  loginPass.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') attemptLogin();
+  });
+
+  // Escuchar cambios de estado de autenticación de Firebase
+  fbAuth.onAuthStateChanged((user) => {
+    if (user) {
+      // Usuario autenticado → entrar a la app
+      doLogin();
+    } else {
+      // No autenticado → mostrar pantalla de login
+      if (isLoggedIn) doLogout();
+    }
+  });
+
+  function attemptLogin() {
+    const user = loginUser.value.trim().toLowerCase();
+    const pass = loginPass.value.trim();
+    loginError.innerHTML = '&nbsp;';
+
+    if (!user) {
+      loginError.textContent = '⚠️ Ingrese el usuario';
+      loginUser.focus();
+      return;
+    }
+    if (!pass) {
+      loginError.textContent = '⚠️ Ingrese la contraseña';
+      loginPass.focus();
+      return;
+    }
+
+    btnLogin.disabled = true;
+    btnLogin.textContent = '⏳ Verificando...';
+
+    // Construir email: usuario + @workea.me
+    const email = user.includes('@') ? user : user + '@workea.me';
+
+    fbAuth.signInWithEmailAndPassword(email, pass)
+      .then(() => {
+        // Firebase Auth dispara onAuthStateChanged → doLogin()
+        loginUser.value = '';
+        loginPass.value = '';
+      })
+      .catch((error) => {
+        console.warn('Firebase Auth error:', error.code, error.message);
+
+        // Si el usuario no existe, intentar crearlo automáticamente
+        if (error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
+          loginError.innerHTML = '⏳ Primera vez, registrando usuario...';
+          fbAuth.createUserWithEmailAndPassword(email, pass)
+            .then(() => {
+              // Creado y logueado, onAuthStateChanged → doLogin()
+              loginUser.value = '';
+              loginPass.value = '';
+            })
+            .catch((err2) => {
+              console.warn('Firebase create error:', err2.code, err2.message);
+              let msg2 = '❌ No se pudo crear el usuario';
+              if (err2.code === 'auth/email-already-in-use') {
+                msg2 = '❌ Contraseña incorrecta';
+              } else if (err2.code === 'auth/operation-not-allowed') {
+                msg2 = '❌ HABILITAR Email/Password en Firebase Console → Authentication → Sign-in method';
+              } else if (err2.code === 'auth/weak-password') {
+                msg2 = '❌ Contraseña muy corta (mínimo 6 caracteres)';
+              }
+              loginError.innerHTML = msg2 + '<br><small style="color:#999;font-weight:400">(' + err2.code + ')</small>';
+              loginPass.value = '';
+              loginPass.focus();
+              btnLogin.disabled = false;
+              btnLogin.textContent = '🔑 Ingresar';
+            });
+          return;
+        }
+
+        let msg = '❌ Error de autenticación';
+        if (error.code === 'auth/wrong-password') {
+          msg = '❌ Contraseña incorrecta';
+        } else if (error.code === 'auth/too-many-requests') {
+          msg = '⚠️ Demasiados intentos. Espere un momento.';
+        } else if (error.code === 'auth/network-request-failed') {
+          msg = '⚠️ Sin conexión a internet';
+        } else if (error.code === 'auth/invalid-email') {
+          msg = '❌ Usuario no válido';
+        } else if (error.code === 'auth/operation-not-allowed') {
+          msg = '❌ HABILITAR Email/Password en Firebase Console → Authentication → Sign-in method';
+        }
+        // Mostrar código técnico para diagnóstico
+        loginError.innerHTML = msg + '<br><small style="color:#999;font-weight:400">(' + error.code + ')</small>';
+        loginPass.value = '';
+        loginPass.focus();
+        btnLogin.disabled = false;
+        btnLogin.textContent = '🔑 Ingresar';
+      });
+  }
+}
+
+function doLogin() {
+  if (appInitialized) return; // evitar inicializar dos veces
+  isLoggedIn = true;
+  const loginScreen = document.getElementById('login-screen');
+  const appHeader = document.getElementById('app-header');
+  const appMain = document.getElementById('app-main');
+
+  loginScreen.classList.add('hidden');
+  appHeader.style.display = '';
+  appMain.style.display = '';
+
+  // Iniciar la app
+  appInitialized = true;
+  setTimeout(initApp, 100);
+}
+
+function doLogout() {
+  isLoggedIn = false;
+  appInitialized = false;
+  // Cerrar sesión de Firebase Auth
+  fbAuth.signOut().catch(() => {});
+  const loginScreen = document.getElementById('login-screen');
+  const appHeader = document.getElementById('app-header');
+  const appMain = document.getElementById('app-main');
+  const btnLogin = document.getElementById('btn-login');
+
+  loginScreen.classList.remove('hidden');
+  appHeader.style.display = 'none';
+  appMain.style.display = 'none';
+  btnLogin.disabled = false;
+  btnLogin.textContent = '🔑 Ingresar';
+  document.getElementById('login-user').value = '';
+  document.getElementById('login-pass').value = '';
+  document.getElementById('login-user').focus();
+}
+
+// Ejecutar login al cargar
+document.addEventListener('DOMContentLoaded', initLogin);
+
 // ================================================================
 // PARTIDAS: cargadas desde partidas_data.js (506 partidas del Presupuesto Total)
 // ================================================================
@@ -1935,7 +2173,7 @@ function renderLeyenda() {
   }
 
   // Poblar otros selects (avance, reporte)
-  [document.getElementById('av-filtro-cat'), document.getElementById('rep-cat')].forEach(sel => {
+  [document.getElementById('av-filtro-cat')].forEach(sel => {
     if (!sel) return;
     Object.entries(cats).forEach(([cat, color]) => {
       const opt = document.createElement('option');
@@ -2145,11 +2383,11 @@ document.getElementById('btn-reporte-word').addEventListener('click', () => {
 });
 
 // ================================================================
-// FORZAR MAYÚSCULAS EN TODOS LOS INPUTS DE TEXTO
-// ================================================================
 document.addEventListener('input', (e) => {
   const el = e.target;
   if (el.tagName === 'INPUT' && (el.type === 'text' || el.type === '' || !el.type)) {
+    // No forzar mayúsculas en el login
+    if (el.id === 'login-user' || el.id === 'login-pass') return;
     const start = el.selectionStart;
     const end = el.selectionEnd;
     el.value = el.value.toUpperCase();
@@ -2160,6 +2398,8 @@ document.addEventListener('input', (e) => {
 // ================================================================
 // INIT – Carga desde Firebase, fallback a localStorage
 // ================================================================
+
+function initApp() {
 
 document.getElementById('inp-fecha').valueAsDate = new Date();
 
@@ -2241,6 +2481,8 @@ renderAvance();
     }
   });
 })();
+
+} // end initApp
 </script>
 <div class="clipboard-indicator" id="clipboard-indicator">📋 Actividad copiada — Ctrl+V para pegar</div>
 </body>

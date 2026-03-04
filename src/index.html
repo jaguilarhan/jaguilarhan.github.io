@@ -1935,7 +1935,7 @@ function renderLeyenda() {
   }
 
   // Poblar otros selects (avance, reporte)
-  [document.getElementById('av-filtro-cat'), document.getElementById('rep-cat')].forEach(sel => {
+  [document.getElementById('av-filtro-cat')].forEach(sel => {
     if (!sel) return;
     Object.entries(cats).forEach(([cat, color]) => {
       const opt = document.createElement('option');
