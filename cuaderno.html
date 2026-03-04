@@ -28,7 +28,7 @@
     }).catch(() => defVal);
   }
   function fbSave(key, data) {
-    try { fbDB.ref(FB_ROOT + '/' + key).set(data); } catch(e) { console.warn('Firebase save error:', e); }
+    return fbDB.ref(FB_ROOT + '/' + key).set(data);
   }
 </script>
 <style>
@@ -81,7 +81,6 @@
     display: flex; flex-direction: column; align-items: center; gap: 28px;
   }
 
-  /* Página A4 vertical */
   .word-page {
     background: #fff; width: 794px; min-height: 1100px;
     padding: 60px 65px 70px;
@@ -102,7 +101,38 @@
     background: #0d47a1; color: #fff; padding: 6px 14px;
     font-size: 11pt; font-weight: 700; text-transform: uppercase;
     margin-bottom: 10px; letter-spacing: .3px; border-radius: 2px;
+    display: flex; align-items: center; justify-content: space-between;
   }
+  .dia-titulo .btn-editar-dia {
+    background: rgba(255,255,255,.2); border: 1px solid rgba(255,255,255,.4);
+    color: #fff; padding: 3px 10px; border-radius: 12px; cursor: pointer;
+    font-size: 8pt; font-weight: 600;
+  }
+  .dia-titulo .btn-editar-dia:hover { background: rgba(255,255,255,.35); }
+
+  .seccion-titulo {
+    color: #0d47a1; font-size: 11pt; font-weight: 700;
+    margin: 14px 0 6px; border-bottom: 2px solid #0d47a1; padding-bottom: 2px;
+  }
+  .subseccion-titulo {
+    color: #333; font-size: 10pt; font-weight: 700;
+    margin: 8px 0 4px; padding-left: 12px;
+  }
+
+  .tabla-personal {
+    width: 100%; border-collapse: collapse; margin-bottom: 8px; margin-left: 12px;
+    max-width: calc(100% - 12px);
+  }
+  .tabla-personal td { padding: 3px 10px; border: 1px solid #ccc; font-size: 9pt; }
+  .tabla-personal .cant { width: 50px; text-align: center; font-weight: 700; background: #f0f4ff; }
+
+  .tabla-equipos {
+    width: 100%; border-collapse: collapse; margin-bottom: 8px; margin-left: 12px;
+    max-width: calc(100% - 12px);
+  }
+  .tabla-equipos td { padding: 3px 10px; border: 1px solid #ccc; font-size: 9pt; }
+  .tabla-equipos .cant { width: 50px; text-align: center; font-weight: 700; background: #f0f4ff; }
+
   .subtitulo-actividades {
     color: #0d47a1; font-size: 11pt; font-weight: 700;
     margin-bottom: 8px; border-bottom: 1px solid #0d47a1; padding-bottom: 2px;
@@ -129,6 +159,19 @@
   }
   .btn-reset-parrafo:hover { background: #ffebee; color: #c62828; border-color: #c62828; }
 
+  .observaciones-text {
+    font-size: 10pt; line-height: 1.6; min-height: 40px; padding: 6px 10px;
+    border: 1px dashed #aaa; border-radius: 4px; margin-left: 12px;
+    margin-right: 12px; text-align: justify; cursor: text;
+    transition: border-color .2s, background .2s;
+  }
+  .observaciones-text:hover { border-color: #90caf9; background: #f5f8ff; }
+  .observaciones-text:focus { outline: none; border-color: #0d47a1; background: #e8f0fe; }
+  .observaciones-text:empty::before {
+    content: 'Escriba las observaciones del día aquí...';
+    color: #aaa; font-style: italic;
+  }
+
   .firmas { display: flex; justify-content: space-around; margin-top: 60px; }
   .firma-box { text-align: center; width: 38%; }
   .firma-linea { border-top: 1px solid #333; margin: 0 auto 3px; width: 85%; }
@@ -137,11 +180,59 @@
 
   .empty-msg { text-align: center; padding: 80px 20px; color: #888; font-size: 1.1rem; }
 
+  /* ── MODAL ── */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,.55); z-index: 300;
+    display: none; align-items: center; justify-content: center;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal-content {
+    background: #fff; border-radius: 12px; padding: 24px 28px;
+    width: 560px; max-width: 95vw; max-height: 85vh; overflow-y: auto;
+    box-shadow: 0 8px 40px rgba(0,0,0,.35);
+  }
+  .modal-content h2 { font-size: 1.05rem; color: #0d47a1; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .modal-section { margin-bottom: 18px; }
+  .modal-section h3 { font-size: .88rem; color: #333; margin-bottom: 8px; border-bottom: 1px solid #ddd; padding-bottom: 4px; }
+  .modal-row {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 5px;
+  }
+  .modal-row label { flex: 1; font-size: .82rem; }
+  .modal-row input[type="number"] {
+    width: 60px; padding: 4px 6px; border: 1px solid #ccc; border-radius: 5px;
+    text-align: center; font-size: .82rem;
+  }
+  .modal-row input[type="text"] {
+    flex: 1; padding: 4px 8px; border: 1px solid #ccc; border-radius: 5px;
+    font-size: .82rem;
+  }
+  .btn-modal-add {
+    padding: 4px 12px; background: #e3f2fd; border: 1px solid #90caf9;
+    border-radius: 8px; cursor: pointer; font-size: .78rem; color: #0d47a1; font-weight: 600;
+  }
+  .btn-modal-add:hover { background: #bbdefb; }
+  .btn-modal-remove {
+    padding: 2px 8px; background: #ffebee; border: 1px solid #ef9a9a;
+    border-radius: 8px; cursor: pointer; font-size: .72rem; color: #c62828;
+  }
+  .btn-modal-remove:hover { background: #ffcdd2; }
+  .modal-btns { display: flex; gap: 10px; justify-content: flex-end; margin-top: 18px; }
+  .modal-btns button {
+    padding: 8px 22px; border: none; border-radius: 18px; cursor: pointer;
+    font-size: .85rem; font-weight: 700;
+  }
+  .btn-modal-save { background: #2e7d32; color: #fff; }
+  .btn-modal-save:hover { background: #1b5e20; }
+  .btn-modal-cancel { background: #eee; color: #333; }
+  .btn-modal-cancel:hover { background: #ddd; }
+
   @media print {
     .toolbar { display: none !important; }
+    .modal-overlay { display: none !important; }
     .pages-container { padding: 0; gap: 0; }
     .word-page { box-shadow: none; margin: 0; width: 100%; page-break-after: always; }
     body { background: #fff; }
+    .dia-titulo .btn-editar-dia { display: none !important; }
   }
   @media (max-width: 840px) {
     .word-page { width: 97vw; min-height: auto; padding: 24px; }
@@ -165,6 +256,32 @@
   </div>
 </div>
 
+<!-- MODAL EDITAR DÍA -->
+<div class="modal-overlay" id="modal-dia">
+  <div class="modal-content">
+    <h2>✏️ Editar datos del día: <span id="modal-fecha-label"></span></h2>
+
+    <div class="modal-section">
+      <h3>👷 I. PERSONAL</h3>
+      <h4 style="font-size:.82rem;color:#555;margin:6px 0 4px;">1. Personal Técnico</h4>
+      <div id="modal-tecnico"></div>
+      <h4 style="font-size:.82rem;color:#555;margin:10px 0 4px;">2. Personal Obrero</h4>
+      <div id="modal-obrero"></div>
+    </div>
+
+    <div class="modal-section">
+      <h3>🔧 III. EQUIPOS Y MAQUINARIA</h3>
+      <div id="modal-equipos"></div>
+      <button class="btn-modal-add" onclick="agregarEquipoModal()" style="margin-top:6px;">+ Agregar equipo</button>
+    </div>
+
+    <div class="modal-btns">
+      <button class="btn-modal-cancel" onclick="cerrarModal()">Cancelar</button>
+      <button class="btn-modal-save" onclick="guardarModal()">💾 Guardar</button>
+    </div>
+  </div>
+</div>
+
 <div class="loading-screen" id="loading">
   <div class="spinner"></div>
   <p>Cargando actividades desde Firebase...</p>
@@ -183,8 +300,153 @@ function fmtFecha(fs){
 function esc(t){return(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
 let actividades=[];
-let parrafosEditados={}; // { actividadId: "texto editado" }
+let parrafosEditados={};
 let cambiosPendientes=false;
+
+// ================================================================
+// DATOS EXTRA POR DÍA (Firebase)
+// ================================================================
+let personalData={};     // { "2026-02-01": { tecnico: [{rol,cant},...], obrero: [{cat,cant},...] } }
+let equiposData={};      // { "2026-02-01": [{nombre,cant},...] }
+let observacionesData={}; // { "2026-02-01": "texto" }
+
+// Roles fijos
+const ROLES_TECNICO = [
+  'Ing. Residente','Administrador','Almacenero',
+  'Ing. de Seguridad','Ing. Ambiental','Ing. Calidad',
+  'Especialista En Procesos De Selección','Topógrafo'
+];
+const CATS_OBRERO = ['Capataz','Operarios','Oficiales','Oficiales Guardianes','Peones'];
+const EQUIPOS_DEFAULT = ['Vibradora Eléctrica','Mezcladora Eléctrica'];
+
+function getPersonalDia(fecha){
+  if(personalData[fecha]) return personalData[fecha];
+  return {
+    tecnico: ROLES_TECNICO.map(r=>({rol:r,cant:0})),
+    obrero: CATS_OBRERO.map(c=>({cat:c,cant:0}))
+  };
+}
+function getEquiposDia(fecha){
+  if(equiposData[fecha]) return equiposData[fecha];
+  return EQUIPOS_DEFAULT.map(n=>({nombre:n,cant:0}));
+}
+function getObservacionesDia(fecha){
+  return observacionesData[fecha]||'';
+}
+
+// ================================================================
+// MODAL — Editar datos del día
+// ================================================================
+let modalFechaActual='';
+
+function abrirModal(fecha){
+  modalFechaActual=fecha;
+  document.getElementById('modal-fecha-label').textContent=fmtFecha(fecha);
+
+  // Personal Técnico
+  const pDia=getPersonalDia(fecha);
+  let hTec='';
+  pDia.tecnico.forEach((t,i)=>{
+    hTec+=`<div class="modal-row"><label>${esc(t.rol)}</label><input type="number" min="0" value="${t.cant}" data-tec-idx="${i}"/></div>`;
+  });
+  document.getElementById('modal-tecnico').innerHTML=hTec;
+
+  // Personal Obrero
+  let hOb='';
+  pDia.obrero.forEach((o,i)=>{
+    hOb+=`<div class="modal-row"><label>${esc(o.cat)}</label><input type="number" min="0" value="${o.cant}" data-ob-idx="${i}"/></div>`;
+  });
+  document.getElementById('modal-obrero').innerHTML=hOb;
+
+  // Equipos
+  const eqDia=getEquiposDia(fecha);
+  renderEquiposModal(eqDia);
+
+  document.getElementById('modal-dia').classList.add('active');
+}
+
+function renderEquiposModal(lista){
+  let h='';
+  lista.forEach((eq,i)=>{
+    h+=`<div class="modal-row" data-eq-idx="${i}">
+      <input type="text" value="${esc(eq.nombre)}" data-eq-name="${i}" placeholder="Nombre del equipo"/>
+      <input type="number" min="0" value="${eq.cant}" data-eq-cant="${i}" style="width:60px"/>
+      <button class="btn-modal-remove" onclick="eliminarEquipoModal(${i})">✕</button>
+    </div>`;
+  });
+  document.getElementById('modal-equipos').innerHTML=h;
+}
+
+function agregarEquipoModal(){
+  const ctn=document.getElementById('modal-equipos');
+  const rows=ctn.querySelectorAll('.modal-row');
+  const idx=rows.length;
+  const div=document.createElement('div');
+  div.className='modal-row';
+  div.dataset.eqIdx=idx;
+  div.innerHTML=`<input type="text" value="" data-eq-name="${idx}" placeholder="Nombre del equipo"/>
+    <input type="number" min="0" value="0" data-eq-cant="${idx}" style="width:60px"/>
+    <button class="btn-modal-remove" onclick="this.parentElement.remove()">✕</button>`;
+  ctn.appendChild(div);
+}
+
+function eliminarEquipoModal(idx){
+  const row=document.querySelector(`[data-eq-idx="${idx}"]`);
+  if(row) row.remove();
+}
+
+function cerrarModal(){
+  document.getElementById('modal-dia').classList.remove('active');
+  modalFechaActual='';
+}
+
+async function guardarModal(){
+  const fecha=modalFechaActual;
+  if(!fecha) return;
+
+  // Leer personal técnico
+  const tecInputs=document.querySelectorAll('#modal-tecnico input[data-tec-idx]');
+  const tecnico=Array.from(tecInputs).map((inp,i)=>({
+    rol: ROLES_TECNICO[i],
+    cant: parseInt(inp.value)||0
+  }));
+
+  // Leer personal obrero
+  const obInputs=document.querySelectorAll('#modal-obrero input[data-ob-idx]');
+  const pDia=getPersonalDia(fecha);
+  const obrero=Array.from(obInputs).map((inp,i)=>({
+    cat: pDia.obrero[i]?.cat || CATS_OBRERO[i],
+    cant: parseInt(inp.value)||0
+  }));
+
+  personalData[fecha]={tecnico,obrero};
+
+  // Leer equipos
+  const eqRows=document.querySelectorAll('#modal-equipos .modal-row');
+  const equipos=[];
+  eqRows.forEach(row=>{
+    const nameInp=row.querySelector('input[type="text"]');
+    const cantInp=row.querySelector('input[type="number"]');
+    if(nameInp && cantInp){
+      const nombre=nameInp.value.trim();
+      if(nombre) equipos.push({nombre, cant: parseInt(cantInp.value)||0});
+    }
+  });
+  equiposData[fecha]=equipos;
+
+  // Guardar en Firebase
+  try{
+    await Promise.all([
+      fbSave('personal_data',personalData),
+      fbSave('equipos_data',equiposData)
+    ]);
+  }catch(e){ console.warn('Error guardando modal:',e); }
+
+  cerrarModal();
+  cambiosPendientes=true;
+  document.getElementById('btn-guardar').style.display='inline-block';
+  renderDocumento();
+}
 
 // ================================================================
 // GENERAR PÁRRAFO NARRATIVO de una actividad
@@ -198,34 +460,19 @@ function generarParrafo(a){
   const partida = a.partida.nombre || '';
   const pct = a.pct != null ? Number(a.pct) : null;
 
-  // Determinar verbo según porcentaje
   let verbo = 'Se programó';
   if(pct !== null){
     if(pct >= 100) verbo = 'Se realizó';
     else if(pct > 0) verbo = 'Se inició';
   }
 
-  // Formatear descripción: primera letra mayúscula, resto minúscula
   const descFmt = desc.charAt(0).toUpperCase() + desc.slice(1).toLowerCase();
-
-  // Construir oración
   let txt = verbo + ' el ' + descFmt;
-
-  // Agregar elemento si existe
   if(elem) txt += ' de las ' + elem;
-
-  // Agregar nivel
   if(nivel) txt += ' en el ' + nivel;
-
-  // Agregar ejes
   if(ejes) txt += ' en los ejes ' + ejes;
-
-  // Agregar partida
   txt += ', correspondiente a la partida ' + codigo + ' ' + partida;
-
-  // Agregar porcentaje si no es 100%
   if(pct !== null && pct < 100 && pct > 0) txt += ' (avance: ' + pct + '%)';
-
   txt += '.';
   return txt;
 }
@@ -255,18 +502,20 @@ function renderDocumento(){
 
   document.getElementById('btn-descargar').disabled=false;
 
-  // Agrupar por fecha
   const porFecha={};
   acts.forEach(a=>{porFecha[a.fecha]=porFecha[a.fecha]||[];porFecha[a.fecha].push(a);});
 
   let h='';
 
-  // Una "hoja" por día (puede crecer según contenido)
   for(const fecha of Object.keys(porFecha).sort()){
     const actsDia=porFecha[fecha];
+    const pDia=getPersonalDia(fecha);
+    const eqDia=getEquiposDia(fecha);
+    const obsDia=getObservacionesDia(fecha);
+
     h+='<div class="word-page">';
 
-    // Encabezado del documento en cada página
+    // Encabezado
     h+='<div class="doc-title">CUADERNO DE OBRA</div>';
     h+='<div class="doc-sub">MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS</div>';
     h+='<div class="doc-sub2">LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA - PROVINCIA MARISCAL NIETO - MOQUEGUA</div>';
@@ -278,10 +527,41 @@ function renderDocumento(){
       <td class="lbl">Fecha:</td><td colspan="3">${fmtFecha(fecha)}</td>
     </tr></table>`;
 
-    // Día
+    // Día con botón editar
     h+='<div class="dia-section">';
-    h+=`<div class="dia-titulo">${fmtFecha(fecha).toUpperCase()}</div>`;
-    h+='<div class="subtitulo-actividades">ACTIVIDADES</div>';
+    h+=`<div class="dia-titulo"><span>${fmtFecha(fecha).toUpperCase()}</span><button class="btn-editar-dia" onclick="abrirModal('${fecha}')">✏ Editar datos del día</button></div>`;
+
+    // ── I. PERSONAL ──
+    h+='<div class="seccion-titulo">I. PERSONAL</div>';
+
+    // 1. Personal Técnico
+    h+='<div class="subseccion-titulo">1. Personal Técnico</div>';
+    const tecConCant=pDia.tecnico.filter(t=>t.cant>0);
+    if(tecConCant.length){
+      h+='<table class="tabla-personal">';
+      tecConCant.forEach(t=>{
+        h+=`<tr><td class="cant">${String(t.cant).padStart(2,'0')}</td><td>${esc(t.rol)}</td></tr>`;
+      });
+      h+='</table>';
+    } else {
+      h+='<p style="font-size:9pt;color:#999;margin-left:12px;margin-bottom:6px;font-style:italic;">Sin datos — use el botón "Editar datos del día"</p>';
+    }
+
+    // 2. Personal Obrero
+    h+='<div class="subseccion-titulo">2. Personal Obrero</div>';
+    const obConCant=pDia.obrero.filter(o=>o.cant>0);
+    if(obConCant.length){
+      h+='<table class="tabla-personal">';
+      obConCant.forEach(o=>{
+        h+=`<tr><td class="cant">${String(o.cant).padStart(2,'0')}</td><td>${esc(o.cat)}</td></tr>`;
+      });
+      h+='</table>';
+    } else {
+      h+='<p style="font-size:9pt;color:#999;margin-left:12px;margin-bottom:6px;font-style:italic;">Sin datos — use el botón "Editar datos del día"</p>';
+    }
+
+    // ── II. ACTIVIDADES ──
+    h+='<div class="seccion-titulo">II. ACTIVIDADES</div>';
 
     actsDia.forEach(a=>{
       const textoAuto = generarParrafo(a);
@@ -295,9 +575,26 @@ function renderDocumento(){
       h+=`<div class="parrafo-act${clsEdit}" contenteditable="true" data-act-id="${a.id}" data-auto="${esc(textoAuto)}">${esc(textoMostrar)}${esEditado ? '<button class="btn-reset" title="Volver al texto automático" onclick="resetParrafo(this)">✕ reset</button>' : ''}</div>${badge}`;
     });
 
+    // ── III. EQUIPOS Y MAQUINARIA ──
+    h+='<div class="seccion-titulo">III. EQUIPOS Y MAQUINARIA</div>';
+    const eqConCant=eqDia.filter(e=>e.cant>0);
+    if(eqConCant.length){
+      h+='<table class="tabla-equipos">';
+      eqConCant.forEach(eq=>{
+        h+=`<tr><td class="cant">${String(eq.cant).padStart(2,'0')}</td><td>${esc(eq.nombre)}</td></tr>`;
+      });
+      h+='</table>';
+    } else {
+      h+='<p style="font-size:9pt;color:#999;margin-left:12px;margin-bottom:6px;font-style:italic;">Sin datos — use el botón "Editar datos del día"</p>';
+    }
+
+    // ── IV. OBSERVACIONES ──
+    h+='<div class="seccion-titulo">IV. OBSERVACIONES</div>';
+    h+=`<div class="observaciones-text" contenteditable="true" data-obs-fecha="${fecha}">${esc(obsDia)}</div>`;
+
     h+='</div>'; // dia-section
 
-    // Firmas al final de cada día
+    // Firmas
     h+=`<div class="firmas" style="margin-top:auto; padding-top:40px;">
       <div class="firma-box"><div class="firma-linea"></div><div class="firma-nombre">${esc(residente)}</div><div class="firma-cargo">Residente de Obra</div></div>
       <div class="firma-box"><div class="firma-linea"></div><div class="firma-nombre">${esc(inspector)}</div><div class="firma-cargo">Inspector / Supervisor</div></div>
@@ -345,6 +642,9 @@ async function generarCuadernoWord(desde,hasta,residente,inspector,actsRango){
 
   for(const fecha of Object.keys(porFecha).sort()){
     const actsDia=porFecha[fecha];
+    const pDia=getPersonalDia(fecha);
+    const eqDia=getEquiposDia(fecha);
+    const obsDia=getObservacionesDia(fecha);
     const ch=[];
 
     // Título
@@ -362,10 +662,38 @@ async function generarCuadernoWord(desde,hasta,residente,inspector,actsRango){
     // Encabezado del día
     ch.push(new Paragraph({spacing:{before:100,after:80},shading:{type:ShadingType.SOLID,color:"0D47A1"},children:[new TextRun({text:`  ${fmtFecha(fecha).toUpperCase()}  `,bold:true,size:22,color:"FFFFFF",font:"Calibri"})]}));
 
-    // Subtítulo ACTIVIDADES
-    ch.push(new Paragraph({spacing:{after:80},children:[new TextRun({text:"ACTIVIDADES",bold:true,size:22,color:"0D47A1",font:"Calibri",underline:{}})]}));
+    // ── I. PERSONAL ──
+    ch.push(new Paragraph({spacing:{before:120,after:60},children:[new TextRun({text:"I. PERSONAL",bold:true,size:22,color:"0D47A1",font:"Calibri",underline:{}})]}));
 
-    // Párrafos narrativos (usa editados si existen)
+    // 1. Personal Técnico
+    ch.push(new Paragraph({spacing:{after:40},indent:{left:convertInchesToTwip(0.2)},children:[new TextRun({text:"1. Personal Técnico",bold:true,size:20,font:"Calibri"})]}));
+    const tecConCant=pDia.tecnico.filter(t=>t.cant>0);
+    if(tecConCant.length){
+      const tecRows=tecConCant.map(t=>new TableRow({children:[
+        dC(String(t.cant).padStart(2,'0'),15,{center:true,bold:true,bg:"F0F4FF"}),
+        dC(t.rol,85)
+      ]}));
+      ch.push(new Table({width:{size:80,type:WidthType.PERCENTAGE},indent:{size:convertInchesToTwip(0.3),type:WidthType.DXA},rows:tecRows}));
+    } else {
+      ch.push(new Paragraph({spacing:{after:40},indent:{left:convertInchesToTwip(0.3)},children:[new TextRun({text:"Sin datos registrados.",size:18,italics:true,color:"999999",font:"Calibri"})]}));
+    }
+
+    // 2. Personal Obrero
+    ch.push(new Paragraph({spacing:{before:80,after:40},indent:{left:convertInchesToTwip(0.2)},children:[new TextRun({text:"2. Personal Obrero",bold:true,size:20,font:"Calibri"})]}));
+    const obConCant=pDia.obrero.filter(o=>o.cant>0);
+    if(obConCant.length){
+      const obRows=obConCant.map(o=>new TableRow({children:[
+        dC(String(o.cant).padStart(2,'0'),15,{center:true,bold:true,bg:"F0F4FF"}),
+        dC(o.cat,85)
+      ]}));
+      ch.push(new Table({width:{size:80,type:WidthType.PERCENTAGE},indent:{size:convertInchesToTwip(0.3),type:WidthType.DXA},rows:obRows}));
+    } else {
+      ch.push(new Paragraph({spacing:{after:40},indent:{left:convertInchesToTwip(0.3)},children:[new TextRun({text:"Sin datos registrados.",size:18,italics:true,color:"999999",font:"Calibri"})]}));
+    }
+
+    // ── II. ACTIVIDADES ──
+    ch.push(new Paragraph({spacing:{before:120,after:80},children:[new TextRun({text:"II. ACTIVIDADES",bold:true,size:22,color:"0D47A1",font:"Calibri",underline:{}})]}));
+
     actsDia.forEach(a=>{
       const txt = parrafosEditados[a.id] || generarParrafo(a);
       ch.push(new Paragraph({
@@ -374,6 +702,29 @@ async function generarCuadernoWord(desde,hasta,residente,inspector,actsRango){
         children:[new TextRun({text:txt,size:20,font:"Calibri"})]
       }));
     });
+
+    // ── III. EQUIPOS Y MAQUINARIA ──
+    ch.push(new Paragraph({spacing:{before:120,after:60},children:[new TextRun({text:"III. EQUIPOS Y MAQUINARIA",bold:true,size:22,color:"0D47A1",font:"Calibri",underline:{}})]}));
+    const eqConCant=eqDia.filter(e=>e.cant>0);
+    if(eqConCant.length){
+      const eqRows=eqConCant.map(eq=>new TableRow({children:[
+        dC(String(eq.cant).padStart(2,'0'),15,{center:true,bold:true,bg:"F0F4FF"}),
+        dC(eq.nombre,85)
+      ]}));
+      ch.push(new Table({width:{size:80,type:WidthType.PERCENTAGE},indent:{size:convertInchesToTwip(0.3),type:WidthType.DXA},rows:eqRows}));
+    } else {
+      ch.push(new Paragraph({spacing:{after:40},indent:{left:convertInchesToTwip(0.3)},children:[new TextRun({text:"Sin datos registrados.",size:18,italics:true,color:"999999",font:"Calibri"})]}));
+    }
+
+    // ── IV. OBSERVACIONES ──
+    ch.push(new Paragraph({spacing:{before:120,after:60},children:[new TextRun({text:"IV. OBSERVACIONES",bold:true,size:22,color:"0D47A1",font:"Calibri",underline:{}})]}));
+    if(obsDia){
+      obsDia.split('\n').forEach(linea=>{
+        ch.push(new Paragraph({spacing:{after:60},indent:{left:convertInchesToTwip(0.3)},children:[new TextRun({text:linea,size:20,font:"Calibri"})]}));
+      });
+    } else {
+      ch.push(new Paragraph({spacing:{after:40},indent:{left:convertInchesToTwip(0.3)},children:[new TextRun({text:"Sin observaciones.",size:18,italics:true,color:"999999",font:"Calibri"})]}));
+    }
 
     // Espacio y firmas
     ch.push(new Paragraph({spacing:{before:400},children:[]}));
@@ -409,24 +760,34 @@ async function generarCuadernoWord(desde,hasta,residente,inspector,actsRango){
 // ================================================================
 // EDICIÓN DE PÁRRAFOS
 // ================================================================
-
-// Detectar cambios en párrafos editables
 document.addEventListener('input', (e) => {
   const el = e.target;
-  if (!el.classList.contains('parrafo-act') || !el.dataset.actId) return;
-  const id = el.dataset.actId;
-  const textoActual = el.innerText.trim();
-  const textoAuto = el.dataset.auto;
 
-  if (textoActual !== textoAuto) {
-    parrafosEditados[id] = textoActual;
-    el.classList.add('editado');
-  } else {
-    delete parrafosEditados[id];
-    el.classList.remove('editado');
+  // Edición de párrafos de actividades
+  if (el.classList.contains('parrafo-act') && el.dataset.actId) {
+    const id = el.dataset.actId;
+    const textoActual = el.innerText.trim();
+    const textoAuto = el.dataset.auto;
+    if (textoActual !== textoAuto) {
+      parrafosEditados[id] = textoActual;
+      el.classList.add('editado');
+    } else {
+      delete parrafosEditados[id];
+      el.classList.remove('editado');
+    }
+    cambiosPendientes = true;
+    document.getElementById('btn-guardar').style.display = 'inline-block';
   }
-  cambiosPendientes = true;
-  document.getElementById('btn-guardar').style.display = 'inline-block';
+
+  // Edición de observaciones
+  if (el.classList.contains('observaciones-text') && el.dataset.obsFecha) {
+    const fecha = el.dataset.obsFecha;
+    const texto = el.innerText.trim();
+    if(texto) observacionesData[fecha] = texto;
+    else delete observacionesData[fecha];
+    cambiosPendientes = true;
+    document.getElementById('btn-guardar').style.display = 'inline-block';
+  }
 });
 
 // Guardar ediciones en Firebase
@@ -435,12 +796,16 @@ document.getElementById('btn-guardar').addEventListener('click', async () => {
   btn.textContent = '⏳ Guardando...';
   btn.disabled = true;
   try {
-    await fbSave('parrafos_editados', parrafosEditados);
+    await Promise.all([
+      fbSave('parrafos_editados', parrafosEditados),
+      fbSave('observaciones_data', observacionesData),
+      fbSave('personal_data', personalData),
+      fbSave('equipos_data', equiposData)
+    ]);
     cambiosPendientes = false;
     btn.textContent = '✅ ¡Guardado!';
-    btn.style.display = 'none';
-    setTimeout(() => { btn.disabled = false; btn.textContent = '💾 Guardar ediciones'; }, 2000);
-    renderDocumento(); // re-render para actualizar badges
+    setTimeout(() => { btn.disabled = false; btn.textContent = '💾 Guardar ediciones'; btn.style.display = 'none'; }, 2000);
+    renderDocumento();
   } catch(e) {
     alert('Error guardando: ' + e.message);
     btn.textContent = '💾 Guardar ediciones';
@@ -474,16 +839,22 @@ window.addEventListener('beforeunload', (e) => {
 // ================================================================
 (async function(){
   try{
-    const fb=await fbLoad('actividades',null);
-    if(fb&&Array.isArray(fb)) actividades=fb.filter(a=>a!=null);
+    const [fb, pe, pd, ed, od] = await Promise.all([
+      fbLoad('actividades',null),
+      fbLoad('parrafos_editados',null),
+      fbLoad('personal_data',null),
+      fbLoad('equipos_data',null),
+      fbLoad('observaciones_data',null)
+    ]);
 
-    // Cargar párrafos editados
-    const pe=await fbLoad('parrafos_editados',null);
+    if(fb&&Array.isArray(fb)) actividades=fb.filter(a=>a!=null);
     if(pe && typeof pe === 'object') parrafosEditados = pe;
+    if(pd && typeof pd === 'object') personalData = pd;
+    if(ed && typeof ed === 'object') equiposData = ed;
+    if(od && typeof od === 'object') observacionesData = od;
 
     document.getElementById('fb-status').textContent='🟢 '+actividades.length+' act.';
 
-    // Rango completo
     const fechas=actividades.map(a=>a.fecha).filter(Boolean).sort();
     document.getElementById('rep-desde').value=fechas[0]||'';
     document.getElementById('rep-hasta').value=fechas[fechas.length-1]||'';
