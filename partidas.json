@@ -1,0 +1,347 @@
+[
+  {
+    "fila": 13,
+    "codigo": "01.01.01.01.01.01",
+    "nombre": "EXCAVACION MASIVA PARA ZAPATAS"
+  },
+  {
+    "fila": 36,
+    "codigo": "01.01.01.01.02.01",
+    "nombre": "EXCAVACION MANUAL PARA CIMIENTOS CORRIDOS"
+  },
+  {
+    "fila": 49,
+    "codigo": "01.01.01.02.01.01",
+    "nombre": "RELLENO COMPACTADO CON MATERIAL DE PRESTAMO SELECCIONADO PARA ZAPATAS C/EQUIPO LIVIANO"
+  },
+  {
+    "fila": 89,
+    "codigo": "01.01.01.02.01.02",
+    "nombre": "RELLENO COMPACTADO CON MATERIAL DE PRESTAMO SELECCIONADO PARA CIMIENTOS CORRIDOS C/EQUIPO LIVIANO"
+  },
+  {
+    "fila": 107,
+    "codigo": "01.01.01.02.01.03",
+    "nombre": "RELLENO CON MATERIAL GRANULAR PARA BASE E=0.10M C/EQUIPO LIVIANO"
+  },
+  {
+    "fila": 132,
+    "codigo": "01.01.01.03.01",
+    "nombre": "NIVELACION INTERIOR APISONADO CON EQUIPO LIVIANO"
+  },
+  {
+    "fila": 157,
+    "codigo": "01.01.01.04.01",
+    "nombre": "ACARREO DE MATERIAL EXCEDENTE (D.prom=30 M)"
+  },
+  {
+    "fila": 165,
+    "codigo": "01.01.01.04.02",
+    "nombre": "ELIMINACION DE MATERIAL EXCEDENTE C/MAQUINARIA DM=16.84 km"
+  },
+  {
+    "fila": 173,
+    "codigo": "01.01.02.01.01",
+    "nombre": "SUB ZAPATA: MEZCLA C:H 1:10  CON 30% P.G., C/CEMENTO TIPO IP C/ ADITIVO IMPERMEABILIZANTE"
+  },
+  {
+    "fila": 193,
+    "codigo": "01.01.02.01.02",
+    "nombre": "CIMIENTOS CORRIDOS: MEZCLA C:H 1:10  CON 30% P.G., C/CEMENTO TIPO IP"
+  },
+  {
+    "fila": 205,
+    "codigo": "01.01.02.02.01",
+    "nombre": "SOLADO DE CONCRETO C:H 1:12,E=10cm, C/CEMENTO TIPO IP"
+  },
+  {
+    "fila": 214,
+    "codigo": "01.01.02.03.01",
+    "nombre": "FALSO PISO MEZCLA C:H 1:8 E=10 cm, C/CEMENTO TIPO IP"
+  },
+  {
+    "fila": 239,
+    "codigo": "01.01.03.01.01",
+    "nombre": "CONCRETO PREMEZCLADO EN ZAPATAS F'C= 210 KG/CM2 C/CEMENTO TIPO IP"
+  },
+  {
+    "fila": 263,
+    "codigo": "01.01.03.01.02",
+    "nombre": "ACERO EN ZAPATAS Fy=4200 kg/cm2 GRADO 60"
+  },
+  {
+    "fila": 326,
+    "codigo": "01.01.03.02.01",
+    "nombre": "CONCRETO PREMEZCLADO EN SOBRECIMIENTO REFORZADO F'C= 210 KG/CM2 C/ CEMENTO TIPO IP"
+  },
+  {
+    "fila": 340,
+    "codigo": "01.01.03.02.02",
+    "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN ESCALERAS"
+  },
+  {
+    "fila": 354,
+    "codigo": "01.01.03.02.03",
+    "nombre": "ACERO EN SOBRECIMIENTOS REFORZADOS Fy=4200 kg/cm2 GRADO 60"
+  },
+  {
+    "fila": 381,
+    "codigo": "01.01.03.02.04",
+    "nombre": "CURADO DE CONCRETO EN SOBRECIMIENTOS REFORZADOS"
+  },
+  {
+    "fila": 395,
+    "codigo": "01.01.03.03.01",
+    "nombre": "CONCRETO PREMEZCLADO EN MUROS DE SOSTENIMIENTO F'C= 210 KG/CM2, C/CEMENTO TIPO IP"
+  },
+  {
+    "fila": 404,
+    "codigo": "01.01.03.03.02",
+    "nombre": "ENCOFRADO Y DESENCOFRADO CARAVISTA EN MUROS DE SOSTENIMIENTO"
+  },
+  {
+    "fila": 413,
+    "codigo": "01.01.03.03.03",
+    "nombre": "ACERO EN MUROS DE SOSTENIMIENTO Fy=4200 kg/cm2 GRADO 60"
+  },
+  {
+    "fila": 451,
+    "codigo": "01.01.03.03.04",
+    "nombre": "CURADO DE CONCRETO EN MUROS DE SOSTENIMIENTO"
+  },
+  {
+    "fila": 460,
+    "codigo": "01.01.03.04.01",
+    "nombre": "CONCRETO PREMEZCLADO EN ESCALERAS F'C= 210 KG/CM2, C/CEMENTO TIPO IP"
+  },
+  {
+    "fila": 470,
+    "codigo": "01.01.03.04.02",
+    "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN ESCALERAS"
+  },
+  {
+    "fila": 480,
+    "codigo": "01.01.03.04.03",
+    "nombre": "ACERO EN ESCALERAS Fy=4200 kg/cm2 GRADO 60"
+  },
+  {
+    "fila": 522,
+    "codigo": "01.01.03.04.04",
+    "nombre": "CURADO DE CONCRETO EN ESCALERAS"
+  },
+  {
+    "fila": 532,
+    "codigo": "01.01.03.05.01",
+    "nombre": "CONCRETO PREMEZCLADO EN PLACAS F'C=210 KG/CM2, C/CEMENTO TIPO IP"
+  },
+  {
+    "fila": 547,
+    "codigo": "01.01.03.05.02",
+    "nombre": "ENCOFRADO Y DESENCOFRADO CARAVISTA EN PLACAS"
+  },
+  {
+    "fila": 562,
+    "codigo": "01.01.03.05.03",
+    "nombre": "ACERO EN PLACAS Fy=4200 kg/cm2 GRADO 60"
+  },
+  {
+    "fila": 611,
+    "codigo": "01.01.03.05.04",
+    "nombre": "CURADO DE CONCRETO EN PLACAS"
+  },
+  {
+    "fila": 626,
+    "codigo": "01.01.03.06.01",
+    "nombre": "CONCRETO PREMEZCLADO EN COLUMNAS F'C=210 KG/CM2 ,C/CEMENTO TIPO IP"
+  },
+  {
+    "fila": 639,
+    "codigo": "01.01.03.06.02",
+    "nombre": "ENCOFRADO Y DESENCOFRADO CARAVISTA EN COLUMNAS"
+  },
+  {
+    "fila": 652,
+    "codigo": "01.01.03.06.03",
+    "nombre": "ACERO EN COLUMNAS Fy=4200 kg/cm2 GRADO 60"
+  },
+  {
+    "fila": 678,
+    "codigo": "01.01.03.06.04",
+    "nombre": "CURADO DE CONCRETO EN COLUMNAS"
+  },
+  {
+    "fila": 691,
+    "codigo": "01.01.03.07.01",
+    "nombre": "CONCRETO EN COLUMNETAS F'C= 175 KG/CM2, C/CEMENTO TIPO IP"
+  },
+  {
+    "fila": 699,
+    "codigo": "01.01.03.07.02",
+    "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN COLUMNETAS"
+  },
+  {
+    "fila": 707,
+    "codigo": "01.01.03.07.03",
+    "nombre": "ACERO EN COLUMNETAS Fy=4200 kg/cm2 GRADO 60"
+  },
+  {
+    "fila": 720,
+    "codigo": "01.01.03.07.04",
+    "nombre": "CURADO DE CONCRETO EN COLUMNETAS"
+  },
+  {
+    "fila": 728,
+    "codigo": "01.01.03.08.01",
+    "nombre": "CONCRETO PREMEZCLADO EN VIGAS F'C= 210 KG/CM2,C/CEMENTO TIPO IP"
+  },
+  {
+    "fila": 763,
+    "codigo": "01.01.03.08.02",
+    "nombre": "ENCOFRADO Y DESENCOFRADO CARAVISTA EN VIGAS"
+  },
+  {
+    "fila": 798,
+    "codigo": "01.01.03.08.03",
+    "nombre": "ACERO EN VIGAS Fy=4200 kg/cm2 GRADO 60"
+  },
+  {
+    "fila": 819,
+    "codigo": "01.01.03.08.04",
+    "nombre": "CURADO DE CONCRETO EN VIGAS"
+  },
+  {
+    "fila": 855,
+    "codigo": "01.01.03.09.01",
+    "nombre": "CONCRETO EN VIGUETAS F'C= 175 KG/CM2, C/CEMENTO TIPO IP"
+  },
+  {
+    "fila": 863,
+    "codigo": "01.01.03.09.02",
+    "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN VIGUETAS"
+  },
+  {
+    "fila": 871,
+    "codigo": "01.01.03.09.03",
+    "nombre": "ACERO EN VIGUETAS Fy=4200 kg/cm2 GRADO 60"
+  },
+  {
+    "fila": 887,
+    "codigo": "01.01.03.09.04",
+    "nombre": "CURADO DE CONCRETO EN VIGUETAS"
+  },
+  {
+    "fila": 895,
+    "codigo": "01.01.03.10.01.01",
+    "nombre": "CONCRETO PREMEZCLADO EN LOSAS ALIGERADAS F'C= 210 KG/CM2,C/CEMENTO TIPO IP"
+  },
+  {
+    "fila": 957,
+    "codigo": "01.01.03.10.01.02",
+    "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN LOSAS ALIGERADAS"
+  },
+  {
+    "fila": 1019,
+    "codigo": "01.01.03.10.01.03",
+    "nombre": "ACERO EN LOSAS ALIGERADAS Fy=4200 kg/cm2 GRADO 60"
+  },
+  {
+    "fila": 1033,
+    "codigo": "01.01.03.10.01.04",
+    "nombre": "LADRILLO HUECO DE ARCILLA 30x30x15 CM. PARA LOSAS ALIGERADAS"
+  },
+  {
+    "fila": 1045,
+    "codigo": "01.01.03.10.01.05",
+    "nombre": "CURADO DE CONCRETO EN LOSAS ALIGERADAS"
+  },
+  {
+    "fila": 1107,
+    "codigo": "01.01.03.10.02.01",
+    "nombre": "CONCRETO PREMEZCLADO EN LOSAS MACIZAS F'C= 210 KG/CM2,C/CEMENTO TIPO IP"
+  },
+  {
+    "fila": 1115,
+    "codigo": "01.01.03.10.02.02",
+    "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN LOSAS MACIZAS"
+  },
+  {
+    "fila": 1123,
+    "codigo": "01.01.03.10.02.03",
+    "nombre": "ACERO EN LOSAS MACIZAS Fy=4200 kg/cm2 GRADO 60"
+  },
+  {
+    "fila": 1136,
+    "codigo": "01.01.03.10.02.04",
+    "nombre": "CURADO DE CONCRETO EN LOSAS MACIZAS"
+  },
+  {
+    "fila": 1144,
+    "codigo": "01.01.03.11.01",
+    "nombre": "CONCRETO EN PARAPETO F'C=175 KG/CM2,C/CEMENTO TIPO IP"
+  },
+  {
+    "fila": 1151,
+    "codigo": "01.01.03.11.02",
+    "nombre": "CONCRETO PREMEZCLADO EN PARAPETO F'C= 210 KG/CM2,C/CEMENTO TIPO IP"
+  },
+  {
+    "fila": 1158,
+    "codigo": "01.01.03.11.03",
+    "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN PARAPETO"
+  },
+  {
+    "fila": 1165,
+    "codigo": "01.01.03.11.04",
+    "nombre": "ENCOFRADO Y DESENCOFRADO CARAVISTA EN PARAPETO"
+  },
+  {
+    "fila": 1172,
+    "codigo": "01.01.03.11.05",
+    "nombre": "ACERO EN PARAPETO Fy=4200 kg/cm2 GRADO 60"
+  },
+  {
+    "fila": 1185,
+    "codigo": "01.01.03.11.06",
+    "nombre": "CURADO DE CONCRETO EN PARAPETO"
+  },
+  {
+    "fila": 1192,
+    "codigo": "01.01.03.12.01",
+    "nombre": "CONCRETO EN MESONES F'C=175 KG/CM2,C/CEMENTO TIPO IP"
+  },
+  {
+    "fila": 1287,
+    "codigo": "01.01.03.12.02",
+    "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN MESONES"
+  },
+  {
+    "fila": 1382,
+    "codigo": "01.01.03.12.03",
+    "nombre": "ACERO EN MESON DE CONCRETO Fy=4200 kg/cm2 GRADO 60"
+  },
+  {
+    "fila": 1482,
+    "codigo": "01.01.03.12.04",
+    "nombre": "CURADO DE CONCRETO EN MESONES"
+  },
+  {
+    "fila": 1577,
+    "codigo": "01.01.04.01",
+    "nombre": "JUNTA SISMICA E=2\" CON PLANCHA DE ALUMINIO LISO"
+  },
+  {
+    "fila": 1585,
+    "codigo": "01.01.04.02",
+    "nombre": "JUNTA DE DILATACION E=1\" CON JEBE MICROPOROSO"
+  },
+  {
+    "fila": 1592,
+    "codigo": "01.01.04.03",
+    "nombre": "JUNTA DE DILATACION E=1\" CON POLIESTIRENO DE ALTA DENSIDAD"
+  },
+  {
+    "fila": 1599,
+    "codigo": "01.01.04.04",
+    "nombre": "IMPERMEABILIZACION DE ELEMENTOS EN CONTACTO CON EL TERRENO"
+  }
+]

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8"/>
@@ -294,11 +294,7 @@
   .modal-edit .edit-partida-info strong { color: #1a237e; display: block; }
 
   /* MODAL REPORTE */
-  .modal-reporte { max-width: 600px; }
-  .reporte-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
-  .reporte-opts label { font-size: .78rem; font-weight: 600; color: #555; display: block; margin-bottom: 3px; }
-  .reporte-opts input, .reporte-opts select { width: 100%; padding: 6px 8px; border: 1px solid #ccc; border-radius: 5px; font-size: .8rem; }
-  .reporte-opts .full { grid-column: 1 / -1; }
+
 
   @media (max-width: 1100px) { .grid-semana { grid-template-columns: repeat(4,1fr); } }
   @media (max-width: 768px) { .app { grid-template-columns: 1fr; } .grid-semana { grid-template-columns: repeat(2,1fr); } }
@@ -558,42 +554,7 @@
   </div>
 </div>
 
-<!-- MODAL REPORTE WORD -->
-<div class="modal-overlay" id="modal-reporte">
-  <div class="modal modal-reporte">
-    <h3>📄 Generar Reporte Word – Cuaderno de Obra</h3>
-    <div class="reporte-opts">
-      <div>
-        <label>Desde</label>
-        <input type="date" id="rep-desde"/>
-      </div>
-      <div>
-        <label>Hasta</label>
-        <input type="date" id="rep-hasta"/>
-      </div>
-      <div class="full">
-        <label>Residente de Obra</label>
-        <input type="text" id="rep-residente" placeholder="Nombre del Residente"/>
-      </div>
-      <div class="full">
-        <label>Inspector / Supervisor</label>
-        <input type="text" id="rep-inspector" placeholder="Nombre del Inspector"/>
-      </div>
-      <div class="full">
-        <label>Filtrar por categoría (opcional)</label>
-        <select id="rep-cat"><option value="">Todas</option></select>
-      </div>
-    </div>
-    <!-- ESTADO -->
-    <div id="rep-estado-ok" style="display:none; background:#e8f5e9; border-radius:8px; padding:12px; margin-bottom:14px; font-size:.83rem; border-left:4px solid #2e7d32;">
-      <strong style="color:#1b5e20">✅ Reporte Word generado y descargado exitosamente.</strong>
-    </div>
-    <div class="modal-btns">
-      <button class="btn-cancel" id="modal-rep-cancel">Cerrar</button>
-      <button class="btn-confirm-ok" id="modal-rep-gen">⬇ Generar Word</button>
-    </div>
-  </div>
-</div>
+<!-- REPORTE WORD: Se abre en reporte.html -->
 
 <script src="partidas_data.js"></script>
 <script>
@@ -2008,13 +1969,10 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     const modalEdit = document.getElementById('modal-edit');
     const modalDel = document.getElementById('modal-del');
-    const modalRep = document.getElementById('modal-reporte');
     if (modalEdit.classList.contains('show')) {
       modalEdit.classList.remove('show'); editandoId = null; editPartidaSeleccionada = null;
     } else if (modalDel.classList.contains('show')) {
       modalDel.classList.remove('show'); pendingDeleteId = null;
-    } else if (modalRep.classList.contains('show')) {
-      modalRep.classList.remove('show');
     }
     // Deseleccionar tarjeta
     document.querySelectorAll('.actividad-card.card-selected').forEach(el => el.classList.remove('card-selected'));
@@ -2181,333 +2139,10 @@ document.getElementById('av-filtro-estado').addEventListener('change', renderAva
 document.getElementById('btn-reporte-word').addEventListener('click', () => {
   const lunes = getLunesDeSemana(semanaOffset);
   const domingo = addDias(lunes, 6);
-  document.getElementById('rep-desde').value = fechaKey(lunes);
-  document.getElementById('rep-hasta').value = fechaKey(domingo);
-  document.getElementById('rep-estado-ok').style.display = 'none';
-  document.getElementById('modal-rep-gen').textContent = '⬇ Generar Word';
-  document.getElementById('modal-rep-gen').disabled = false;
-  document.getElementById('modal-reporte').classList.add('show');
+  const desde = fechaKey(lunes);
+  const hasta = fechaKey(domingo);
+  window.open('reporte.html?desde=' + desde + '&hasta=' + hasta, '_blank');
 });
-
-
-document.getElementById('modal-rep-cancel').addEventListener('click', () => {
-  document.getElementById('modal-reporte').classList.remove('show');
-});
-
-document.getElementById('modal-rep-gen').addEventListener('click', async () => {
-  const desde     = document.getElementById('rep-desde').value;
-  const hasta     = document.getElementById('rep-hasta').value;
-  const residente = document.getElementById('rep-residente').value.trim() || 'Residente de Obra';
-  const inspector = document.getElementById('rep-inspector').value.trim() || 'Inspector';
-  const filtCat   = document.getElementById('rep-cat').value;
-
-  if (!desde || !hasta) { alert('Selecciona rango de fechas.'); return; }
-
-  const desdeD = new Date(desde + 'T00:00:00');
-  const hastaD = new Date(hasta + 'T00:00:00');
-  let actsRango = actividades.filter(a => {
-    const fa = new Date(a.fecha + 'T00:00:00');
-    return fa >= desdeD && fa <= hastaD;
-  });
-  if (filtCat) actsRango = actsRango.filter(a => a.partida.categoria === filtCat);
-  if (!actsRango.length) { alert('No hay actividades en ese rango de fechas.'); return; }
-
-  const btn = document.getElementById('modal-rep-gen');
-  btn.textContent = '⏳ Generando...';
-  btn.disabled = true;
-
-  try {
-    await generarWordJS(desde, hasta, residente, inspector, actsRango);
-    btn.textContent = '✅ Descargado';
-    document.getElementById('rep-estado-ok').style.display = 'block';
-  } catch (e) {
-    console.error(e);
-    alert('Error generando Word: ' + e.message);
-    btn.textContent = '⬇ Generar Word';
-  }
-
-  setTimeout(() => {
-    btn.disabled = false;
-    btn.textContent = '⬇ Generar Word';
-  }, 4000);
-});
-
-// ================================================================
-// GENERADOR DE WORD 100% JAVASCRIPT (sin servidor Python)
-// Usa la librería docx.js cargada por CDN
-// ================================================================
-async function generarWordJS(desde, hasta, residente, inspector, actsRango) {
-  const { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell,
-          WidthType, AlignmentType, BorderStyle, ShadingType, PageOrientation,
-          VerticalAlign, convertInchesToTwip, HeadingLevel } = docx;
-
-  const MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
-  const DIAS_SEM = ["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
-
-  function fmtFecha(fs) {
-    const d = new Date(fs + 'T00:00:00');
-    return `${DIAS_SEM[d.getDay()].charAt(0).toUpperCase()+DIAS_SEM[d.getDay()].slice(1)} ${String(d.getDate()).padStart(2,'0')} de ${MESES[d.getMonth()]} de ${d.getFullYear()}`;
-  }
-
-  const BORDER_THIN = { style: BorderStyle.SINGLE, size: 1, color: "BBBBBB" };
-  const CELL_BORDERS = { top: BORDER_THIN, bottom: BORDER_THIN, left: BORDER_THIN, right: BORDER_THIN };
-
-  function headerCell(text, widthPct) {
-    return new TableCell({
-      width: { size: widthPct, type: WidthType.PERCENTAGE },
-      shading: { type: ShadingType.SOLID, color: "283593" },
-      borders: CELL_BORDERS,
-      verticalAlign: VerticalAlign.CENTER,
-      children: [new Paragraph({
-        alignment: AlignmentType.CENTER,
-        children: [new TextRun({ text, bold: true, color: "FFFFFF", size: 17, font: "Calibri" })]
-      })]
-    });
-  }
-
-  function dataCell(text, widthPct, opts = {}) {
-    return new TableCell({
-      width: { size: widthPct, type: WidthType.PERCENTAGE },
-      shading: opts.bg ? { type: ShadingType.SOLID, color: opts.bg } : undefined,
-      borders: CELL_BORDERS,
-      verticalAlign: VerticalAlign.CENTER,
-      children: [new Paragraph({
-        alignment: opts.center ? AlignmentType.CENTER : AlignmentType.LEFT,
-        children: [new TextRun({
-          text: text || '',
-          size: opts.size || 17,
-          bold: opts.bold || false,
-          font: opts.mono ? "Courier New" : "Calibri",
-          color: opts.color || "222222"
-        })]
-      })]
-    });
-  }
-
-  // ── Título ──
-  const children = [];
-  children.push(new Paragraph({
-    alignment: AlignmentType.CENTER, spacing: { after: 80 },
-    children: [new TextRun({ text: "CUADERNO DE OBRA", bold: true, size: 36, color: "1A237E", font: "Calibri" })]
-  }));
-  children.push(new Paragraph({
-    alignment: AlignmentType.CENTER, spacing: { after: 60 },
-    children: [new TextRun({ text: "CONTROL DE ACTIVIDADES DIARIAS", bold: true, size: 22, color: "283593", font: "Calibri" })]
-  }));
-  children.push(new Paragraph({
-    alignment: AlignmentType.CENTER, spacing: { after: 40 },
-    children: [new TextRun({ text: "MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS", size: 18, color: "555555", font: "Calibri" })]
-  }));
-  children.push(new Paragraph({
-    alignment: AlignmentType.CENTER, spacing: { after: 200 },
-    children: [new TextRun({ text: "LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA - PROVINCIA MARISCAL NIETO - MOQUEGUA", size: 18, color: "555555", font: "Calibri" })]
-  }));
-
-  // ── Datos generales ──
-  children.push(new Table({
-    width: { size: 100, type: WidthType.PERCENTAGE },
-    rows: [
-      new TableRow({ children: [
-        dataCell("Residente de Obra:", 20, {bold:true}),
-        dataCell(residente, 30),
-        dataCell("Inspector / Supervisor:", 20, {bold:true}),
-        dataCell(inspector, 30)
-      ]}),
-      new TableRow({ children: [
-        dataCell("Período del reporte:", 20, {bold:true}),
-        new TableCell({
-          width: { size: 80, type: WidthType.PERCENTAGE },
-          columnSpan: 3, borders: CELL_BORDERS,
-          children: [new Paragraph({ children: [new TextRun({ text: `${fmtFecha(desde)}  al  ${fmtFecha(hasta)}`, size: 17, font: "Calibri" })] })]
-        })
-      ]})
-    ]
-  }));
-  children.push(new Paragraph({ spacing: { after: 200 }, children: [] }));
-
-  // ── Actividades por día ──
-  const porFecha = {};
-  actsRango.forEach(a => { porFecha[a.fecha] = porFecha[a.fecha] || []; porFecha[a.fecha].push(a); });
-
-  for (const fecha of Object.keys(porFecha).sort()) {
-    const actsDia = porFecha[fecha];
-    // Cabecera del día
-    children.push(new Paragraph({
-      spacing: { before: 160, after: 60 },
-      shading: { type: ShadingType.SOLID, color: "1A237E" },
-      children: [new TextRun({ text: `  ${fmtFecha(fecha).toUpperCase()}  `, bold: true, size: 20, color: "FFFFFF", font: "Calibri" })]
-    }));
-
-    // Tabla de actividades del día
-    const headerRow = new TableRow({ children: [
-      headerCell("N°", 4), headerCell("Descripción", 18), headerCell("Código", 10),
-      headerCell("Partida", 22), headerCell("Ejes", 14), headerCell("Elemento", 12),
-      headerCell("Nivel", 10), headerCell("% Avance", 10)
-    ]});
-
-    const dataRows = actsDia.map((act, idx) => {
-      const bg = idx % 2 === 1 ? "F5F5F5" : undefined;
-      return new TableRow({ children: [
-        dataCell(String(idx + 1), 4, { center: true, bg }),
-        dataCell(act.descripcion, 18, { bg }),
-        dataCell(act.partida.codigo, 10, { center: true, mono: true, bg }),
-        dataCell(act.partida.nombre, 22, { bg }),
-        dataCell(act.ejes && act.ejes !== '—' ? act.ejes : '', 14, { center: true, bg }),
-        dataCell(act.elemento && act.elemento !== '—' ? act.elemento : '', 12, { center: true, bold: true, bg }),
-        dataCell(act.nivel && act.nivel !== '—' ? act.nivel : '', 10, { center: true, bg }),
-        dataCell(act.pct != null ? act.pct + '%' : '', 10, { center: true, bold: true, bg })
-      ]});
-    });
-
-    children.push(new Table({
-      width: { size: 100, type: WidthType.PERCENTAGE },
-      rows: [headerRow, ...dataRows]
-    }));
-    children.push(new Paragraph({ spacing: { after: 120 }, children: [] }));
-  }
-
-  // ── Resumen de avance por elemento ──
-  children.push(new Paragraph({ children: [], pageBreakBefore: true }));
-  children.push(new Paragraph({
-    spacing: { after: 120 },
-    children: [new TextRun({ text: "RESUMEN DE AVANCE POR ELEMENTO ESTRUCTURAL", bold: true, size: 26, color: "1A237E", font: "Calibri" })]
-  }));
-
-  const grupos = {};
-  actividades.forEach(a => {
-    const k = `${a.partida.categoria}||${a.elemento}||${a.nivel}`;
-    if (!grupos[k]) grupos[k] = { categoria: a.partida.categoria, elemento: a.elemento, nivel: a.nivel, acts: [] };
-    grupos[k].acts.push(a);
-  });
-
-  const avHeaderRow = new TableRow({ children: [
-    headerCell("Elemento", 16), headerCell("Categoría", 14), headerCell("Nivel", 10),
-    headerCell("Ejes", 16), headerCell("Pasos Completados", 24), headerCell("Próximo Paso", 20)
-  ]});
-
-  const avRows = [avHeaderRow];
-  for (const g of Object.values(grupos).sort((a,b) => a.elemento.localeCompare(b.elemento))) {
-    const seq = SECUENCIAS[g.categoria];
-    if (!seq) continue;
-    const nombresP = g.acts.map(a => a.partida.nombre.toUpperCase());
-    const hechos = seq.map(paso => {
-      const clave = { 'Habilitado de Acero':'ACERO','Armado de Acero':'ACERO','Encofrado':'ENCOFRADO',
-        'Vaciado de Concreto':'CONCRETO','Desencofrado':'ENCOFRADO','Curado':'CURADO',
-        'Excavacion':'EXCAVAC','Solado':'SOLADO','Relleno':'RELLENO','Colocacion Ladrillo':'LADRILLO'
-      }[paso] || paso.toUpperCase();
-      return nombresP.some(n => n.includes(clave));
-    });
-    const totalH = hechos.filter(Boolean).length;
-    const pct = Math.round(totalH / seq.length * 100);
-    const pasosHechos = seq.filter((_,i) => hechos[i]).join(', ') || '(ninguno)';
-    const proxIdx = hechos.findIndex(h => !h);
-    const prox = proxIdx >= 0 ? seq[proxIdx] : 'COMPLETADO';
-
-    const ejesSet = new Set();
-    g.acts.forEach(a => { if (a.ejes && a.ejes !== '—') ejesSet.add(a.ejes); });
-
-    avRows.push(new TableRow({ children: [
-      dataCell(g.elemento, 16, { bold: true, center: true }),
-      dataCell(g.categoria.replace(/_/g,' '), 14),
-      dataCell(g.nivel, 10, { center: true }),
-      dataCell([...ejesSet].sort().join(', '), 16),
-      new TableCell({
-        width: { size: 24, type: WidthType.PERCENTAGE }, borders: CELL_BORDERS,
-        children: [
-          new Paragraph({ children: [new TextRun({ text: `${totalH}/${seq.length} pasos (${pct}%)`, bold: true, size: 17, font: "Calibri" })] }),
-          new Paragraph({ children: [new TextRun({ text: pasosHechos, size: 15, italics: true, color: "555555", font: "Calibri" })] })
-        ]
-      }),
-      dataCell(prox, 20, { bold: pct===100, color: pct===100 ? '2E7D32' : 'C62828' })
-    ]}));
-  }
-
-  children.push(new Table({ width: { size: 100, type: WidthType.PERCENTAGE }, rows: avRows }));
-
-  // ── Partidas nuevas ──
-  const actsNuevas = actsRango.filter(a => a.partida.nueva === true);
-  if (actsNuevas.length) {
-    children.push(new Paragraph({ children: [], pageBreakBefore: true }));
-    children.push(new Paragraph({
-      spacing: { after: 60 },
-      children: [new TextRun({ text: "ACTIVIDADES CON PARTIDAS NUEVAS (PENDIENTES DE APROBACIÓN)", bold: true, size: 26, color: "C62828", font: "Calibri" })]
-    }));
-    children.push(new Paragraph({
-      spacing: { after: 120 },
-      children: [new TextRun({ text: "Nota: Estas partidas corresponden al Expediente Adicional y aún no están aprobadas para valorización.", size: 17, italics: true, color: "888888", font: "Calibri" })]
-    }));
-
-    const nvHeader = new TableRow({ children: [
-      new TableCell({ width:{size:4,type:WidthType.PERCENTAGE}, shading:{type:ShadingType.SOLID,color:"C62828"}, borders:CELL_BORDERS,
-        children:[new Paragraph({alignment:AlignmentType.CENTER,children:[new TextRun({text:"N°",bold:true,color:"FFFFFF",size:16,font:"Calibri"})]})] }),
-      new TableCell({ width:{size:12,type:WidthType.PERCENTAGE}, shading:{type:ShadingType.SOLID,color:"C62828"}, borders:CELL_BORDERS,
-        children:[new Paragraph({alignment:AlignmentType.CENTER,children:[new TextRun({text:"Fecha",bold:true,color:"FFFFFF",size:16,font:"Calibri"})]})] }),
-      new TableCell({ width:{size:22,type:WidthType.PERCENTAGE}, shading:{type:ShadingType.SOLID,color:"C62828"}, borders:CELL_BORDERS,
-        children:[new Paragraph({alignment:AlignmentType.CENTER,children:[new TextRun({text:"Descripción",bold:true,color:"FFFFFF",size:16,font:"Calibri"})]})] }),
-      new TableCell({ width:{size:12,type:WidthType.PERCENTAGE}, shading:{type:ShadingType.SOLID,color:"C62828"}, borders:CELL_BORDERS,
-        children:[new Paragraph({alignment:AlignmentType.CENTER,children:[new TextRun({text:"Código",bold:true,color:"FFFFFF",size:16,font:"Calibri"})]})] }),
-      new TableCell({ width:{size:28,type:WidthType.PERCENTAGE}, shading:{type:ShadingType.SOLID,color:"C62828"}, borders:CELL_BORDERS,
-        children:[new Paragraph({alignment:AlignmentType.CENTER,children:[new TextRun({text:"Partida",bold:true,color:"FFFFFF",size:16,font:"Calibri"})]})] }),
-      new TableCell({ width:{size:12,type:WidthType.PERCENTAGE}, shading:{type:ShadingType.SOLID,color:"C62828"}, borders:CELL_BORDERS,
-        children:[new Paragraph({alignment:AlignmentType.CENTER,children:[new TextRun({text:"Ejes",bold:true,color:"FFFFFF",size:16,font:"Calibri"})]})] }),
-      new TableCell({ width:{size:10,type:WidthType.PERCENTAGE}, shading:{type:ShadingType.SOLID,color:"C62828"}, borders:CELL_BORDERS,
-        children:[new Paragraph({alignment:AlignmentType.CENTER,children:[new TextRun({text:"% Avance",bold:true,color:"FFFFFF",size:16,font:"Calibri"})]})] }),
-    ]});
-
-    const nvRows = actsNuevas.sort((a,b) => a.fecha.localeCompare(b.fecha)).map((act, idx) => {
-      const bg = idx % 2 === 1 ? "FFF3F3" : undefined;
-      return new TableRow({ children: [
-        dataCell(String(idx+1), 4, {center:true, bg}),
-        dataCell(act.fecha, 12, {bg}),
-        dataCell(act.descripcion, 22, {bg}),
-        dataCell(act.partida.codigo, 12, {center:true, mono:true, bg}),
-        dataCell(act.partida.nombre, 28, {bg}),
-        dataCell(act.ejes && act.ejes !== '—' ? act.ejes : '', 12, {center:true, bg}),
-        dataCell(act.pct != null ? act.pct+'%' : '', 10, {center:true, bold:true, bg})
-      ]});
-    });
-
-    children.push(new Table({ width: { size: 100, type: WidthType.PERCENTAGE }, rows: [nvHeader, ...nvRows] }));
-  }
-
-  // ── Firmas ──
-  children.push(new Paragraph({ spacing: { before: 600 }, children: [] }));
-  children.push(new Table({
-    width: { size: 100, type: WidthType.PERCENTAGE },
-    rows: [new TableRow({ children: [
-      new TableCell({ width:{size:50,type:WidthType.PERCENTAGE}, borders:{top:{style:BorderStyle.NONE},bottom:{style:BorderStyle.NONE},left:{style:BorderStyle.NONE},right:{style:BorderStyle.NONE}},
-        children: [
-          new Paragraph({alignment:AlignmentType.CENTER, children:[new TextRun({text:"_".repeat(35), size:20, font:"Calibri"})]}),
-          new Paragraph({alignment:AlignmentType.CENTER, children:[new TextRun({text:residente, bold:true, size:20, font:"Calibri"})]}),
-          new Paragraph({alignment:AlignmentType.CENTER, children:[new TextRun({text:"Residente de Obra", size:18, font:"Calibri"})]})
-        ]
-      }),
-      new TableCell({ width:{size:50,type:WidthType.PERCENTAGE}, borders:{top:{style:BorderStyle.NONE},bottom:{style:BorderStyle.NONE},left:{style:BorderStyle.NONE},right:{style:BorderStyle.NONE}},
-        children: [
-          new Paragraph({alignment:AlignmentType.CENTER, children:[new TextRun({text:"_".repeat(35), size:20, font:"Calibri"})]}),
-          new Paragraph({alignment:AlignmentType.CENTER, children:[new TextRun({text:inspector, bold:true, size:20, font:"Calibri"})]}),
-          new Paragraph({alignment:AlignmentType.CENTER, children:[new TextRun({text:"Inspector / Supervisor", size:18, font:"Calibri"})]})
-        ]
-      })
-    ]})]
-  }));
-
-  // ── Generar y descargar ──
-  const doc = new Document({
-    sections: [{
-      properties: {
-        page: {
-          size: { orientation: PageOrientation.LANDSCAPE },
-          margin: { top: convertInchesToTwip(0.6), bottom: convertInchesToTwip(0.6), left: convertInchesToTwip(0.6), right: convertInchesToTwip(0.6) }
-        }
-      },
-      children
-    }]
-  });
-
-  const blob = await Packer.toBlob(doc);
-  saveAs(blob, `Cuaderno_Obra_${desde}_al_${hasta}.docx`);
-}
 
 // ================================================================
 // FORZAR MAYÚSCULAS EN TODOS LOS INPUTS DE TEXTO

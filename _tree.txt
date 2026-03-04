@@ -1,0 +1,11 @@
+.gitignore
+CNAME
+README.md
+_check_fb.py
+actividades_exportadas.json
+docs
+generar_reporte.py
+index.html
+partidas_data.js
+servidor.py
+src

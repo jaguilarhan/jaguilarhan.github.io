@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<title>Crear Usuario Firebase Auth</title>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<style>
+  body { font-family: 'Segoe UI', sans-serif; background: #1a237e; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+  .box { background: #fff; color: #333; padding: 40px; border-radius: 16px; max-width: 500px; width: 100%; box-shadow: 0 10px 40px rgba(0,0,0,.4); }
+  h1 { color: #1a237e; font-size: 1.3rem; margin-bottom: 8px; }
+  p { font-size: .85rem; color: #666; margin-bottom: 20px; }
+  .info { background: #e3f2fd; padding: 12px; border-radius: 8px; font-size: .85rem; margin-bottom: 16px; border-left: 4px solid #1565c0; }
+  .info strong { color: #1a237e; }
+  button { padding: 12px 24px; background: #1a237e; color: #fff; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer; font-weight: 700; width: 100%; }
+  button:hover { background: #283593; }
+  button:disabled { background: #9fa8da; cursor: not-allowed; }
+  #resultado { margin-top: 20px; padding: 14px; border-radius: 8px; font-size: .85rem; display: none; }
+  .ok { background: #e8f5e9; border-left: 4px solid #2e7d32; color: #1b5e20; }
+  .err { background: #ffebee; border-left: 4px solid #c62828; color: #b71c1c; }
+</style>
+</head>
+<body>
+<div class="box">
+  <h1>🔧 Crear Usuario en Firebase Auth</h1>
+  <p>Este script crea el usuario necesario para el login de la app Control de Obra.</p>
+  <div class="info">
+    <strong>Email:</strong> laboratorio@workea.me<br/>
+    <strong>Contraseña:</strong> torata
+  </div>
+  <p style="color:#c62828;font-size:.78rem;font-weight:600">⚠️ IMPORTANTE: Antes de usar este script, debes habilitar "Email/Password" en Firebase Console → Authentication → Sign-in method</p>
+  <button id="btn-crear" onclick="crearUsuario()">🚀 Crear Usuario</button>
+  <div id="resultado"></div>
+</div>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyC20KbwElcjYmTauZXKha5k6h1_wHwQr24",
+    authDomain: "proyect3082.firebaseapp.com",
+    databaseURL: "https://proyect3082-default-rtdb.firebaseio.com",
+    projectId: "proyect3082",
+    storageBucket: "proyect3082.firebasestorage.app",
+    messagingSenderId: "788964461190",
+    appId: "1:788964461190:web:cc40ec843d14f6f6769f07"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+
+  function crearUsuario() {
+    const btn = document.getElementById('btn-crear');
+    const res = document.getElementById('resultado');
+    btn.disabled = true;
+    btn.textContent = '⏳ Creando usuario...';
+    res.style.display = 'none';
+
+    auth.createUserWithEmailAndPassword('laboratorio@workea.me', 'torata')
+      .then((userCredential) => {
+        res.className = 'ok';
+        res.innerHTML = '<strong>✅ ¡Usuario creado exitosamente!</strong><br/><br/>' +
+          'Email: laboratorio@workea.me<br/>' +
+          'UID: ' + userCredential.user.uid + '<br/><br/>' +
+          'Ahora puedes ir a <strong>workea.me</strong> y hacer login con:<br/>' +
+          'Usuario: <strong>laboratorio</strong><br/>' +
+          'Contraseña: <strong>torata</strong>';
+        res.style.display = 'block';
+        btn.textContent = '✅ Usuario Creado';
+
+        // Cerrar sesión para no quedar logueado aquí
+        auth.signOut();
+      })
+      .catch((error) => {
+        res.className = 'err';
+        let msg = error.message;
+        if (error.code === 'auth/email-already-in-use') {
+          msg = 'El usuario laboratorio@workea.me YA EXISTE. ¡Puedes hacer login directamente en workea.me!';
+          res.className = 'ok';
+        } else if (error.code === 'auth/operation-not-allowed') {
+          msg = 'ERROR: El método Email/Password NO está habilitado en Firebase.<br/><br/>' +
+            'Ve a: <strong>Firebase Console → Authentication → Sign-in method → Email/Password → Habilitar</strong>';
+        } else if (error.code === 'auth/weak-password') {
+          msg = 'La contraseña es muy débil (mínimo 6 caracteres).';
+        }
+        res.innerHTML = '<strong>' + (error.code === 'auth/email-already-in-use' ? '✅' : '❌') + '</strong> ' + msg;
+        res.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = '🚀 Intentar de nuevo';
+      });
+  }
+</script>
+</body>
+</html>
+
