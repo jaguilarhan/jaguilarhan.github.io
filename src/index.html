@@ -2137,11 +2137,7 @@ document.getElementById('av-filtro-estado').addEventListener('change', renderAva
 // ================================================================
 
 document.getElementById('btn-reporte-word').addEventListener('click', () => {
-  const lunes = getLunesDeSemana(semanaOffset);
-  const domingo = addDias(lunes, 6);
-  const desde = fechaKey(lunes);
-  const hasta = fechaKey(domingo);
-  window.open('reporte.html?desde=' + desde + '&hasta=' + hasta, '_blank');
+  window.open('reporte.html', '_blank');
 });
 
 // ================================================================
