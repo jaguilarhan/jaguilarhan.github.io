@@ -1,8 +1,8 @@
 ﻿git : To https://github.com/jaguilarhan/jaguilarhan.github.io.git
-En línea: 1 Carácter: 171
-+ ... derno de Obra con parrafos narrativos por dia"; git push 2>&1 | Out-F ...
+En línea: 1 Carácter: 370
++ ... ados - Aviso al salir con cambios sin guardar"; git push 2>&1 | Out-F ...
 +                                                     ~~~~~~~~~~~~~
     + CategoryInfo          : NotSpecified: (To https://gith...n.github.io.git:String) [], RemoteException
     + FullyQualifiedErrorId : NativeCommandError
  
-   e01e26e..20f8e2f  main -> main
+   20f8e2f..6c8f5e2  main -> main
