@@ -1,0 +1,8 @@
+﻿git : To https://github.com/jaguilarhan/jaguilarhan.github.io.git
+En línea: 1 Carácter: 203
++ ... iz, src, docs) y agregar reporte.html en raiz"; git push 2>&1 | Out-F ...
++                                                     ~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (To https://gith...n.github.io.git:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+   c225036..55264ad  main -> main
