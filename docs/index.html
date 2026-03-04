@@ -348,7 +348,6 @@
   @media (max-width: 1100px) { .grid-semana { grid-template-columns: repeat(4,1fr); } }
 
   /* ===== RESPONSIVE MÓVIL ===== */
-  /* Navegación por día en móvil */
   .mobile-day-nav { display: none; }
 
   @media (max-width: 768px) {
@@ -361,9 +360,7 @@
     }
     header > div:first-child { width: 100%; }
     header h1 { font-size: .95rem; font-weight: 700; text-align: center; }
-    /* Ocultar descripción del proyecto */
     .proyecto { display: none !important; }
-    /* Botones en línea debajo del título */
     .header-btns {
       width: 100%; display: flex; flex-wrap: nowrap; gap: 4px;
       justify-content: center; margin-top: 6px;
@@ -372,68 +369,61 @@
     .header-btns .btn-logout { font-size: .66rem; padding: 4px 8px; }
     #fb-status { display: none !important; }
 
-    /* PANEL IZQUIERDO: colapsar como acordeón */
+    /* PANEL IZQUIERDO: colapsar como acordeón sin espacio vacío */
     .panel-left {
-      border-right: none; border-bottom: 1px solid #ddd;
+      border-right: none; border-bottom: none;
       max-height: none; overflow: visible;
     }
-    .panel-left h2 { cursor: pointer; position: relative; }
+    .panel-left h2 {
+      cursor: pointer; position: relative;
+      margin: 0; padding: 10px 14px 8px; font-size: .82rem;
+    }
     .panel-left h2::after { content: '▼'; position: absolute; right: 14px; font-size: .7rem; }
+    .panel-left.collapsed h2::after { content: '▶'; }
+    .panel-left.collapsed .form-registro { display: none !important; }
+    .panel-left.collapsed { border-bottom: 1px solid #ddd; }
     .form-registro { padding: 10px 12px; }
-    /* Ocultar leyenda de colores en móvil */
     .leyenda { display: none !important; }
 
-    /* TABS */
-    .tabs { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .tab-btn { padding: 8px 12px; font-size: .75rem; white-space: nowrap; flex-shrink: 0; }
+    /* TABS: ocultar en móvil, solo vista semanal */
+    .tabs { display: none !important; }
 
-    /* NAV SEMANA: solo mostrar rango de fechas */
+    /* NAV SEMANA */
     .nav-semana {
-      padding: 6px 10px; gap: 4px; flex-wrap: wrap; justify-content: center;
+      padding: 6px 8px; gap: 4px; flex-wrap: wrap; justify-content: center;
     }
-    /* Ocultar titulo "Semana XX - YYYY" */
     .nav-semana h2 { display: none !important; }
-    /* Mostrar solo el rango de fechas centrado */
     .semana-info {
-      font-size: .8rem; font-weight: 700; color: #1a237e;
+      font-size: .78rem; font-weight: 700; color: #1a237e;
       flex: 1 1 100%; text-align: center; order: -1;
     }
     .btn-nav { padding: 4px 8px; font-size: .72rem; }
     .btn-hoy { padding: 4px 8px; font-size: .72rem; }
-    .multi-select-btn { font-size: .7rem; padding: 4px 8px; }
-    .filtro-cat { font-size: .7rem; padding: 3px 6px; }
-    #filtro-desc, #filtro-nivel { max-width: 120px; font-size: .7rem; }
-    #btn-align, #btn-revision { font-size: .65rem; padding: 3px 6px; }
+    .multi-select-btn { font-size: .68rem; padding: 3px 7px; }
+    .filtro-cat { font-size: .68rem; padding: 3px 6px; }
+    #filtro-desc, #filtro-nivel { max-width: 110px; font-size: .68rem; }
+    #btn-align, #btn-revision { font-size: .62rem; padding: 3px 5px; }
     #btn-prev, #btn-next { order: 1; }
 
-    /* GRID SEMANAL: un solo día visible */
-    .grid-semana { grid-template-columns: 1fr !important; gap: 6px; padding: 8px; }
-    .col-dia { min-height: 80px; display: none; }
-    .col-dia.mobile-visible { display: flex; }
+    /* GRID SEMANAL: scroll horizontal, columnas fijas de 280px */
+    .grid-semana-wrapper {
+      overflow-x: auto; overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+    }
+    .grid-semana {
+      grid-template-columns: repeat(7, 280px) !important;
+      gap: 6px; padding: 8px;
+      width: max-content;
+    }
+    .col-dia {
+      min-height: 100px; display: flex;
+      scroll-snap-align: start;
+    }
     .col-dia-header { padding: 6px 8px; }
-    .col-dia-header .dia-nombre { font-size: .9rem; }
-    .col-dia-header .dia-fecha { font-size: .72rem; }
+    .col-dia-header .dia-nombre { font-size: .85rem; }
+    .col-dia-header .dia-fecha { font-size: .7rem; }
     .actividades-list { padding: 4px; }
-
-    /* Navegación por día (flechas) */
-    .mobile-day-nav {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 6px 12px; background: #e8eaf6; border-bottom: 1px solid #c5cae9;
-    }
-    .mobile-day-nav button {
-      background: #1a237e; color: #fff; border: none; border-radius: 50%;
-      width: 36px; height: 36px; font-size: 1.1rem; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: background .2s;
-    }
-    .mobile-day-nav button:hover { background: #283593; }
-    .mobile-day-nav button:disabled { background: #9fa8da; cursor: not-allowed; }
-    .mobile-day-nav .day-indicator {
-      font-size: .82rem; font-weight: 700; color: #1a237e; text-align: center;
-    }
-    .mobile-day-nav .day-indicator small {
-      display: block; font-size: .68rem; font-weight: 400; color: #666;
-    }
 
     /* TARJETAS */
     .actividad-card { padding: 8px 10px; font-size: .75rem; }
@@ -443,10 +433,10 @@
     .act-elem { font-size: .68rem; }
 
     /* RESUMEN BAR: solo mostrar semana */
-    .resumen-bar { padding: 6px 10px; gap: 10px; font-size: .72rem; justify-content: center; }
+    .resumen-bar { padding: 5px 10px; gap: 8px; font-size: .7rem; justify-content: center; }
     .resumen-bar span { display: none; }
     .resumen-bar span:first-child { display: inline; }
-    .resumen-bar strong { font-size: .8rem; }
+    .resumen-bar strong { font-size: .78rem; }
 
     /* MODALES */
     .modal { width: 96%; padding: 16px; max-height: 85vh; overflow-y: auto; }
@@ -467,7 +457,6 @@
     .avance-table { font-size: .7rem; display: block; overflow-x: auto; }
     .avance-table th, .avance-table td { padding: 6px 6px; white-space: nowrap; }
 
-    /* TAB TABIQUERÍA */
     #tab-tabiqueria { padding: 10px; }
   }
 
@@ -477,8 +466,8 @@
     .header-btns .btn-word { font-size: .6rem; padding: 3px 6px; gap: 2px; }
     .header-btns .btn-logout { font-size: .6rem; padding: 3px 6px; }
 
-    .semana-info { font-size: .76rem; }
-    .btn-nav { font-size: .66rem; padding: 3px 6px; }
+    .semana-info { font-size: .74rem; }
+    .btn-nav { font-size: .64rem; padding: 3px 6px; }
     .tab-btn { padding: 7px 10px; font-size: .7rem; }
 
     .actividad-card { padding: 6px 8px; }
@@ -490,8 +479,7 @@
 
     .modal { width: 98%; padding: 14px; }
 
-    .mobile-day-nav button { width: 32px; height: 32px; font-size: 1rem; }
-    .mobile-day-nav .day-indicator { font-size: .78rem; }
+    .grid-semana { grid-template-columns: repeat(7, 260px) !important; }
   }
 </style>
 </head>
@@ -645,14 +633,6 @@
         <button class="btn-nav" id="btn-align" title="Modo alineación: alinea actividades relacionadas entre días">⬍ Alinear</button>
         <button class="btn-nav" id="btn-revision" title="Modo revisión: compacta actividades sin huecos, agrupadas por elemento+ejes">🔍 Revisión</button>
         <button class="btn-nav" id="btn-next">Siguiente ▶</button>
-      </div>
-      <div class="mobile-day-nav" id="mobile-day-nav">
-        <button id="btn-day-prev">◀</button>
-        <div class="day-indicator" id="mobile-day-label">
-          Lunes
-          <small>02-mar.</small>
-        </div>
-        <button id="btn-day-next">▶</button>
       </div>
       <div class="grid-semana-wrapper" id="grid-semana-wrapper">
         <div class="grid-semana" id="grid-semana"></div>
@@ -2636,21 +2616,20 @@ renderAvance();
 // RESPONSIVE: Colapsar/expandir formulario en móvil
 // ================================================================
 (function() {
+  const panelLeft = document.querySelector('.panel-left');
   const panelH2 = document.querySelector('.panel-left h2');
-  if (!panelH2) return;
+  if (!panelH2 || !panelLeft) return;
+
   panelH2.addEventListener('click', function() {
     if (window.innerWidth > 768) return;
-    const form = document.querySelector('.form-registro');
-    const isHidden = form.style.display === 'none';
-    form.style.display = isHidden ? '' : 'none';
+    panelLeft.classList.toggle('collapsed');
   });
-  // Colapsar por defecto en móvil
+
   function checkMobile() {
-    const form = document.querySelector('.form-registro');
     if (window.innerWidth <= 768) {
-      form.style.display = 'none';
+      panelLeft.classList.add('collapsed');
     } else {
-      form.style.display = '';
+      panelLeft.classList.remove('collapsed');
     }
   }
   checkMobile();
@@ -2658,83 +2637,34 @@ renderAvance();
 })();
 
 // ================================================================
-// RESPONSIVE: Navegación por día en móvil (flechas)
+// RESPONSIVE: Scroll horizontal al día actual en móvil
 // ================================================================
-let mobileDayIndex = 0; // 0=Lunes ... 6=Domingo
-const DIAS_COMPLETOS = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
-
 function isMobile() { return window.innerWidth <= 768; }
 
-function updateMobileDayView() {
-  if (!isMobile()) {
-    // En desktop: mostrar todos los días
-    document.querySelectorAll('#grid-semana .col-dia').forEach(col => {
-      col.classList.remove('mobile-visible');
-      col.style.display = '';
-    });
-    return;
-  }
-  const cols = document.querySelectorAll('#grid-semana .col-dia');
-  if (cols.length === 0) return;
-
-  // Asegurarse que el índice está en rango
-  if (mobileDayIndex < 0) mobileDayIndex = 0;
-  if (mobileDayIndex >= cols.length) mobileDayIndex = cols.length - 1;
-
-  cols.forEach((col, idx) => {
-    if (idx === mobileDayIndex) {
-      col.classList.add('mobile-visible');
-    } else {
-      col.classList.remove('mobile-visible');
+function scrollToToday() {
+  if (!isMobile()) return;
+  const wrapper = document.getElementById('grid-semana-wrapper');
+  if (!wrapper) return;
+  // Buscar la columna con clase 'hoy' en el header
+  const hoyHeader = wrapper.querySelector('.col-dia-header.hoy');
+  if (hoyHeader) {
+    const col = hoyHeader.parentElement;
+    if (col) {
+      setTimeout(() => {
+        col.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+      }, 100);
     }
-  });
-
-  // Actualizar label
-  const label = document.getElementById('mobile-day-label');
-  if (label && cols[mobileDayIndex]) {
-    const nombre = cols[mobileDayIndex].querySelector('.dia-nombre');
-    const fecha = cols[mobileDayIndex].querySelector('.dia-fecha');
-    label.innerHTML = (nombre ? nombre.textContent : DIAS_COMPLETOS[mobileDayIndex]) +
-      '<small>' + (fecha ? fecha.textContent : '') + '</small>';
   }
-
-  // Habilitar/deshabilitar botones
-  const btnPrev = document.getElementById('btn-day-prev');
-  const btnNext = document.getElementById('btn-day-next');
-  if (btnPrev) btnPrev.disabled = mobileDayIndex <= 0;
-  if (btnNext) btnNext.disabled = mobileDayIndex >= cols.length - 1;
 }
 
-document.getElementById('btn-day-prev').addEventListener('click', () => {
-  mobileDayIndex--;
-  updateMobileDayView();
-});
-document.getElementById('btn-day-next').addEventListener('click', () => {
-  mobileDayIndex++;
-  updateMobileDayView();
-});
-
-// Inicializar al día actual al cargar
-function setMobileDayToToday() {
-  const hoy = new Date();
-  const diaHoy = hoy.getDay(); // 0=Dom, 1=Lun...
-  mobileDayIndex = diaHoy === 0 ? 6 : diaHoy - 1;
-}
-setMobileDayToToday();
-
-// Hook: después de cada renderGrid, actualizar la vista móvil
+// Hook renderGrid para scroll al día actual
 const _origRenderGrid = renderGrid;
 renderGrid = function() {
   _origRenderGrid.apply(this, arguments);
   if (isMobile()) {
-    updateMobileDayView();
+    scrollToToday();
   }
 };
-
-// Al redimensionar, actualizar
-window.addEventListener('resize', () => {
-  updateMobileDayView();
-});
 </script>
 <div class="clipboard-indicator" id="clipboard-indicator">📋 Actividad copiada — Ctrl+V para pegar</div>
 </body>

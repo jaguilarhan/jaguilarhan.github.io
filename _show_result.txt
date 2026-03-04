@@ -1,0 +1,8 @@
+﻿commit a984dd9e2cb3e64ef79cdb7bbc4949338a2050d7
+Author: Jose Alonso <josealonso@obra.com>
+Date:   Wed Mar 4 16:19:32 2026 -0500
+
+    v2026.03.04.01 - Sync responsive a todos los index.html
+
+ index.html | 264 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 261 insertions(+), 3 deletions(-)

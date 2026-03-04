@@ -1,0 +1,5 @@
+﻿d86ebf1 sync responsive movil
+a984dd9 v2026.03.04.01 - Sync responsive a todos los index.html
+eed2a61 v2026.03.04.01 - Responsive movil - force cache bust
+b8954bf Responsive m├│vil mejorado: - Header: titulo full width, ocultar proyecto y fb-status - Botones (Salir, Res. Actividades, Cuaderno) en l├¡nea debajo del t├¡tulo - Ocultar leyenda de colores en m├│vil - Navegaci├│n por d├¡a con flechas (un d├¡a a la vez) - Solo mostrar rango de semana, ocultar t├¡tulo Semana XX - Resumen bar: solo mostrar Semana, ocultar Total/En curso
+2e408b0 Responsive: mejora visualizaci├│n m├│vil del control de actividades - Grid semanal 1 columna en m├│vil - Header y botones adaptados - Formulario colapsable en m├│vil - Nav semana responsive con wrap - Tabs scrollable horizontal - Modales y filtros adaptados - Breakpoint 480px para pantallas peque├▒as
