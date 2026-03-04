@@ -244,8 +244,7 @@ function renderDocumento(){
 
   // ── PÁGINA 1: Portada + Actividades ──
   h+='<div class="word-page">';
-  h+='<div class="doc-title">CUADERNO DE OBRA</div>';
-  h+='<div class="doc-subtitle">CONTROL DE ACTIVIDADES DIARIAS</div>';
+  h+='<div class="doc-title">CONTROL DE ACTIVIDADES DIARIAS</div>';
   h+='<div class="doc-proyecto">MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS</div>';
   h+='<div class="doc-ubicacion">LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA - PROVINCIA MARISCAL NIETO - MOQUEGUA</div>';
 
@@ -270,39 +269,6 @@ function renderDocumento(){
   }
   h+='</div>';
 
-  // ── PÁGINA 2: Resumen avance ──
-  const grs={};
-  actividades.forEach(a=>{const k=`${a.partida.categoria}||${a.elemento}||${a.nivel}`;if(!grs[k])grs[k]={cat:a.partida.categoria,elem:a.elemento,nivel:a.nivel,acts:[]};grs[k].acts.push(a);});
-  const gList=Object.values(grs).filter(g=>SECUENCIAS[g.cat]).sort((a,b)=>a.elem.localeCompare(b.elem));
-
-  if(gList.length){
-    h+='<div class="word-page">';
-    h+='<div class="section-title">RESUMEN DE AVANCE POR ELEMENTO ESTRUCTURAL</div>';
-    h+='<table class="avance-table"><thead><tr><th>Elemento</th><th>Categoría</th><th>Nivel</th><th>Ejes</th><th>Pasos Completados</th><th>Próximo Paso</th></tr></thead><tbody>';
-    gList.forEach(g=>{
-      const seq=SECUENCIAS[g.cat], nP=g.acts.map(a=>a.partida.nombre.toUpperCase());
-      const hch=seq.map(p=>nP.some(n=>n.includes(p.pk)));
-      const tH=hch.filter(Boolean).length, pct=Math.round(tH/seq.length*100);
-      const pH=seq.filter((_,i)=>hch[i]).map(p=>p.nombre).join(', ')||'(ninguno)';
-      const pi=hch.findIndex(x=>!x), prox=pi>=0?seq[pi].nombre:'COMPLETADO';
-      const ej=new Set();g.acts.forEach(a=>{if(a.ejes&&a.ejes!=='—')ej.add(a.ejes);});
-      h+=`<tr><td style="font-weight:700;text-align:center">${esc(g.elem)}</td><td>${g.cat.replace(/_/g,' ')}</td><td style="text-align:center">${esc(g.nivel)}</td><td>${[...ej].sort().join(', ')}</td><td><strong>${tH}/${seq.length} (${pct}%)</strong><br><span class="avance-pasos">${esc(pH)}</span></td><td class="${pct===100?'pct-ok':'pct-pend'}">${esc(prox)}</td></tr>`;
-    });
-    h+='</tbody></table></div>';
-  }
-
-  // ── PÁGINA 3: Partidas nuevas ──
-  const nv=acts.filter(a=>a.partida.nueva===true);
-  if(nv.length){
-    h+='<div class="word-page">';
-    h+='<div class="section-title-red">ACTIVIDADES CON PARTIDAS NUEVAS (PENDIENTES DE APROBACIÓN)</div>';
-    h+='<div class="nota-ital">Nota: Estas partidas corresponden al Expediente Adicional y aún no están aprobadas para valorización.</div>';
-    h+='<table class="nuevas-table"><thead><tr><th>N°</th><th>Fecha</th><th>Descripción</th><th>Código</th><th>Partida</th><th>Ejes</th><th>% Avance</th></tr></thead><tbody>';
-    nv.sort((a,b)=>a.fecha.localeCompare(b.fecha)).forEach((a,i)=>{
-      h+=`<tr><td style="text-align:center">${i+1}</td><td>${esc(a.fecha)}</td><td>${esc(a.descripcion)}</td><td style="text-align:center;font-family:monospace">${esc(a.partida.codigo)}</td><td>${esc(a.partida.nombre)}</td><td style="text-align:center">${a.ejes&&a.ejes!=='—'?esc(a.ejes):''}</td><td style="text-align:center;font-weight:700">${a.pct!=null?a.pct+'%':''}</td></tr>`;
-    });
-    h+='</tbody></table></div>';
-  }
 
   // ── Firmas ──
   h+='<div class="word-page" style="display:flex;flex-direction:column;justify-content:flex-end">';
@@ -344,8 +310,7 @@ async function generarWordJS(desde,hasta,residente,inspector,actsRango){
   const dC=(t,w,o={})=>new TableCell({width:{size:w,type:WidthType.PERCENTAGE},shading:o.bg?{type:ShadingType.SOLID,color:o.bg}:undefined,borders:CB,verticalAlign:VerticalAlign.CENTER,children:[new Paragraph({alignment:o.center?AlignmentType.CENTER:AlignmentType.LEFT,children:[new TextRun({text:t||'',size:o.size||17,bold:o.bold||false,font:o.mono?"Courier New":"Calibri",color:o.color||"222222"})]})]});
 
   const ch=[];
-  ch.push(new Paragraph({alignment:AlignmentType.CENTER,spacing:{after:80},children:[new TextRun({text:"CUADERNO DE OBRA",bold:true,size:36,color:"1A237E",font:"Calibri"})]}));
-  ch.push(new Paragraph({alignment:AlignmentType.CENTER,spacing:{after:60},children:[new TextRun({text:"CONTROL DE ACTIVIDADES DIARIAS",bold:true,size:22,color:"283593",font:"Calibri"})]}));
+  ch.push(new Paragraph({alignment:AlignmentType.CENTER,spacing:{after:80},children:[new TextRun({text:"CONTROL DE ACTIVIDADES DIARIAS",bold:true,size:36,color:"1A237E",font:"Calibri"})]}));
   ch.push(new Paragraph({alignment:AlignmentType.CENTER,spacing:{after:40},children:[new TextRun({text:"MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS",size:18,color:"555555",font:"Calibri"})]}));
   ch.push(new Paragraph({alignment:AlignmentType.CENTER,spacing:{after:200},children:[new TextRun({text:"LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA - PROVINCIA MARISCAL NIETO - MOQUEGUA",size:18,color:"555555",font:"Calibri"})]}));
   ch.push(new Table({width:{size:100,type:WidthType.PERCENTAGE},rows:[
@@ -353,7 +318,6 @@ async function generarWordJS(desde,hasta,residente,inspector,actsRango){
     new TableRow({children:[dC("Período del reporte:",20,{bold:true}),new TableCell({width:{size:80,type:WidthType.PERCENTAGE},columnSpan:3,borders:CB,children:[new Paragraph({children:[new TextRun({text:`${fmtFecha(desde)}  al  ${fmtFecha(hasta)}`,size:17,font:"Calibri"})]})]})]})
   ]}));
   ch.push(new Paragraph({spacing:{after:200},children:[]}));
-
   const pf={};actsRango.forEach(a=>{pf[a.fecha]=pf[a.fecha]||[];pf[a.fecha].push(a);});
   for(const f of Object.keys(pf).sort()){
     const ad=pf[f];
@@ -364,34 +328,6 @@ async function generarWordJS(desde,hasta,residente,inspector,actsRango){
     ch.push(new Paragraph({spacing:{after:120},children:[]}));
   }
 
-  ch.push(new Paragraph({children:[],pageBreakBefore:true}));
-  ch.push(new Paragraph({spacing:{after:120},children:[new TextRun({text:"RESUMEN DE AVANCE POR ELEMENTO ESTRUCTURAL",bold:true,size:26,color:"1A237E",font:"Calibri"})]}));
-  const grs={};actividades.forEach(a=>{const k=`${a.partida.categoria}||${a.elemento}||${a.nivel}`;if(!grs[k])grs[k]={cat:a.partida.categoria,elem:a.elemento,nivel:a.nivel,acts:[]};grs[k].acts.push(a);});
-  const avR=[new TableRow({children:[hC("Elemento",16),hC("Categoría",14),hC("Nivel",10),hC("Ejes",16),hC("Pasos Completados",24),hC("Próximo Paso",20)]})];
-  Object.values(grs).sort((a,b)=>a.elem.localeCompare(b.elem)).forEach(g=>{
-    const seq=SECUENCIAS[g.cat];if(!seq)return;
-    const nP=g.acts.map(a=>a.partida.nombre.toUpperCase());
-    const hch=seq.map(p=>nP.some(n=>n.includes(p.pk)));
-    const tH=hch.filter(Boolean).length,pct=Math.round(tH/seq.length*100);
-    const pH=seq.filter((_,i)=>hch[i]).map(p=>p.nombre).join(', ')||'(ninguno)';
-    const pi=hch.findIndex(x=>!x),prox=pi>=0?seq[pi].nombre:'COMPLETADO';
-    const ej=new Set();g.acts.forEach(a=>{if(a.ejes&&a.ejes!=='—')ej.add(a.ejes);});
-    avR.push(new TableRow({children:[dC(g.elem,16,{bold:true,center:true}),dC(g.cat.replace(/_/g,' '),14),dC(g.nivel,10,{center:true}),dC([...ej].sort().join(', '),16),
-      new TableCell({width:{size:24,type:WidthType.PERCENTAGE},borders:CB,children:[new Paragraph({children:[new TextRun({text:`${tH}/${seq.length} pasos (${pct}%)`,bold:true,size:17,font:"Calibri"})]}),new Paragraph({children:[new TextRun({text:pH,size:15,italics:true,color:"555555",font:"Calibri"})]})]}),
-      dC(prox,20,{bold:pct===100,color:pct===100?'2E7D32':'C62828'})]}));
-  });
-  ch.push(new Table({width:{size:100,type:WidthType.PERCENTAGE},rows:avR}));
-
-  const nv=actsRango.filter(a=>a.partida.nueva===true);
-  if(nv.length){
-    ch.push(new Paragraph({children:[],pageBreakBefore:true}));
-    ch.push(new Paragraph({spacing:{after:60},children:[new TextRun({text:"ACTIVIDADES CON PARTIDAS NUEVAS (PENDIENTES DE APROBACIÓN)",bold:true,size:26,color:"C62828",font:"Calibri"})]}));
-    ch.push(new Paragraph({spacing:{after:120},children:[new TextRun({text:"Nota: Estas partidas corresponden al Expediente Adicional y aún no están aprobadas para valorización.",size:17,italics:true,color:"888888",font:"Calibri"})]}));
-    const nH=(t,w)=>new TableCell({width:{size:w,type:WidthType.PERCENTAGE},shading:{type:ShadingType.SOLID,color:"C62828"},borders:CB,children:[new Paragraph({alignment:AlignmentType.CENTER,children:[new TextRun({text:t,bold:true,color:"FFFFFF",size:16,font:"Calibri"})]})]});
-    const nR=[new TableRow({children:[nH("N°",4),nH("Fecha",12),nH("Descripción",22),nH("Código",12),nH("Partida",28),nH("Ejes",12),nH("% Avance",10)]})];
-    nv.sort((a,b)=>a.fecha.localeCompare(b.fecha)).forEach((a,i)=>{const bg=i%2===1?"FFF3F3":undefined;nR.push(new TableRow({children:[dC(String(i+1),4,{center:true,bg}),dC(a.fecha,12,{bg}),dC(a.descripcion,22,{bg}),dC(a.partida.codigo,12,{center:true,mono:true,bg}),dC(a.partida.nombre,28,{bg}),dC(a.ejes&&a.ejes!=='—'?a.ejes:'',12,{center:true,bg}),dC(a.pct!=null?a.pct+'%':'',10,{center:true,bold:true,bg})]}));});
-    ch.push(new Table({width:{size:100,type:WidthType.PERCENTAGE},rows:nR}));
-  }
 
   ch.push(new Paragraph({spacing:{before:600},children:[]}));
   const nb={style:BorderStyle.NONE},na={top:nb,bottom:nb,left:nb,right:nb};

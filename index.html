@@ -378,7 +378,8 @@
   <div class="header-btns">
     <span id="fb-status" style="font-size:.7rem;display:flex;align-items:center;gap:4px;opacity:.8" title="Estado Firebase">🔄 Conectando...</span>
     <button class="btn-logout" id="btn-logout" title="Cerrar sesión">🚪 Salir</button>
-    <button class="btn-word" id="btn-reporte-word">📄 Reporte Word</button>
+    <button class="btn-word" id="btn-reporte-word">📄 Res. Actividades</button>
+    <button class="btn-word" id="btn-cuaderno-obra" style="background:#1565c0">📋 Cuaderno de Obra</button>
   </div>
 </header>
 
@@ -2369,6 +2370,10 @@ document.getElementById('av-filtro-estado').addEventListener('change', renderAva
 
 document.getElementById('btn-reporte-word').addEventListener('click', () => {
   window.open('reporte.html', '_blank');
+});
+
+document.getElementById('btn-cuaderno-obra').addEventListener('click', () => {
+  window.open('cuaderno.html', '_blank');
 });
 
 // ================================================================

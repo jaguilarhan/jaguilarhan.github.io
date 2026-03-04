@@ -1,1 +1,6 @@
-﻿reporte_root=32291 reporte_docs=32291 index_docs=123124
+﻿reporte.html = 26026
+docs\reporte.html = 26026
+cuaderno.html = 19766
+docs\cuaderno.html = 19766
+docs\index.html = 123177
+

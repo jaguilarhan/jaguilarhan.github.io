@@ -1,8 +1,8 @@
 ﻿git : To https://github.com/jaguilarhan/jaguilarhan.github.io.git
-En línea: 1 Carácter: 158
-+ ...  actividades por defecto, fechas para filtrar"; git push 2>&1 | Out-F ...
+En línea: 1 Carácter: 165
++ ...  de fecha para mostrar TODO el rango completo"; git push 2>&1 | Out-F ...
 +                                                     ~~~~~~~~~~~~~
     + CategoryInfo          : NotSpecified: (To https://gith...n.github.io.git:String) [], RemoteException
     + FullyQualifiedErrorId : NativeCommandError
  
-   4ec3050..842f7cd  main -> main
+   842f7cd..e01e26e  main -> main
