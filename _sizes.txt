@@ -1,6 +1,1 @@
-﻿reporte.html = 26026
-docs\reporte.html = 26026
-cuaderno.html = 19766
-docs\cuaderno.html = 19766
-docs\index.html = 123177
-
+﻿root=22966 docs=22966

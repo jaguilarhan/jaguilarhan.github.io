@@ -27,6 +27,9 @@
       const v = snap.val(); return v != null ? v : defVal;
     }).catch(() => defVal);
   }
+  function fbSave(key, data) {
+    try { fbDB.ref(FB_ROOT + '/' + key).set(data); } catch(e) { console.warn('Firebase save error:', e); }
+  }
 </script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -163,6 +166,8 @@ function fmtFecha(fs){
 function esc(t){return(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
 let actividades=[];
+let parrafosEditados={}; // { actividadId: "texto editado" }
+let cambiosPendientes=false;
 
 // ================================================================
 // GENERAR PÁRRAFO NARRATIVO de una actividad
@@ -259,7 +264,15 @@ function renderDocumento(){
     h+='<div class="subtitulo-actividades">ACTIVIDADES</div>';
 
     actsDia.forEach(a=>{
-      h+=`<div class="parrafo-act">${esc(generarParrafo(a))}</div>`;
+      const textoAuto = generarParrafo(a);
+      const textoEditado = parrafosEditados[a.id];
+      const textoMostrar = textoEditado || textoAuto;
+      const esEditado = !!textoEditado;
+      const clsEdit = esEditado ? ' editado' : '';
+      const badge = esEditado
+        ? '<span class="edit-indicator edited">✏ editado</span>'
+        : '<span class="edit-indicator auto">⚡ auto</span>';
+      h+=`<div class="parrafo-act${clsEdit}" contenteditable="true" data-act-id="${a.id}" data-auto="${esc(textoAuto)}">${esc(textoMostrar)}${esEditado ? '<button class="btn-reset" title="Volver al texto automático" onclick="resetParrafo(this)">✕ reset</button>' : ''}</div>${badge}`;
     });
 
     h+='</div>'; // dia-section
@@ -332,9 +345,9 @@ async function generarCuadernoWord(desde,hasta,residente,inspector,actsRango){
     // Subtítulo ACTIVIDADES
     ch.push(new Paragraph({spacing:{after:80},children:[new TextRun({text:"ACTIVIDADES",bold:true,size:22,color:"0D47A1",font:"Calibri",underline:{}})]}));
 
-    // Párrafos narrativos
+    // Párrafos narrativos (usa editados si existen)
     actsDia.forEach(a=>{
-      const txt=generarParrafo(a);
+      const txt = parrafosEditados[a.id] || generarParrafo(a);
       ch.push(new Paragraph({
         spacing:{after:100},
         bullet:{level:0},
@@ -374,12 +387,80 @@ async function generarCuadernoWord(desde,hasta,residente,inspector,actsRango){
 }
 
 // ================================================================
+// EDICIÓN DE PÁRRAFOS
+// ================================================================
+
+// Detectar cambios en párrafos editables
+document.addEventListener('input', (e) => {
+  const el = e.target;
+  if (!el.classList.contains('parrafo-act') || !el.dataset.actId) return;
+  const id = el.dataset.actId;
+  const textoActual = el.innerText.trim();
+  const textoAuto = el.dataset.auto;
+
+  if (textoActual !== textoAuto) {
+    parrafosEditados[id] = textoActual;
+    el.classList.add('editado');
+  } else {
+    delete parrafosEditados[id];
+    el.classList.remove('editado');
+  }
+  cambiosPendientes = true;
+  document.getElementById('btn-guardar').classList.add('visible');
+});
+
+// Guardar ediciones en Firebase
+document.getElementById('btn-guardar').addEventListener('click', async () => {
+  const btn = document.getElementById('btn-guardar');
+  btn.textContent = '⏳ Guardando...';
+  btn.disabled = true;
+  try {
+    await fbSave('parrafos_editados', parrafosEditados);
+    cambiosPendientes = false;
+    btn.textContent = '✅ ¡Guardado!';
+    btn.classList.remove('visible');
+    setTimeout(() => { btn.disabled = false; btn.textContent = '💾 Guardar ediciones'; }, 2000);
+    renderDocumento(); // re-render para actualizar badges
+  } catch(e) {
+    alert('Error guardando: ' + e.message);
+    btn.textContent = '💾 Guardar ediciones';
+    btn.disabled = false;
+  }
+});
+
+// Reset un párrafo al texto automático
+function resetParrafo(btnEl) {
+  const parrafoEl = btnEl.closest('.parrafo-act');
+  if (!parrafoEl) return;
+  const id = parrafoEl.dataset.actId;
+  const textoAuto = parrafoEl.dataset.auto;
+  delete parrafosEditados[id];
+  cambiosPendientes = true;
+  document.getElementById('btn-guardar').classList.add('visible');
+  parrafoEl.innerText = textoAuto;
+  parrafoEl.classList.remove('editado');
+}
+
+// Advertir al salir con cambios pendientes
+window.addEventListener('beforeunload', (e) => {
+  if (cambiosPendientes) {
+    e.preventDefault();
+    e.returnValue = '';
+  }
+});
+
+// ================================================================
 // INIT
 // ================================================================
 (async function(){
   try{
     const fb=await fbLoad('actividades',null);
     if(fb&&Array.isArray(fb)) actividades=fb.filter(a=>a!=null);
+
+    // Cargar párrafos editados
+    const pe=await fbLoad('parrafos_editados',null);
+    if(pe && typeof pe === 'object') parrafosEditados = pe;
+
     document.getElementById('fb-status').textContent='🟢 '+actividades.length+' act.';
 
     // Rango completo
