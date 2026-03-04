@@ -418,9 +418,15 @@ async function generarWordJS(desde,hasta,residente,inspector,actsRango){
     const sel=document.getElementById('rep-cat');
     cats.forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c.replace(/_/g,' ');sel.appendChild(o);});
 
+    // Rango completo: desde la primera hasta la última actividad
+    const fechas=actividades.map(a=>a.fecha).filter(Boolean).sort();
+    const primeraFecha=fechas[0]||'';
+    const ultimaFecha=fechas[fechas.length-1]||'';
+
+    // URL params sobreescriben si se pasan
     const p=new URLSearchParams(window.location.search);
-    if(p.get('desde')) document.getElementById('rep-desde').value=p.get('desde');
-    if(p.get('hasta')) document.getElementById('rep-hasta').value=p.get('hasta');
+    document.getElementById('rep-desde').value=p.get('desde')||primeraFecha;
+    document.getElementById('rep-hasta').value=p.get('hasta')||ultimaFecha;
 
     document.getElementById('loading').style.display='none';
     renderDocumento();
