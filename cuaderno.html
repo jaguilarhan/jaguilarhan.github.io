@@ -205,11 +205,14 @@ function generarParrafo(a){
     else if(pct > 0) verbo = 'Se inició';
   }
 
+  // Formatear descripción: primera letra mayúscula, resto minúscula
+  const descFmt = desc.charAt(0).toUpperCase() + desc.slice(1).toLowerCase();
+
   // Construir oración
-  let txt = verbo + ' ' + desc.charAt(0).toLowerCase() + desc.slice(1);
+  let txt = verbo + ' el ' + descFmt;
 
   // Agregar elemento si existe
-  if(elem) txt += ' del ' + elem;
+  if(elem) txt += ' de las ' + elem;
 
   // Agregar nivel
   if(nivel) txt += ' en el ' + nivel;
