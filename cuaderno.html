@@ -119,19 +119,18 @@
     margin: 8px 0 4px; padding-left: 12px;
   }
 
-  .tabla-personal {
-    width: 100%; border-collapse: collapse; margin-bottom: 8px; margin-left: 12px;
-    max-width: calc(100% - 12px);
+  .lista-personal, .lista-equipos {
+    display: flex; flex-wrap: wrap; margin: 0 0 8px 12px; padding: 0; list-style: none;
   }
-  .tabla-personal td { padding: 3px 10px; border: 1px solid #ccc; font-size: 9pt; }
-  .tabla-personal .cant { width: 50px; text-align: center; font-weight: 700; background: #f0f4ff; }
-
-  .tabla-equipos {
-    width: 100%; border-collapse: collapse; margin-bottom: 8px; margin-left: 12px;
-    max-width: calc(100% - 12px);
+  .lista-personal li, .lista-equipos li {
+    width: 50%; font-size: 9.5pt; padding: 2px 6px; display: flex; align-items: baseline; gap: 4px;
   }
-  .tabla-equipos td { padding: 3px 10px; border: 1px solid #ccc; font-size: 9pt; }
-  .tabla-equipos .cant { width: 50px; text-align: center; font-weight: 700; background: #f0f4ff; }
+  .lista-personal li::before, .lista-equipos li::before {
+    content: '•'; font-weight: 700; color: #0d47a1;
+  }
+  .lista-personal .cant, .lista-equipos .cant {
+    font-weight: 700; min-width: 18px; text-align: right; margin-right: 2px;
+  }
 
   .subtitulo-actividades {
     color: #0d47a1; font-size: 11pt; font-weight: 700;
@@ -319,8 +318,21 @@ const ROLES_TECNICO = [
 const CATS_OBRERO = ['Capataz','Operarios','Oficiales','Oficiales Guardianes','Peones'];
 const EQUIPOS_DEFAULT = ['Vibradora Eléctrica','Mezcladora Eléctrica'];
 
+// Obtener día anterior en formato YYYY-MM-DD
+function diaAnterior(fecha){
+  const d=new Date(fecha+'T00:00:00');
+  d.setDate(d.getDate()-1);
+  return d.toISOString().slice(0,10);
+}
+
 function getPersonalDia(fecha){
   if(personalData[fecha]) return personalData[fecha];
+  // Buscar día anterior con datos (hasta 30 días atrás)
+  let f=fecha;
+  for(let i=0;i<30;i++){
+    f=diaAnterior(f);
+    if(personalData[f]) return JSON.parse(JSON.stringify(personalData[f]));
+  }
   return {
     tecnico: ROLES_TECNICO.map(r=>({rol:r,cant:0})),
     obrero: CATS_OBRERO.map(c=>({cat:c,cant:0}))
@@ -328,6 +340,12 @@ function getPersonalDia(fecha){
 }
 function getEquiposDia(fecha){
   if(equiposData[fecha]) return equiposData[fecha];
+  // Buscar día anterior con datos (hasta 30 días atrás)
+  let f=fecha;
+  for(let i=0;i<30;i++){
+    f=diaAnterior(f);
+    if(equiposData[f]) return JSON.parse(JSON.stringify(equiposData[f]));
+  }
   return EQUIPOS_DEFAULT.map(n=>({nombre:n,cant:0}));
 }
 function getObservacionesDia(fecha){
@@ -538,11 +556,11 @@ function renderDocumento(){
     h+='<div class="subseccion-titulo">1. Personal Técnico</div>';
     const tecConCant=pDia.tecnico.filter(t=>t.cant>0);
     if(tecConCant.length){
-      h+='<table class="tabla-personal">';
+      h+='<ul class="lista-personal">';
       tecConCant.forEach(t=>{
-        h+=`<tr><td class="cant">${String(t.cant).padStart(2,'0')}</td><td>${esc(t.rol)}</td></tr>`;
+        h+=`<li><span class="cant">${String(t.cant).padStart(2,'0')}</span> ${esc(t.rol)}</li>`;
       });
-      h+='</table>';
+      h+='</ul>';
     } else {
       h+='<p style="font-size:9pt;color:#999;margin-left:12px;margin-bottom:6px;font-style:italic;">Sin datos — use el botón "Editar datos del día"</p>';
     }
@@ -551,11 +569,11 @@ function renderDocumento(){
     h+='<div class="subseccion-titulo">2. Personal Obrero</div>';
     const obConCant=pDia.obrero.filter(o=>o.cant>0);
     if(obConCant.length){
-      h+='<table class="tabla-personal">';
+      h+='<ul class="lista-personal">';
       obConCant.forEach(o=>{
-        h+=`<tr><td class="cant">${String(o.cant).padStart(2,'0')}</td><td>${esc(o.cat)}</td></tr>`;
+        h+=`<li><span class="cant">${String(o.cant).padStart(2,'0')}</span> ${esc(o.cat)}</li>`;
       });
-      h+='</table>';
+      h+='</ul>';
     } else {
       h+='<p style="font-size:9pt;color:#999;margin-left:12px;margin-bottom:6px;font-style:italic;">Sin datos — use el botón "Editar datos del día"</p>';
     }
@@ -579,11 +597,11 @@ function renderDocumento(){
     h+='<div class="seccion-titulo">III. EQUIPOS Y MAQUINARIA</div>';
     const eqConCant=eqDia.filter(e=>e.cant>0);
     if(eqConCant.length){
-      h+='<table class="tabla-equipos">';
+      h+='<ul class="lista-equipos">';
       eqConCant.forEach(eq=>{
-        h+=`<tr><td class="cant">${String(eq.cant).padStart(2,'0')}</td><td>${esc(eq.nombre)}</td></tr>`;
+        h+=`<li><span class="cant">${String(eq.cant).padStart(2,'0')}</span> ${esc(eq.nombre)}</li>`;
       });
-      h+='</table>';
+      h+='</ul>';
     } else {
       h+='<p style="font-size:9pt;color:#999;margin-left:12px;margin-bottom:6px;font-style:italic;">Sin datos — use el botón "Editar datos del día"</p>';
     }
@@ -669,11 +687,21 @@ async function generarCuadernoWord(desde,hasta,residente,inspector,actsRango){
     ch.push(new Paragraph({spacing:{after:40},indent:{left:convertInchesToTwip(0.2)},children:[new TextRun({text:"1. Personal Técnico",bold:true,size:20,font:"Calibri"})]}));
     const tecConCant=pDia.tecnico.filter(t=>t.cant>0);
     if(tecConCant.length){
-      const tecRows=tecConCant.map(t=>new TableRow({children:[
-        dC(String(t.cant).padStart(2,'0'),15,{center:true,bold:true,bg:"F0F4FF"}),
-        dC(t.rol,85)
-      ]}));
-      ch.push(new Table({width:{size:80,type:WidthType.PERCENTAGE},indent:{size:convertInchesToTwip(0.3),type:WidthType.DXA},rows:tecRows}));
+      // Distribuir en 2 columnas
+      const mitad=Math.ceil(tecConCant.length/2);
+      const colIzq=tecConCant.slice(0,mitad);
+      const colDer=tecConCant.slice(mitad);
+      const maxRows=Math.max(colIzq.length,colDer.length);
+      const tRows=[];
+      for(let i=0;i<maxRows;i++){
+        const lTxt=colIzq[i]?`•  ${String(colIzq[i].cant).padStart(2,'0')}  ${colIzq[i].rol}`:'';
+        const rTxt=colDer[i]?`•  ${String(colDer[i].cant).padStart(2,'0')}  ${colDer[i].rol}`:'';
+        tRows.push(new TableRow({children:[
+          new TableCell({width:{size:50,type:WidthType.PERCENTAGE},borders:na,children:[new Paragraph({indent:{left:convertInchesToTwip(0.15)},children:[new TextRun({text:lTxt,size:19,font:"Calibri"})]})]}),
+          new TableCell({width:{size:50,type:WidthType.PERCENTAGE},borders:na,children:[new Paragraph({indent:{left:convertInchesToTwip(0.15)},children:[new TextRun({text:rTxt,size:19,font:"Calibri"})]})]})
+        ]}));
+      }
+      ch.push(new Table({width:{size:95,type:WidthType.PERCENTAGE},indent:{size:convertInchesToTwip(0.2),type:WidthType.DXA},rows:tRows}));
     } else {
       ch.push(new Paragraph({spacing:{after:40},indent:{left:convertInchesToTwip(0.3)},children:[new TextRun({text:"Sin datos registrados.",size:18,italics:true,color:"999999",font:"Calibri"})]}));
     }
@@ -682,11 +710,20 @@ async function generarCuadernoWord(desde,hasta,residente,inspector,actsRango){
     ch.push(new Paragraph({spacing:{before:80,after:40},indent:{left:convertInchesToTwip(0.2)},children:[new TextRun({text:"2. Personal Obrero",bold:true,size:20,font:"Calibri"})]}));
     const obConCant=pDia.obrero.filter(o=>o.cant>0);
     if(obConCant.length){
-      const obRows=obConCant.map(o=>new TableRow({children:[
-        dC(String(o.cant).padStart(2,'0'),15,{center:true,bold:true,bg:"F0F4FF"}),
-        dC(o.cat,85)
-      ]}));
-      ch.push(new Table({width:{size:80,type:WidthType.PERCENTAGE},indent:{size:convertInchesToTwip(0.3),type:WidthType.DXA},rows:obRows}));
+      const mitadOb=Math.ceil(obConCant.length/2);
+      const colIzqOb=obConCant.slice(0,mitadOb);
+      const colDerOb=obConCant.slice(mitadOb);
+      const maxRowsOb=Math.max(colIzqOb.length,colDerOb.length);
+      const oRows=[];
+      for(let i=0;i<maxRowsOb;i++){
+        const lTxt=colIzqOb[i]?`•  ${String(colIzqOb[i].cant).padStart(2,'0')}  ${colIzqOb[i].cat}`:'';
+        const rTxt=colDerOb[i]?`•  ${String(colDerOb[i].cant).padStart(2,'0')}  ${colDerOb[i].cat}`:'';
+        oRows.push(new TableRow({children:[
+          new TableCell({width:{size:50,type:WidthType.PERCENTAGE},borders:na,children:[new Paragraph({indent:{left:convertInchesToTwip(0.15)},children:[new TextRun({text:lTxt,size:19,font:"Calibri"})]})]}),
+          new TableCell({width:{size:50,type:WidthType.PERCENTAGE},borders:na,children:[new Paragraph({indent:{left:convertInchesToTwip(0.15)},children:[new TextRun({text:rTxt,size:19,font:"Calibri"})]})]})
+        ]}));
+      }
+      ch.push(new Table({width:{size:95,type:WidthType.PERCENTAGE},indent:{size:convertInchesToTwip(0.2),type:WidthType.DXA},rows:oRows}));
     } else {
       ch.push(new Paragraph({spacing:{after:40},indent:{left:convertInchesToTwip(0.3)},children:[new TextRun({text:"Sin datos registrados.",size:18,italics:true,color:"999999",font:"Calibri"})]}));
     }
@@ -707,11 +744,20 @@ async function generarCuadernoWord(desde,hasta,residente,inspector,actsRango){
     ch.push(new Paragraph({spacing:{before:120,after:60},children:[new TextRun({text:"III. EQUIPOS Y MAQUINARIA",bold:true,size:22,color:"0D47A1",font:"Calibri",underline:{}})]}));
     const eqConCant=eqDia.filter(e=>e.cant>0);
     if(eqConCant.length){
-      const eqRows=eqConCant.map(eq=>new TableRow({children:[
-        dC(String(eq.cant).padStart(2,'0'),15,{center:true,bold:true,bg:"F0F4FF"}),
-        dC(eq.nombre,85)
-      ]}));
-      ch.push(new Table({width:{size:80,type:WidthType.PERCENTAGE},indent:{size:convertInchesToTwip(0.3),type:WidthType.DXA},rows:eqRows}));
+      const mitadEq=Math.ceil(eqConCant.length/2);
+      const colIzqEq=eqConCant.slice(0,mitadEq);
+      const colDerEq=eqConCant.slice(mitadEq);
+      const maxRowsEq=Math.max(colIzqEq.length,colDerEq.length);
+      const eRows=[];
+      for(let i=0;i<maxRowsEq;i++){
+        const lTxt=colIzqEq[i]?`•  ${String(colIzqEq[i].cant).padStart(2,'0')}  ${colIzqEq[i].nombre}`:'';
+        const rTxt=colDerEq[i]?`•  ${String(colDerEq[i].cant).padStart(2,'0')}  ${colDerEq[i].nombre}`:'';
+        eRows.push(new TableRow({children:[
+          new TableCell({width:{size:50,type:WidthType.PERCENTAGE},borders:na,children:[new Paragraph({indent:{left:convertInchesToTwip(0.15)},children:[new TextRun({text:lTxt,size:19,font:"Calibri"})]})]}),
+          new TableCell({width:{size:50,type:WidthType.PERCENTAGE},borders:na,children:[new Paragraph({indent:{left:convertInchesToTwip(0.15)},children:[new TextRun({text:rTxt,size:19,font:"Calibri"})]})]})
+        ]}));
+      }
+      ch.push(new Table({width:{size:95,type:WidthType.PERCENTAGE},indent:{size:convertInchesToTwip(0.2),type:WidthType.DXA},rows:eRows}));
     } else {
       ch.push(new Paragraph({spacing:{after:40},indent:{left:convertInchesToTwip(0.3)},children:[new TextRun({text:"Sin datos registrados.",size:18,italics:true,color:"999999",font:"Calibri"})]}));
     }
