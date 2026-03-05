@@ -2391,6 +2391,27 @@ document.getElementById('modal-edit-save').addEventListener('click', () => {
     };
   }
 
+  // Detectar duplicados: buscar otra actividad con mismos datos clave
+  const duplicados = actividades.filter(a =>
+    a.id !== act.id &&
+    a.fecha === act.fecha &&
+    a.descripcion.toUpperCase().trim() === act.descripcion.toUpperCase().trim() &&
+    a.partida.codigo === act.partida.codigo &&
+    normalizarEjes(a.ejes) === normalizarEjes(act.ejes) &&
+    a.nivel === act.nivel
+  );
+  if (duplicados.length > 0) {
+    const confirmar = confirm(`Se detectaron ${duplicados.length} actividad(es) duplicada(s) con los mismos datos (fecha, descripción, partida, ejes, nivel).\n\n¿Deseas eliminar los duplicados y quedarte con una sola?`);
+    if (confirmar) {
+      const maxPct = Math.max(act.pct, ...duplicados.map(d => d.pct || 0));
+      act.pct = maxPct;
+      duplicados.forEach(dup => {
+        const idx = actividades.findIndex(a => a.id === dup.id);
+        if (idx >= 0) actividades.splice(idx, 1);
+      });
+    }
+  }
+
   guardar();
   document.getElementById('modal-edit').classList.remove('show');
   editandoId = null;

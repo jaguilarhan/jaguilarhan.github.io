@@ -2170,6 +2170,14 @@ function renderTabiqueria() {
     if (paso.id === 'desenc') {
       return desc.includes('DESENCOFRADO');
     }
+    // Habilitado de acero: coincide si dice "HABILITADO" o "HABILITADO Y ARMADO"
+    if (paso.id === 'hab_col' || paso.id === 'hab_vig') {
+      return desc.includes('HABILITADO') && desc.includes('ACERO');
+    }
+    // Armado de acero: coincide si dice "ARMADO" o "HABILITADO Y ARMADO"
+    if (paso.id === 'arm_col' || paso.id === 'arm_vig') {
+      return desc.includes('ARMADO') && desc.includes('ACERO');
+    }
     // General: verificar keywords SOLO en descripcion (la actividad real)
     return paso.keywords.some(kw => desc.includes(kw));
   }
