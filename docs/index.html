@@ -2113,11 +2113,13 @@ function renderTabiqueria() {
 
   // Definir los pasos de un muro de tabiquería completo
   const PASOS_TABIQUERIA = [
-    { id: 'hab_acero_col', label: 'Hab./Armado Acero Columnetas', keywords: ['HABILITADO','ARMADO','ACERO'], cats: ['COLUMNETAS'] },
+    { id: 'hab_col', label: 'Habilitado Acero Columnetas', keywords: ['HABILITADO','ACERO'], cats: ['COLUMNETAS'] },
+    { id: 'arm_col', label: 'Armado Acero Columnetas', keywords: ['ARMADO','ACERO'], cats: ['COLUMNETAS'] },
     { id: 'asentado', label: 'Asentado de Ladrillo', keywords: ['ASENTADO','LADRILLO'], cats: ['MUROS'] },
     { id: 'enc_col', label: 'Encofrado Columnetas', keywords: ['ENCOFRADO'], cats: ['COLUMNETAS'] },
     { id: 'vac_col', label: 'Vaciado Columnetas', keywords: ['VACIADO','CONCRETO'], cats: ['COLUMNETAS'] },
-    { id: 'hab_acero_vig', label: 'Hab./Armado Acero Viguetas', keywords: ['HABILITADO','ARMADO','ACERO'], cats: ['VIGUETAS'] },
+    { id: 'hab_vig', label: 'Habilitado Acero Viguetas', keywords: ['HABILITADO','ACERO'], cats: ['VIGUETAS'] },
+    { id: 'arm_vig', label: 'Armado Acero Viguetas', keywords: ['ARMADO','ACERO'], cats: ['VIGUETAS'] },
     { id: 'enc_vig', label: 'Encofrado Viguetas', keywords: ['ENCOFRADO'], cats: ['VIGUETAS'] },
     { id: 'vac_vig', label: 'Vaciado Viguetas', keywords: ['VACIADO','CONCRETO'], cats: ['VIGUETAS'] },
     { id: 'desenc', label: 'Desencofrado', keywords: ['DESENCOFRADO'], cats: ['COLUMNETAS','VIGUETAS'] },
