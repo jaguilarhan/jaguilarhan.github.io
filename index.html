@@ -2156,36 +2156,32 @@ function renderTabiqueria() {
     return (nivelOrd[a.nivel]||99) - (nivelOrd[b.nivel]||99) || a.ejes.localeCompare(b.ejes);
   });
 
+  function matchPaso(paso, a) {
+    const desc = (a.descripcion || '').toUpperCase();
+    const cat = a.partida.categoria;
+    if (!paso.cats.includes(cat)) return false;
+    // Para encofrado, excluir desencofrado (buscar solo en descripcion)
+    if (paso.id === 'enc_col' || paso.id === 'enc_vig') {
+      return desc.includes('ENCOFRADO') && !desc.includes('DESENCOFRADO');
+    }
+    // Para desencofrado, buscar solo en descripcion
+    if (paso.id === 'desenc') {
+      return desc.includes('DESENCOFRADO');
+    }
+    // General: verificar keywords SOLO en descripcion (la actividad real)
+    return paso.keywords.some(kw => desc.includes(kw));
+  }
+
   function checkPaso(paso, acts) {
-    return acts.some(a => {
-      const desc = (a.descripcion || '').toUpperCase();
-      const cat = a.partida.categoria;
-      const nombre = (a.partida.nombre || '').toUpperCase();
-      const catOk = paso.cats.includes(cat);
-      if (!catOk) return false;
-      // Verificar si alguna keyword coincide con descripcion o nombre de partida
-      return paso.keywords.some(kw => desc.includes(kw) || nombre.includes(kw));
-    });
+    return acts.some(a => matchPaso(paso, a));
   }
 
   function getFechasPaso(paso, acts) {
-    return acts.filter(a => {
-      const desc = (a.descripcion || '').toUpperCase();
-      const cat = a.partida.categoria;
-      const nombre = (a.partida.nombre || '').toUpperCase();
-      if (!paso.cats.includes(cat)) return false;
-      return paso.keywords.some(kw => desc.includes(kw) || nombre.includes(kw));
-    }).map(a => a.fecha).sort();
+    return acts.filter(a => matchPaso(paso, a)).map(a => a.fecha).sort();
   }
 
   function getElementosPaso(paso, acts) {
-    return [...new Set(acts.filter(a => {
-      const desc = (a.descripcion || '').toUpperCase();
-      const cat = a.partida.categoria;
-      const nombre = (a.partida.nombre || '').toUpperCase();
-      if (!paso.cats.includes(cat)) return false;
-      return paso.keywords.some(kw => desc.includes(kw) || nombre.includes(kw));
-    }).map(a => a.elemento || '—'))];
+    return [...new Set(acts.filter(a => matchPaso(paso, a)).map(a => a.elemento || '—'))];
   }
 
   // Calcular status por zona
@@ -2360,26 +2356,29 @@ function renderColumnasPlacas() {
     const pasos = PASOS_CP.map(paso => {
       const actsDelPaso = actsElem.filter(a => {
         const desc = (a.descripcion || '').toUpperCase();
-        const nombre = (a.partida.nombre || '').toUpperCase();
         const elemTxt = (a.elemento || '').toUpperCase();
 
         // Para habilitado de formas vs habilitado de acero, distinguir
         if (paso.id === 'hab_formas') {
-          return (desc.includes('FORMA') || desc.includes('MANTENIMIENTO DE FORMA') || nombre.includes('FORMA') || elemTxt.includes('FORMA'))
+          return (desc.includes('FORMA') || desc.includes('MANTENIMIENTO DE FORMA') || elemTxt.includes('FORMA'))
             && !desc.includes('ACERO');
         }
         if (paso.id === 'hab_acero') {
-          return (desc.includes('ACERO') || nombre.includes('ACERO')) && desc.includes('HABILITAD');
+          return desc.includes('ACERO') && desc.includes('HABILITAD');
         }
         if (paso.id === 'arm_acero') {
-          return (desc.includes('ACERO') || nombre.includes('ACERO')) && desc.includes('ARMADO');
+          return desc.includes('ACERO') && desc.includes('ARMADO');
         }
-        // Para encofrado, excluir desencofrado
+        // Para encofrado, excluir desencofrado (solo en descripcion)
         if (paso.id === 'encofrado') {
-          return (desc.includes('ENCOFRADO') || nombre.includes('ENCOFRADO')) && !desc.includes('DESENCOFRADO') && !nombre.includes('DESENCOFRADO');
+          return desc.includes('ENCOFRADO') && !desc.includes('DESENCOFRADO');
         }
-        // General: verificar keywords
-        return paso.keywords.some(kw => desc.includes(kw) || nombre.includes(kw));
+        // Para desencofrado, solo en descripcion
+        if (paso.id === 'desencofrado') {
+          return desc.includes('DESENCOFRADO');
+        }
+        // General: verificar keywords SOLO en descripcion
+        return paso.keywords.some(kw => desc.includes(kw));
       });
 
       const hecho = actsDelPaso.length > 0;
