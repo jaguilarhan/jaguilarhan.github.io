@@ -1,0 +1,14 @@
+﻿commit 47273218e7c7256b199c473f2b3acc464193db2b
+Author: Jose Alonso <josealonso@obra.com>
+Date:   Wed Mar 4 16:49:06 2026 -0500
+
+    v2026.03.04.02 - Responsive movil: scroll horizontal por dias, sin flechas, formulario colapsable limpio, tabs ocultos, login primero
+
+ _diff_result.txt     |   0
+ _git_push_result.txt | Bin 0 -> 1228 bytes
+ _log_result.txt      |   5 +
+ _remote_log.txt      |   3 +
+ _show_result.txt     |   8 +
+ docs/index.html      | 192 +++++++---------------
+ index.html           | 446 +++++++--------------------------------------------
+ 7 files changed, 136 insertions(+), 518 deletions(-)

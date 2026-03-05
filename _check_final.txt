@@ -1,0 +1,11 @@
+﻿
+  .mobile-day-nav { display: none; }
+
+
+---
+
+      scroll-snap-type: x mandatory;
+      scroll-snap-align: start;
+
+
+DONE

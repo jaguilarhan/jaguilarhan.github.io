@@ -1,0 +1,22 @@
+﻿On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   _gresult.txt
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	_pushlog.txt
+	_remote.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+git : Everything up-to-date
+En línea: 1 Carácter: 265
++ ... " 2>&1 | Out-File _pushlog.txt -Encoding utf8 ; git push 2>&1 | Out-F ...
++                                                     ~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Everything up-to-date:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+LISTO

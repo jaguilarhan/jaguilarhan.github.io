@@ -373,6 +373,7 @@
     .avance-table { font-size: .7rem; display: block; overflow-x: auto; }
     .avance-table th, .avance-table td { padding: 6px 6px; white-space: nowrap; }
     #tab-tabiqueria { padding: 10px; }
+    #tab-colplacas { padding: 10px; }
   }
   @media (max-width: 480px) {
     header h1 { font-size: .88rem; }
@@ -492,6 +493,7 @@
       <button class="tab-btn active" data-tab="semana">📅 Vista Semanal</button>
       <button class="tab-btn" data-tab="avance">📊 Avance por Elemento</button>
       <button class="tab-btn" data-tab="tabiqueria">🧱 Tabiquería</button>
+      <button class="tab-btn" data-tab="colplacas">🏛️ Col. y Placas 5°N</button>
     </div>
 
     <!-- TAB SEMANA -->
@@ -586,6 +588,28 @@
         <div id="tab-resumen-global" style="font-size:.78rem;font-weight:600;color:#1a237e"></div>
       </div>
       <div id="tabiqueria-container"></div>
+    </div>
+
+    <!-- TAB COLUMNAS Y PLACAS 5TO NIVEL -->
+    <div id="tab-colplacas" style="display:none;padding:16px;overflow-y:auto;flex:1;">
+      <h3 style="color:#1a237e;margin:0 0 12px 0;font-size:1rem">🏛️ Control de Avance – Columnas y Placas del 5to Nivel</h3>
+      <p style="font-size:.75rem;color:#555;margin:0 0 12px 0">Seguimiento de cada columna/placa por eje. Proceso: <b>Habilitado de Formas → Habilitado de Acero → Armado de Acero → Trazo → Encofrado → Alineado y Apuntalado → Vaciado → Desencofrado → Curado</b>.</p>
+      <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;align-items:center">
+        <select id="cp-filtro-estado" style="padding:5px 10px;border:1px solid #ccc;border-radius:16px;font-size:.78rem">
+          <option value="">Todos los estados</option>
+          <option value="completo">✅ Completados</option>
+          <option value="proceso">⏳ En proceso</option>
+          <option value="inicio">🔄 Sin iniciar / Recién iniciado</option>
+        </select>
+        <select id="cp-filtro-tipo" style="padding:5px 10px;border:1px solid #ccc;border-radius:16px;font-size:.78rem">
+          <option value="">Todos (Columnas y Placas)</option>
+          <option value="PL">Solo Placas</option>
+          <option value="C">Solo Columnas</option>
+        </select>
+        <div style="flex:1"></div>
+        <div id="cp-resumen-global" style="font-size:.78rem;font-weight:600;color:#1a237e"></div>
+      </div>
+      <div id="colplacas-container"></div>
     </div>
 
     <div class="resumen-bar">
@@ -1997,6 +2021,173 @@ function renderTabiqueria() {
 document.getElementById('tab-filtro-nivel').addEventListener('change', renderTabiqueria);
 document.getElementById('tab-filtro-estado').addEventListener('change', renderTabiqueria);
 
+// ================================================================
+// RENDER COLUMNAS Y PLACAS 5TO NIVEL
+// ================================================================
+function renderColumnasPlacas() {
+  const container = document.getElementById('colplacas-container');
+  const filtEstado = document.getElementById('cp-filtro-estado').value;
+  const filtTipo = document.getElementById('cp-filtro-tipo').value;
+
+  const ELEMENTOS_5N = [
+    { nombre: 'PL-01', eje: '3/A', tipo: 'PL' },
+    { nombre: 'C-02',  eje: '2/A', tipo: 'C' },
+    { nombre: 'PL-02', eje: '1/A', tipo: 'PL' },
+    { nombre: 'PL-04\'', eje: '3/B', tipo: 'PL' },
+    { nombre: 'PL-05', eje: '2/B', tipo: 'PL' },
+    { nombre: 'PL-04', eje: '1/B', tipo: 'PL' },
+    { nombre: 'C-01',  eje: '3/C', tipo: 'C' },
+    { nombre: 'PL-06', eje: '2/C', tipo: 'PL' },
+    { nombre: 'C-03',  eje: '1/C', tipo: 'C' },
+    { nombre: 'C-01',  eje: '3/D', tipo: 'C' },
+    { nombre: 'C-01',  eje: '2/D', tipo: 'C' },
+    { nombre: 'C-01',  eje: '1/D', tipo: 'C' },
+    { nombre: 'PL-01\'', eje: '3/E', tipo: 'PL' },
+    { nombre: 'C-01',  eje: '2/E', tipo: 'C' },
+    { nombre: 'C-02',  eje: '1/E', tipo: 'C' },
+    { nombre: 'PL-01', eje: '3/E\'', tipo: 'PL' },
+    { nombre: 'C-01',  eje: '2/E\'', tipo: 'C' },
+    { nombre: 'PL-03', eje: '1/E\'', tipo: 'PL' },
+  ];
+
+  const PASOS_CP = [
+    { id: 'hab_formas',   label: 'Habilitado de Formas',        keywords: ['HABILITADO','FORMAS','HABILITACION'] },
+    { id: 'hab_acero',    label: 'Habilitado de Acero',          keywords: ['HABILITADO','ACERO','HABILITACION'] },
+    { id: 'arm_acero',    label: 'Armado de Acero',              keywords: ['ARMADO','ACERO'] },
+    { id: 'trazo',        label: 'Trazo para Encofrado',         keywords: ['TRAZO','TRAZADO'] },
+    { id: 'encofrado',    label: 'Encofrado',                    keywords: ['ENCOFRADO'] },
+    { id: 'alineado',     label: 'Alineado y Apuntalado',        keywords: ['ALINEADO','APUNTALADO','APLOMADO'] },
+    { id: 'vaciado',      label: 'Vaciado',                      keywords: ['VACIADO','CONCRETO'] },
+    { id: 'desencofrado', label: 'Desencofrado',                 keywords: ['DESENCOFRADO'] },
+    { id: 'curado',       label: 'Curado',                       keywords: ['CURADO'] },
+  ];
+
+  const catsCP = ['COLUMNAS','PLACAS'];
+  const actsCP = actividades.filter(a => {
+    if (!catsCP.includes(a.partida.categoria)) return false;
+    if (a.nivel !== '5to Nivel') return false;
+    return true;
+  });
+
+  const elementosConStatus = ELEMENTOS_5N.map(elem => {
+    if (filtTipo && elem.tipo !== filtTipo) return null;
+    const actsElem = actsCP.filter(a => {
+      const elemAct = (a.elemento || '').toUpperCase();
+      const ejesAct = (a.ejes || '').toUpperCase().replace(/\s/g,'');
+      const ejeNorm = elem.eje.toUpperCase().replace(/\s/g,'');
+      const nombreNorm = elem.nombre.toUpperCase();
+      const matchEje = ejesAct.includes(ejeNorm) || ejesAct === ejeNorm;
+      const matchElem = elemAct.includes(nombreNorm) || elemAct === nombreNorm;
+      return matchEje || matchElem;
+    });
+    const pasos = PASOS_CP.map(paso => {
+      const actsDelPaso = actsElem.filter(a => {
+        const desc = (a.descripcion || '').toUpperCase();
+        const nombre = (a.partida.nombre || '').toUpperCase();
+        const elemTxt = (a.elemento || '').toUpperCase();
+        if (paso.id === 'hab_formas') {
+          return (desc.includes('FORMA') || desc.includes('MANTENIMIENTO DE FORMA') || nombre.includes('FORMA') || elemTxt.includes('FORMA')) && !desc.includes('ACERO');
+        }
+        if (paso.id === 'hab_acero') {
+          return (desc.includes('ACERO') || nombre.includes('ACERO')) && desc.includes('HABILITAD');
+        }
+        if (paso.id === 'arm_acero') {
+          return (desc.includes('ACERO') || nombre.includes('ACERO')) && desc.includes('ARMADO');
+        }
+        if (paso.id === 'encofrado') {
+          return (desc.includes('ENCOFRADO') || nombre.includes('ENCOFRADO')) && !desc.includes('DESENCOFRADO') && !nombre.includes('DESENCOFRADO');
+        }
+        return paso.keywords.some(kw => desc.includes(kw) || nombre.includes(kw));
+      });
+      const hecho = actsDelPaso.length > 0;
+      const fechas = actsDelPaso.map(a => a.fecha).sort();
+      return { ...paso, hecho, fechas };
+    });
+    const completados = pasos.filter(p => p.hecho).length;
+    const total = pasos.length;
+    const pct = Math.round(completados / total * 100);
+    let estado = 'inicio';
+    if (pct === 100) estado = 'completo';
+    else if (pct > 0) estado = 'proceso';
+    return { ...elem, pasos, completados, total, pct, estado, actsCount: actsElem.length };
+  }).filter(e => e !== null);
+
+  const elemFilt = filtEstado ? elementosConStatus.filter(e => e.estado === filtEstado) : elementosConStatus;
+  const totalElems = elementosConStatus.length;
+  const completas = elementosConStatus.filter(e => e.estado === 'completo').length;
+  const enProceso = elementosConStatus.filter(e => e.estado === 'proceso').length;
+  const sinIniciar = elementosConStatus.filter(e => e.estado === 'inicio').length;
+  document.getElementById('cp-resumen-global').innerHTML =
+    `<span style="color:#2e7d32">✅ ${completas}</span> · <span style="color:#e65100">⏳ ${enProceso}</span> · <span style="color:#1565c0">🔄 ${sinIniciar}</span> · Total: ${totalElems} elementos`;
+
+  if (!elemFilt.length) {
+    container.innerHTML = '<div style="text-align:center;padding:40px;color:#aaa;font-size:.85rem">No se encontraron columnas/placas con los filtros seleccionados.</div>';
+    return;
+  }
+
+  const porEjePrincipal = {};
+  elemFilt.forEach(e => {
+    const ejeParts = e.eje.split('/');
+    const ejePrinc = ejeParts.length > 1 ? ejeParts[1] : e.eje;
+    if (!porEjePrincipal[ejePrinc]) porEjePrincipal[ejePrinc] = [];
+    porEjePrincipal[ejePrinc].push(e);
+  });
+
+  const ordenEjes = ['A','B','C','D','E',"E'"];
+  let html = '';
+  ordenEjes.forEach(ejePrinc => {
+    const elems = porEjePrincipal[ejePrinc];
+    if (!elems || !elems.length) return;
+    html += `<div style="margin-bottom:20px">`;
+    html += `<h4 style="color:#1a237e;font-size:.9rem;margin:0 0 8px 0;padding:6px 12px;background:#e8eaf6;border-radius:6px">📍 Eje ${ejePrinc}</h4>`;
+    elems.forEach(e => {
+      const estadoIcon = e.estado === 'completo' ? '✅' : e.estado === 'proceso' ? '⏳' : '🔄';
+      const estadoColor = e.estado === 'completo' ? '#2e7d32' : e.estado === 'proceso' ? '#e65100' : '#1565c0';
+      const pctColor = e.pct >= 80 ? '#2e7d32' : e.pct >= 40 ? '#e65100' : '#c62828';
+      const tipoIcon = e.tipo === 'PL' ? '🟦' : '🟧';
+      const tipoLabel = e.tipo === 'PL' ? 'Placa' : 'Columna';
+      html += `<div style="background:#fff;border:1px solid #e0e0e0;border-radius:8px;margin-bottom:10px;overflow:hidden;border-left:4px solid ${estadoColor}">`;
+      html += `<div style="padding:10px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;background:#fafafa" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">`;
+      html += `<span style="font-size:1.1rem">${estadoIcon}</span>`;
+      html += `<div style="flex:1">`;
+      html += `<div style="font-weight:700;color:#222;font-size:.82rem">${tipoIcon} ${e.nombre} <span style="color:#555;font-weight:400;font-size:.75rem">— EJE ${e.eje}</span> <span style="background:${e.tipo==='PL'?'#1565c0':'#e65100'};color:#fff;font-size:.62rem;padding:1px 6px;border-radius:8px;margin-left:4px">${tipoLabel}</span></div>`;
+      html += `<div style="font-size:.7rem;color:#666">${e.completados}/${e.total} pasos · ${e.actsCount} actividades registradas</div>`;
+      html += `</div>`;
+      html += `<div style="text-align:right">`;
+      html += `<div style="font-size:.85rem;font-weight:700;color:${pctColor}">${e.pct}%</div>`;
+      html += `<div style="width:80px;height:6px;background:#e0e0e0;border-radius:3px;overflow:hidden;margin-top:2px"><div style="height:100%;width:${e.pct}%;background:${pctColor};border-radius:3px"></div></div>`;
+      html += `</div>`;
+      html += `</div>`;
+      html += `<div style="display:none;padding:8px 14px 12px">`;
+      html += `<table style="width:100%;border-collapse:collapse;font-size:.72rem">`;
+      html += `<thead><tr style="background:#f5f5f5"><th style="text-align:left;padding:5px 8px;border-bottom:1px solid #ddd">N°</th><th style="text-align:left;padding:5px 8px;border-bottom:1px solid #ddd">Paso</th><th style="text-align:center;padding:5px 8px;border-bottom:1px solid #ddd">Estado</th><th style="text-align:left;padding:5px 8px;border-bottom:1px solid #ddd">Fecha(s)</th></tr></thead>`;
+      html += `<tbody>`;
+      e.pasos.forEach((p, idx) => {
+        const icon = p.hecho ? '✅' : '⏳';
+        const bgRow = p.hecho ? 'background:#f1f8e9' : 'background:#fff3e0';
+        const fechasStr = p.fechas.length ? p.fechas.map(f => {
+          const d = new Date(f + 'T00:00:00');
+          return d.toLocaleDateString('es-PE', {day:'2-digit',month:'short'});
+        }).join(', ') : '—';
+        html += `<tr style="${bgRow}">`;
+        html += `<td style="padding:5px 8px;border-bottom:1px solid #eee;font-weight:600;color:#888">${idx+1}</td>`;
+        html += `<td style="padding:5px 8px;border-bottom:1px solid #eee;font-weight:600">${p.label}</td>`;
+        html += `<td style="padding:5px 8px;border-bottom:1px solid #eee;text-align:center">${icon}</td>`;
+        html += `<td style="padding:5px 8px;border-bottom:1px solid #eee;color:#777;font-family:monospace">${fechasStr}</td>`;
+        html += `</tr>`;
+      });
+      html += `</tbody></table>`;
+      html += `</div>`;
+      html += `</div>`;
+    });
+    html += `</div>`;
+  });
+  container.innerHTML = html;
+}
+
+document.getElementById('cp-filtro-estado').addEventListener('change', renderColumnasPlacas);
+document.getElementById('cp-filtro-tipo').addEventListener('change', renderColumnasPlacas);
+
 function renderLeyenda() {
   const cats = {};
   PARTIDAS.forEach(p => { if (!cats[p.categoria]) cats[p.categoria] = p.color; });
@@ -2057,8 +2248,10 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     document.getElementById('tab-semana').style.display = tab === 'semana' ? 'flex' : 'none';
     document.getElementById('tab-avance').style.display = tab === 'avance' ? 'block' : 'none';
     document.getElementById('tab-tabiqueria').style.display = tab === 'tabiqueria' ? 'block' : 'none';
+    document.getElementById('tab-colplacas').style.display = tab === 'colplacas' ? 'block' : 'none';
     if (tab === 'avance') renderAvance();
     if (tab === 'tabiqueria') renderTabiqueria();
+    if (tab === 'colplacas') renderColumnasPlacas();
   });
 });
 
