@@ -1544,17 +1544,22 @@ function renderGrid() {
   }
   if (!todasCats && catsSeleccionadas.length > 0) actsSemana = actsSemana.filter(a => catsSeleccionadas.includes(a.partida.categoria));
   if (filtroNivel) actsSemana = actsSemana.filter(a => a.nivel === filtroNivel);
-  if (filtroDesc) actsSemana = actsSemana.filter(a => a.descripcion === filtroDesc);
+  if (filtroDesc) actsSemana = actsSemana.filter(a => a.descripcion.trim().replace(/\s+/g,' ').toUpperCase() === filtroDesc.trim().replace(/\s+/g,' ').toUpperCase());
 
   // Actualizar filtro de descripción dinámicamente
   const descSel = document.getElementById('filtro-desc');
-  const descsUnicas = [...new Set(actividades.map(a => a.descripcion))].sort();
+  const descMap = {};
+  actividades.forEach(a => {
+    const norm = a.descripcion.trim().replace(/\s+/g,' ').toUpperCase();
+    if (!descMap[norm]) descMap[norm] = a.descripcion.trim().replace(/\s+/g,' ');
+  });
+  const descsUnicas = Object.values(descMap).sort();
   const currentDescVal = descSel.value;
   descSel.innerHTML = '<option value="">Todas las actividades</option>';
   descsUnicas.forEach(d => {
     const opt = document.createElement('option');
     opt.value = d; opt.textContent = d;
-    if (d === currentDescVal) opt.selected = true;
+    if (d.trim().replace(/\s+/g,' ').toUpperCase() === currentDescVal.trim().replace(/\s+/g,' ').toUpperCase()) opt.selected = true;
     descSel.appendChild(opt);
   });
 
@@ -2194,12 +2199,28 @@ function renderTabiqueria() {
     return [...new Set(acts.filter(a => matchPaso(paso, a)).map(a => a.elemento || '—'))];
   }
 
+  // Función para obtener actividades que cubren una zona por contención de ejes
+  // Si una actividad tiene ejes "2-3/A , 3/B-C , 3/C-D , 3/D-E" y la zona es "3/B-C , 3/C-D , 3/D-E",
+  // esa actividad también aplica porque los ejes de la zona están contenidos en los de la actividad
+  function getActsConCobertura(zona, todasActsTabi) {
+    const ejesZona = zona.ejes.split(' , ').map(e => e.trim().toUpperCase());
+    const actsExtra = todasActsTabi.filter(a => {
+      if (a.nivel !== zona.nivel) return false;
+      const ejesAct = normalizarEjes(a.ejes || '—').split(' , ').map(e => e.trim().toUpperCase());
+      if (ejesAct.join(',') === ejesZona.join(',')) return false; // ya está en z.acts
+      // Verificar que TODOS los ejes de la zona estén contenidos en los ejes de la actividad
+      return ejesZona.every(eje => ejesAct.includes(eje));
+    });
+    return [...zona.acts, ...actsExtra];
+  }
+
   // Calcular status por zona
   const zonasConStatus = zonasArr.map(z => {
+    const actsAmpliadas = getActsConCobertura(z, actsTabi);
     const pasos = PASOS_TABIQUERIA.map(p => {
-      const hecho = checkPaso(p, z.acts);
-      const fechas = getFechasPaso(p, z.acts);
-      const elementos = getElementosPaso(p, z.acts);
+      const hecho = checkPaso(p, actsAmpliadas);
+      const fechas = getFechasPaso(p, actsAmpliadas);
+      const elementos = getElementosPaso(p, actsAmpliadas);
       return { ...p, hecho, fechas, elementos };
     });
     const completados = pasos.filter(p => p.hecho).length;
