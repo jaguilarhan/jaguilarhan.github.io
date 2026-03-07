@@ -212,6 +212,48 @@ const DIAS_SEM=["domingo","lunes","martes","miércoles","jueves","viernes","sáb
 function fmtFecha(fs){const d=new Date(fs+'T00:00:00');return `${DIAS_SEM[d.getDay()].charAt(0).toUpperCase()+DIAS_SEM[d.getDay()].slice(1)} ${String(d.getDate()).padStart(2,'0')} de ${MESES[d.getMonth()]} de ${d.getFullYear()}`;}
 function esc(t){return(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
+// ================================================================
+// ORDENAR ACTIVIDADES POR SECUENCIA CONSTRUCTIVA
+// ================================================================
+const SECUENCIAS_ORDEN = {
+  COLUMNAS:['HABILITADO','ARMADO','ENCOFRADO','VACIADO','DESENCOFRADO','CURADO'],
+  COLUMNETAS:['HABILITADO','ARMADO','ASENTADO','ENCOFRADO','VACIADO','DESENCOFRADO','CURADO'],
+  VIGAS:['HABILITADO','ARMADO','ENCOFRADO','VACIADO','DESENCOFRADO','CURADO'],
+  VIGUETAS:['HABILITADO','ARMADO','ENCOFRADO','VACIADO','DESENCOFRADO','CURADO'],
+  PLACAS:['HABILITADO','ARMADO','ENCOFRADO','VACIADO','DESENCOFRADO','CURADO'],
+  MUROS:['HABILITADO','ARMADO','ASENTADO','ENCOFRADO','VACIADO','DESENCOFRADO','CURADO'],
+  LOSAS_ALIGERADAS:['ENCOFRADO','LADRILLO','HABILITADO','ARMADO','VACIADO','DESENCOFRADO','CURADO'],
+  LOSAS_MACIZAS:['ENCOFRADO','HABILITADO','ARMADO','VACIADO','DESENCOFRADO','CURADO'],
+  ESCALERAS:['HABILITADO','ARMADO','ENCOFRADO','VACIADO','DESENCOFRADO','CURADO'],
+  ZAPATAS:['EXCAVAC','SOLADO','HABILITADO','ARMADO','VACIADO','CURADO','RELLENO'],
+  CIMIENTOS:['EXCAVAC','HABILITADO','ARMADO','ENCOFRADO','VACIADO','DESENCOFRADO','CURADO'],
+  PARAPETOS:['HABILITADO','ARMADO','ENCOFRADO','VACIADO','DESENCOFRADO','CURADO'],
+  MESONES:['HABILITADO','ARMADO','ENCOFRADO','VACIADO','DESENCOFRADO','CURADO'],
+  TARRAJEO:['TARRAJEO','CIELORRASO'],
+};
+
+function obtenerOrdenActividad(a){
+  const cat = (a.partida.categoria || '').toUpperCase().replace(/ /g,'_');
+  const desc = (a.descripcion || '').toUpperCase();
+  const seq = SECUENCIAS_ORDEN[cat];
+  if(!seq) return 999;
+  for(let i=0;i<seq.length;i++){
+    if(desc.includes(seq[i])) return i;
+  }
+  return 999;
+}
+
+function ordenarPorSecuencia(acts){
+  return acts.slice().sort((a,b)=>{
+    const oa = obtenerOrdenActividad(a);
+    const ob = obtenerOrdenActividad(b);
+    if(oa !== ob) return oa - ob;
+    const catA = (a.partida.categoria||'').localeCompare(b.partida.categoria||'');
+    if(catA !== 0) return catA;
+    return (a.descripcion||'').localeCompare(b.descripcion||'');
+  });
+}
+
 let actividades=[];
 
 // ================================================================
@@ -259,7 +301,7 @@ function renderDocumento(){
   acts.forEach(a=>{porFecha[a.fecha]=porFecha[a.fecha]||[];porFecha[a.fecha].push(a);});
 
   for(const fecha of Object.keys(porFecha).sort()){
-    const ad=porFecha[fecha];
+    const ad=ordenarPorSecuencia(porFecha[fecha]);
     h+=`<div class="dia-header">${fmtFecha(fecha).toUpperCase()}</div>`;
     h+='<table class="act-table"><thead><tr><th>N°</th><th>Descripción</th><th>Código</th><th>Partida</th><th>Ejes</th><th>Elemento</th><th>Nivel</th><th>% Avance</th></tr></thead><tbody>';
     ad.forEach((a,i)=>{
@@ -320,7 +362,7 @@ async function generarWordJS(desde,hasta,residente,inspector,actsRango){
   ch.push(new Paragraph({spacing:{after:200},children:[]}));
   const pf={};actsRango.forEach(a=>{pf[a.fecha]=pf[a.fecha]||[];pf[a.fecha].push(a);});
   for(const f of Object.keys(pf).sort()){
-    const ad=pf[f];
+    const ad=ordenarPorSecuencia(pf[f]);
     ch.push(new Paragraph({spacing:{before:160,after:60},shading:{type:ShadingType.SOLID,color:"1A237E"},children:[new TextRun({text:`  ${fmtFecha(f).toUpperCase()}  `,bold:true,size:20,color:"FFFFFF",font:"Calibri"})]}));
     const rows=[new TableRow({children:[hC("N°",4),hC("Descripción",18),hC("Código",10),hC("Partida",22),hC("Ejes",14),hC("Elemento",12),hC("Nivel",10),hC("% Avance",10)]})];
     ad.forEach((a,i)=>{const bg=i%2===1?"F5F5F5":undefined;rows.push(new TableRow({children:[dC(String(i+1),4,{center:true,bg}),dC(a.descripcion,18,{bg}),dC(a.partida.codigo,10,{center:true,mono:true,bg}),dC(a.partida.nombre,22,{bg}),dC(a.ejes&&a.ejes!=='—'?a.ejes:'',14,{center:true,bg}),dC(a.elemento&&a.elemento!=='—'?a.elemento:'',12,{center:true,bold:true,bg}),dC(a.nivel&&a.nivel!=='—'?a.nivel:'',10,{center:true,bg}),dC(a.pct!=null?a.pct+'%':'',10,{center:true,bold:true,bg})]}));});

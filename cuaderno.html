@@ -467,6 +467,81 @@ async function guardarModal(){
 }
 
 // ================================================================
+// SECUENCIAS DE PROCESO CONSTRUCTIVO (para ordenar actividades)
+// ================================================================
+const SECUENCIAS_ORDEN = {
+  COLUMNAS:['HABILITADO','ARMADO','ENCOFRADO','VACIADO','DESENCOFRADO','CURADO'],
+  COLUMNETAS:['HABILITADO','ARMADO','ASENTADO','ENCOFRADO','VACIADO','DESENCOFRADO','CURADO'],
+  VIGAS:['HABILITADO','ARMADO','ENCOFRADO','VACIADO','DESENCOFRADO','CURADO'],
+  VIGUETAS:['HABILITADO','ARMADO','ENCOFRADO','VACIADO','DESENCOFRADO','CURADO'],
+  PLACAS:['HABILITADO','ARMADO','ENCOFRADO','VACIADO','DESENCOFRADO','CURADO'],
+  MUROS:['HABILITADO','ARMADO','ASENTADO','ENCOFRADO','VACIADO','DESENCOFRADO','CURADO'],
+  LOSAS_ALIGERADAS:['ENCOFRADO','LADRILLO','HABILITADO','ARMADO','VACIADO','DESENCOFRADO','CURADO'],
+  LOSAS_MACIZAS:['ENCOFRADO','HABILITADO','ARMADO','VACIADO','DESENCOFRADO','CURADO'],
+  ESCALERAS:['HABILITADO','ARMADO','ENCOFRADO','VACIADO','DESENCOFRADO','CURADO'],
+  ZAPATAS:['EXCAVAC','SOLADO','HABILITADO','ARMADO','VACIADO','CURADO','RELLENO'],
+  CIMIENTOS:['EXCAVAC','HABILITADO','ARMADO','ENCOFRADO','VACIADO','DESENCOFRADO','CURADO'],
+  PARAPETOS:['HABILITADO','ARMADO','ENCOFRADO','VACIADO','DESENCOFRADO','CURADO'],
+  MESONES:['HABILITADO','ARMADO','ENCOFRADO','VACIADO','DESENCOFRADO','CURADO'],
+  TARRAJEO:['TARRAJEO','CIELORRASO'],
+};
+
+function obtenerOrdenActividad(a){
+  const cat = (a.partida.categoria || '').toUpperCase().replace(/ /g,'_');
+  const desc = (a.descripcion || '').toUpperCase();
+  const seq = SECUENCIAS_ORDEN[cat];
+  if(!seq) return 999;
+  for(let i=0;i<seq.length;i++){
+    if(desc.includes(seq[i])) return i;
+  }
+  return 999;
+}
+
+function ordenarPorSecuencia(acts){
+  return acts.slice().sort((a,b)=>{
+    const oa = obtenerOrdenActividad(a);
+    const ob = obtenerOrdenActividad(b);
+    if(oa !== ob) return oa - ob;
+    const catA = (a.partida.categoria||'').localeCompare(b.partida.categoria||'');
+    if(catA !== 0) return catA;
+    return (a.descripcion||'').localeCompare(b.descripcion||'');
+  });
+}
+
+// ================================================================
+// AGRUPAR ACTIVIDADES POR EJES (para cuaderno - fusionar mismo desc+elem+nivel+partida)
+// ================================================================
+function agruparActividadesPorEjes(acts){
+  const grupos = [];
+  const mapaGrupos = {};
+  acts.forEach(a=>{
+    const desc = (a.descripcion||'').toUpperCase().trim();
+    const elem = (a.elemento||'').toUpperCase().trim();
+    const nivel = (a.nivel||'').trim();
+    const codigo = (a.partida.codigo||'').trim();
+    const pct = a.pct != null ? Number(a.pct) : null;
+    const key = `${desc}||${elem}||${nivel}||${codigo}||${pct}`;
+    if(mapaGrupos[key] !== undefined){
+      const grupo = grupos[mapaGrupos[key]];
+      const ejesExistentes = grupo.ejes || '';
+      const ejesNuevos = (a.ejes && a.ejes !== '—') ? a.ejes : '';
+      if(ejesNuevos && ejesExistentes){
+        grupo.ejes = ejesExistentes + ', ' + ejesNuevos;
+      } else if(ejesNuevos){
+        grupo.ejes = ejesNuevos;
+      }
+      grupo._ids.push(a.id);
+    } else {
+      const copia = Object.assign({}, a);
+      copia._ids = [a.id];
+      mapaGrupos[key] = grupos.length;
+      grupos.push(copia);
+    }
+  });
+  return grupos;
+}
+
+// ================================================================
 // GENERAR PÁRRAFO NARRATIVO de una actividad
 // ================================================================
 function generarParrafo(a){
@@ -526,7 +601,9 @@ function renderDocumento(){
   let h='';
 
   for(const fecha of Object.keys(porFecha).sort()){
-    const actsDia=porFecha[fecha];
+    const actsDiaRaw=porFecha[fecha];
+    const actsDiaOrdenadas=ordenarPorSecuencia(actsDiaRaw);
+    const actsDia=agruparActividadesPorEjes(actsDiaOrdenadas);
     const pDia=getPersonalDia(fecha);
     const eqDia=getEquiposDia(fecha);
     const obsDia=getObservacionesDia(fecha);
@@ -659,7 +736,9 @@ async function generarCuadernoWord(desde,hasta,residente,inspector,actsRango){
   const sections=[];
 
   for(const fecha of Object.keys(porFecha).sort()){
-    const actsDia=porFecha[fecha];
+    const actsDiaRaw=porFecha[fecha];
+    const actsDiaOrdenadas=ordenarPorSecuencia(actsDiaRaw);
+    const actsDia=agruparActividadesPorEjes(actsDiaOrdenadas);
     const pDia=getPersonalDia(fecha);
     const eqDia=getEquiposDia(fecha);
     const obsDia=getObservacionesDia(fecha);

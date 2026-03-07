@@ -1,0 +1,4242 @@
+{
+  "actividades": [
+    {
+      "descripcion": "DESENCOFRADO DE FONDO DE LOSA 5TO NIVEL",
+      "ejes": "1-3/D-E' , 2-3/C-D",
+      "elemento": "LOSA ALIGERARADA",
+      "fecha": "2026-02-03",
+      "id": 1772025901347,
+      "nivel": "4to Nivel",
+      "partida": {
+        "categoria": "LOSAS_ALIGERADAS",
+        "codigo": "01.01.03.10.01.02",
+        "color": "#27AE60",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 531.58,
+        "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN LOSAS ALIGERADAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "LOSAS",
+          "LOSA ALIGERADA"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "MANTENIMIENTO DE FORMAS",
+      "ejes": "3/A , 3/B",
+      "elemento": "PLACAS PL-01, PL-04'",
+      "fecha": "2026-02-03",
+      "id": 1772028023364,
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "PLACAS",
+        "codigo": "01.01.03.05.02",
+        "color": "#1ABC9C",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 990.09,
+        "nombre": "ENCOFRADO Y DESENCOFRADO CARAVISTA EN PLACAS",
+        "nueva": false,
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "PLACAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "TRAZLADO DE MATERIAL",
+      "ejes": "PENDIENTE 1",
+      "elemento": "PENDIENTE",
+      "fecha": "2026-02-03",
+      "id": 1772032067216,
+      "nivel": "1er Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "NUEVA",
+        "color": "#FF9800",
+        "esNueva": true,
+        "nombre": "IZAJE DE MATERIAL"
+      },
+      "pct": 50
+    },
+    {
+      "descripcion": "TRAZLADO DE MATERIAL",
+      "ejes": "—",
+      "elemento": "MUROS DE TABIQUERIA",
+      "fecha": "2026-02-04",
+      "id": 1772032238160,
+      "nivel": "1er Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "NUEVA",
+        "color": "#FF9800",
+        "esNueva": true,
+        "nombre": "2040 LADRILLOS DE ALMACEN CHACANE"
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "DESENCOFRADO DE FONDO DE LOSA 5TO NIVEL",
+      "ejes": "1-2/C-D , 1-3/A-C",
+      "elemento": "LOSA ALIGERADA",
+      "fecha": "2026-02-04",
+      "id": 1772032534112,
+      "nivel": "4to Nivel",
+      "partida": {
+        "categoria": "LOSAS_MACIZAS",
+        "codigo": "01.01.03.10.02.03",
+        "color": "#2ECC71",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 207.75,
+        "nombre": "ACERO EN LOSAS MACIZAS Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "LOSAS",
+          "LOSAS MACIZAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "HABILITADO DE ACERO",
+      "ejes": "3/B-C , 3/C-D , 3/D-E",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-04",
+      "id": 1772033510437,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.03",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 2204.29,
+        "nombre": "ACERO EN COLUMNETAS Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "MANTENIMIENTO DE FORMAS",
+      "ejes": "3/C , 3/D , 2/A",
+      "elemento": "COLUMNAS C-01 , C-02",
+      "fecha": "2026-02-04",
+      "id": 1772034055062,
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "COLUMNAS",
+        "codigo": "01.01.03.06.02",
+        "color": "#8E44AD",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 346.36,
+        "nombre": "ENCOFRADO Y DESENCOFRADO CARAVISTA EN COLUMNAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "TRAZLADO DE MATERIAL",
+      "ejes": "—",
+      "elemento": "ASENTADO DE LADRILLO",
+      "fecha": "2026-02-05",
+      "id": 1772035079415,
+      "nivel": "—",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "NUEVA",
+        "color": "#FF9800",
+        "esNueva": true,
+        "nombre": "LADRILLO, CEMENTO, ARENA GRUESA"
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ARMADO DE ACERO",
+      "ejes": "3/B-C , 3/C-D , 3/D-E",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-05",
+      "id": 1772035179103,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.03",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 2204.29,
+        "nombre": "ACERO EN COLUMNETAS Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ASENTADO DE LADRILLO",
+      "ejes": "3/B-C , 3/C-D , 3/D-E",
+      "elemento": "MURO DE TABIQUERIA",
+      "fecha": "2026-02-05",
+      "id": 1772035745480,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "MUROS",
+        "codigo": "03.01.01.02",
+        "color": "#607D8B",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "metrado": 234.29,
+        "nombre": "MURO DE LADRILLO K.K. TIPO V DE SOGA, C/MEZCLA C:A 1:5",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "MUROS Y TABIQUES DE ALBAÑILERIA",
+          "MUROS DE LADRILLO KING KONG DE ARCILLA"
+        ]
+      },
+      "pct": 50
+    },
+    {
+      "descripcion": "HABILITADO DE FORMAS",
+      "ejes": "3/B-C , 3/C-D , 3/D-E",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-05",
+      "id": 1772036198736,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.02",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 392.85,
+        "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN COLUMNETAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "MANTENIMIENTO DE FORMAS",
+      "ejes": "3/A , 2/B",
+      "elemento": "PLACAS PL-02 , PL-05",
+      "fecha": "2026-02-05",
+      "id": 1772036633784,
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "PLACAS",
+        "codigo": "01.01.03.05.02",
+        "color": "#1ABC9C",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 990.09,
+        "nombre": "ENCOFRADO Y DESENCOFRADO CARAVISTA EN PLACAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "PLACAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "HABILITADO Y ARMADO DE ACERO",
+      "ejes": "1/B-C , 1/C-D , 1/D-E",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-06",
+      "id": 1772045232999,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.03",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 2204.29,
+        "nombre": "ACERO EN COLUMNETAS Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ASENTADO DE LADRILLO",
+      "ejes": "1/B-C , 1/C-D , 1/D-E",
+      "elemento": "MURO DE TABIQUERIA",
+      "fecha": "2026-02-06",
+      "id": 1772045355423,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "MUROS",
+        "codigo": "03.01.01.02",
+        "color": "#607D8B",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "metrado": 234.29,
+        "nombre": "MURO DE LADRILLO K.K. TIPO V DE SOGA, C/MEZCLA C:A 1:5",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "MUROS Y TABIQUES DE ALBAÑILERIA",
+          "MUROS DE LADRILLO KING KONG DE ARCILLA"
+        ]
+      },
+      "pct": 50
+    },
+    {
+      "descripcion": "ASENTADO DE LADRILLO",
+      "ejes": "3/B-C , 3/C-D , 3/D-E",
+      "elemento": "MURO DE TABIQUERIA",
+      "fecha": "2026-02-06",
+      "id": 1772045479280,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "MUROS",
+        "codigo": "03.01.01.02",
+        "color": "#607D8B",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "metrado": 234.29,
+        "nombre": "MURO DE LADRILLO K.K. TIPO V DE SOGA, C/MEZCLA C:A 1:5",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "MUROS Y TABIQUES DE ALBAÑILERIA",
+          "MUROS DE LADRILLO KING KONG DE ARCILLA"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ENCOFRADO",
+      "ejes": "3/B-C , 3/C-D , 3/D-E",
+      "elemento": "COLUMNETA CA-1",
+      "fecha": "2026-02-06",
+      "id": 1772045694303,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.02",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 392.85,
+        "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN COLUMNETAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "VACIADO",
+      "ejes": "3/B-C , 3/C-D , 3/D-E",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-07",
+      "id": 1772046562745,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.01",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 31.39,
+        "nombre": "CONCRETO EN COLUMNETAS F'C= 175 KG/CM2, C/CEMENTO TIPO IP",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ARMADO DE ACERO",
+      "ejes": "3/A , 3/B",
+      "elemento": "PLACAS PL-01, PL-04'",
+      "fecha": "2026-02-07",
+      "id": 1772046937304,
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "PLACAS",
+        "codigo": "01.01.03.05.03",
+        "color": "#1ABC9C",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 25732.09,
+        "nombre": "ACERO EN PLACAS Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "PLACAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "TRAZLADO DE MATERIAL",
+      "ejes": "—",
+      "elemento": "—",
+      "fecha": "2026-02-07",
+      "id": 1772047124520,
+      "nivel": "1er Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "NUEVA",
+        "color": "#FF9800",
+        "esNueva": true,
+        "nombre": "50 BOLSAS DE CEMENTO DE OBRA MALECON"
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "HABILITADO DE ACERO",
+      "ejes": "3/C , 3/D , 2/A",
+      "elemento": "COLUMNAS C-01 , C-02",
+      "fecha": "2026-02-07",
+      "id": 1772047433985,
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "COLUMNAS",
+        "codigo": "01.01.03.06.03",
+        "color": "#8E44AD",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 9614.86,
+        "nombre": "ACERO EN COLUMNAS Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "HABILITADO DE ACERO",
+      "ejes": "3/A , 3/B",
+      "elemento": "PLACAS PL-01, PL-04'",
+      "fecha": "2026-02-07",
+      "id": 1772047554617,
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "PLACAS",
+        "codigo": "01.01.03.05.03",
+        "color": "#1ABC9C",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 25732.09,
+        "nombre": "ACERO EN PLACAS Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "PLACAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ARMADO DE ACERO",
+      "ejes": "3/C , 3/D , 2/A",
+      "elemento": "COLUMNAS C-01, C-02",
+      "fecha": "2026-02-09",
+      "id": 1772205729019,
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "COLUMNAS",
+        "codigo": "01.01.03.06.03",
+        "color": "#8E44AD",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 9614.86,
+        "nombre": "ACERO EN COLUMNAS Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ASENTADO DE LADRILLO",
+      "ejes": "1/B-C , 1/C-D , 1/D-E",
+      "elemento": "MURO DE TABIQUERIA",
+      "fecha": "2026-02-09",
+      "id": 1772207064480,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "MUROS",
+        "codigo": "03.01.01.02",
+        "color": "#607D8B",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "metrado": 234.29,
+        "nombre": "MURO DE LADRILLO K.K. TIPO V DE SOGA, C/MEZCLA C:A 1:5",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "MUROS Y TABIQUES DE ALBAÑILERIA",
+          "MUROS DE LADRILLO KING KONG DE ARCILLA"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ARMADO DE ACERO",
+      "ejes": "3/B-C , 3/C-D , 3/D-E",
+      "elemento": "VIGUETAS VA-1",
+      "fecha": "2026-02-09",
+      "id": 1772208423737,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.03",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 1208.68,
+        "nombre": "ACERO EN VIGUETAS Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ENCOFRADO",
+      "ejes": "3/B-C , 3/C-D , 3/D-E",
+      "elemento": "VIGUETAS VA-1",
+      "fecha": "2026-02-09",
+      "id": 1772208514905,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.02",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 120.72,
+        "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN VIGUETAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "TRASLADO DE MATERIALES",
+      "ejes": "—",
+      "elemento": "IZAJE DE CEMENTO, ARENA,  FORMAS, LADRILLO",
+      "fecha": "2026-02-09",
+      "id": 1772208997752,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.02",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 300,
+        "nombre": "TRASLADO DE MATERIALES, HERRAMIENTAS Y EQUIPOS (D prom: 1 km)",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "HABILITADO Y ARMADO DE ACERO",
+      "ejes": "1/B-C , 1/C-D , 1/D-E",
+      "elemento": "VIGUETAS VA-1",
+      "fecha": "2026-02-10",
+      "id": 1772209078202,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.03",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 1208.68,
+        "nombre": "ACERO EN VIGUETAS Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ENCOFRADO",
+      "ejes": "1/B-C , 1/C-D , 1/D-E",
+      "elemento": "VIGUETAS VA-1",
+      "fecha": "2026-02-10",
+      "id": 1772210051972,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.02",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 120.72,
+        "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN VIGUETAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ARMADO DE ACERO",
+      "ejes": "1-2/A , 2-3/A",
+      "elemento": "VIGUETAS VA-1",
+      "fecha": "2026-02-10",
+      "id": 1772210092473,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.03",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 1208.68,
+        "nombre": "ACERO EN VIGUETAS Fy=4200 kg/cm2 GRADO 60",
+        "nueva": false,
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ASENTADO DE LADRILLO",
+      "ejes": "1-2/A , 2-3/A",
+      "elemento": "MURO DE TABIQUERIA",
+      "fecha": "2026-02-10",
+      "id": 1772210380417,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "MUROS",
+        "codigo": "03.01.01.02",
+        "color": "#607D8B",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "metrado": 234.29,
+        "nombre": "MURO DE LADRILLO K.K. TIPO V DE SOGA, C/MEZCLA C:A 1:5",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "MUROS Y TABIQUES DE ALBAÑILERIA",
+          "MUROS DE LADRILLO KING KONG DE ARCILLA"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "TRASLADO DE MATERIALES",
+      "ejes": "—",
+      "elemento": "IZAJE DE CEMENTO, ARENA,  FORMAS, LADRILLO",
+      "fecha": "2026-02-10",
+      "id": 1772210572483,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.02",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 300,
+        "nombre": "TRASLADO DE MATERIALES, HERRAMIENTAS Y EQUIPOS (D prom: 1 km)",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ARMADO DE ACERO",
+      "ejes": "3/A , 3/B",
+      "elemento": "PLACAS PL-02, PL-05",
+      "fecha": "2026-02-10",
+      "id": 1772210971162,
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "COLUMNAS",
+        "codigo": "01.01.03.06.03",
+        "color": "#8E44AD",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 9614.86,
+        "nombre": "ACERO EN COLUMNAS Fy=4200 kg/cm2 GRADO 60",
+        "nueva": false,
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "HABILITADO DE ACERO",
+      "ejes": "1-2/A , 2-3/A",
+      "elemento": "VIGUETAS VA-1",
+      "fecha": "2026-02-10",
+      "id": 1772480158881,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.03",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 1208.68,
+        "nombre": "ACERO EN VIGUETAS Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ASENTADO DE LADRILLO",
+      "ejes": "2/D-E",
+      "elemento": "MURO DE TABIQUERIA",
+      "fecha": "2026-02-10",
+      "id": 1772480585272,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "MUROS",
+        "codigo": "03.01.01.02",
+        "color": "#607D8B",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 234.29,
+        "nombre": "MURO DE LADRILLO K.K. TIPO V DE SOGA, C/MEZCLA C:A 1:5",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "MUROS Y TABIQUES DE ALBAÑILERIA",
+          "MUROS DE LADRILLO KING KONG DE ARCILLA"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ASENTADO DE LADRILLO",
+      "ejes": "2-3/C-D",
+      "elemento": "MUROS DE TABIQUERIA",
+      "fecha": "2026-02-10",
+      "id": 1772480987513,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "MUROS",
+        "codigo": "03.01.01.02",
+        "color": "#607D8B",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 234.29,
+        "nombre": "MURO DE LADRILLO K.K. TIPO V DE SOGA, C/MEZCLA C:A 1:5",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "MUROS Y TABIQUES DE ALBAÑILERIA",
+          "MUROS DE LADRILLO KING KONG DE ARCILLA"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ASENTADO DE LADRILLO",
+      "ejes": "2-3/B-C",
+      "elemento": "MUROS DE TABIQUERIA",
+      "fecha": "2026-02-11",
+      "id": 1772481132949,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "MUROS",
+        "codigo": "03.01.01.02",
+        "color": "#607D8B",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 234.29,
+        "nombre": "MURO DE LADRILLO K.K. TIPO V DE SOGA, C/MEZCLA C:A 1:5",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "MUROS Y TABIQUES DE ALBAÑILERIA",
+          "MUROS DE LADRILLO KING KONG DE ARCILLA"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "HABILITADO Y ARMADO DE ACERO",
+      "ejes": "2-3/B-C",
+      "elemento": "COLUMENETAS CA-1",
+      "fecha": "2026-02-11",
+      "id": 1772481697794,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.03",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 2204.29,
+        "nombre": "ACERO EN COLUMNETAS Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "HABILITADO Y ARMADO DE ACERO",
+      "ejes": "2-3/C-D",
+      "elemento": "COLUMENETAS CA-1",
+      "fecha": "2026-02-11",
+      "id": 1772800380664,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.03",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 2204.29,
+        "nombre": "ACERO EN COLUMNETAS Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "HABILITADO Y ARMADO DE ACERO",
+      "ejes": "2-3/B-C",
+      "elemento": "VIGUETAS VA-1",
+      "fecha": "2026-02-11",
+      "id": 1772481768353,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.03",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 1208.68,
+        "nombre": "ACERO EN VIGUETAS Fy=4200 kg/cm2 GRADO 60",
+        "nueva": false,
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "HABILITADO Y ARMADO DE ACERO",
+      "ejes": "2-3/C-D",
+      "elemento": "VIGUETAS VA-1",
+      "fecha": "2026-02-11",
+      "id": 1772800496448,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.03",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 1208.68,
+        "nombre": "ACERO EN VIGUETAS Fy=4200 kg/cm2 GRADO 60",
+        "nueva": false,
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "HABILITADO Y ARMADO DE ACERO",
+      "ejes": "2/D-E",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-11",
+      "id": 1772481924834,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.03",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 2204.29,
+        "nombre": "ACERO EN COLUMNETAS Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "HABILITADO Y ARMADO DE ACERO",
+      "ejes": "2/D-E",
+      "elemento": "VIGUETAS VA-1",
+      "fecha": "2026-02-11",
+      "id": 1772481975778,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.03",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 1208.68,
+        "nombre": "ACERO EN VIGUETAS Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ENCOFRADO",
+      "ejes": "2/D-E",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-11",
+      "id": 1772482098690,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.02",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 392.85,
+        "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN COLUMNETAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ENCOFRADO",
+      "ejes": "2/D-E",
+      "elemento": "VIGUETAS VA-1",
+      "fecha": "2026-02-11",
+      "id": 1772482131458,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.02",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 120.72,
+        "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN VIGUETAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "TRASLADO DE MATERIALES",
+      "ejes": "—",
+      "elemento": "IZAJE DE LADRILLO 210 UNIDADES Y ESTRIBOS 2DO Y QUINTO NIVEL",
+      "fecha": "2026-02-11",
+      "id": 1772482174729,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.02",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 300,
+        "nombre": "TRASLADO DE MATERIALES, HERRAMIENTAS Y EQUIPOS (D prom: 1 km)",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "TRASLADO DE MATERIALES",
+      "ejes": "—",
+      "elemento": "TRASLADO DE 50 BOLSAS DE CEMENTO DE MALECON A OBRA",
+      "fecha": "2026-02-11",
+      "id": 1772482500752,
+      "nivel": "1er Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.02",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 300,
+        "nombre": "TRASLADO DE MATERIALES, HERRAMIENTAS Y EQUIPOS (D prom: 1 km)",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ENCOFRADO",
+      "ejes": "2-3/C-D",
+      "elemento": "VIGUETAS VA-1",
+      "fecha": "2026-02-12",
+      "id": 1772482694562,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.02",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 120.72,
+        "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN VIGUETAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ENCOFRADO",
+      "ejes": "2-3/B-C",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-12",
+      "id": 1772800734077,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.02",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 392.85,
+        "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN COLUMNETAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ENCOFRADO",
+      "ejes": "2-3/C-D",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-12",
+      "id": 1772482650075,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.02",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 392.85,
+        "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN COLUMNETAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "HABILITADO Y ARMADO DE ACERO",
+      "ejes": "1/C",
+      "elemento": "COLUMNAS C-03",
+      "fecha": "2026-02-12",
+      "id": 1772482845546,
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "COLUMNAS",
+        "codigo": "01.01.03.06.03",
+        "color": "#8E44AD",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 9614.86,
+        "nombre": "ACERO EN COLUMNAS Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "HABILITADO Y ARMADO DE ACERO",
+      "ejes": "3/A-B , 3/B-C , 3/D-E , 2-3/A",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-12",
+      "id": 1772483133035,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.03",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 2204.29,
+        "nombre": "ACERO EN COLUMNETAS Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "TRASLADO DE MATERIALES",
+      "ejes": "—",
+      "elemento": "IZAJE DE LADRILLO PARA ASENTADO DE LADRILLO",
+      "fecha": "2026-02-12",
+      "id": 1772483171554,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.02",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 300,
+        "nombre": "TRASLADO DE MATERIALES, HERRAMIENTAS Y EQUIPOS (D prom: 1 km)",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "TRASLADO DE MATERIALES",
+      "ejes": "—",
+      "elemento": "IZAJE DE ESTRIBOS PARA ARMADO DE COLUMNAS",
+      "fecha": "2026-02-12",
+      "id": 1772483204636,
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.02",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 300,
+        "nombre": "TRASLADO DE MATERIALES, HERRAMIENTAS Y EQUIPOS (D prom: 1 km)",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "VACIADO",
+      "ejes": "2-3/B-C",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-13",
+      "id": 1772483534763,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.01",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 31.39,
+        "nombre": "CONCRETO EN COLUMNETAS F'C= 175 KG/CM2, C/CEMENTO TIPO IP",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "VACIADO",
+      "ejes": "2-3/C-D",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-13",
+      "id": 1772800819045,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.01",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 31.39,
+        "nombre": "CONCRETO EN COLUMNETAS F'C= 175 KG/CM2, C/CEMENTO TIPO IP",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "VACIADO",
+      "ejes": "2-3/C-D",
+      "elemento": "VIGUETAS VA-1",
+      "fecha": "2026-02-13",
+      "id": 1772483628787,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.01",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 13.27,
+        "nombre": "CONCRETO EN VIGUETAS F'C= 175 KG/CM2, C/CEMENTO TIPO IP",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "HABILITADO Y ARMADO DE ACERO",
+      "ejes": "1/B-C , 1/C-D , 1/D-E",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-13",
+      "id": 1772803371889,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.03",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 2204.29,
+        "nombre": "ACERO EN COLUMNETAS Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "HABILITADO Y ARMADO DE ACERO",
+      "ejes": "1-2/B",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-13",
+      "id": 1772484065915,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.03",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 2204.29,
+        "nombre": "ACERO EN COLUMNETAS Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "TRASLADO DE MATERIALES",
+      "ejes": "—",
+      "elemento": "IZAJE DE LADRILLO, ESTRIBOS, ARENA GRUESA, ARENA FINA Y PIEDRA CHANCADA",
+      "fecha": "2026-02-13",
+      "id": 1772484089432,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.02",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 300,
+        "nombre": "TRASLADO DE MATERIALES, HERRAMIENTAS Y EQUIPOS (D prom: 1 km)",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "DESENCOFRADO",
+      "ejes": "1/B-C , 1/C-D , 1/D-E",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-13",
+      "id": 1772487193711,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.02",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 392.85,
+        "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN COLUMNETAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "DESENCOFRADO",
+      "ejes": "1/B-C , 1/C-D , 1/D-E",
+      "elemento": "VIGUETAS VA-1",
+      "fecha": "2026-02-13",
+      "id": 1772487252278,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.02",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 120.72,
+        "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN VIGUETAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "TRASLADO DE MATERIALES",
+      "ejes": "—",
+      "elemento": "TABLAS PARA ARMADO DE PLATAFORMA PARA TARRAJEO DE TECHO",
+      "fecha": "2026-02-14",
+      "id": 1772487498037,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.02",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 300,
+        "nombre": "TRASLADO DE MATERIALES, HERRAMIENTAS Y EQUIPOS (D prom: 1 km)",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "DESENCOFRADO",
+      "ejes": "2-3/B-C",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-14",
+      "id": 1772800888501,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.02",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 392.85,
+        "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN COLUMNETAS",
+        "nueva": false,
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "DESENCOFRADO",
+      "ejes": "2-3/C-D",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-14",
+      "id": 1772542901391,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.02",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 392.85,
+        "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN COLUMNETAS",
+        "nueva": false,
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "DESENCOFRADO",
+      "ejes": "2-3/C-D",
+      "elemento": "VIGUETAS VA-1",
+      "fecha": "2026-02-14",
+      "id": 1772543009105,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.02",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 120.72,
+        "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN VIGUETAS",
+        "nueva": false,
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "HABILITADO Y ARMADO DE ACERO",
+      "ejes": "1-2/A",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-14",
+      "id": 1772802935842,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.03",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 2204.29,
+        "nombre": "ACERO EN COLUMNETAS Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "HABILITADO Y ARMADO DE ACERO",
+      "ejes": "2-3/A",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-14",
+      "id": 1772802952830,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.03",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 2204.29,
+        "nombre": "ACERO EN COLUMNETAS Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "HABILITADO Y ARMADO DE ACERO",
+      "ejes": "2-3/B-C",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-14",
+      "id": 1772544181979,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.03",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 2204.29,
+        "nombre": "ACERO EN COLUMNETAS Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "2-3/B-C",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-14",
+      "id": 1772545045091,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.04",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 392.85,
+        "nombre": "CURADO DE CONCRETO EN COLUMNETAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "2-3/C-D",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-14",
+      "id": 1772800967950,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.04",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 392.85,
+        "nombre": "CURADO DE CONCRETO EN COLUMNETAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "2-3/B-C",
+      "elemento": "VIGUETA VA-1",
+      "fecha": "2026-02-14",
+      "id": 1772545065061,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.04",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 120.72,
+        "nombre": "CURADO DE CONCRETO EN VIGUETAS",
+        "nueva": false,
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ARMADO DE PLATAFORMA PARA TARRAJEO DE CIELORRASO",
+      "ejes": "1-2/E-E' , 2-3/E-E' , 1-2/C-E",
+      "elemento": "INTERIOR DE LOSA",
+      "fecha": "2026-02-16",
+      "id": 1772547770066,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "ARQUITECTURA",
+        "codigo": "03.03.01",
+        "color": "#42A5F5",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 558.06,
+        "nombre": "CIELORRASO CON MEZC. C:A 1:5, E=1.5CM.",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "CIELORRASOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ASENTADO DE LADRILLO",
+      "ejes": "2-3/A , 3/A-B , 3/B-C , 3/D-E",
+      "elemento": "MURO DE TABIQUERIA",
+      "fecha": "2026-02-16",
+      "id": 1772547952666,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "MUROS",
+        "codigo": "03.01.01.02",
+        "color": "#607D8B",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 234.29,
+        "nombre": "MURO DE LADRILLO K.K. TIPO V DE SOGA, C/MEZCLA C:A 1:5",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "MUROS Y TABIQUES DE ALBAÑILERIA",
+          "MUROS DE LADRILLO KING KONG DE ARCILLA"
+        ]
+      },
+      "pct": 50
+    },
+    {
+      "descripcion": "TRASLADO DE MATERIALES",
+      "ejes": "—",
+      "elemento": "IZAJE DE LADRILLO, ARENA FINA, ARENA GRUESA, PIEDRA CHANCADA",
+      "fecha": "2026-02-16",
+      "id": 1772548281663,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.02",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 300,
+        "nombre": "TRASLADO DE MATERIALES, HERRAMIENTAS Y EQUIPOS (D prom: 1 km)",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "HABILITADO DE FORMAS",
+      "ejes": "3/C , 3/D , 2/A",
+      "elemento": "COLUMNAS C-01 , C-02",
+      "fecha": "2026-02-16",
+      "id": 1772548892281,
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "COLUMNAS",
+        "codigo": "01.01.03.06.02",
+        "color": "#8E44AD",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 346.36,
+        "nombre": "ENCOFRADO Y DESENCOFRADO CARAVISTA EN COLUMNAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "HABILITADO DE FORMAS",
+      "ejes": "1/A",
+      "elemento": "PLACAS PL-02",
+      "fecha": "2026-02-16",
+      "id": 1772551185185,
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "PLACAS",
+        "codigo": "01.01.03.05.02",
+        "color": "#1ABC9C",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 990.09,
+        "nombre": "ENCOFRADO Y DESENCOFRADO CARAVISTA EN PLACAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "PLACAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "HABILITADO Y ARMADO DE ACERO",
+      "ejes": "3/C-D",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-16",
+      "id": 1772552888912,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.03",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 2204.29,
+        "nombre": "ACERO EN COLUMNETAS Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "TRAZO DE COLUMNAS PARA ENCOFRADO",
+      "ejes": "3/A , 3/B",
+      "elemento": "PLACAS PL-01, PL-04'",
+      "fecha": "2026-02-17",
+      "id": 1772554932895,
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.01",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 210,
+        "nombre": "CONTROL TOPOGRAFICO DURANTE LA EJECUCION DE OBRA",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "TARRAJEO",
+      "ejes": "1-2/E-E' , 2-3/E-E'",
+      "elemento": "INTERIOR DE LOSA",
+      "fecha": "2026-02-17",
+      "id": 1772554954201,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "ARQUITECTURA",
+        "codigo": "03.03.01",
+        "color": "#42A5F5",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 558.06,
+        "nombre": "CIELORRASO CON MEZC. C:A 1:5, E=1.5CM.",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "CIELORRASOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ENCOFRADO",
+      "ejes": "2-3/A",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-17",
+      "id": 1772555045729,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.02",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 392.85,
+        "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN COLUMNETAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ENCOFRADO",
+      "ejes": "2-3/A",
+      "elemento": "VIGUETAS VA-1",
+      "fecha": "2026-02-17",
+      "id": 1772563772097,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.02",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 120.72,
+        "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN VIGUETAS",
+        "nueva": false,
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ASENTADO DE LADRILLO",
+      "ejes": "2-3/A , 3/A-B , 3/B-C , 3/D-E",
+      "elemento": "MURO DE TABIQUERIA",
+      "fecha": "2026-02-17",
+      "id": 1772555079747,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "MUROS",
+        "codigo": "03.01.01.02",
+        "color": "#607D8B",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 234.29,
+        "nombre": "MURO DE LADRILLO K.K. TIPO V DE SOGA, C/MEZCLA C:A 1:5",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "MUROS Y TABIQUES DE ALBAÑILERIA",
+          "MUROS DE LADRILLO KING KONG DE ARCILLA"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "TRASLADO DE MATERIALES",
+      "ejes": "—",
+      "elemento": "IZAJE DE LADRILLO, ARENA FINA, ARENA GRUESA, PIEDRA CHANCADA",
+      "fecha": "2026-02-17",
+      "id": 1772555466963,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.02",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 300,
+        "nombre": "TRASLADO DE MATERIALES, HERRAMIENTAS Y EQUIPOS (D prom: 1 km)",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "HABILITADO DE ACERO",
+      "ejes": "2-3/A , 3/A-B , 3/B-C , 3/D-E",
+      "elemento": "VIGUETAS VA-1",
+      "fecha": "2026-02-17",
+      "id": 1772556132472,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.03",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 1208.68,
+        "nombre": "ACERO EN VIGUETAS Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "TARRAJEO",
+      "ejes": "1-2/C-E",
+      "elemento": "INTERIOR DE LOSA",
+      "fecha": "2026-02-18",
+      "id": 1772556221713,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "ARQUITECTURA",
+        "codigo": "03.03.01",
+        "color": "#42A5F5",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 558.06,
+        "nombre": "CIELORRASO CON MEZC. C:A 1:5, E=1.5CM.",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "CIELORRASOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "DESMONTAJE DE PLATAFORMA PARA TARRAJEO DE CIELORRASO",
+      "ejes": "1-2/E-E' , 2-3/E-E' , 1-2/C-E",
+      "elemento": "INTERIOR DE LOSA",
+      "fecha": "2026-02-18",
+      "id": 1772556328717,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "ARQUITECTURA",
+        "codigo": "03.03.01",
+        "color": "#42A5F5",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 558.06,
+        "nombre": "CIELORRASO CON MEZC. C:A 1:5, E=1.5CM.",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "CIELORRASOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ARMADO DE PLATAFORMA PARA TARRAJEO DE CIELORRASO",
+      "ejes": "2-3/B-E",
+      "elemento": "INTERIOR DE LOSA",
+      "fecha": "2026-02-18",
+      "id": 1772556401814,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "ARQUITECTURA",
+        "codigo": "03.03.01",
+        "color": "#42A5F5",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 558.06,
+        "nombre": "CIELORRASO CON MEZC. C:A 1:5, E=1.5CM.",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "CIELORRASOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "TRAZO DE COLUMNAS PARA ENCOFRADO",
+      "ejes": "3/C , 3/D , 2/A",
+      "elemento": "COLUMNAS C-01 , C-02",
+      "fecha": "2026-02-18",
+      "id": 1772561095349,
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.01",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 210,
+        "nombre": "CONTROL TOPOGRAFICO DURANTE LA EJECUCION DE OBRA",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "TRAZO DE COLUMNAS PARA ENCOFRADO",
+      "ejes": "1/A",
+      "elemento": "PLACAS PL-02",
+      "fecha": "2026-02-18",
+      "id": 1772561190333,
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.01",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 210,
+        "nombre": "CONTROL TOPOGRAFICO DURANTE LA EJECUCION DE OBRA",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "TRASLADO DE MATERIALES",
+      "ejes": "—",
+      "elemento": "TRASLADO DE FORMAS CON WINCHE PARA ENCOFRADO",
+      "fecha": "2026-02-18",
+      "id": 1772562834935,
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.02",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 300,
+        "nombre": "TRASLADO DE MATERIALES, HERRAMIENTAS Y EQUIPOS (D prom: 1 km)",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ENCOFRADO",
+      "ejes": "3/C , 3/D , 2/A",
+      "elemento": "COLUMNAS C-01 , C-02",
+      "fecha": "2026-02-18",
+      "id": 1772561226756,
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "COLUMNAS",
+        "codigo": "01.01.03.06.02",
+        "color": "#8E44AD",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 346.36,
+        "nombre": "ENCOFRADO Y DESENCOFRADO CARAVISTA EN COLUMNAS",
+        "nueva": false,
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ENCOFRADO",
+      "ejes": "1/A",
+      "elemento": "PLACAS PL-02",
+      "fecha": "2026-02-18",
+      "id": 1772562233641,
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "COLUMNAS",
+        "codigo": "01.01.03.06.02",
+        "color": "#8E44AD",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 346.36,
+        "nombre": "ENCOFRADO Y DESENCOFRADO CARAVISTA EN COLUMNAS",
+        "nueva": false,
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "TRASLADO DE MATERIALES",
+      "ejes": "—",
+      "elemento": "IZAJE DE ARENA FINA,  2 BOLSAS DE CEMENTO, ARENA 2M3 PARA TARRAJEO",
+      "fecha": "2026-02-18",
+      "id": 1772562765889,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.02",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 300,
+        "nombre": "TRASLADO DE MATERIALES, HERRAMIENTAS Y EQUIPOS (D prom: 1 km)",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "COLOCADO DE PUNTOS DE NIVEL",
+      "ejes": "2-3/B-E",
+      "elemento": "INTERIOR DE LOSA",
+      "fecha": "2026-02-18",
+      "id": 1772563055062,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "ARQUITECTURA",
+        "codigo": "03.03.01",
+        "color": "#42A5F5",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 558.06,
+        "nombre": "CIELORRASO CON MEZC. C:A 1:5, E=1.5CM.",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "CIELORRASOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "VACIADO",
+      "ejes": "2-3/A",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-18",
+      "id": 1772564072717,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.01",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 31.39,
+        "nombre": "CONCRETO EN COLUMNETAS F'C= 175 KG/CM2, C/CEMENTO TIPO IP",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "VACIADO",
+      "ejes": "2-3/A",
+      "elemento": "VIGUETAS VA-1",
+      "fecha": "2026-02-18",
+      "id": 1772564139413,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.01",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 13.27,
+        "nombre": "CONCRETO EN VIGUETAS F'C= 175 KG/CM2, C/CEMENTO TIPO IP",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "TARRAJEO",
+      "ejes": "2-3/B-E",
+      "elemento": "INTERIOR DE LOSA",
+      "fecha": "2026-02-19",
+      "id": 1772564394348,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "ARQUITECTURA",
+        "codigo": "03.03.01",
+        "color": "#42A5F5",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 558.06,
+        "nombre": "CIELORRASO CON MEZC. C:A 1:5, E=1.5CM.",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "CIELORRASOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "TRASLADO DE MATERIALES",
+      "ejes": "—",
+      "elemento": "IZAJE DE ARENA FINA 3M3, LADRILLO, CEMENTO, BOLILLOS",
+      "fecha": "2026-02-19",
+      "id": 1772564427805,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.02",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 300,
+        "nombre": "TRASLADO DE MATERIALES, HERRAMIENTAS Y EQUIPOS (D prom: 1 km)",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ENCOFRADO",
+      "ejes": "2/D , 1/D",
+      "elemento": "COLUMNAS C-01",
+      "fecha": "2026-02-19",
+      "id": 1772567822116,
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "COLUMNAS",
+        "codigo": "01.01.03.06.02",
+        "color": "#8E44AD",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 346.36,
+        "nombre": "ENCOFRADO Y DESENCOFRADO CARAVISTA EN COLUMNAS",
+        "nueva": false,
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "HABILITADO DE FORMAS",
+      "ejes": "2/B",
+      "elemento": "PLACAS PL-05",
+      "fecha": "2026-02-19",
+      "id": 1772569392819,
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "PLACAS",
+        "codigo": "01.01.03.05.02",
+        "color": "#1ABC9C",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 990.09,
+        "nombre": "ENCOFRADO Y DESENCOFRADO CARAVISTA EN PLACAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "PLACAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ENCOFRADO",
+      "ejes": "2/B",
+      "elemento": "PLACAS PL-05",
+      "fecha": "2026-02-19",
+      "id": 1772568540587,
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "PLACAS",
+        "codigo": "01.01.03.05.01",
+        "color": "#1ABC9C",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 119.89,
+        "nombre": "CONCRETO PREMEZCLADO EN PLACAS F'C=210 KG/CM2, C/CEMENTO TIPO IP",
+        "nueva": false,
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "PLACAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "HABILITADO Y ARMADO DE ACERO",
+      "ejes": "1/B",
+      "elemento": "PLACAS PL-04",
+      "fecha": "2026-02-19",
+      "id": 1772569323475,
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "PLACAS",
+        "codigo": "01.01.03.05.03",
+        "color": "#1ABC9C",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 25732.09,
+        "nombre": "ACERO EN PLACAS Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "PLACAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "HABILITADO DE ACERO",
+      "ejes": "2/E , 1/E",
+      "elemento": "COLUMNAS C-01, C-02",
+      "fecha": "2026-02-19",
+      "id": 1772569609970,
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "COLUMNAS",
+        "codigo": "01.01.03.06.03",
+        "color": "#8E44AD",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 9614.86,
+        "nombre": "ACERO EN COLUMNAS Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "HABILITADO DE ACERO",
+      "ejes": "3/E",
+      "elemento": "PLACAS PL-01'",
+      "fecha": "2026-02-19",
+      "id": 1772569630123,
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "PLACAS",
+        "codigo": "01.01.03.05.03",
+        "color": "#1ABC9C",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 25732.09,
+        "nombre": "ACERO EN PLACAS Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "PLACAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "DESMONTAJE DE PLATAFORMA PARA TARRAJEO DE CIELORRASO",
+      "ejes": "2-3/B-E",
+      "elemento": "INTERIOR DE LOSA",
+      "fecha": "2026-02-19",
+      "id": 1772569701407,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "ARQUITECTURA",
+        "codigo": "03.03.01",
+        "color": "#42A5F5",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 558.06,
+        "nombre": "CIELORRASO CON MEZC. C:A 1:5, E=1.5CM.",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "CIELORRASOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ENCOFRADO",
+      "ejes": "1/B",
+      "elemento": "PLACAS PL-04",
+      "fecha": "2026-02-20",
+      "id": 1772571379594,
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "PLACAS",
+        "codigo": "01.01.03.05.02",
+        "color": "#1ABC9C",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 990.09,
+        "nombre": "ENCOFRADO Y DESENCOFRADO CARAVISTA EN PLACAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "PLACAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ENCOFRADO",
+      "ejes": "1/C",
+      "elemento": "COLUMNAS C-03",
+      "fecha": "2026-02-20",
+      "id": 1772571416490,
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "COLUMNAS",
+        "codigo": "01.01.03.06.02",
+        "color": "#8E44AD",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 346.36,
+        "nombre": "ENCOFRADO Y DESENCOFRADO CARAVISTA EN COLUMNAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "HABILITADO Y ARMADO DE ACERO",
+      "ejes": "2-3/C-E",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-20",
+      "id": 1772572605242,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.03",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 2204.29,
+        "nombre": "ACERO EN COLUMNETAS Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ARMADO DE PLATAFORMA PARA TARRAJEO DE CIELO RASO",
+      "ejes": "1-2/A-B , 2-3/A-B",
+      "elemento": "INTERIOR DE LOSA",
+      "fecha": "2026-02-20",
+      "id": 1772573027065,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "ARQUITECTURA",
+        "codigo": "03.03.01",
+        "color": "#42A5F5",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 558.06,
+        "nombre": "CIELORRASO CON MEZC. C:A 1:5, E=1.5CM.",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "CIELORRASOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "TARRAJEO",
+      "ejes": "1-2/A-B , 2-3/A-B",
+      "elemento": "INTERIOR DE LOSA",
+      "fecha": "2026-02-20",
+      "id": 1772573093354,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "ARQUITECTURA",
+        "codigo": "03.03.01",
+        "color": "#42A5F5",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 558.06,
+        "nombre": "CIELORRASO CON MEZC. C:A 1:5, E=1.5CM.",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "CIELORRASOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ENCOFRADO",
+      "ejes": "3/B-C",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-20",
+      "id": 1772573335449,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.02",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 392.85,
+        "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN COLUMNETAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "VACIADO",
+      "ejes": "3/B-C",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-20",
+      "id": 1772573406785,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.01",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 31.39,
+        "nombre": "CONCRETO EN COLUMNETAS F'C= 175 KG/CM2, C/CEMENTO TIPO IP",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "TRASLADO DE MATERIALES",
+      "ejes": "—",
+      "elemento": "IZAJE DE ESTRIBOS, ARENA FINA, LADRILLO",
+      "fecha": "2026-02-20",
+      "id": 1772573488419,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.02",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 300,
+        "nombre": "TRASLADO DE MATERIALES, HERRAMIENTAS Y EQUIPOS (D prom: 1 km)",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ALINEADO Y APUNTALADO",
+      "ejes": "3/A , 3/B",
+      "elemento": "PLACAS PL-01, PL-04'",
+      "fecha": "2026-02-21",
+      "id": 1772575561641,
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.01",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 210,
+        "nombre": "CONTROL TOPOGRAFICO DURANTE LA EJECUCION DE OBRA",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ALINEADO Y APUNTALADO",
+      "ejes": "3/C , 3/D",
+      "elemento": "COLUMNAS C-01",
+      "fecha": "2026-02-21",
+      "id": 1772575583209,
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.01",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 210,
+        "nombre": "CONTROL TOPOGRAFICO DURANTE LA EJECUCION DE OBRA",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "DESMONTAJE DE PLATAFORMA PARA TARRAJEO DE CIELO RASO",
+      "ejes": "1-2/A-B , 2-3/A-B",
+      "elemento": "INTERIOR DE LOSA",
+      "fecha": "2026-02-21",
+      "id": 1772575644972,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "ARQUITECTURA",
+        "codigo": "03.03.01",
+        "color": "#42A5F5",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 558.06,
+        "nombre": "CIELORRASO CON MEZC. C:A 1:5, E=1.5CM.",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "CIELORRASOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "HABILITADO Y ARMADO DE ACERO",
+      "ejes": "3/E-E' , 1/E-E'",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-21",
+      "id": 1772576226112,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.03",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 2204.29,
+        "nombre": "ACERO EN COLUMNETAS Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "TRASLADO DE MATERIALES",
+      "ejes": "—",
+      "elemento": "IZAJE DE LADRILLO, CEMENTO, ARENA GRUESA",
+      "fecha": "2026-02-21",
+      "id": 1772576249651,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.02",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 300,
+        "nombre": "TRASLADO DE MATERIALES, HERRAMIENTAS Y EQUIPOS (D prom: 1 km)",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "HABILITADO DE ACERO",
+      "ejes": "2/E'",
+      "elemento": "COLUMNAS C-01",
+      "fecha": "2026-02-21",
+      "id": 1772576401985,
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "COLUMNAS",
+        "codigo": "01.01.03.06.03",
+        "color": "#8E44AD",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 9614.86,
+        "nombre": "ACERO EN COLUMNAS Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "HABILITADO DE ACERO",
+      "ejes": "1/E'",
+      "elemento": "PLACAS PL-03",
+      "fecha": "2026-02-21",
+      "id": 1772576414992,
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "PLACAS",
+        "codigo": "01.01.03.05.03",
+        "color": "#1ABC9C",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 25732.09,
+        "nombre": "ACERO EN PLACAS Fy=4200 kg/cm2 GRADO 60",
+        "nueva": false,
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "PLACAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ASENTADO DE LADRILLO",
+      "ejes": "1/C-D , 1/D-E , 3/C-D",
+      "elemento": "MURO DE TABIQUERIA",
+      "fecha": "2026-02-21",
+      "id": 1772576614320,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "MUROS",
+        "codigo": "03.01.01.02",
+        "color": "#607D8B",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 234.29,
+        "nombre": "MURO DE LADRILLO K.K. TIPO V DE SOGA, C/MEZCLA C:A 1:5",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "MUROS Y TABIQUES DE ALBAÑILERIA",
+          "MUROS DE LADRILLO KING KONG DE ARCILLA"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "HABILITADO Y ARMADO DE ACERO",
+      "ejes": "2/D , 1/D",
+      "elemento": "COLUMNAS C-01",
+      "fecha": "2026-02-11",
+      "id": 1772482486170,
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "COLUMNAS",
+        "codigo": "01.01.03.06.03",
+        "color": "#8E44AD",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 9614.86,
+        "nombre": "ACERO EN COLUMNAS Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "2-3/C-D",
+      "elemento": "VIGUETA VA-1",
+      "fecha": "2026-02-14",
+      "id": 1772800995584,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.04",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 120.72,
+        "nombre": "CURADO DE CONCRETO EN VIGUETAS",
+        "nueva": false,
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "TRASLADO DE MATERIALES",
+      "ejes": "—",
+      "elemento": "TRASLADO DE 1400 UND DE LADRILLO DEL ALMACEN DE CHACANE",
+      "fecha": "2026-02-23",
+      "id": 1772802122265,
+      "nivel": "1er Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.02",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 300,
+        "nombre": "TRASLADO DE MATERIALES, HERRAMIENTAS Y EQUIPOS (D prom: 1 km)",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ASENTADO DE LADRILLO",
+      "ejes": "1/B-C , 1/C-D , 1/D-E",
+      "elemento": "MURO DE TABIQUERIA",
+      "fecha": "2026-02-23",
+      "id": 1772804163729,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "MUROS",
+        "codigo": "03.01.01.02",
+        "color": "#607D8B",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 234.29,
+        "nombre": "MURO DE LADRILLO K.K. TIPO V DE SOGA, C/MEZCLA C:A 1:5",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "MUROS Y TABIQUES DE ALBAÑILERIA",
+          "MUROS DE LADRILLO KING KONG DE ARCILLA"
+        ]
+      },
+      "pct": 50
+    },
+    {
+      "descripcion": "ASENTADO DE LADRILLO",
+      "ejes": "3/E-E'",
+      "elemento": "MURO DE TABIQUERIA",
+      "fecha": "2026-02-23",
+      "id": 1772806218734,
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "MUROS",
+        "codigo": "03.01.01.02",
+        "color": "#607D8B",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 234.29,
+        "nombre": "MURO DE LADRILLO K.K. TIPO V DE SOGA, C/MEZCLA C:A 1:5",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "MUROS Y TABIQUES DE ALBAÑILERIA",
+          "MUROS DE LADRILLO KING KONG DE ARCILLA"
+        ]
+      },
+      "pct": 50
+    },
+    {
+      "descripcion": "ENCOFRADO",
+      "ejes": "1-2/A , 2-3/A",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-11",
+      "id": 1772806768714,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.02",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 392.85,
+        "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN COLUMNETAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "HABILITADO Y ARMADO DE ACERO",
+      "ejes": "1-2/A , 2-3/A",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-09",
+      "id": 1772806864443,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.03",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 2204.29,
+        "nombre": "ACERO EN COLUMNETAS Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ENCOFRADO",
+      "ejes": "1-2/A , 2-3/A",
+      "elemento": "VIGUETAS VA-1",
+      "fecha": "2026-02-11",
+      "id": 1772806998706,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.02",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 120.72,
+        "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN VIGUETAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "VACIADO",
+      "ejes": "1-2/A , 2-3/A",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-12",
+      "id": 1772807189883,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.01",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 31.39,
+        "nombre": "CONCRETO EN COLUMNETAS F'C= 175 KG/CM2, C/CEMENTO TIPO IP",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "VACIADO",
+      "ejes": "1-2/A , 2-3/A",
+      "elemento": "VIGUETAS VA-1",
+      "fecha": "2026-02-12",
+      "id": 1772807218387,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.01",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 13.27,
+        "nombre": "CONCRETO EN VIGUETAS F'C= 175 KG/CM2, C/CEMENTO TIPO IP",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "DESENCOFRADO",
+      "ejes": "1-2/A , 2-3/A",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-13",
+      "id": 1772807326299,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.02",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 392.85,
+        "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN COLUMNETAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "DESENCOFRADO",
+      "ejes": "1-2/A , 2-3/A",
+      "elemento": "VIGUETAS VA-1",
+      "fecha": "2026-02-13",
+      "id": 1772807351370,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.02",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 120.72,
+        "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN VIGUETAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "1-2/A , 2-3/A",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-14",
+      "id": 1772807377058,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.04",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 392.85,
+        "nombre": "CURADO DE CONCRETO EN COLUMNETAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "1-2/A , 2-3/A",
+      "elemento": "VIGUETAS VA-1",
+      "fecha": "2026-02-14",
+      "id": 1772807389387,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.04",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 120.72,
+        "nombre": "CURADO DE CONCRETO EN VIGUETAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "VACIADO",
+      "ejes": "1/B-C , 1/C-D , 1/D-E",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-09",
+      "id": 1772807934315,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.01",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 31.39,
+        "nombre": "CONCRETO EN COLUMNETAS F'C= 175 KG/CM2, C/CEMENTO TIPO IP",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ENCOFRADO",
+      "ejes": "1/B-C , 1/C-D , 1/D-E",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-09",
+      "id": 1772807981107,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.02",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 392.85,
+        "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN COLUMNETAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "VACIADO",
+      "ejes": "1/B-C , 1/C-D , 1/D-E",
+      "elemento": "VIGUETAS VA-1",
+      "fecha": "2026-02-12",
+      "id": 1772808032979,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.01",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 13.27,
+        "nombre": "CONCRETO EN VIGUETAS F'C= 175 KG/CM2, C/CEMENTO TIPO IP",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "1/B-C , 1/C-D , 1/D-E",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-13",
+      "id": 1772808075323,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.04",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 392.85,
+        "nombre": "CURADO DE CONCRETO EN COLUMNETAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "1/B-C , 1/C-D , 1/D-E",
+      "elemento": "VIGUETAS VA-1",
+      "fecha": "2026-02-13",
+      "id": 1772808142930,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.04",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 120.72,
+        "nombre": "CURADO DE CONCRETO EN VIGUETAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "VACIADO",
+      "ejes": "2/D-E",
+      "elemento": "COLUMNETAS CA-1",
+      "fecha": "2026-02-12",
+      "id": 1772811364765,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.01",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 31.39,
+        "nombre": "CONCRETO EN COLUMNETAS F'C= 175 KG/CM2, C/CEMENTO TIPO IP",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "VACIADO",
+      "ejes": "2/D-E",
+      "elemento": "VIGUETAS VA-1",
+      "fecha": "2026-02-12",
+      "id": 1772811387188,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.01",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 13.27,
+        "nombre": "CONCRETO EN VIGUETAS F'C= 175 KG/CM2, C/CEMENTO TIPO IP",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "DESENCOFRADO",
+      "ejes": "2/D-E",
+      "elemento": "COLUMENTAS CA-1",
+      "fecha": "2026-02-13",
+      "id": 1772811583356,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.02",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 392.85,
+        "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN COLUMNETAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "DESENCOFRADO",
+      "ejes": "2/D-E",
+      "elemento": "VIGUETAS VA-1",
+      "fecha": "2026-02-13",
+      "id": 1772811599612,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.02",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 120.72,
+        "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN VIGUETAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "2/D-E",
+      "elemento": "COLUMNETA CA-1",
+      "fecha": "2026-02-13",
+      "id": 1772828421138,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.04",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 392.85,
+        "nombre": "CURADO DE CONCRETO EN COLUMNETAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "2/D-E",
+      "elemento": "VIGUETAS VA-1",
+      "fecha": "2026-02-13",
+      "id": 1772828467097,
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.04",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 120.72,
+        "nombre": "CURADO DE CONCRETO EN VIGUETAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    }
+  ],
+  "avance_manual": {
+    "COLUMNAS|PL-01, PL-04'|5to Nivel": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "COLUMNAS|—|—": [
+      true,
+      true,
+      true,
+      false,
+      false,
+      false,
+      true
+    ],
+    "COLUMNETAS|COLUMNETAS|2do Nivel": [
+      true,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "COLUMNETAS|—|—": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "LOSAS_ALIGERADAS|FONDO DE LOSA 5TO NIVEL|CUARTO NIVEL": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false
+    ],
+    "LOSAS_ALIGERADAS|FONDO DE LOSA DE  5TO NIVEL|4TO NIVEL": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false
+    ],
+    "LOSAS_ALIGERADAS|LOSA ALIGERARADA|4to Nivel": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      false
+    ],
+    "LOSAS_ALIGERADAS|—|3er Nivel": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      false
+    ],
+    "LOSAS_ALIGERADAS|—|4to Nivel": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false
+    ],
+    "LOSAS_ALIGERADAS|—|—": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false
+    ],
+    "LOSAS_MACIZAS|—|—": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      false
+    ],
+    "PLACAS|—|—": [
+      true,
+      true,
+      true,
+      false,
+      false,
+      false
+    ],
+    "VIGUETAS|—|—": [
+      true,
+      true,
+      true,
+      true,
+      false,
+      false
+    ]
+  },
+  "equipos_data": {
+    "2026-02-03": [
+      {
+        "cant": 1,
+        "nombre": "Vibradora Eléctrica"
+      },
+      {
+        "cant": 1,
+        "nombre": "Mezcladora Eléctrica"
+      }
+    ],
+    "2026-02-04": [
+      {
+        "cant": 1,
+        "nombre": "Vibradora Eléctrica"
+      },
+      {
+        "cant": 1,
+        "nombre": "Mezcladora Eléctrica"
+      }
+    ],
+    "2026-02-05": [
+      {
+        "cant": 1,
+        "nombre": "Vibradora Eléctrica"
+      },
+      {
+        "cant": 1,
+        "nombre": "Mezcladora Eléctrica"
+      }
+    ],
+    "2026-02-09": [
+      {
+        "cant": 1,
+        "nombre": "Vibradora Eléctrica"
+      },
+      {
+        "cant": 1,
+        "nombre": "Mezcladora Eléctrica"
+      }
+    ],
+    "2026-02-10": [
+      {
+        "cant": 1,
+        "nombre": "Vibradora Eléctrica"
+      },
+      {
+        "cant": 1,
+        "nombre": "Mezcladora Eléctrica"
+      }
+    ],
+    "2026-02-14": [
+      {
+        "cant": 1,
+        "nombre": "Vibradora Eléctrica"
+      },
+      {
+        "cant": 1,
+        "nombre": "Mezcladora Eléctrica"
+      }
+    ],
+    "2026-02-16": [
+      {
+        "cant": 1,
+        "nombre": "Vibradora Eléctrica"
+      },
+      {
+        "cant": 1,
+        "nombre": "Mezcladora Eléctrica"
+      }
+    ],
+    "2026-02-17": [
+      {
+        "cant": 1,
+        "nombre": "Vibradora Eléctrica"
+      },
+      {
+        "cant": 1,
+        "nombre": "Mezcladora Eléctrica"
+      }
+    ]
+  },
+  "lanes": {
+    "1772025901347": 0,
+    "1772028023364": 1,
+    "1772032067216": 2,
+    "1772032238160": 3,
+    "1772032534112": 4,
+    "1772033510437": 0,
+    "1772034055062": 6,
+    "1772035079415": 7,
+    "1772035179103": 5,
+    "1772035745480": 8,
+    "1772036198736": 5,
+    "1772036633784": 9,
+    "1772045232999": 10,
+    "1772045355423": 11,
+    "1772045479280": 8,
+    "1772045694303": 12,
+    "1772046562745": 0,
+    "1772046937304": 1,
+    "1772047124520": 13,
+    "1772047433985": 1,
+    "1772047554617": 2,
+    "1772202632259": 0,
+    "1772205729019": 14,
+    "1772207064480": 11,
+    "1772208423737": 15,
+    "1772208514905": 15,
+    "1772208997752": 16,
+    "1772209078202": 17,
+    "1772210051972": 17,
+    "1772210092473": 18,
+    "1772210380417": 19,
+    "1772210572483": 16,
+    "1772210971162": 20,
+    "1772480158881": 3,
+    "1772480585272": 21,
+    "1772480987513": 22,
+    "1772481132949": 23,
+    "1772481697794": 24,
+    "1772481768353": 26,
+    "1772481924834": 28,
+    "1772481975778": 29,
+    "1772482098690": 28,
+    "1772482131458": 29,
+    "1772482174729": 30,
+    "1772482486170": 57,
+    "1772482500752": 31,
+    "1772482650075": 33,
+    "1772482694562": 27,
+    "1772482845546": 34,
+    "1772483133035": 35,
+    "1772483171554": 36,
+    "1772483204636": 37,
+    "1772483534763": 1,
+    "1772483628787": 3,
+    "1772484065915": 38,
+    "1772484089432": 39,
+    "1772487193711": 10,
+    "1772487252278": 17,
+    "1772487498037": 40,
+    "1772542901391": 33,
+    "1772543009105": 27,
+    "1772544181979": 32,
+    "1772545045091": 32,
+    "1772545065061": 43,
+    "1772547770066": 44,
+    "1772547952666": 45,
+    "1772548281663": 46,
+    "1772548892281": 6,
+    "1772551185185": 47,
+    "1772552888912": 48,
+    "1772554932895": 1,
+    "1772554954201": 49,
+    "1772555045729": 42,
+    "1772555079747": 45,
+    "1772555466963": 46,
+    "1772556132472": 4,
+    "1772556221713": 52,
+    "1772556328717": 44,
+    "1772556401814": 53,
+    "1772561095349": 6,
+    "1772561190333": 47,
+    "1772561226756": 6,
+    "1772562233641": 47,
+    "1772562765889": 55,
+    "1772562834935": 54,
+    "1772563055062": 53,
+    "1772563772097": 50,
+    "1772564072717": 4,
+    "1772564139413": 5,
+    "1772564394348": 53,
+    "1772564427805": 56,
+    "1772567822116": 57,
+    "1772568540587": 58,
+    "1772569323475": 59,
+    "1772569392819": 58,
+    "1772569609970": 5,
+    "1772569630123": 6,
+    "1772569701407": 53,
+    "1772571379594": 59,
+    "1772571416490": 34,
+    "1772572605242": 62,
+    "1772573027065": 63,
+    "1772573093354": 63,
+    "1772573335449": 64,
+    "1772573406785": 6,
+    "1772573488419": 65,
+    "1772575152824": 3,
+    "1772575561641": 1,
+    "1772575583209": 66,
+    "1772575644972": 63,
+    "1772576226112": 67,
+    "1772576249651": 68,
+    "1772576401985": 7,
+    "1772576414992": 8,
+    "1772576614320": 71,
+    "1772800380664": 25,
+    "1772800496448": 27,
+    "1772800734077": 32,
+    "1772800819045": 2,
+    "1772800888501": 32,
+    "1772800967950": 33,
+    "1772800995584": 72,
+    "1772802122265": 73,
+    "1772802935842": 41,
+    "1772802952830": 42,
+    "1772803371889": 10,
+    "1772807189883": 7,
+    "1772807218387": 8
+  },
+  "personal_data": {
+    "2026-02-03": {
+      "obrero": [
+        {
+          "cant": 1,
+          "cat": "Capataz"
+        },
+        {
+          "cant": 11,
+          "cat": "Operarios"
+        },
+        {
+          "cant": 9,
+          "cat": "Oficiales"
+        },
+        {
+          "cant": 3,
+          "cat": "Oficiales Guardianes"
+        },
+        {
+          "cant": 7,
+          "cat": "Peones"
+        }
+      ],
+      "tecnico": [
+        {
+          "cant": 1,
+          "rol": "Ing. Residente"
+        },
+        {
+          "cant": 1,
+          "rol": "Administrador"
+        },
+        {
+          "cant": 1,
+          "rol": "Almacenero"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. de Seguridad"
+        },
+        {
+          "cant": 0,
+          "rol": "Ing. Ambiental"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. Calidad"
+        },
+        {
+          "cant": 1,
+          "rol": "Especialista En Procesos De Selección"
+        },
+        {
+          "cant": 1,
+          "rol": "Topógrafo"
+        }
+      ]
+    },
+    "2026-02-04": {
+      "obrero": [
+        {
+          "cant": 1,
+          "cat": "Capataz"
+        },
+        {
+          "cant": 12,
+          "cat": "Operarios"
+        },
+        {
+          "cant": 9,
+          "cat": "Oficiales"
+        },
+        {
+          "cant": 3,
+          "cat": "Oficiales Guardianes"
+        },
+        {
+          "cant": 9,
+          "cat": "Peones"
+        }
+      ],
+      "tecnico": [
+        {
+          "cant": 1,
+          "rol": "Ing. Residente"
+        },
+        {
+          "cant": 1,
+          "rol": "Administrador"
+        },
+        {
+          "cant": 1,
+          "rol": "Almacenero"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. de Seguridad"
+        },
+        {
+          "cant": 0,
+          "rol": "Ing. Ambiental"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. Calidad"
+        },
+        {
+          "cant": 1,
+          "rol": "Especialista En Procesos De Selección"
+        },
+        {
+          "cant": 1,
+          "rol": "Topógrafo"
+        }
+      ]
+    },
+    "2026-02-05": {
+      "obrero": [
+        {
+          "cant": 1,
+          "cat": "Capataz"
+        },
+        {
+          "cant": 14,
+          "cat": "Operarios"
+        },
+        {
+          "cant": 10,
+          "cat": "Oficiales"
+        },
+        {
+          "cant": 3,
+          "cat": "Oficiales Guardianes"
+        },
+        {
+          "cant": 9,
+          "cat": "Peones"
+        }
+      ],
+      "tecnico": [
+        {
+          "cant": 1,
+          "rol": "Ing. Residente"
+        },
+        {
+          "cant": 1,
+          "rol": "Administrador"
+        },
+        {
+          "cant": 1,
+          "rol": "Almacenero"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. de Seguridad"
+        },
+        {
+          "cant": 0,
+          "rol": "Ing. Ambiental"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. Calidad"
+        },
+        {
+          "cant": 1,
+          "rol": "Especialista En Procesos De Selección"
+        },
+        {
+          "cant": 1,
+          "rol": "Topógrafo"
+        }
+      ]
+    },
+    "2026-02-09": {
+      "obrero": [
+        {
+          "cant": 1,
+          "cat": "Capataz"
+        },
+        {
+          "cant": 15,
+          "cat": "Operarios"
+        },
+        {
+          "cant": 11,
+          "cat": "Oficiales"
+        },
+        {
+          "cant": 3,
+          "cat": "Oficiales Guardianes"
+        },
+        {
+          "cant": 9,
+          "cat": "Peones"
+        }
+      ],
+      "tecnico": [
+        {
+          "cant": 1,
+          "rol": "Ing. Residente"
+        },
+        {
+          "cant": 1,
+          "rol": "Administrador"
+        },
+        {
+          "cant": 1,
+          "rol": "Almacenero"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. de Seguridad"
+        },
+        {
+          "cant": 0,
+          "rol": "Ing. Ambiental"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. Calidad"
+        },
+        {
+          "cant": 1,
+          "rol": "Especialista En Procesos De Selección"
+        },
+        {
+          "cant": 1,
+          "rol": "Topógrafo"
+        }
+      ]
+    },
+    "2026-02-10": {
+      "obrero": [
+        {
+          "cant": 1,
+          "cat": "Capataz"
+        },
+        {
+          "cant": 15,
+          "cat": "Operarios"
+        },
+        {
+          "cant": 12,
+          "cat": "Oficiales"
+        },
+        {
+          "cant": 3,
+          "cat": "Oficiales Guardianes"
+        },
+        {
+          "cant": 9,
+          "cat": "Peones"
+        }
+      ],
+      "tecnico": [
+        {
+          "cant": 1,
+          "rol": "Ing. Residente"
+        },
+        {
+          "cant": 1,
+          "rol": "Administrador"
+        },
+        {
+          "cant": 1,
+          "rol": "Almacenero"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. de Seguridad"
+        },
+        {
+          "cant": 0,
+          "rol": "Ing. Ambiental"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. Calidad"
+        },
+        {
+          "cant": 1,
+          "rol": "Especialista En Procesos De Selección"
+        },
+        {
+          "cant": 1,
+          "rol": "Topógrafo"
+        }
+      ]
+    },
+    "2026-02-14": {
+      "obrero": [
+        {
+          "cant": 1,
+          "cat": "Capataz"
+        },
+        {
+          "cant": 15,
+          "cat": "Operarios"
+        },
+        {
+          "cant": 12,
+          "cat": "Oficiales"
+        },
+        {
+          "cant": 3,
+          "cat": "Oficiales Guardianes"
+        },
+        {
+          "cant": 8,
+          "cat": "Peones"
+        }
+      ],
+      "tecnico": [
+        {
+          "cant": 1,
+          "rol": "Ing. Residente"
+        },
+        {
+          "cant": 1,
+          "rol": "Administrador"
+        },
+        {
+          "cant": 1,
+          "rol": "Almacenero"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. de Seguridad"
+        },
+        {
+          "cant": 0,
+          "rol": "Ing. Ambiental"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. Calidad"
+        },
+        {
+          "cant": 1,
+          "rol": "Especialista En Procesos De Selección"
+        },
+        {
+          "cant": 1,
+          "rol": "Topógrafo"
+        }
+      ]
+    },
+    "2026-02-16": {
+      "obrero": [
+        {
+          "cant": 1,
+          "cat": "Capataz"
+        },
+        {
+          "cant": 14,
+          "cat": "Operarios"
+        },
+        {
+          "cant": 12,
+          "cat": "Oficiales"
+        },
+        {
+          "cant": 3,
+          "cat": "Oficiales Guardianes"
+        },
+        {
+          "cant": 7,
+          "cat": "Peones"
+        }
+      ],
+      "tecnico": [
+        {
+          "cant": 1,
+          "rol": "Ing. Residente"
+        },
+        {
+          "cant": 1,
+          "rol": "Administrador"
+        },
+        {
+          "cant": 1,
+          "rol": "Almacenero"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. de Seguridad"
+        },
+        {
+          "cant": 0,
+          "rol": "Ing. Ambiental"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. Calidad"
+        },
+        {
+          "cant": 1,
+          "rol": "Especialista En Procesos De Selección"
+        },
+        {
+          "cant": 1,
+          "rol": "Topógrafo"
+        }
+      ]
+    },
+    "2026-02-17": {
+      "obrero": [
+        {
+          "cant": 1,
+          "cat": "Capataz"
+        },
+        {
+          "cant": 15,
+          "cat": "Operarios"
+        },
+        {
+          "cant": 13,
+          "cat": "Oficiales"
+        },
+        {
+          "cant": 3,
+          "cat": "Oficiales Guardianes"
+        },
+        {
+          "cant": 8,
+          "cat": "Peones"
+        }
+      ],
+      "tecnico": [
+        {
+          "cant": 1,
+          "rol": "Ing. Residente"
+        },
+        {
+          "cant": 1,
+          "rol": "Administrador"
+        },
+        {
+          "cant": 1,
+          "rol": "Almacenero"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. de Seguridad"
+        },
+        {
+          "cant": 0,
+          "rol": "Ing. Ambiental"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. Calidad"
+        },
+        {
+          "cant": 1,
+          "rol": "Especialista En Procesos De Selección"
+        },
+        {
+          "cant": 1,
+          "rol": "Topógrafo"
+        }
+      ]
+    }
+  },
+  "seq_custom": {
+    "COLUMNAS": [
+      {
+        "icono": "🔩",
+        "id": "hab_acero",
+        "nombre": "Habilitado de Acero",
+        "partida_key": "ACERO"
+      },
+      {
+        "icono": "🔩",
+        "id": "arm_acero",
+        "nombre": "Armado de Acero",
+        "partida_key": "ACERO"
+      },
+      {
+        "icono": "🪵",
+        "id": "encofrado",
+        "nombre": "Encofrado",
+        "partida_key": "ENCOFRADO"
+      },
+      {
+        "icono": "🏗️",
+        "id": "vaciado",
+        "nombre": "Vaciado de Concreto",
+        "partida_key": "CONCRETO"
+      },
+      {
+        "icono": "🔨",
+        "id": "desencofrado",
+        "nombre": "Desencofrado",
+        "partida_key": "ENCOFRADO"
+      },
+      {
+        "icono": "💧",
+        "id": "curado",
+        "nombre": "Curado",
+        "partida_key": "CURADO"
+      },
+      {
+        "icono": "📋",
+        "id": "custom_1772028014580",
+        "nombre": "Habilitado de formas",
+        "partida_key": "HABILITADO"
+      }
+    ]
+  }
+}
