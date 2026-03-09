@@ -2400,8 +2400,8 @@ function renderColumnasPlacas() {
     // Evaluar cada paso
     const pasos = PASOS_CP.map(paso => {
       let actsParaBuscar = actsElem;
-      // Para trazo, buscar en TODAS las actividades del 5to nivel (no solo COLUMNAS/PLACAS)
-      if (paso.id === 'trazo') {
+      // Para trazo y alineado, buscar en TODAS las actividades del 5to nivel (no solo COLUMNAS/PLACAS)
+      if (paso.id === 'trazo' || paso.id === 'alineado') {
         actsParaBuscar = actividades.filter(a => {
           if (a.nivel !== '5to Nivel') return false;
           const elemAct = (a.elemento || '').toUpperCase();
