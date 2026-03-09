@@ -2114,7 +2114,21 @@ function renderColumnasPlacas() {
       return matchEje;
     });
     const pasos = PASOS_CP.map(paso => {
-      const actsDelPaso = actsElem.filter(a => {
+      let actsParaBuscar = actsElem;
+      // Para trazo, buscar en TODAS las actividades del 5to nivel (no solo COLUMNAS/PLACAS)
+      if (paso.id === 'trazo') {
+        actsParaBuscar = actividades.filter(a => {
+          if (a.nivel !== '5to Nivel') return false;
+          const elemAct = (a.elemento || '').toUpperCase();
+          const nombreNorm = elem.nombre.toUpperCase();
+          const matchElem = elemAct.includes(nombreNorm) || elemAct === nombreNorm;
+          if (!matchElem) return false;
+          const ejeNorm = elem.eje.toUpperCase().replace(/\s/g,'');
+          const ejesArr = (a.ejes || '').split(',').map(e => e.trim().toUpperCase().replace(/\s/g,''));
+          return ejesArr.some(ej => ej === ejeNorm);
+        });
+      }
+      const actsDelPaso = actsParaBuscar.filter(a => {
         const desc = (a.descripcion || '').toUpperCase();
         const elemTxt = (a.elemento || '').toUpperCase();
         if (paso.id === 'hab_formas') {
