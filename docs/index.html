@@ -2381,6 +2381,15 @@ function renderColumnasPlacas() {
       return matchEje;
     });
 
+    // DEBUG: mostrar actividades que matchean para C-01 eje 2/E'
+    if (elem.nombre === 'C-01' && elem.eje === "2/E'") {
+      console.log('=== DEBUG C-01 eje 2/E\' ===');
+      console.log('Actividades matcheadas:', actsElem.length);
+      actsElem.forEach(a => {
+        console.log(`  - ${a.descripcion} | ejes: ${a.ejes} | elemento: ${a.elemento} | fecha: ${a.fecha}`);
+      });
+    }
+
     const pasos = PASOS_CP.map(paso => {
       const actsDelPaso = actsElem.filter(a => {
         const desc = (a.descripcion || '').toUpperCase();
