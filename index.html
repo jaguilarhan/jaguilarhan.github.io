@@ -2414,9 +2414,13 @@ function renderColumnasPlacas() {
         if (paso.id === 'arm_acero') {
           return desc.includes('ACERO') && desc.includes('ARMADO');
         }
-        // Para encofrado, excluir desencofrado (solo en descripcion)
+        // Para trazo, verificar en descripcion
+        if (paso.id === 'trazo') {
+          return desc.includes('TRAZO') || desc.includes('TRAZADO');
+        }
+        // Para encofrado, excluir desencofrado y trazo (solo en descripcion)
         if (paso.id === 'encofrado') {
-          return desc.includes('ENCOFRADO') && !desc.includes('DESENCOFRADO');
+          return desc.includes('ENCOFRADO') && !desc.includes('DESENCOFRADO') && !desc.includes('TRAZO');
         }
         // Para desencofrado, solo en descripcion
         if (paso.id === 'desencofrado') {

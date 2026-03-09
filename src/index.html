@@ -2126,8 +2126,11 @@ function renderColumnasPlacas() {
         if (paso.id === 'arm_acero') {
           return desc.includes('ACERO') && desc.includes('ARMADO');
         }
+        if (paso.id === 'trazo') {
+          return desc.includes('TRAZO') || desc.includes('TRAZADO');
+        }
         if (paso.id === 'encofrado') {
-          return desc.includes('ENCOFRADO') && !desc.includes('DESENCOFRADO');
+          return desc.includes('ENCOFRADO') && !desc.includes('DESENCOFRADO') && !desc.includes('TRAZO');
         }
         if (paso.id === 'desencofrado') {
           return desc.includes('DESENCOFRADO');
