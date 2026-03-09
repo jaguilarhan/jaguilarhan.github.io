@@ -2078,83 +2078,86 @@ function renderColumnasPlacas() {
   ];
 
   const PASOS_CP = [
-    { id: 'hab_formas',   label: 'Habilitado de Formas',        keywords: ['HABILITADO','FORMAS','HABILITACION'] },
-    { id: 'hab_acero',    label: 'Habilitado de Acero',          keywords: ['HABILITADO','ACERO','HABILITACION'] },
-    { id: 'arm_acero',    label: 'Armado de Acero',              keywords: ['ARMADO','ACERO'] },
-    { id: 'trazo',        label: 'Trazo para Encofrado',         keywords: ['TRAZO','TRAZADO'] },
-    { id: 'encofrado',    label: 'Encofrado',                    keywords: ['ENCOFRADO'] },
-    { id: 'alineado',     label: 'Alineado y Apuntalado',        keywords: ['ALINEADO','APUNTALADO','APLOMADO'] },
-    { id: 'vaciado',      label: 'Vaciado',                      keywords: ['VACIADO','CONCRETO'] },
-    { id: 'desencofrado', label: 'Desencofrado',                 keywords: ['DESENCOFRADO'] },
-    { id: 'curado',       label: 'Curado',                       keywords: ['CURADO'] },
+    { id: 'hab_formas',   label: 'Habilitado de Formas' },
+    { id: 'hab_acero',    label: 'Habilitado de Acero' },
+    { id: 'arm_acero',    label: 'Armado de Acero' },
+    { id: 'trazo',        label: 'Trazo para Encofrado' },
+    { id: 'encofrado',    label: 'Encofrado' },
+    { id: 'alineado',     label: 'Alineado y Apuntalado' },
+    { id: 'vaciado',      label: 'Vaciado' },
+    { id: 'desencofrado', label: 'Desencofrado' },
+    { id: 'curado',       label: 'Curado' },
   ];
 
-  const catsCP = ['COLUMNAS','PLACAS'];
-  const actsCP = actividades.filter(a => {
-    if (!catsCP.includes(a.partida.categoria)) return false;
-    if (a.nivel !== '5to Nivel') return false;
-    return true;
-  });
+  // ── FUNCIÓN ROBUSTA: normalizar eje eliminando TODO espacio ──
+  function normEje(e) { return (e||'').toUpperCase().replace(/\s+/g,'').replace(/['']/g,"'"); }
+
+  function extraerEjes(ejesStr) {
+    if (!ejesStr || ejesStr === '—') return [];
+    return ejesStr.split(',').map(e => normEje(e)).filter(Boolean);
+  }
+
+  function contieneEje(ejesActividad, ejeBuscado) {
+    const ejesArr = extraerEjes(ejesActividad);
+    const ejeN = normEje(ejeBuscado);
+    return ejesArr.some(ej => ej === ejeN);
+  }
+
+  function contieneElemento(elemActStr, nombreBuscado) {
+    const elemAct = (elemActStr || '').toUpperCase().replace(/['']/g,"'");
+    const nombre = nombreBuscado.toUpperCase().replace(/['']/g,"'");
+    if (!elemAct || !nombre) return false;
+    const partes = elemAct.split(',').map(p => p.trim());
+    for (const parte of partes) {
+      if (parte.includes(nombre)) {
+        if (!nombre.endsWith("'")) {
+          const idx = parte.indexOf(nombre);
+          const charDespues = parte[idx + nombre.length] || '';
+          if (charDespues === "'") continue;
+        }
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function detectarPaso(a) {
+    const desc = (a.descripcion || '').toUpperCase();
+    if (desc.includes('HABILITADO') && desc.includes('ARMADO') && desc.includes('ACERO')) return ['hab_acero', 'arm_acero'];
+    if ((desc.includes('FORMA') || desc.includes('MANTENIMIENTO')) && !desc.includes('ACERO')) return ['hab_formas'];
+    if (desc.includes('HABILITAD') && desc.includes('ACERO')) return ['hab_acero'];
+    if (desc.includes('ARMADO') && desc.includes('ACERO')) return ['arm_acero'];
+    if (desc.includes('TRAZO') || desc.includes('TRAZADO')) return ['trazo'];
+    if (desc.includes('DESENCOFRADO')) return ['desencofrado'];
+    if (desc.includes('ENCOFRADO') && !desc.includes('DESENCOFRADO') && !desc.includes('TRAZO')) return ['encofrado'];
+    if (desc.includes('ALINEADO') || desc.includes('APUNTALADO') || desc.includes('APLOMADO')) return ['alineado'];
+    if (desc.includes('VACIADO') || (desc.includes('CONCRETO') && !desc.includes('ENCOFRADO'))) return ['vaciado'];
+    if (desc.includes('CURADO')) return ['curado'];
+    return [];
+  }
+
+  // Buscar en TODAS las actividades del 5to nivel (sin filtrar por categoría)
+  const acts5N = actividades.filter(a => a.nivel === '5to Nivel');
 
   const elementosConStatus = ELEMENTOS_5N.map(elem => {
     if (filtTipo && elem.tipo !== filtTipo) return null;
-    const actsElem = actsCP.filter(a => {
-      const elemAct = (a.elemento || '').toUpperCase();
-      const nombreNorm = elem.nombre.toUpperCase();
 
-      // Verificar que el nombre del elemento coincida
-      const matchElem = elemAct.includes(nombreNorm) || elemAct === nombreNorm;
-      if (!matchElem) return false;
-
-      // Verificar que el eje coincida exactamente (split por coma, comparar cada uno sin espacios)
-      const ejeNorm = elem.eje.toUpperCase().replace(/\s/g,'');
-      const ejesArr = (a.ejes || '').split(',').map(e => e.trim().toUpperCase().replace(/\s/g,''));
-      const matchEje = ejesArr.some(ej => ej === ejeNorm);
-
-      return matchEje;
+    const actsElem = acts5N.filter(a => {
+      if (!contieneElemento(a.elemento, elem.nombre)) return false;
+      if (!contieneEje(a.ejes, elem.eje)) return false;
+      return true;
     });
+
     const pasos = PASOS_CP.map(paso => {
-      let actsParaBuscar = actsElem;
-      // Para trazo y alineado, buscar en TODAS las actividades del 5to nivel (no solo COLUMNAS/PLACAS)
-      if (paso.id === 'trazo' || paso.id === 'alineado') {
-        actsParaBuscar = actividades.filter(a => {
-          if (a.nivel !== '5to Nivel') return false;
-          const elemAct = (a.elemento || '').toUpperCase();
-          const nombreNorm = elem.nombre.toUpperCase();
-          const matchElem = elemAct.includes(nombreNorm) || elemAct === nombreNorm;
-          if (!matchElem) return false;
-          const ejeNorm = elem.eje.toUpperCase().replace(/\s/g,'');
-          const ejesArr = (a.ejes || '').split(',').map(e => e.trim().toUpperCase().replace(/\s/g,''));
-          return ejesArr.some(ej => ej === ejeNorm);
-        });
-      }
-      const actsDelPaso = actsParaBuscar.filter(a => {
-        const desc = (a.descripcion || '').toUpperCase();
-        const elemTxt = (a.elemento || '').toUpperCase();
-        if (paso.id === 'hab_formas') {
-          return (desc.includes('FORMA') || desc.includes('MANTENIMIENTO DE FORMA') || elemTxt.includes('FORMA')) && !desc.includes('ACERO');
-        }
-        if (paso.id === 'hab_acero') {
-          return desc.includes('ACERO') && desc.includes('HABILITAD');
-        }
-        if (paso.id === 'arm_acero') {
-          return desc.includes('ACERO') && desc.includes('ARMADO');
-        }
-        if (paso.id === 'trazo') {
-          return desc.includes('TRAZO') || desc.includes('TRAZADO');
-        }
-        if (paso.id === 'encofrado') {
-          return desc.includes('ENCOFRADO') && !desc.includes('DESENCOFRADO') && !desc.includes('TRAZO');
-        }
-        if (paso.id === 'desencofrado') {
-          return desc.includes('DESENCOFRADO');
-        }
-        return paso.keywords.some(kw => desc.includes(kw));
+      const actsDelPaso = actsElem.filter(a => {
+        const pasosDet = detectarPaso(a);
+        return pasosDet.includes(paso.id);
       });
       const hecho = actsDelPaso.length > 0;
       const fechas = actsDelPaso.map(a => a.fecha).sort();
       return { ...paso, hecho, fechas };
     });
+
     const completados = pasos.filter(p => p.hecho).length;
     const total = pasos.length;
     const pct = Math.round(completados / total * 100);
