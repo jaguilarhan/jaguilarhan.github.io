@@ -1,5 +1,5 @@
 ﻿﻿<!DOCTYPE html>
-<!-- v2026.03.09.01 - Fix matching exacto ejes Col/Placas 5N -->
+<!-- v2026.03.04.01 - Responsive móvil completo -->
 <html lang="es">
 <head>
 <meta charset="UTF-8"/>
@@ -1548,6 +1548,7 @@ function renderGrid() {
 
   // Actualizar filtro de descripción dinámicamente
   const descSel = document.getElementById('filtro-desc');
+  // Agrupar por descripción normalizada (trim + colapsar espacios + mayúsculas)
   const descMap = {};
   actividades.forEach(a => {
     const norm = a.descripcion.trim().replace(/\s+/g,' ').toUpperCase();
@@ -2343,93 +2344,143 @@ function renderColumnasPlacas() {
     { nombre: 'PL-03', eje: '1/E\'', tipo: 'PL' },
   ];
 
+  // Pasos del proceso constructivo para columnas y placas
   const PASOS_CP = [
-    { id: 'hab_formas',   label: 'Habilitado de Formas',        keywords: ['HABILITADO','FORMAS','HABILITACION'] },
-    { id: 'hab_acero',    label: 'Habilitado de Acero',          keywords: ['HABILITADO','ACERO','HABILITACION'] },
-    { id: 'arm_acero',    label: 'Armado de Acero',              keywords: ['ARMADO','ACERO'] },
-    { id: 'trazo',        label: 'Trazo para Encofrado',         keywords: ['TRAZO','TRAZADO'] },
-    { id: 'encofrado',    label: 'Encofrado',                    keywords: ['ENCOFRADO'] },
-    { id: 'alineado',     label: 'Alineado y Apuntalado',        keywords: ['ALINEADO','APUNTALADO','APLOMADO'] },
-    { id: 'vaciado',      label: 'Vaciado',                      keywords: ['VACIADO','CONCRETO'] },
-    { id: 'desencofrado', label: 'Desencofrado',                 keywords: ['DESENCOFRADO'] },
-    { id: 'curado',       label: 'Curado',                       keywords: ['CURADO'] },
+    { id: 'hab_formas',   label: 'Habilitado de Formas' },
+    { id: 'hab_acero',    label: 'Habilitado de Acero' },
+    { id: 'arm_acero',    label: 'Armado de Acero' },
+    { id: 'trazo',        label: 'Trazo para Encofrado' },
+    { id: 'encofrado',    label: 'Encofrado' },
+    { id: 'alineado',     label: 'Alineado y Apuntalado' },
+    { id: 'vaciado',      label: 'Vaciado' },
+    { id: 'desencofrado', label: 'Desencofrado' },
+    { id: 'curado',       label: 'Curado' },
   ];
 
-  const catsCP = ['COLUMNAS','PLACAS'];
-  const actsCP = actividades.filter(a => {
-    if (!catsCP.includes(a.partida.categoria)) return false;
-    if (a.nivel !== '5to Nivel') return false;
-    return true;
-  });
+  // ── FUNCIÓN ROBUSTA: normalizar eje eliminando TODO espacio ──
+  function normEje(e) { return (e||'').toUpperCase().replace(/\s+/g,'').replace(/['']/g,"'"); }
 
+  // ── FUNCIÓN ROBUSTA: extraer ejes individuales de un string de ejes ──
+  function extraerEjes(ejesStr) {
+    if (!ejesStr || ejesStr === '—') return [];
+    return ejesStr.split(',').map(e => normEje(e)).filter(Boolean);
+  }
+
+  // ── FUNCIÓN ROBUSTA: verificar si un eje buscado está contenido en los ejes de una actividad ──
+  function contieneEje(ejesActividad, ejeBuscado) {
+    const ejesArr = extraerEjes(ejesActividad);
+    const ejeN = normEje(ejeBuscado);
+    return ejesArr.some(ej => ej === ejeN);
+  }
+
+  // ── FUNCIÓN ROBUSTA: verificar si el nombre de elemento coincide ──
+  // Busca "PL-01" dentro de "PLACAS PL-01, PL-04'" o "PLACAS PL-01" etc.
+  // Evita falsos positivos: "PL-01" no debe matchear "PL-01'" (a menos que se busque PL-01')
+  function contieneElemento(elemActStr, nombreBuscado) {
+    const elemAct = (elemActStr || '').toUpperCase().replace(/['']/g,"'");
+    const nombre = nombreBuscado.toUpperCase().replace(/['']/g,"'");
+    if (!elemAct || !nombre) return false;
+
+    // Si el nombre buscado NO termina en ', verificar que no sea falso positivo con versión prima
+    // Ej: buscamos "PL-01" y el elemento dice "PL-01'" → NO match (PL-01' es diferente de PL-01)
+    // Pero "PL-01" en "PLACAS PL-01, PL-04'" → SÍ match (PL-01 y PL-04' son elementos separados)
+
+    // Extraer todos los nombres de elementos del campo
+    // "PLACAS PL-01, PL-04'" → ["PLACAS PL-01", "PL-04'"]
+    // "COLUMNAS C-01" → ["COLUMNAS C-01"]
+    // "PLACAS PL-01" → ["PLACAS PL-01"]
+    const partes = elemAct.split(',').map(p => p.trim());
+
+    for (const parte of partes) {
+      // Verificar si esta parte contiene el nombre buscado
+      if (parte.includes(nombre)) {
+        // Verificar que no sea falso positivo con versión prima
+        // Si buscamos "PL-01" (sin prima), verificar que en la parte no sea "PL-01'"
+        if (!nombre.endsWith("'")) {
+          // Buscar la posición del nombre en la parte
+          const idx = parte.indexOf(nombre);
+          const charDespues = parte[idx + nombre.length] || '';
+          // Si el carácter después es ', es la versión prima → no match
+          if (charDespues === "'") continue;
+        }
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // ── FUNCIÓN ROBUSTA: determinar qué paso representa una actividad ──
+  function detectarPaso(a) {
+    const desc = (a.descripcion || '').toUpperCase();
+
+    // Habilitado y Armado combinado → cuenta como ambos
+    if (desc.includes('HABILITADO') && desc.includes('ARMADO') && desc.includes('ACERO')) {
+      return ['hab_acero', 'arm_acero'];
+    }
+    // Habilitado de formas / mantenimiento de formas
+    if ((desc.includes('FORMA') || desc.includes('MANTENIMIENTO')) && !desc.includes('ACERO')) {
+      return ['hab_formas'];
+    }
+    // Habilitado de acero (sin armado)
+    if (desc.includes('HABILITAD') && desc.includes('ACERO')) {
+      return ['hab_acero'];
+    }
+    // Armado de acero (sin habilitado)
+    if (desc.includes('ARMADO') && desc.includes('ACERO')) {
+      return ['arm_acero'];
+    }
+    // Trazo
+    if (desc.includes('TRAZO') || desc.includes('TRAZADO')) {
+      return ['trazo'];
+    }
+    // Desencofrado (antes de encofrado para evitar confusión)
+    if (desc.includes('DESENCOFRADO')) {
+      return ['desencofrado'];
+    }
+    // Encofrado (excluir desencofrado y trazo)
+    if (desc.includes('ENCOFRADO') && !desc.includes('DESENCOFRADO') && !desc.includes('TRAZO')) {
+      return ['encofrado'];
+    }
+    // Alineado y apuntalado
+    if (desc.includes('ALINEADO') || desc.includes('APUNTALADO') || desc.includes('APLOMADO')) {
+      return ['alineado'];
+    }
+    // Vaciado
+    if (desc.includes('VACIADO') || (desc.includes('CONCRETO') && !desc.includes('ENCOFRADO'))) {
+      return ['vaciado'];
+    }
+    // Curado
+    if (desc.includes('CURADO')) {
+      return ['curado'];
+    }
+    return [];
+  }
+
+  // ── BUSCAR TODAS las actividades del 5to nivel (SIN filtrar por categoría) ──
+  const acts5N = actividades.filter(a => a.nivel === '5to Nivel');
+
+  // Para cada elemento definido, buscar qué pasos se han completado
   const elementosConStatus = ELEMENTOS_5N.map(elem => {
+    // Filtrar por tipo si hay filtro
     if (filtTipo && elem.tipo !== filtTipo) return null;
 
-    const actsElem = actsCP.filter(a => {
-      const elemAct = (a.elemento || '').toUpperCase();
-      const nombreNorm = elem.nombre.toUpperCase();
-
+    // Buscar TODAS las actividades que coincidan con este elemento + eje
+    // No filtrar por categoría, buscar en TODAS las del 5to nivel
+    const actsElem = acts5N.filter(a => {
       // Verificar que el nombre del elemento coincida
-      const matchElem = elemAct.includes(nombreNorm) || elemAct === nombreNorm;
-      if (!matchElem) return false;
-
-      // Verificar que el eje coincida exactamente (split por coma, comparar cada uno sin espacios)
-      const ejeNorm = elem.eje.toUpperCase().replace(/\s/g,'');
-      const ejesArr = (a.ejes || '').split(',').map(e => e.trim().toUpperCase().replace(/\s/g,''));
-      const matchEje = ejesArr.some(ej => ej === ejeNorm);
-
-      return matchEje;
+      if (!contieneElemento(a.elemento, elem.nombre)) return false;
+      // Verificar que el eje coincida
+      if (!contieneEje(a.ejes, elem.eje)) return false;
+      return true;
     });
 
-    // DEBUG: mostrar actividades que matchean para C-01 eje 2/E'
-    if (elem.nombre === 'C-01' && elem.eje === "2/E'") {
-      console.log('=== DEBUG C-01 eje 2/E\' ===');
-      console.log('Actividades matcheadas:', actsElem.length);
-      actsElem.forEach(a => {
-        console.log(`  - ${a.descripcion} | ejes: ${a.ejes} | elemento: ${a.elemento} | fecha: ${a.fecha}`);
-      });
-    }
-
+    // Evaluar cada paso
     const pasos = PASOS_CP.map(paso => {
-      let actsParaBuscar = actsElem;
-      // Para trazo y alineado, buscar en TODAS las actividades del 5to nivel (no solo COLUMNAS/PLACAS)
-      // porque pueden estar registrados con una partida de cualquier categoría
-      if (paso.id === 'trazo' || paso.id === 'alineado') {
-        actsParaBuscar = actividades.filter(a => {
-          if (a.nivel !== '5to Nivel') return false;
-          const elemAct = (a.elemento || '').toUpperCase();
-          const nombreNorm = elem.nombre.toUpperCase();
-          const matchElem = elemAct.includes(nombreNorm) || elemAct === nombreNorm;
-          if (!matchElem) return false;
-          const ejeNorm = elem.eje.toUpperCase().replace(/\s/g,'');
-          const ejesArr = (a.ejes || '').split(',').map(e => e.trim().toUpperCase().replace(/\s/g,''));
-          return ejesArr.some(ej => ej === ejeNorm);
-        });
-      }
-      const actsDelPaso = actsParaBuscar.filter(a => {
-        const desc = (a.descripcion || '').toUpperCase();
-        const elemTxt = (a.elemento || '').toUpperCase();
-        if (paso.id === 'hab_formas') {
-          return (desc.includes('FORMA') || desc.includes('MANTENIMIENTO DE FORMA') || elemTxt.includes('FORMA'))
-            && !desc.includes('ACERO');
-        }
-        if (paso.id === 'hab_acero') {
-          return desc.includes('ACERO') && desc.includes('HABILITAD');
-        }
-        if (paso.id === 'arm_acero') {
-          return desc.includes('ACERO') && desc.includes('ARMADO');
-        }
-        if (paso.id === 'trazo') {
-          return desc.includes('TRAZO') || desc.includes('TRAZADO');
-        }
-        if (paso.id === 'encofrado') {
-          return desc.includes('ENCOFRADO') && !desc.includes('DESENCOFRADO') && !desc.includes('TRAZO');
-        }
-        if (paso.id === 'desencofrado') {
-          return desc.includes('DESENCOFRADO');
-        }
-        return paso.keywords.some(kw => desc.includes(kw));
+      const actsDelPaso = actsElem.filter(a => {
+        const pasosDet = detectarPaso(a);
+        return pasosDet.includes(paso.id);
       });
+
       const hecho = actsDelPaso.length > 0;
       const fechas = actsDelPaso.map(a => a.fecha).sort();
       return { ...paso, hecho, fechas };
@@ -2441,11 +2492,14 @@ function renderColumnasPlacas() {
     let estado = 'inicio';
     if (pct === 100) estado = 'completo';
     else if (pct > 0) estado = 'proceso';
+
     return { ...elem, pasos, completados, total, pct, estado, actsCount: actsElem.length };
   }).filter(e => e !== null);
 
+  // Filtrar por estado
   const elemFilt = filtEstado ? elementosConStatus.filter(e => e.estado === filtEstado) : elementosConStatus;
 
+  // Resumen global
   const totalElems = elementosConStatus.length;
   const completas = elementosConStatus.filter(e => e.estado === 'completo').length;
   const enProceso = elementosConStatus.filter(e => e.estado === 'proceso').length;
@@ -2458,6 +2512,7 @@ function renderColumnasPlacas() {
     return;
   }
 
+  // Agrupar por eje principal (A, B, C, D, E, E')
   const porEjePrincipal = {};
   elemFilt.forEach(e => {
     const ejeParts = e.eje.split('/');
@@ -2466,19 +2521,24 @@ function renderColumnasPlacas() {
     porEjePrincipal[ejePrinc].push(e);
   });
 
+  // Orden de ejes
   const ordenEjes = ['A','B','C','D','E',"E'"];
+
   let html = '';
   ordenEjes.forEach(ejePrinc => {
     const elems = porEjePrincipal[ejePrinc];
     if (!elems || !elems.length) return;
+
     html += `<div style="margin-bottom:20px">`;
     html += `<h4 style="color:#1a237e;font-size:.9rem;margin:0 0 8px 0;padding:6px 12px;background:#e8eaf6;border-radius:6px">📍 Eje ${ejePrinc}</h4>`;
+
     elems.forEach(e => {
       const estadoIcon = e.estado === 'completo' ? '✅' : e.estado === 'proceso' ? '⏳' : '🔄';
       const estadoColor = e.estado === 'completo' ? '#2e7d32' : e.estado === 'proceso' ? '#e65100' : '#1565c0';
       const pctColor = e.pct >= 80 ? '#2e7d32' : e.pct >= 40 ? '#e65100' : '#c62828';
       const tipoIcon = e.tipo === 'PL' ? '🟦' : '🟧';
       const tipoLabel = e.tipo === 'PL' ? 'Placa' : 'Columna';
+
       html += `<div style="background:#fff;border:1px solid #e0e0e0;border-radius:8px;margin-bottom:10px;overflow:hidden;border-left:4px solid ${estadoColor}">`;
       html += `<div style="padding:10px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;background:#fafafa" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">`;
       html += `<span style="font-size:1.1rem">${estadoIcon}</span>`;
@@ -2490,7 +2550,9 @@ function renderColumnasPlacas() {
       html += `<div style="font-size:.85rem;font-weight:700;color:${pctColor}">${e.pct}%</div>`;
       html += `<div style="width:80px;height:6px;background:#e0e0e0;border-radius:3px;overflow:hidden;margin-top:2px"><div style="height:100%;width:${e.pct}%;background:${pctColor};border-radius:3px"></div></div>`;
       html += `</div>`;
-      html += `</div>`;
+      html += `</div>`; // header
+
+      // Detalle colapsable con pasos
       html += `<div style="display:none;padding:8px 14px 12px">`;
       html += `<table style="width:100%;border-collapse:collapse;font-size:.72rem">`;
       html += `<thead><tr style="background:#f5f5f5"><th style="text-align:left;padding:5px 8px;border-bottom:1px solid #ddd">N°</th><th style="text-align:left;padding:5px 8px;border-bottom:1px solid #ddd">Paso</th><th style="text-align:center;padding:5px 8px;border-bottom:1px solid #ddd">Estado</th><th style="text-align:left;padding:5px 8px;border-bottom:1px solid #ddd">Fecha(s)</th></tr></thead>`;
@@ -2510,14 +2572,17 @@ function renderColumnasPlacas() {
         html += `</tr>`;
       });
       html += `</tbody></table>`;
-      html += `</div>`;
-      html += `</div>`;
+      html += `</div>`; // detalle
+      html += `</div>`; // card
     });
-    html += `</div>`;
+
+    html += `</div>`; // eje group
   });
+
   container.innerHTML = html;
 }
 
+// Event listeners para filtros de columnas/placas
 document.getElementById('cp-filtro-estado').addEventListener('change', renderColumnasPlacas);
 document.getElementById('cp-filtro-tipo').addEventListener('change', renderColumnasPlacas);
 
@@ -2714,6 +2779,29 @@ document.getElementById('modal-edit-save').addEventListener('click', () => {
       ruta: editPartidaSeleccionada.ruta || [],
       nueva: editPartidaSeleccionada.nueva || false,
     };
+  }
+
+  // Detectar duplicados: buscar otra actividad con mismos datos clave
+  const duplicados = actividades.filter(a =>
+    a.id !== act.id &&
+    a.fecha === act.fecha &&
+    a.descripcion.toUpperCase().trim() === act.descripcion.toUpperCase().trim() &&
+    a.partida.codigo === act.partida.codigo &&
+    normalizarEjes(a.ejes) === normalizarEjes(act.ejes) &&
+    a.nivel === act.nivel
+  );
+  if (duplicados.length > 0) {
+    const confirmar = confirm(`Se detectaron ${duplicados.length} actividad(es) duplicada(s) con los mismos datos (fecha, descripción, partida, ejes, nivel).\n\n¿Deseas eliminar los duplicados y quedarte con una sola?`);
+    if (confirmar) {
+      // Quedarse con el avance más alto entre todos
+      const maxPct = Math.max(act.pct, ...duplicados.map(d => d.pct || 0));
+      act.pct = maxPct;
+      // Eliminar duplicados
+      duplicados.forEach(dup => {
+        const idx = actividades.findIndex(a => a.id === dup.id);
+        if (idx >= 0) actividades.splice(idx, 1);
+      });
+    }
   }
 
   guardar();

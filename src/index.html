@@ -821,7 +821,7 @@ function guardarLanes() {
 // ================================================================
 function normalizarEjes(ejesStr) {
   if (!ejesStr || ejesStr === '—') return '—';
-  return ejesStr.split(',').map(e => e.trim().toUpperCase()).filter(Boolean).sort().join(' , ');
+  return ejesStr.split(',').map(e => e.trim().toUpperCase().replace(/\bEJES?\b/g,'').replace(/\s+/g,' ').trim().replace(/\s+/g,'')).filter(Boolean).sort().join(' , ');
 }
 
 function getSeqKey(cat, elem, nivel) {
@@ -2090,7 +2090,7 @@ function renderColumnasPlacas() {
   ];
 
   // ── FUNCIÓN ROBUSTA: normalizar eje eliminando TODO espacio ──
-  function normEje(e) { return (e||'').toUpperCase().replace(/\s+/g,'').replace(/['']/g,"'"); }
+  function normEje(e) { return (e||'').toUpperCase().replace(/\bEJES?\b/g,'').replace(/\s+/g,'').replace(/['']/g,"'"); }
 
   function extraerEjes(ejesStr) {
     if (!ejesStr || ejesStr === '—') return [];

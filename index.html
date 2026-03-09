@@ -1086,7 +1086,7 @@ function guardarLanes() {
 // ================================================================
 function normalizarEjes(ejesStr) {
   if (!ejesStr || ejesStr === '—') return '—';
-  return ejesStr.split(',').map(e => e.trim().toUpperCase()).filter(Boolean).sort().join(' , ');
+  return ejesStr.split(',').map(e => e.trim().toUpperCase().replace(/\bEJES?\b/g,'').replace(/\s+/g,' ').trim().replace(/\s+/g,'')).filter(Boolean).sort().join(' , ');
 }
 
 function getSeqKey(cat, elem, nivel) {
@@ -2357,8 +2357,8 @@ function renderColumnasPlacas() {
     { id: 'curado',       label: 'Curado' },
   ];
 
-  // ── FUNCIÓN ROBUSTA: normalizar eje eliminando TODO espacio ──
-  function normEje(e) { return (e||'').toUpperCase().replace(/\s+/g,'').replace(/['']/g,"'"); }
+  // ── FUNCIÓN ROBUSTA: normalizar eje eliminando TODO espacio y la palabra EJE/EJES ──
+  function normEje(e) { return (e||'').toUpperCase().replace(/\bEJES?\b/g,'').replace(/\s+/g,'').replace(/['']/g,"'"); }
 
   // ── FUNCIÓN ROBUSTA: extraer ejes individuales de un string de ejes ──
   function extraerEjes(ejesStr) {
