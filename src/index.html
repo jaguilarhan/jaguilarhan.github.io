@@ -2100,12 +2100,18 @@ function renderColumnasPlacas() {
     if (filtTipo && elem.tipo !== filtTipo) return null;
     const actsElem = actsCP.filter(a => {
       const elemAct = (a.elemento || '').toUpperCase();
-      const ejesAct = (a.ejes || '').toUpperCase().replace(/\s/g,'');
-      const ejeNorm = elem.eje.toUpperCase().replace(/\s/g,'');
       const nombreNorm = elem.nombre.toUpperCase();
-      const matchEje = ejesAct.includes(ejeNorm) || ejesAct === ejeNorm;
+
+      // Verificar que el nombre del elemento coincida
       const matchElem = elemAct.includes(nombreNorm) || elemAct === nombreNorm;
-      return matchEje || matchElem;
+      if (!matchElem) return false;
+
+      // Verificar que el eje coincida exactamente (split por coma, comparar cada uno sin espacios)
+      const ejeNorm = elem.eje.toUpperCase().replace(/\s/g,'');
+      const ejesArr = (a.ejes || '').split(',').map(e => e.trim().toUpperCase().replace(/\s/g,''));
+      const matchEje = ejesArr.some(ej => ej === ejeNorm);
+
+      return matchEje;
     });
     const pasos = PASOS_CP.map(paso => {
       const actsDelPaso = actsElem.filter(a => {

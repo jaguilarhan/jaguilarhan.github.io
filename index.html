@@ -2371,17 +2371,21 @@ function renderColumnasPlacas() {
     if (filtTipo && elem.tipo !== filtTipo) return null;
 
     // Buscar actividades que correspondan a este elemento+eje
+    // AMBOS deben coincidir: el eje Y el nombre del elemento
     const actsElem = actsCP.filter(a => {
       const elemAct = (a.elemento || '').toUpperCase();
-      const ejesAct = (a.ejes || '').toUpperCase().replace(/\s/g,'');
-      const ejeNorm = elem.eje.toUpperCase().replace(/\s/g,'');
       const nombreNorm = elem.nombre.toUpperCase();
 
-      // Verificar si el elemento o ejes coinciden
-      const matchEje = ejesAct.includes(ejeNorm) || ejesAct === ejeNorm;
+      // Verificar que el nombre del elemento coincida
       const matchElem = elemAct.includes(nombreNorm) || elemAct === nombreNorm;
+      if (!matchElem) return false;
 
-      return matchEje || matchElem;
+      // Verificar que el eje coincida exactamente (split por coma, comparar cada uno sin espacios)
+      const ejeNorm = elem.eje.toUpperCase().replace(/\s/g,'');
+      const ejesArr = (a.ejes || '').split(',').map(e => e.trim().toUpperCase().replace(/\s/g,''));
+      const matchEje = ejesArr.some(ej => ej === ejeNorm);
+
+      return matchEje;
     });
 
     // Evaluar cada paso
