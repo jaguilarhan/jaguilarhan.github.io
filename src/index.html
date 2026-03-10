@@ -459,8 +459,6 @@
 
     #tab-tabiqueria { padding: 10px; }
     #tab-colplacas { padding: 10px; }
-    #tab-informe { padding: 10px; }
-    #tab-informe input[type="number"], #tab-informe input[type="text"] { font-size: .68rem; padding: 2px 3px; }
   }
 
   /* Pantallas muy pequeñas (< 480px) */
@@ -517,6 +515,7 @@
     <button class="btn-logout" id="btn-logout" title="Cerrar sesión">🚪 Salir</button>
     <button class="btn-word" id="btn-reporte-word">📄 Res. Actividades</button>
     <button class="btn-word" id="btn-cuaderno-obra" style="background:#1565c0">📋 Cuaderno de Obra</button>
+    <button class="btn-word" id="btn-informe-mensual" style="background:#6a1b9a">📊 Informe Mensual</button>
   </div>
 </header>
 
@@ -607,7 +606,6 @@
       <button class="tab-btn" data-tab="avance">📊 Avance por Elemento</button>
       <button class="tab-btn" data-tab="tabiqueria">🧱 Tabiquería</button>
       <button class="tab-btn" data-tab="colplacas">🏛️ Col. y Placas 5°N</button>
-      <button class="tab-btn" data-tab="informe">📋 Informe Mensual</button>
     </div>
 
     <!-- TAB SEMANA -->
@@ -718,71 +716,6 @@
       <div id="colplacas-container"></div>
     </div>
 
-    <!-- TAB INFORME MENSUAL -->
-    <div id="tab-informe" style="display:none;padding:16px;overflow-y:auto;flex:1;">
-      <h3 style="color:#1a237e;margin:0 0 12px 0;font-size:1rem">📋 Planilla de Metrados – Informe Mensual</h3>
-      <p style="font-size:.75rem;color:#555;margin:0 0 12px 0">Selecciona una partida del presupuesto para ver su metrado base y registrar el avance mensual ejecutado.</p>
-
-      <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;align-items:center">
-        <select id="inf-mes" style="padding:5px 10px;border:1px solid #ccc;border-radius:16px;font-size:.78rem;min-width:160px">
-        </select>
-        <select id="inf-partida" style="padding:5px 10px;border:1px solid #ccc;border-radius:16px;font-size:.78rem;flex:1;min-width:300px">
-          <option value="">— Seleccionar partida —</option>
-        </select>
-      </div>
-
-      <!-- Info de partida seleccionada -->
-      <div id="inf-partida-info" style="display:none;background:#e8eaf6;border-radius:8px;padding:12px;margin-bottom:14px">
-        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
-          <div>
-            <strong id="inf-partida-num" style="color:#1a237e;font-size:.85rem"></strong>
-            <span id="inf-partida-desc" style="font-size:.82rem;margin-left:8px"></span>
-          </div>
-          <div style="text-align:right">
-            <span style="font-size:.72rem;color:#555">Metrado Total:</span>
-            <strong id="inf-partida-metrado" style="color:#2e7d32;font-size:.95rem;margin-left:4px"></strong>
-          </div>
-        </div>
-        <div id="inf-resumen-avance" style="display:flex;gap:16px;margin-top:8px;flex-wrap:wrap;font-size:.75rem">
-          <span>📐 Presupuesto: <strong id="inf-total-pres">0.00</strong></span>
-          <span>📊 Acum. anterior: <strong id="inf-total-acum" style="color:#1565c0">0.00</strong></span>
-          <span>📈 Este mes: <strong id="inf-total-mes" style="color:#2e7d32">0.00</strong></span>
-          <span>📉 Saldo: <strong id="inf-total-saldo" style="color:#c62828">0.00</strong></span>
-        </div>
-      </div>
-
-      <!-- Tabla del presupuesto (solo lectura) -->
-      <div id="inf-tabla-presupuesto" style="display:none;margin-bottom:16px">
-        <h4 style="font-size:.82rem;color:#333;margin:0 0 8px 0">📐 Metrado del Presupuesto (Expediente)</h4>
-        <div style="overflow-x:auto;max-height:300px;overflow-y:auto;border:1px solid #ddd;border-radius:8px">
-          <table id="inf-table-pres" style="width:100%;border-collapse:collapse;font-size:.72rem">
-            <thead id="inf-thead-pres" style="position:sticky;top:0;background:#1a237e;color:#fff"></thead>
-            <tbody id="inf-tbody-pres"></tbody>
-            <tfoot id="inf-tfoot-pres" style="background:#e8eaf6;font-weight:700"></tfoot>
-          </table>
-        </div>
-      </div>
-
-      <!-- Tabla de avance mensual (editable) -->
-      <div id="inf-tabla-avance" style="display:none">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:8px">
-          <h4 style="font-size:.82rem;color:#333;margin:0">📈 Metrado Ejecutado – <span id="inf-mes-label"></span></h4>
-          <div style="display:flex;gap:6px">
-            <button id="inf-btn-add" style="padding:4px 12px;background:#2e7d32;color:#fff;border:none;border-radius:16px;font-size:.72rem;cursor:pointer">➕ Agregar Fila</button>
-            <button id="inf-btn-save" style="padding:4px 12px;background:#1a237e;color:#fff;border:none;border-radius:16px;font-size:.72rem;cursor:pointer">💾 Guardar</button>
-          </div>
-        </div>
-        <div style="overflow-x:auto;border:1px solid #ddd;border-radius:8px">
-          <table id="inf-table-avance" style="width:100%;border-collapse:collapse;font-size:.72rem">
-            <thead id="inf-thead-avance" style="background:#2e7d32;color:#fff"></thead>
-            <tbody id="inf-tbody-avance"></tbody>
-            <tfoot id="inf-tfoot-avance" style="background:#e8f5e9;font-weight:700"></tfoot>
-          </table>
-        </div>
-        <div id="inf-msg-save" style="display:none;margin-top:8px;padding:6px 12px;background:#c8e6c9;border-radius:6px;font-size:.75rem;color:#2e7d32;font-weight:600">✅ Guardado correctamente</div>
-      </div>
-    </div>
-
     <div class="resumen-bar">
       <span>Semana: <strong id="res-semana">—</strong></span>
       <span>Esta semana: <strong id="res-count">0</strong></span>
@@ -853,7 +786,6 @@
 <!-- REPORTE WORD: Se abre en reporte.html -->
 
 <script src="partidas_data.js?v=20260303"></script>
-<script src="metrados_data.js?v=20260310"></script>
 <script>
 // ================================================================
 // LOGIN SYSTEM — Firebase Authentication (Email/Password)
@@ -2799,11 +2731,9 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     document.getElementById('tab-avance').style.display = tab === 'avance' ? 'block' : 'none';
     document.getElementById('tab-tabiqueria').style.display = tab === 'tabiqueria' ? 'block' : 'none';
     document.getElementById('tab-colplacas').style.display = tab === 'colplacas' ? 'block' : 'none';
-    document.getElementById('tab-informe').style.display = tab === 'informe' ? 'block' : 'none';
     if (tab === 'avance') renderAvance();
     if (tab === 'tabiqueria') renderTabiqueria();
     if (tab === 'colplacas') renderColumnasPlacas();
-    if (tab === 'informe') initInformeMensual();
   });
 });
 
@@ -3013,6 +2943,10 @@ document.getElementById('btn-cuaderno-obra').addEventListener('click', () => {
   window.open('cuaderno.html', '_blank');
 });
 
+document.getElementById('btn-informe-mensual').addEventListener('click', () => {
+  window.open('informe.html', '_blank');
+});
+
 // ================================================================
 document.addEventListener('input', (e) => {
   const el = e.target;
@@ -3168,376 +3102,6 @@ renderGrid = function() {
     scrollToToday();
   }
 };
-
-// ================================================================
-// INFORME MENSUAL – PLANILLA DE METRADOS
-// ================================================================
-let informeIniciado = false;
-let informePartidaActual = null;
-let informeMesActual = '';
-
-function initInformeMensual() {
-  if (informeIniciado) return;
-  informeIniciado = true;
-
-  const selMes = document.getElementById('inf-mes');
-  const selPartida = document.getElementById('inf-partida');
-
-  // Generar opciones de meses (desde ene 2026 hasta dic 2027)
-  selMes.innerHTML = '';
-  const meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-  const hoy = new Date();
-  for (let y = 2026; y <= 2027; y++) {
-    for (let m = 0; m < 12; m++) {
-      const val = y + '-' + String(m+1).padStart(2,'0');
-      const opt = document.createElement('option');
-      opt.value = val;
-      opt.textContent = meses[m] + ' ' + y;
-      if (y === hoy.getFullYear() && m === hoy.getMonth()) opt.selected = true;
-      selMes.appendChild(opt);
-    }
-  }
-
-  // Generar opciones de partidas desde METRADOS_PARTIDAS
-  if (typeof METRADOS_PARTIDAS !== 'undefined') {
-    METRADOS_PARTIDAS.forEach(p => {
-      const opt = document.createElement('option');
-      opt.value = p.id;
-      opt.textContent = p.numero + ' — ' + p.descripcion + ' (' + p.metrado_total + ' ' + p.unidad + ')';
-      selPartida.appendChild(opt);
-    });
-  }
-
-  selPartida.addEventListener('change', () => renderInforme());
-  selMes.addEventListener('change', () => renderInforme());
-  document.getElementById('inf-btn-add').addEventListener('click', () => agregarFilaAvance());
-  document.getElementById('inf-btn-save').addEventListener('click', () => guardarAvanceMensual());
-}
-
-async function renderInforme() {
-  const partidaId = document.getElementById('inf-partida').value;
-  const mesVal = document.getElementById('inf-mes').value;
-  const infoDiv = document.getElementById('inf-partida-info');
-  const tablaPres = document.getElementById('inf-tabla-presupuesto');
-  const tablaAvance = document.getElementById('inf-tabla-avance');
-
-  if (!partidaId) {
-    infoDiv.style.display = 'none';
-    tablaPres.style.display = 'none';
-    tablaAvance.style.display = 'none';
-    return;
-  }
-
-  const partida = METRADOS_PARTIDAS.find(p => p.id === partidaId);
-  if (!partida) return;
-
-  informePartidaActual = partida;
-  informeMesActual = mesVal;
-
-  // Mostrar info
-  infoDiv.style.display = 'block';
-  document.getElementById('inf-partida-num').textContent = partida.numero;
-  document.getElementById('inf-partida-desc').textContent = partida.descripcion;
-  document.getElementById('inf-partida-metrado').textContent = partida.metrado_total + ' ' + partida.unidad;
-
-  // Renderizar tabla de presupuesto
-  renderTablaPresupuesto(partida);
-  tablaPres.style.display = 'block';
-
-  // Renderizar tabla de avance mensual
-  tablaAvance.style.display = 'block';
-  const meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-  const [anio, mesNum] = mesVal.split('-');
-  document.getElementById('inf-mes-label').textContent = meses[parseInt(mesNum)-1] + ' ' + anio;
-
-  // Cargar datos guardados y de meses anteriores
-  await cargarAvanceMensual(partida, mesVal);
-}
-
-function getColumnHeaders(partida) {
-  if (partida.tipo === 'acero') {
-    return [
-      { key: 'descripcion', label: 'Descripción', type: 'text', width: '120px' },
-      { key: 'diametro', label: 'ø', type: 'text', width: '50px' },
-      { key: 'n_estr', label: 'N° Estr.', type: 'number', width: '55px' },
-      { key: 'n_elem', label: 'N° Elem', type: 'number', width: '55px' },
-      { key: 'n_var', label: 'N° Var.', type: 'number', width: '55px' },
-      { key: 'l_varilla', label: 'L Varilla', type: 'number', width: '65px' },
-      { key: 'l_total', label: 'L Total', type: 'number', width: '65px' },
-      { key: 'peso_m', label: 'Peso/m', type: 'number', width: '60px' },
-      { key: 'peso', label: 'Peso', type: 'number', width: '65px' }
-    ];
-  } else {
-    return [
-      { key: 'descripcion', label: 'Descripción', type: 'text', width: '140px' },
-      { key: 'n_estr', label: 'N° Estr.', type: 'number', width: '55px' },
-      { key: 'n_elem', label: 'N° Elem', type: 'number', width: '55px' },
-      { key: 'area', label: 'Área', type: 'number', width: '60px' },
-      { key: 'largo', label: 'Largo', type: 'number', width: '60px' },
-      { key: 'ancho', label: 'Ancho', type: 'number', width: '60px' },
-      { key: 'alto', label: 'Alto', type: 'number', width: '60px' },
-      { key: 'parcial', label: 'Parcial', type: 'number', width: '70px' }
-    ];
-  }
-}
-
-function renderTablaPresupuesto(partida) {
-  const cols = getColumnHeaders(partida);
-  const parcialKey = partida.tipo === 'acero' ? 'peso' : 'parcial';
-
-  // Header
-  const thead = document.getElementById('inf-thead-pres');
-  thead.innerHTML = '<tr>' + cols.map(c =>
-    '<th style="padding:6px 4px;text-align:' + (c.type === 'number' ? 'right' : 'left') + ';font-size:.7rem;white-space:nowrap">' + c.label + '</th>'
-  ).join('') + '</tr>';
-
-  // Body
-  const tbody = document.getElementById('inf-tbody-pres');
-  tbody.innerHTML = '';
-  partida.detalle.forEach((fila, i) => {
-    const tr = document.createElement('tr');
-    tr.style.background = i % 2 === 0 ? '#fff' : '#f5f5f5';
-    cols.forEach(c => {
-      const td = document.createElement('td');
-      td.style.padding = '4px 4px';
-      td.style.textAlign = c.type === 'number' ? 'right' : 'left';
-      td.style.fontSize = '.72rem';
-      td.style.borderBottom = '1px solid #eee';
-      const val = fila[c.key];
-      td.textContent = val != null ? (typeof val === 'number' ? (Number.isInteger(val) ? val : val.toFixed(2)) : val) : '';
-      tr.appendChild(td);
-    });
-    tbody.appendChild(tr);
-  });
-
-  // Footer con total
-  const tfoot = document.getElementById('inf-tfoot-pres');
-  tfoot.innerHTML = '<tr>' + cols.map(c => {
-    if (c.key === parcialKey) {
-      return '<td style="padding:6px 4px;text-align:right;font-size:.75rem;border-top:2px solid #1a237e">' + partida.metrado_total.toFixed(2) + ' ' + partida.unidad + '</td>';
-    }
-    if (c.key === 'descripcion') {
-      return '<td style="padding:6px 4px;font-size:.75rem;border-top:2px solid #1a237e">TOTAL</td>';
-    }
-    return '<td style="border-top:2px solid #1a237e"></td>';
-  }).join('') + '</tr>';
-}
-
-function renderTablaAvance(partida, filas) {
-  const cols = getColumnHeaders(partida);
-  const parcialKey = partida.tipo === 'acero' ? 'peso' : 'parcial';
-
-  // Header
-  const thead = document.getElementById('inf-thead-avance');
-  thead.innerHTML = '<tr><th style="padding:6px 2px;font-size:.7rem;width:30px">#</th>' + cols.map(c =>
-    '<th style="padding:6px 4px;text-align:' + (c.type === 'number' ? 'right' : 'left') + ';font-size:.7rem;white-space:nowrap">' + c.label + '</th>'
-  ).join('') + '<th style="padding:6px 2px;font-size:.7rem;width:30px">🗑</th></tr>';
-
-  // Body
-  const tbody = document.getElementById('inf-tbody-avance');
-  tbody.innerHTML = '';
-
-  if (!filas || filas.length === 0) {
-    const tr = document.createElement('tr');
-    tr.innerHTML = '<td colspan="' + (cols.length + 2) + '" style="padding:20px;text-align:center;color:#999;font-size:.78rem">No hay filas de avance. Haz clic en "➕ Agregar Fila" para comenzar.</td>';
-    tbody.appendChild(tr);
-  } else {
-    filas.forEach((fila, i) => {
-      const tr = document.createElement('tr');
-      tr.style.background = i % 2 === 0 ? '#fff' : '#f1f8e9';
-      tr.dataset.idx = i;
-
-      // Número de fila
-      const tdNum = document.createElement('td');
-      tdNum.style.cssText = 'padding:4px 2px;text-align:center;font-size:.72rem;color:#999;border-bottom:1px solid #eee';
-      tdNum.textContent = i + 1;
-      tr.appendChild(tdNum);
-
-      cols.forEach(c => {
-        const td = document.createElement('td');
-        td.style.padding = '2px 2px';
-        td.style.borderBottom = '1px solid #eee';
-        const input = document.createElement('input');
-        input.type = c.type === 'number' ? 'number' : 'text';
-        input.step = 'any';
-        input.style.cssText = 'width:' + c.width + ';padding:3px 4px;border:1px solid #ccc;border-radius:4px;font-size:.72rem;text-align:' + (c.type === 'number' ? 'right' : 'left');
-        input.value = fila[c.key] != null ? fila[c.key] : '';
-        input.dataset.key = c.key;
-        input.dataset.row = i;
-
-        // Auto-calcular parcial si se cambian valores
-        if (c.key !== parcialKey && c.type === 'number') {
-          input.addEventListener('input', () => recalcularParcial(partida, i));
-        }
-
-        td.appendChild(input);
-        tr.appendChild(td);
-      });
-
-      // Botón eliminar
-      const tdDel = document.createElement('td');
-      tdDel.style.cssText = 'padding:4px 2px;text-align:center;border-bottom:1px solid #eee';
-      const btnDel = document.createElement('button');
-      btnDel.textContent = '✕';
-      btnDel.style.cssText = 'background:#c62828;color:#fff;border:none;border-radius:4px;padding:2px 6px;cursor:pointer;font-size:.7rem';
-      btnDel.addEventListener('click', () => eliminarFilaAvance(i));
-      tdDel.appendChild(btnDel);
-      tr.appendChild(tdDel);
-
-      tbody.appendChild(tr);
-    });
-  }
-
-  actualizarTotalesAvance(partida);
-}
-
-function recalcularParcial(partida, rowIdx) {
-  const tbody = document.getElementById('inf-tbody-avance');
-  const tr = tbody.querySelectorAll('tr')[rowIdx];
-  if (!tr) return;
-
-  const inputs = tr.querySelectorAll('input');
-  const vals = {};
-  inputs.forEach(inp => { vals[inp.dataset.key] = parseFloat(inp.value) || 0; });
-
-  let parcial = 0;
-  if (partida.tipo === 'acero') {
-    // peso = n_estr * n_elem * n_var * l_varilla * peso_m
-    // Pero en realidad: l_total = n_estr * n_elem * n_var * l_varilla, peso = l_total * peso_m
-    const l_total = vals.n_estr * vals.n_elem * vals.n_var * vals.l_varilla;
-    parcial = l_total * vals.peso_m;
-    // Actualizar l_total
-    const ltInput = tr.querySelector('input[data-key="l_total"]');
-    if (ltInput) ltInput.value = l_total ? l_total.toFixed(2) : '';
-    // Actualizar peso
-    const pesoInput = tr.querySelector('input[data-key="peso"]');
-    if (pesoInput) pesoInput.value = parcial ? parcial.toFixed(2) : '';
-  } else {
-    // parcial = n_estr * n_elem * area (o largo * ancho * alto si no hay area)
-    if (vals.area) {
-      parcial = vals.n_estr * vals.n_elem * vals.area;
-    } else {
-      parcial = vals.n_estr * vals.n_elem * vals.largo * vals.ancho * vals.alto;
-    }
-    const parcInput = tr.querySelector('input[data-key="parcial"]');
-    if (parcInput) parcInput.value = parcial ? parcial.toFixed(2) : '';
-  }
-
-  actualizarTotalesAvance(partida);
-}
-
-function actualizarTotalesAvance(partida) {
-  const parcialKey = partida.tipo === 'acero' ? 'peso' : 'parcial';
-  const tbody = document.getElementById('inf-tbody-avance');
-  let totalMes = 0;
-
-  tbody.querySelectorAll('tr').forEach(tr => {
-    const inp = tr.querySelector('input[data-key="' + parcialKey + '"]');
-    if (inp) totalMes += parseFloat(inp.value) || 0;
-  });
-
-  // Actualizar footer
-  const cols = getColumnHeaders(partida);
-  const tfoot = document.getElementById('inf-tfoot-avance');
-  tfoot.innerHTML = '<tr><td style="border-top:2px solid #2e7d32"></td>' + cols.map(c => {
-    if (c.key === parcialKey) {
-      return '<td style="padding:6px 4px;text-align:right;font-size:.75rem;border-top:2px solid #2e7d32;color:#2e7d32">' + totalMes.toFixed(2) + ' ' + partida.unidad + '</td>';
-    }
-    if (c.key === 'descripcion') {
-      return '<td style="padding:6px 4px;font-size:.75rem;border-top:2px solid #2e7d32">TOTAL MES</td>';
-    }
-    return '<td style="border-top:2px solid #2e7d32"></td>';
-  }).join('') + '<td style="border-top:2px solid #2e7d32"></td></tr>';
-
-  // Actualizar resumen
-  document.getElementById('inf-total-pres').textContent = partida.metrado_total.toFixed(2);
-  document.getElementById('inf-total-mes').textContent = totalMes.toFixed(2);
-
-  // Calcular acumulado (de los datos ya cargados)
-  const acum = parseFloat(document.getElementById('inf-total-acum').dataset.val || '0');
-  document.getElementById('inf-total-acum').textContent = acum.toFixed(2);
-  const saldo = partida.metrado_total - acum - totalMes;
-  document.getElementById('inf-total-saldo').textContent = saldo.toFixed(2);
-}
-
-let avanceFilas = [];
-
-function agregarFilaAvance() {
-  if (!informePartidaActual) return;
-  const nuevaFila = {};
-  informePartidaActual.columnas.forEach(c => { nuevaFila[c] = c === 'descripcion' || c === 'diametro' ? '' : null; });
-  avanceFilas.push(nuevaFila);
-  renderTablaAvance(informePartidaActual, avanceFilas);
-}
-
-function eliminarFilaAvance(idx) {
-  avanceFilas.splice(idx, 1);
-  renderTablaAvance(informePartidaActual, avanceFilas);
-}
-
-async function cargarAvanceMensual(partida, mesActual) {
-  // Cargar datos del mes actual
-  const datos = await fbLoad('metrados_mensuales/' + partida.id + '/' + mesActual, null);
-  avanceFilas = datos ? JSON.parse(JSON.stringify(datos)) : [];
-
-  // Calcular acumulado de meses anteriores
-  let acumulado = 0;
-  const parcialKey = partida.tipo === 'acero' ? 'peso' : 'parcial';
-
-  // Obtener todos los meses guardados para esta partida
-  const todosLosMeses = await fbLoad('metrados_mensuales/' + partida.id, {});
-  if (todosLosMeses) {
-    Object.keys(todosLosMeses).forEach(mes => {
-      if (mes < mesActual) {
-        const filasMes = todosLosMeses[mes];
-        if (Array.isArray(filasMes)) {
-          filasMes.forEach(f => {
-            acumulado += parseFloat(f[parcialKey]) || 0;
-          });
-        }
-      }
-    });
-  }
-
-  document.getElementById('inf-total-acum').dataset.val = acumulado;
-  renderTablaAvance(partida, avanceFilas);
-}
-
-function guardarAvanceMensual() {
-  if (!informePartidaActual || !informeMesActual) return;
-
-  // Recopilar datos de la tabla editable
-  const tbody = document.getElementById('inf-tbody-avance');
-  const filas = [];
-  tbody.querySelectorAll('tr').forEach(tr => {
-    const inputs = tr.querySelectorAll('input');
-    if (inputs.length === 0) return;
-    const fila = {};
-    inputs.forEach(inp => {
-      const key = inp.dataset.key;
-      const val = inp.value;
-      if (inp.type === 'number') {
-        fila[key] = val ? parseFloat(val) : null;
-      } else {
-        fila[key] = val || '';
-      }
-    });
-    filas.push(fila);
-  });
-
-  avanceFilas = filas;
-
-  // Guardar en Firebase
-  fbSave('metrados_mensuales/' + informePartidaActual.id + '/' + informeMesActual, filas);
-
-  // Mostrar mensaje
-  const msg = document.getElementById('inf-msg-save');
-  msg.style.display = 'block';
-  setTimeout(() => { msg.style.display = 'none'; }, 3000);
-
-  // Recalcular totales
-  actualizarTotalesAvance(informePartidaActual);
-}
 </script>
 <div class="clipboard-indicator" id="clipboard-indicator">📋 Actividad copiada — Ctrl+V para pegar</div>
 </body>

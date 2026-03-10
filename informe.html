@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+<title>Informe Mensual – Planilla de Metrados</title>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script src="metrados_data.js?v=20260310"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyC20KbwElcjYmTauZXKha5k6h1_wHwQr24",
+    authDomain: "proyect3082.firebaseapp.com",
+    databaseURL: "https://proyect3082-default-rtdb.firebaseio.com",
+    projectId: "proyect3082",
+    storageBucket: "proyect3082.firebasestorage.app",
+    messagingSenderId: "788964461190",
+    appId: "1:788964461190:web:cc40ec843d14f6f6769f07"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const fbDB = firebase.database();
+  const FB_ROOT = 'obra_data';
+  function fbSave(key, data) {
+    try { fbDB.ref(FB_ROOT + '/' + key).set(data); } catch(e) { console.warn('Firebase save error:', e); }
+  }
+  function fbLoad(key, defVal) {
+    return fbDB.ref(FB_ROOT + '/' + key).once('value').then(snap => {
+      const v = snap.val(); return v != null ? v : defVal;
+    }).catch(() => defVal);
+  }
+</script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #222; min-height: 100vh; display: flex; flex-direction: column; }
+
+  /* ── TOOLBAR ── */
+  .toolbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: linear-gradient(135deg, #4a148c, #6a1b9a);
+    color: #fff; padding: 8px 18px;
+    display: flex; align-items: center; justify-content: space-between;
+    box-shadow: 0 3px 12px rgba(0,0,0,.4); flex-wrap: wrap; gap: 6px;
+  }
+  .toolbar h1 { font-size: .95rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+  .toolbar-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .toolbar-right select {
+    padding: 4px 8px; border: 1px solid rgba(255,255,255,.25); border-radius: 6px;
+    background: rgba(255,255,255,.12); color: #fff; font-size: .75rem; font-family: inherit;
+  }
+  .toolbar-right select:focus { outline: none; border-color: #ce93d8; }
+  .toolbar-right select option { color: #222; background: #fff; }
+  .btn-volver {
+    padding: 5px 14px; background: rgba(255,255,255,.12); color: #fff;
+    border: 1px solid rgba(255,255,255,.25); border-radius: 14px;
+    cursor: pointer; font-size: .72rem; text-decoration: none; font-weight: 600;
+  }
+  .btn-volver:hover { background: rgba(255,255,255,.22); }
+
+  /* ── LAYOUT ── */
+  .app-layout {
+    display: flex; margin-top: 48px; height: calc(100vh - 48px);
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: 340px; min-width: 280px; background: #fff;
+    border-right: 1px solid #ddd; display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  .sidebar-header {
+    padding: 12px 14px 8px; background: #f5f0ff; border-bottom: 1px solid #e0d6f0;
+  }
+  .sidebar-header h3 { font-size: .82rem; color: #4a148c; margin-bottom: 6px; }
+  .sidebar-search {
+    width: 100%; padding: 6px 10px; border: 1px solid #ccc; border-radius: 6px;
+    font-size: .75rem; font-family: inherit;
+  }
+  .sidebar-search:focus { outline: none; border-color: #6a1b9a; }
+  .sidebar-stats {
+    padding: 6px 14px; background: #fafafa; border-bottom: 1px solid #eee;
+    font-size: .68rem; color: #666; display: flex; justify-content: space-between;
+  }
+  .sidebar-list {
+    flex: 1; overflow-y: auto; padding: 4px 0;
+  }
+  .partida-item {
+    display: flex; align-items: flex-start; gap: 8px; padding: 7px 14px;
+    cursor: pointer; transition: background .15s; border-bottom: 1px solid #f0f0f0;
+  }
+  .partida-item:hover { background: #f5f0ff; }
+  .partida-item.selected { background: #ede7f6; border-left: 3px solid #6a1b9a; }
+  .partida-item input[type="checkbox"] {
+    margin-top: 2px; accent-color: #6a1b9a; flex-shrink: 0; cursor: pointer;
+  }
+  .partida-item .partida-info { flex: 1; min-width: 0; }
+  .partida-item .partida-num {
+    font-size: .68rem; font-family: monospace; color: #6a1b9a; font-weight: 700;
+  }
+  .partida-item .partida-desc {
+    font-size: .7rem; color: #333; line-height: 1.3; margin-top: 1px;
+    overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  }
+  .partida-item .partida-met {
+    font-size: .62rem; color: #888; margin-top: 2px;
+  }
+  .partida-item .partida-check-icon {
+    font-size: .7rem; margin-top: 2px; flex-shrink: 0;
+  }
+
+  /* ── MAIN PANEL ── */
+  .main-panel {
+    flex: 1; overflow-y: auto; padding: 20px 24px;
+  }
+  .main-empty {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    height: 100%; color: #aaa; font-size: .9rem; gap: 12px;
+  }
+  .main-empty .icon { font-size: 3rem; }
+
+  /* ── PARTIDA CARD ── */
+  .partida-card {
+    background: #fff; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,.08);
+    margin-bottom: 20px; overflow: hidden;
+  }
+  .partida-card-header {
+    padding: 12px 16px; background: linear-gradient(135deg, #4a148c, #7b1fa2);
+    color: #fff; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;
+  }
+  .partida-card-header .pc-num { font-size: .78rem; font-weight: 700; font-family: monospace; }
+  .partida-card-header .pc-desc { font-size: .75rem; opacity: .9; }
+  .partida-card-header .pc-met { font-size: .85rem; font-weight: 700; }
+  .partida-card-body { padding: 14px 16px; }
+
+  /* ── Resumen de avance ── */
+  .avance-resumen {
+    display: flex; gap: 16px; margin-bottom: 12px; flex-wrap: wrap; font-size: .75rem;
+    padding: 8px 12px; background: #f9f5ff; border-radius: 8px;
+  }
+  .avance-resumen strong { font-weight: 700; }
+
+  /* ── Botones de acción ── */
+  .acciones-row {
+    display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; align-items: center;
+  }
+  .btn-action {
+    padding: 5px 14px; border: none; border-radius: 16px;
+    font-size: .72rem; cursor: pointer; font-weight: 600; transition: all .15s;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .btn-add { background: #2e7d32; color: #fff; }
+  .btn-add:hover { background: #1b5e20; }
+  .btn-save { background: #4a148c; color: #fff; }
+  .btn-save:hover { background: #38006b; }
+  .btn-view-pres { background: #e8eaf6; color: #1a237e; border: 1px solid #c5cae9; }
+  .btn-view-pres:hover { background: #c5cae9; }
+
+  /* ── Tablas ── */
+  .inf-table {
+    width: 100%; border-collapse: collapse; font-size: .72rem;
+  }
+  .inf-table thead th {
+    padding: 6px 5px; white-space: nowrap; position: sticky; top: 0; z-index: 1;
+  }
+  .inf-table tbody td { padding: 3px 3px; border-bottom: 1px solid #eee; }
+  .inf-table tfoot td { padding: 6px 5px; }
+  .inf-table input {
+    padding: 3px 4px; border: 1px solid #ccc; border-radius: 4px;
+    font-size: .72rem; font-family: inherit; width: 100%;
+  }
+  .inf-table input:focus { outline: none; border-color: #6a1b9a; }
+  .inf-table input[type="number"] { text-align: right; }
+  .btn-del-row {
+    background: #c62828; color: #fff; border: none; border-radius: 4px;
+    padding: 2px 6px; cursor: pointer; font-size: .7rem;
+  }
+  .btn-del-row:hover { background: #b71c1c; }
+
+  /* ── MODAL POPUP ── */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 500;
+    background: rgba(0,0,0,.5); align-items: center; justify-content: center;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal-box {
+    background: #fff; border-radius: 12px; width: 90%; max-width: 900px;
+    max-height: 80vh; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,.3);
+    display: flex; flex-direction: column;
+  }
+  .modal-header {
+    padding: 14px 18px; background: #1a237e; color: #fff;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .modal-header h3 { font-size: .9rem; }
+  .btn-close-modal {
+    background: rgba(255,255,255,.15); border: none; color: #fff; border-radius: 50%;
+    width: 28px; height: 28px; font-size: 1rem; cursor: pointer; line-height: 1;
+  }
+  .btn-close-modal:hover { background: rgba(255,255,255,.3); }
+  .modal-body { padding: 16px; overflow-y: auto; flex: 1; }
+
+  /* ── Msg save ── */
+  .msg-save {
+    display: none; margin-top: 8px; padding: 6px 14px;
+    background: #c8e6c9; border-radius: 6px; font-size: .75rem;
+    color: #2e7d32; font-weight: 600;
+  }
+  .msg-save.show { display: block; }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .app-layout { flex-direction: column; }
+    .sidebar { width: 100%; height: 40vh; min-width: 0; border-right: none; border-bottom: 1px solid #ddd; }
+    .main-panel { padding: 12px; }
+    .partida-card-header { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <h1>📊 Informe Mensual – Planilla de Metrados</h1>
+  <div class="toolbar-right">
+    <select id="sel-mes"></select>
+    <a class="btn-volver" href="index.html">⬅ Volver</a>
+  </div>
+</div>
+
+<!-- LAYOUT -->
+<div class="app-layout">
+  <!-- SIDEBAR: Lista de partidas -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h3>📋 Partidas del Presupuesto</h3>
+      <input type="text" class="sidebar-search" id="search-partida" placeholder="🔍 Buscar partida..."/>
+    </div>
+    <div class="sidebar-stats">
+      <span>Total: <strong id="stat-total">0</strong></span>
+      <span>Seleccionadas: <strong id="stat-sel">0</strong></span>
+      <span>Con avance: <strong id="stat-avance">0</strong></span>
+    </div>
+    <div class="sidebar-list" id="sidebar-list"></div>
+  </aside>
+
+  <!-- MAIN: Tablas de metrado -->
+  <div class="main-panel" id="main-panel">
+    <div class="main-empty" id="main-empty">
+      <div class="icon">📐</div>
+      <div>Selecciona partidas de la lista izquierda</div>
+      <div style="font-size:.72rem;color:#bbb">Marca las partidas en las que trabajaste este mes para registrar tu avance de metrado</div>
+    </div>
+    <div id="main-content"></div>
+  </div>
+</div>
+
+<!-- MODAL: Ver metrado del expediente -->
+<div class="modal-overlay" id="modal-pres">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 id="modal-pres-title">📐 Metrado del Presupuesto</h3>
+      <button class="btn-close-modal" id="btn-close-modal">✕</button>
+    </div>
+    <div class="modal-body" id="modal-pres-body"></div>
+  </div>
+</div>
+
+<script>
+// ================================================================
+// VARIABLES GLOBALES
+// ================================================================
+const MESES_NOMBRES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+let mesActual = '';
+let partidasSeleccionadas = new Set();
+let avanceData = {}; // { partidaId: { filas: [...] } }
+let acumuladoData = {}; // { partidaId: totalAcumAnterior }
+
+// ================================================================
+// INIT
+// ================================================================
+window.addEventListener('DOMContentLoaded', () => {
+  initMeses();
+  renderSidebar();
+  initModal();
+});
+
+function initMeses() {
+  const sel = document.getElementById('sel-mes');
+  const hoy = new Date();
+  for (let y = 2026; y <= 2027; y++) {
+    for (let m = 0; m < 12; m++) {
+      const val = y + '-' + String(m+1).padStart(2,'0');
+      const opt = document.createElement('option');
+      opt.value = val;
+      opt.textContent = MESES_NOMBRES[m] + ' ' + y;
+      if (y === hoy.getFullYear() && m === hoy.getMonth()) opt.selected = true;
+      sel.appendChild(opt);
+    }
+  }
+  mesActual = sel.value;
+  sel.addEventListener('change', () => {
+    mesActual = sel.value;
+    // Recargar datos de todas las seleccionadas
+    partidasSeleccionadas.forEach(id => cargarAvancePartida(id));
+  });
+}
+
+function renderSidebar() {
+  const container = document.getElementById('sidebar-list');
+  container.innerHTML = '';
+  document.getElementById('stat-total').textContent = METRADOS_PARTIDAS.length;
+
+  METRADOS_PARTIDAS.forEach(p => {
+    const div = document.createElement('div');
+    div.className = 'partida-item';
+    div.dataset.id = p.id;
+
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.dataset.id = p.id;
+
+    const info = document.createElement('div');
+    info.className = 'partida-info';
+    info.innerHTML = `
+      <div class="partida-num">${p.numero}</div>
+      <div class="partida-desc">${p.descripcion}</div>
+      <div class="partida-met">${p.metrado_total} ${p.unidad} · ${p.tipo === 'acero' ? '🔩 Acero' : '📦 Volumétrico'}</div>
+    `;
+
+    const icon = document.createElement('span');
+    icon.className = 'partida-check-icon';
+    icon.id = 'icon-' + p.id;
+
+    div.appendChild(cb);
+    div.appendChild(info);
+    div.appendChild(icon);
+
+    // Click en el item (no en el checkbox) también marca
+    div.addEventListener('click', (e) => {
+      if (e.target !== cb) cb.checked = !cb.checked;
+      togglePartida(p.id, cb.checked);
+    });
+
+    cb.addEventListener('change', () => togglePartida(p.id, cb.checked));
+
+    container.appendChild(div);
+  });
+
+  // Búsqueda
+  document.getElementById('search-partida').addEventListener('input', (e) => {
+    const q = e.target.value.toLowerCase();
+    container.querySelectorAll('.partida-item').forEach(div => {
+      const p = METRADOS_PARTIDAS.find(x => x.id === div.dataset.id);
+      const text = (p.numero + ' ' + p.descripcion).toLowerCase();
+      div.style.display = text.includes(q) ? '' : 'none';
+    });
+  });
+}
+
+async function togglePartida(id, checked) {
+  const div = document.querySelector(`.partida-item[data-id="${id}"]`);
+  if (checked) {
+    partidasSeleccionadas.add(id);
+    div.classList.add('selected');
+    await cargarAvancePartida(id);
+  } else {
+    partidasSeleccionadas.delete(id);
+    div.classList.remove('selected');
+    delete avanceData[id];
+  }
+  updateStats();
+  renderMain();
+}
+
+function updateStats() {
+  document.getElementById('stat-sel').textContent = partidasSeleccionadas.size;
+  let conAvance = 0;
+  partidasSeleccionadas.forEach(id => {
+    if (avanceData[id] && avanceData[id].length > 0) conAvance++;
+  });
+  document.getElementById('stat-avance').textContent = conAvance;
+}
+
+// ================================================================
+// CARGAR AVANCE DESDE FIREBASE
+// ================================================================
+async function cargarAvancePartida(id) {
+  const partida = METRADOS_PARTIDAS.find(p => p.id === id);
+  if (!partida) return;
+
+  // Cargar filas del mes actual
+  const datos = await fbLoad('metrados_mensuales/' + id + '/' + mesActual, null);
+  avanceData[id] = datos ? JSON.parse(JSON.stringify(datos)) : [];
+
+  // Calcular acumulado de meses anteriores
+  let acum = 0;
+  const parcialKey = partida.tipo === 'acero' ? 'peso' : 'parcial';
+  const todosLosMeses = await fbLoad('metrados_mensuales/' + id, {});
+  if (todosLosMeses) {
+    Object.keys(todosLosMeses).forEach(mes => {
+      if (mes < mesActual) {
+        const filasMes = todosLosMeses[mes];
+        if (Array.isArray(filasMes)) {
+          filasMes.forEach(f => { acum += parseFloat(f[parcialKey]) || 0; });
+        }
+      }
+    });
+  }
+  acumuladoData[id] = acum;
+
+  // Actualizar ícono en sidebar
+  const icon = document.getElementById('icon-' + id);
+  if (icon) {
+    if (avanceData[id].length > 0) {
+      icon.textContent = '✅';
+    } else {
+      icon.textContent = '';
+    }
+  }
+
+  renderMain();
+  updateStats();
+}
+
+// ================================================================
+// RENDER MAIN PANEL
+// ================================================================
+function renderMain() {
+  const empty = document.getElementById('main-empty');
+  const content = document.getElementById('main-content');
+
+  if (partidasSeleccionadas.size === 0) {
+    empty.style.display = 'flex';
+    content.innerHTML = '';
+    return;
+  }
+  empty.style.display = 'none';
+  content.innerHTML = '';
+
+  // Renderizar una card por cada partida seleccionada
+  partidasSeleccionadas.forEach(id => {
+    const partida = METRADOS_PARTIDAS.find(p => p.id === id);
+    if (!partida) return;
+    const card = crearCardPartida(partida);
+    content.appendChild(card);
+  });
+}
+
+function getColumnHeaders(partida) {
+  if (partida.tipo === 'acero') {
+    return [
+      { key: 'descripcion', label: 'Descripción', type: 'text' },
+      { key: 'diametro', label: 'ø', type: 'text' },
+      { key: 'n_estr', label: 'N° Estr.', type: 'number' },
+      { key: 'n_elem', label: 'N° Elem', type: 'number' },
+      { key: 'n_var', label: 'N° Var.', type: 'number' },
+      { key: 'l_varilla', label: 'L Varilla', type: 'number' },
+      { key: 'l_total', label: 'L Total', type: 'number' },
+      { key: 'peso_m', label: 'Peso/m', type: 'number' },
+      { key: 'peso', label: 'Peso', type: 'number' }
+    ];
+  } else {
+    return [
+      { key: 'descripcion', label: 'Descripción', type: 'text' },
+      { key: 'n_estr', label: 'N° Estr.', type: 'number' },
+      { key: 'n_elem', label: 'N° Elem', type: 'number' },
+      { key: 'area', label: 'Área', type: 'number' },
+      { key: 'largo', label: 'Largo', type: 'number' },
+      { key: 'ancho', label: 'Ancho', type: 'number' },
+      { key: 'alto', label: 'Alto', type: 'number' },
+      { key: 'parcial', label: 'Parcial', type: 'number' }
+    ];
+  }
+}
+
+function crearCardPartida(partida) {
+  const filas = avanceData[partida.id] || [];
+  const cols = getColumnHeaders(partida);
+  const parcialKey = partida.tipo === 'acero' ? 'peso' : 'parcial';
+  const acum = acumuladoData[partida.id] || 0;
+
+  // Calcular total mes
+  let totalMes = 0;
+  filas.forEach(f => { totalMes += parseFloat(f[parcialKey]) || 0; });
+  const saldo = partida.metrado_total - acum - totalMes;
+
+  const card = document.createElement('div');
+  card.className = 'partida-card';
+  card.id = 'card-' + partida.id;
+
+  // Header
+  const header = document.createElement('div');
+  header.className = 'partida-card-header';
+  header.innerHTML = `
+    <div>
+      <span class="pc-num">${partida.numero}</span>
+      <span class="pc-desc" style="margin-left:8px">${partida.descripcion}</span>
+    </div>
+    <span class="pc-met">${partida.metrado_total} ${partida.unidad}</span>
+  `;
+  card.appendChild(header);
+
+  // Body
+  const body = document.createElement('div');
+  body.className = 'partida-card-body';
+
+  // Resumen
+  const resumen = document.createElement('div');
+  resumen.className = 'avance-resumen';
+  resumen.innerHTML = `
+    <span>📐 Presupuesto: <strong>${partida.metrado_total.toFixed(2)}</strong></span>
+    <span>📊 Acum. anterior: <strong style="color:#1565c0">${acum.toFixed(2)}</strong></span>
+    <span>📈 Este mes: <strong style="color:#2e7d32" id="mes-total-${partida.id}">${totalMes.toFixed(2)}</strong></span>
+    <span>📉 Saldo: <strong style="color:${saldo < 0 ? '#c62828' : '#555'}" id="saldo-${partida.id}">${saldo.toFixed(2)}</strong></span>
+  `;
+  body.appendChild(resumen);
+
+  // Botones de acción
+  const acciones = document.createElement('div');
+  acciones.className = 'acciones-row';
+
+  const btnAdd = document.createElement('button');
+  btnAdd.className = 'btn-action btn-add';
+  btnAdd.innerHTML = '➕ Agregar Fila';
+  btnAdd.addEventListener('click', () => {
+    const nuevaFila = {};
+    partida.columnas.forEach(c => { nuevaFila[c] = (c === 'descripcion' || c === 'diametro') ? '' : null; });
+    if (!avanceData[partida.id]) avanceData[partida.id] = [];
+    avanceData[partida.id].push(nuevaFila);
+    renderTablaAvance(partida);
+  });
+
+  const btnSave = document.createElement('button');
+  btnSave.className = 'btn-action btn-save';
+  btnSave.innerHTML = '💾 Guardar';
+  btnSave.addEventListener('click', () => guardarPartida(partida));
+
+  const btnPres = document.createElement('button');
+  btnPres.className = 'btn-action btn-view-pres';
+  btnPres.innerHTML = '👁 Ver Presupuesto';
+  btnPres.addEventListener('click', () => mostrarPresupuesto(partida));
+
+  acciones.appendChild(btnAdd);
+  acciones.appendChild(btnSave);
+  acciones.appendChild(btnPres);
+  body.appendChild(acciones);
+
+  // Tabla de avance editable
+  const tableWrap = document.createElement('div');
+  tableWrap.style.cssText = 'overflow-x:auto;border:1px solid #ddd;border-radius:8px';
+  const table = document.createElement('table');
+  table.className = 'inf-table';
+  table.id = 'table-' + partida.id;
+
+  // Thead
+  const thead = document.createElement('thead');
+  thead.style.background = '#4a148c';
+  thead.style.color = '#fff';
+  let thRow = '<tr><th style="padding:6px 3px;font-size:.68rem;width:28px">#</th>';
+  cols.forEach(c => {
+    thRow += `<th style="padding:6px 4px;text-align:${c.type === 'number' ? 'right' : 'left'};font-size:.68rem">${c.label}</th>`;
+  });
+  thRow += '<th style="padding:6px 3px;font-size:.68rem;width:28px">🗑</th></tr>';
+  thead.innerHTML = thRow;
+  table.appendChild(thead);
+
+  // Tbody
+  const tbody = document.createElement('tbody');
+  tbody.id = 'tbody-' + partida.id;
+  table.appendChild(tbody);
+
+  // Tfoot
+  const tfoot = document.createElement('tfoot');
+  tfoot.id = 'tfoot-' + partida.id;
+  tfoot.style.cssText = 'background:#f3e5f5;font-weight:700';
+  table.appendChild(tfoot);
+
+  tableWrap.appendChild(table);
+  body.appendChild(tableWrap);
+
+  // Msg save
+  const msg = document.createElement('div');
+  msg.className = 'msg-save';
+  msg.id = 'msg-' + partida.id;
+  msg.textContent = '✅ Guardado correctamente';
+  body.appendChild(msg);
+
+  card.appendChild(body);
+
+  // Render filas
+  setTimeout(() => renderTablaAvance(partida), 0);
+
+  return card;
+}
+
+function renderTablaAvance(partida) {
+  const filas = avanceData[partida.id] || [];
+  const cols = getColumnHeaders(partida);
+  const parcialKey = partida.tipo === 'acero' ? 'peso' : 'parcial';
+  const tbody = document.getElementById('tbody-' + partida.id);
+  if (!tbody) return;
+  tbody.innerHTML = '';
+
+  if (filas.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="${cols.length + 2}" style="padding:16px;text-align:center;color:#aaa;font-size:.75rem">Sin filas. Clic en "➕ Agregar Fila"</td></tr>`;
+  } else {
+    filas.forEach((fila, i) => {
+      const tr = document.createElement('tr');
+      tr.style.background = i % 2 === 0 ? '#fff' : '#faf5ff';
+
+      // #
+      const tdN = document.createElement('td');
+      tdN.style.cssText = 'text-align:center;font-size:.68rem;color:#999';
+      tdN.textContent = i + 1;
+      tr.appendChild(tdN);
+
+      cols.forEach(c => {
+        const td = document.createElement('td');
+        const inp = document.createElement('input');
+        inp.type = c.type === 'number' ? 'number' : 'text';
+        inp.step = 'any';
+        inp.value = fila[c.key] != null ? fila[c.key] : '';
+        inp.dataset.key = c.key;
+        inp.dataset.row = i;
+        inp.dataset.pid = partida.id;
+
+        if (c.key !== parcialKey && c.type === 'number') {
+          inp.addEventListener('input', () => recalcularParcial(partida, i));
+        }
+
+        td.appendChild(inp);
+        tr.appendChild(td);
+      });
+
+      // Delete
+      const tdD = document.createElement('td');
+      tdD.style.textAlign = 'center';
+      const btnD = document.createElement('button');
+      btnD.className = 'btn-del-row';
+      btnD.textContent = '✕';
+      btnD.addEventListener('click', () => {
+        avanceData[partida.id].splice(i, 1);
+        renderTablaAvance(partida);
+      });
+      tdD.appendChild(btnD);
+      tr.appendChild(tdD);
+
+      tbody.appendChild(tr);
+    });
+  }
+
+  actualizarTotales(partida);
+}
+
+function recalcularParcial(partida, rowIdx) {
+  const tbody = document.getElementById('tbody-' + partida.id);
+  const tr = tbody.querySelectorAll('tr')[rowIdx];
+  if (!tr) return;
+
+  const inputs = tr.querySelectorAll('input');
+  const vals = {};
+  inputs.forEach(inp => { vals[inp.dataset.key] = parseFloat(inp.value) || 0; });
+
+  if (partida.tipo === 'acero') {
+    const lt = vals.n_estr * vals.n_elem * vals.n_var * vals.l_varilla;
+    const peso = lt * vals.peso_m;
+    const ltInp = tr.querySelector('input[data-key="l_total"]');
+    const pesoInp = tr.querySelector('input[data-key="peso"]');
+    if (ltInp) ltInp.value = lt ? lt.toFixed(2) : '';
+    if (pesoInp) pesoInp.value = peso ? peso.toFixed(2) : '';
+  } else {
+    let parcial = 0;
+    if (vals.area) {
+      parcial = vals.n_estr * vals.n_elem * vals.area;
+    } else {
+      parcial = vals.n_estr * vals.n_elem * vals.largo * vals.ancho * vals.alto;
+    }
+    const pInp = tr.querySelector('input[data-key="parcial"]');
+    if (pInp) pInp.value = parcial ? parcial.toFixed(2) : '';
+  }
+
+  actualizarTotales(partida);
+}
+
+function actualizarTotales(partida) {
+  const parcialKey = partida.tipo === 'acero' ? 'peso' : 'parcial';
+  const tbody = document.getElementById('tbody-' + partida.id);
+  let totalMes = 0;
+  if (tbody) {
+    tbody.querySelectorAll('tr').forEach(tr => {
+      const inp = tr.querySelector(`input[data-key="${parcialKey}"]`);
+      if (inp) totalMes += parseFloat(inp.value) || 0;
+    });
+  }
+
+  const cols = getColumnHeaders(partida);
+  const tfoot = document.getElementById('tfoot-' + partida.id);
+  if (tfoot) {
+    let html = '<tr><td style="border-top:2px solid #6a1b9a"></td>';
+    cols.forEach(c => {
+      if (c.key === parcialKey) {
+        html += `<td style="padding:6px 4px;text-align:right;font-size:.75rem;border-top:2px solid #6a1b9a;color:#6a1b9a">${totalMes.toFixed(2)} ${partida.unidad}</td>`;
+      } else if (c.key === 'descripcion') {
+        html += `<td style="padding:6px 4px;font-size:.75rem;border-top:2px solid #6a1b9a">TOTAL MES</td>`;
+      } else {
+        html += '<td style="border-top:2px solid #6a1b9a"></td>';
+      }
+    });
+    html += '<td style="border-top:2px solid #6a1b9a"></td></tr>';
+    tfoot.innerHTML = html;
+  }
+
+  // Actualizar resumen
+  const mesEl = document.getElementById('mes-total-' + partida.id);
+  const saldoEl = document.getElementById('saldo-' + partida.id);
+  if (mesEl) mesEl.textContent = totalMes.toFixed(2);
+  if (saldoEl) {
+    const acum = acumuladoData[partida.id] || 0;
+    const saldo = partida.metrado_total - acum - totalMes;
+    saldoEl.textContent = saldo.toFixed(2);
+    saldoEl.style.color = saldo < 0 ? '#c62828' : '#555';
+  }
+}
+
+// ================================================================
+// GUARDAR
+// ================================================================
+function guardarPartida(partida) {
+  const tbody = document.getElementById('tbody-' + partida.id);
+  const filas = [];
+  if (tbody) {
+    tbody.querySelectorAll('tr').forEach(tr => {
+      const inputs = tr.querySelectorAll('input');
+      if (inputs.length === 0) return;
+      const fila = {};
+      inputs.forEach(inp => {
+        const key = inp.dataset.key;
+        if (inp.type === 'number') {
+          fila[key] = inp.value ? parseFloat(inp.value) : null;
+        } else {
+          fila[key] = inp.value || '';
+        }
+      });
+      filas.push(fila);
+    });
+  }
+
+  avanceData[partida.id] = filas;
+  fbSave('metrados_mensuales/' + partida.id + '/' + mesActual, filas);
+
+  // Msg
+  const msg = document.getElementById('msg-' + partida.id);
+  if (msg) { msg.classList.add('show'); setTimeout(() => msg.classList.remove('show'), 3000); }
+
+  // Ícono sidebar
+  const icon = document.getElementById('icon-' + partida.id);
+  if (icon) icon.textContent = filas.length > 0 ? '✅' : '';
+
+  updateStats();
+  actualizarTotales(partida);
+}
+
+// ================================================================
+// MODAL: Ver presupuesto
+// ================================================================
+function initModal() {
+  document.getElementById('btn-close-modal').addEventListener('click', () => {
+    document.getElementById('modal-pres').classList.remove('show');
+  });
+  document.getElementById('modal-pres').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) e.currentTarget.classList.remove('show');
+  });
+}
+
+function mostrarPresupuesto(partida) {
+  const modal = document.getElementById('modal-pres');
+  document.getElementById('modal-pres-title').textContent = '📐 ' + partida.numero + ' — ' + partida.descripcion;
+
+  const body = document.getElementById('modal-pres-body');
+  const cols = getColumnHeaders(partida);
+  const parcialKey = partida.tipo === 'acero' ? 'peso' : 'parcial';
+
+  let html = '<div style="overflow-x:auto"><table class="inf-table" style="width:100%">';
+  // Header
+  html += '<thead style="background:#1a237e;color:#fff"><tr>';
+  cols.forEach(c => {
+    html += `<th style="padding:7px 5px;text-align:${c.type === 'number' ? 'right' : 'left'};font-size:.72rem">${c.label}</th>`;
+  });
+  html += '</tr></thead><tbody>';
+
+  // Filas
+  partida.detalle.forEach((fila, i) => {
+    html += `<tr style="background:${i % 2 === 0 ? '#fff' : '#f5f5f5'}">`;
+    cols.forEach(c => {
+      const val = fila[c.key];
+      const txt = val != null ? (typeof val === 'number' ? (Number.isInteger(val) ? val : val.toFixed(2)) : val) : '';
+      html += `<td style="padding:4px 5px;text-align:${c.type === 'number' ? 'right' : 'left'};font-size:.72rem;border-bottom:1px solid #eee">${txt}</td>`;
+    });
+    html += '</tr>';
+  });
+
+  // Total
+  html += '<tr style="background:#e8eaf6;font-weight:700">';
+  cols.forEach(c => {
+    if (c.key === parcialKey) {
+      html += `<td style="padding:7px 5px;text-align:right;font-size:.78rem;border-top:2px solid #1a237e">${partida.metrado_total.toFixed(2)} ${partida.unidad}</td>`;
+    } else if (c.key === 'descripcion') {
+      html += `<td style="padding:7px 5px;font-size:.78rem;border-top:2px solid #1a237e">TOTAL</td>`;
+    } else {
+      html += '<td style="border-top:2px solid #1a237e"></td>';
+    }
+  });
+  html += '</tr></tbody></table></div>';
+
+  // Resumen de acero si existe
+  if (partida.resumen && partida.resumen.length > 0) {
+    html += '<h4 style="margin:14px 0 6px;font-size:.78rem;color:#555">📊 Resumen por Diámetro</h4>';
+    html += '<table class="inf-table" style="width:auto"><thead style="background:#555;color:#fff"><tr>';
+    html += '<th style="padding:5px 10px;font-size:.72rem">ø</th>';
+    html += '<th style="padding:5px 10px;font-size:.72rem;text-align:right">L Total</th>';
+    html += '<th style="padding:5px 10px;font-size:.72rem;text-align:right">Peso/m</th>';
+    html += '<th style="padding:5px 10px;font-size:.72rem;text-align:right">Peso</th>';
+    html += '</tr></thead><tbody>';
+    partida.resumen.forEach((r, i) => {
+      html += `<tr style="background:${i%2===0?'#fff':'#f5f5f5'}">`;
+      html += `<td style="padding:4px 10px;font-size:.72rem">${r.diametro}</td>`;
+      html += `<td style="padding:4px 10px;text-align:right;font-size:.72rem">${r.l_total.toFixed(2)}</td>`;
+      html += `<td style="padding:4px 10px;text-align:right;font-size:.72rem">${r.peso_m}</td>`;
+      html += `<td style="padding:4px 10px;text-align:right;font-size:.72rem">${r.peso.toFixed(2)}</td>`;
+      html += '</tr>';
+    });
+    html += '</tbody></table>';
+  }
+
+  body.innerHTML = html;
+  modal.classList.add('show');
+}
+</script>
+</body>
+</html>
+
