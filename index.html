@@ -2147,15 +2147,38 @@ function renderTabiqueria() {
     return true;
   });
 
-  // Agrupar por nivel + ejes normalizados
+  // ── EJES PREDEFINIDOS para tabiquería (Columnetas, Viguetas, Muros) ──
+  const EJES_TABIQUERIA_PREDEFINIDOS = [
+    '1/A-B','1/B-C','1/C-D','1/D-E','1/E-E\'',
+    '1-2/A','1-2/B','1-2/C-D',
+    '2/D-E',
+    '2-3/B-C','2-3/C-D',
+    '2-3/A',
+    '3/A-B','3/B-C','3/C-D','3/D-E','3/E-E\''
+  ];
+  const NIVELES_TABIQUERIA = ['2do Nivel','3er Nivel','4to Nivel'];
+
+  // Agrupar por nivel + ejes normalizados (actividades reales)
   const zonas = {};
   actsTabi.forEach(a => {
     const nivel = a.nivel || '—';
     const ejesNorm = normalizarEjes(a.ejes || '—');
-    if (ejesNorm === '—') return; // ignorar sin ejes
+    if (ejesNorm === '—') return;
     const key = `${nivel}||${ejesNorm}`;
     if (!zonas[key]) zonas[key] = { nivel, ejes: ejesNorm, acts: [] };
     zonas[key].acts.push(a);
+  });
+
+  // Agregar zonas predefinidas que no existan aún (para ver todo el avance)
+  NIVELES_TABIQUERIA.forEach(nivel => {
+    if (filtNivel && filtNivel !== nivel) return; // respetar filtro de nivel
+    EJES_TABIQUERIA_PREDEFINIDOS.forEach(eje => {
+      const ejesNorm = normalizarEjes(eje);
+      const key = `${nivel}||${ejesNorm}`;
+      if (!zonas[key]) {
+        zonas[key] = { nivel, ejes: ejesNorm, acts: [] };
+      }
+    });
   });
 
   // Para cada zona, determinar qué pasos están completos
