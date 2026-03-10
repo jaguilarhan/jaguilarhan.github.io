@@ -2157,28 +2157,42 @@ function renderTabiqueria() {
     '3/A-B','3/B-C','3/C-D','3/D-E','3/E-E\''
   ];
   const NIVELES_TABIQUERIA = ['2do Nivel','3er Nivel','4to Nivel'];
+  const EJES_PREDEF_NORM = EJES_TABIQUERIA_PREDEFINIDOS.map(e => normalizarEjes(e));
 
-  // Agrupar por nivel + ejes normalizados (actividades reales)
+  // Crear zonas predefinidas primero para niveles 2, 3 y 4
   const zonas = {};
+  NIVELES_TABIQUERIA.forEach(nivel => {
+    if (filtNivel && filtNivel !== nivel) return;
+    EJES_PREDEF_NORM.forEach(ejesNorm => {
+      const key = `${nivel}||${ejesNorm}`;
+      zonas[key] = { nivel, ejes: ejesNorm, acts: [] };
+    });
+  });
+
+  // Distribuir actividades: en niveles 2-4 cada actividad va a sus ejes individuales
   actsTabi.forEach(a => {
     const nivel = a.nivel || '—';
     const ejesNorm = normalizarEjes(a.ejes || '—');
     if (ejesNorm === '—') return;
-    const key = `${nivel}||${ejesNorm}`;
-    if (!zonas[key]) zonas[key] = { nivel, ejes: ejesNorm, acts: [] };
-    zonas[key].acts.push(a);
-  });
-
-  // Agregar zonas predefinidas que no existan aún (para ver todo el avance)
-  NIVELES_TABIQUERIA.forEach(nivel => {
-    if (filtNivel && filtNivel !== nivel) return; // respetar filtro de nivel
-    EJES_TABIQUERIA_PREDEFINIDOS.forEach(eje => {
-      const ejesNorm = normalizarEjes(eje);
+    const esNivelPredef = NIVELES_TABIQUERIA.includes(nivel);
+    if (esNivelPredef) {
+      // Distribuir la actividad en cada eje individual predefinido que coincida
+      const ejesIndiv = ejesNorm.split(' , ').map(e => e.trim().toUpperCase());
+      ejesIndiv.forEach(eje => {
+        const ejeNorm2 = normalizarEjes(eje);
+        const key = `${nivel}||${ejeNorm2}`;
+        if (zonas[key]) {
+          zonas[key].acts.push(a);
+        } else if (EJES_PREDEF_NORM.map(x=>x.toUpperCase()).includes(eje)) {
+          zonas[key] = { nivel, ejes: ejeNorm2, acts: [a] };
+        }
+      });
+    } else {
+      // Para otros niveles, comportamiento original (agrupar por ejes completos)
       const key = `${nivel}||${ejesNorm}`;
-      if (!zonas[key]) {
-        zonas[key] = { nivel, ejes: ejesNorm, acts: [] };
-      }
-    });
+      if (!zonas[key]) zonas[key] = { nivel, ejes: ejesNorm, acts: [] };
+      zonas[key].acts.push(a);
+    }
   });
 
   // Para cada zona, determinar qué pasos están completos
