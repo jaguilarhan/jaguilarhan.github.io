@@ -940,6 +940,18 @@ async function generarCuadernoWord(desde,hasta,residente,inspector,actsRango){
       }));
     });
 
+    // Actividades manuales en Word
+    const actsManualesDiaWord = actividadesManuales[fecha] || [];
+    actsManualesDiaWord.forEach(txt=>{
+      if(txt && txt.trim()){
+        ch.push(new Paragraph({
+          spacing:{after:100},
+          bullet:{level:0},
+          children:[new TextRun({text:txt.trim(),size:20,font:"Calibri"})]
+        }));
+      }
+    });
+
     // ── III. EQUIPOS Y MAQUINARIA ──
     ch.push(new Paragraph({spacing:{before:120,after:60},children:[new TextRun({text:"III. EQUIPOS Y MAQUINARIA",bold:true,size:22,color:"0D47A1",font:"Calibri",underline:{}})]}));
     const eqConCant=eqDia.filter(e=>e.cant>0);
@@ -964,7 +976,18 @@ async function generarCuadernoWord(desde,hasta,residente,inspector,actsRango){
 
     // ── IV. OBSERVACIONES ──
     ch.push(new Paragraph({spacing:{before:120,after:60},children:[new TextRun({text:"IV. OBSERVACIONES",bold:true,size:22,color:"0D47A1",font:"Calibri",underline:{}})]}));
-    if(obsDia){
+    const obsManualesDiaWord = observacionesManuales[fecha] || [];
+    if(obsManualesDiaWord.length){
+      obsManualesDiaWord.forEach(txt=>{
+        if(txt && txt.trim()){
+          ch.push(new Paragraph({
+            spacing:{after:60},
+            bullet:{level:0},
+            children:[new TextRun({text:txt.trim(),size:20,font:"Calibri"})]
+          }));
+        }
+      });
+    } else if(obsDia){
       obsDia.split('\n').forEach(linea=>{
         ch.push(new Paragraph({spacing:{after:60},indent:{left:convertInchesToTwip(0.3)},children:[new TextRun({text:linea,size:20,font:"Calibri"})]}));
       });
@@ -1143,12 +1166,14 @@ window.addEventListener('beforeunload', (e) => {
 // ================================================================
 (async function(){
   try{
-    const [fb, pe, pd, ed, od] = await Promise.all([
+    const [fb, pe, pd, ed, od, am, om] = await Promise.all([
       fbLoad('actividades',null),
       fbLoad('parrafos_editados',null),
       fbLoad('personal_data',null),
       fbLoad('equipos_data',null),
-      fbLoad('observaciones_data',null)
+      fbLoad('observaciones_data',null),
+      fbLoad('actividades_manuales',null),
+      fbLoad('observaciones_manuales',null)
     ]);
 
     if(fb&&Array.isArray(fb)) actividades=fb.filter(a=>a!=null);
@@ -1156,6 +1181,30 @@ window.addEventListener('beforeunload', (e) => {
     if(pd && typeof pd === 'object') personalData = pd;
     if(ed && typeof ed === 'object') equiposData = ed;
     if(od && typeof od === 'object') observacionesData = od;
+    if(am && typeof am === 'object') actividadesManuales = am;
+    if(om && typeof om === 'object') observacionesManuales = om;
+
+    // Migrar observaciones antiguas (texto corrido) a observaciones manuales (viñetas)
+    if(observacionesData && typeof observacionesData === 'object'){
+      let migracionHecha = false;
+      for(const fecha in observacionesData){
+        const texto = observacionesData[fecha];
+        if(texto && typeof texto === 'string' && texto.trim()){
+          // Solo migrar si no hay observaciones manuales para ese día
+          if(!observacionesManuales[fecha] || !observacionesManuales[fecha].length){
+            const lineas = texto.split('\n').map(l=>l.trim()).filter(l=>l);
+            if(lineas.length){
+              observacionesManuales[fecha] = lineas;
+              migracionHecha = true;
+            }
+          }
+        }
+      }
+      // Guardar la migración en Firebase
+      if(migracionHecha){
+        try{ await fbSave('observaciones_manuales', observacionesManuales); }catch(e){ console.warn('Error migrando observaciones:', e); }
+      }
+    }
 
     document.getElementById('fb-status').textContent='🟢 '+actividades.length+' act.';
 
