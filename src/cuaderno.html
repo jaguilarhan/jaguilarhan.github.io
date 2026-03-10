@@ -505,6 +505,27 @@ async function guardarModal(){
   });
   equiposData[fecha]=equipos;
 
+  // ── PROPAGAR CAMBIOS A DÍAS POSTERIORES ──
+  const desde=document.getElementById('rep-desde').value;
+  const hasta=document.getElementById('rep-hasta').value;
+  if(desde && hasta){
+    const desdeD=new Date(desde+'T00:00:00'), hastaD=new Date(hasta+'T00:00:00');
+    const todasFechasRango = [];
+    const d = new Date(desde+'T00:00:00');
+    while(d <= hastaD){
+      todasFechasRango.push(d.toISOString().slice(0,10));
+      d.setDate(d.getDate()+1);
+    }
+    const fechaEditada = new Date(fecha+'T00:00:00');
+    todasFechasRango.forEach(f=>{
+      const fDate = new Date(f+'T00:00:00');
+      if(fDate > fechaEditada){
+        personalData[f] = JSON.parse(JSON.stringify({tecnico, obrero}));
+        equiposData[f] = JSON.parse(JSON.stringify(equipos));
+      }
+    });
+  }
+
   // Guardar en Firebase
   try{
     await Promise.all([
