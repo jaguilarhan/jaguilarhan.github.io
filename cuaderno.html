@@ -264,8 +264,10 @@
       <h3>👷 I. PERSONAL</h3>
       <h4 style="font-size:.82rem;color:#555;margin:6px 0 4px;">1. Personal Técnico</h4>
       <div id="modal-tecnico"></div>
+      <button class="btn-modal-add" onclick="agregarTecnicoModal()" style="margin-top:6px;">+ Agregar personal técnico</button>
       <h4 style="font-size:.82rem;color:#555;margin:10px 0 4px;">2. Personal Obrero</h4>
       <div id="modal-obrero"></div>
+      <button class="btn-modal-add" onclick="agregarObreroModal()" style="margin-top:6px;">+ Agregar personal obrero</button>
     </div>
 
     <div class="modal-section">
@@ -363,24 +365,66 @@ function abrirModal(fecha){
 
   // Personal Técnico
   const pDia=getPersonalDia(fecha);
-  let hTec='';
-  pDia.tecnico.forEach((t,i)=>{
-    hTec+=`<div class="modal-row"><label>${esc(t.rol)}</label><input type="number" min="0" value="${t.cant}" data-tec-idx="${i}"/></div>`;
-  });
-  document.getElementById('modal-tecnico').innerHTML=hTec;
+  renderTecnicoModal(pDia.tecnico);
 
   // Personal Obrero
-  let hOb='';
-  pDia.obrero.forEach((o,i)=>{
-    hOb+=`<div class="modal-row"><label>${esc(o.cat)}</label><input type="number" min="0" value="${o.cant}" data-ob-idx="${i}"/></div>`;
-  });
-  document.getElementById('modal-obrero').innerHTML=hOb;
+  renderObreroModal(pDia.obrero);
 
   // Equipos
   const eqDia=getEquiposDia(fecha);
   renderEquiposModal(eqDia);
 
   document.getElementById('modal-dia').classList.add('active');
+}
+
+function renderTecnicoModal(lista){
+  let h='';
+  lista.forEach((t,i)=>{
+    h+=`<div class="modal-row" data-tec-idx="${i}">
+      <input type="text" value="${esc(t.rol)}" data-tec-name="${i}" placeholder="Rol técnico"/>
+      <input type="number" min="0" value="${t.cant}" data-tec-cant="${i}" style="width:60px"/>
+      <button class="btn-modal-remove" onclick="this.parentElement.remove()">✕</button>
+    </div>`;
+  });
+  document.getElementById('modal-tecnico').innerHTML=h;
+}
+
+function agregarTecnicoModal(){
+  const ctn=document.getElementById('modal-tecnico');
+  const rows=ctn.querySelectorAll('.modal-row');
+  const idx=rows.length;
+  const div=document.createElement('div');
+  div.className='modal-row';
+  div.dataset.tecIdx=idx;
+  div.innerHTML=`<input type="text" value="" data-tec-name="${idx}" placeholder="Rol técnico"/>
+    <input type="number" min="0" value="0" data-tec-cant="${idx}" style="width:60px"/>
+    <button class="btn-modal-remove" onclick="this.parentElement.remove()">✕</button>`;
+  ctn.appendChild(div);
+}
+
+function renderObreroModal(lista){
+  let h='';
+  lista.forEach((o,i)=>{
+    h+=`<div class="modal-row" data-ob-idx="${i}">
+      <input type="text" value="${esc(o.cat)}" data-ob-name="${i}" placeholder="Categoría obrero"/>
+      <input type="number" min="0" value="${o.cant}" data-ob-cant="${i}" style="width:60px"/>
+      <button class="btn-modal-remove" onclick="this.parentElement.remove()">✕</button>
+    </div>`;
+  });
+  document.getElementById('modal-obrero').innerHTML=h;
+}
+
+function agregarObreroModal(){
+  const ctn=document.getElementById('modal-obrero');
+  const rows=ctn.querySelectorAll('.modal-row');
+  const idx=rows.length;
+  const div=document.createElement('div');
+  div.className='modal-row';
+  div.dataset.obIdx=idx;
+  div.innerHTML=`<input type="text" value="" data-ob-name="${idx}" placeholder="Categoría obrero"/>
+    <input type="number" min="0" value="0" data-ob-cant="${idx}" style="width:60px"/>
+    <button class="btn-modal-remove" onclick="this.parentElement.remove()">✕</button>`;
+  ctn.appendChild(div);
 }
 
 function renderEquiposModal(lista){
@@ -423,19 +467,28 @@ async function guardarModal(){
   if(!fecha) return;
 
   // Leer personal técnico
-  const tecInputs=document.querySelectorAll('#modal-tecnico input[data-tec-idx]');
-  const tecnico=Array.from(tecInputs).map((inp,i)=>({
-    rol: ROLES_TECNICO[i],
-    cant: parseInt(inp.value)||0
-  }));
+  const tecRows=document.querySelectorAll('#modal-tecnico .modal-row');
+  const tecnico=[];
+  tecRows.forEach(row=>{
+    const nameInp=row.querySelector('input[type="text"]');
+    const cantInp=row.querySelector('input[type="number"]');
+    if(nameInp && cantInp){
+      const rol=nameInp.value.trim();
+      if(rol) tecnico.push({rol, cant: parseInt(cantInp.value)||0});
+    }
+  });
 
   // Leer personal obrero
-  const obInputs=document.querySelectorAll('#modal-obrero input[data-ob-idx]');
-  const pDia=getPersonalDia(fecha);
-  const obrero=Array.from(obInputs).map((inp,i)=>({
-    cat: pDia.obrero[i]?.cat || CATS_OBRERO[i],
-    cant: parseInt(inp.value)||0
-  }));
+  const obRows=document.querySelectorAll('#modal-obrero .modal-row');
+  const obrero=[];
+  obRows.forEach(row=>{
+    const nameInp=row.querySelector('input[type="text"]');
+    const cantInp=row.querySelector('input[type="number"]');
+    if(nameInp && cantInp){
+      const cat=nameInp.value.trim();
+      if(cat) obrero.push({cat, cant: parseInt(cantInp.value)||0});
+    }
+  });
 
   personalData[fecha]={tecnico,obrero};
 
@@ -502,6 +555,7 @@ function ordenarPorSecuencia(acts){
     const oa = obtenerOrdenActividad(a);
     const ob = obtenerOrdenActividad(b);
     if(oa !== ob) return oa - ob;
+    // Si mismo orden, ordenar por categoría y luego por descripción
     const catA = (a.partida.categoria||'').localeCompare(b.partida.categoria||'');
     if(catA !== 0) return catA;
     return (a.descripcion||'').localeCompare(b.descripcion||'');
@@ -523,6 +577,7 @@ function agruparActividadesPorEjes(acts){
     const key = `${desc}||${elem}||${nivel}||${codigo}||${pct}`;
     if(mapaGrupos[key] !== undefined){
       const grupo = grupos[mapaGrupos[key]];
+      // Agregar ejes
       const ejesExistentes = grupo.ejes || '';
       const ejesNuevos = (a.ejes && a.ejes !== '—') ? a.ejes : '';
       if(ejesNuevos && ejesExistentes){
@@ -689,11 +744,6 @@ function renderDocumento(){
 
     h+='</div>'; // dia-section
 
-    // Firmas
-    h+=`<div class="firmas" style="margin-top:auto; padding-top:40px;">
-      <div class="firma-box"><div class="firma-linea"></div><div class="firma-nombre">${esc(residente)}</div><div class="firma-cargo">Residente de Obra</div></div>
-      <div class="firma-box"><div class="firma-linea"></div><div class="firma-nombre">${esc(inspector)}</div><div class="firma-cargo">Inspector / Supervisor</div></div>
-    </div>`;
 
     h+='</div>'; // word-page
   }
@@ -780,7 +830,7 @@ async function generarCuadernoWord(desde,hasta,residente,inspector,actsRango){
           new TableCell({width:{size:50,type:WidthType.PERCENTAGE},borders:na,children:[new Paragraph({indent:{left:convertInchesToTwip(0.15)},children:[new TextRun({text:rTxt,size:19,font:"Calibri"})]})]})
         ]}));
       }
-      ch.push(new Table({width:{size:95,type:WidthType.PERCENTAGE},indent:{size:convertInchesToTwip(0.2),type:WidthType.DXA},rows:tRows}));
+      ch.push(new Table({width:{size:95,type:WidthType.PERCENTAGE},indent:{size:convertInchesToTwip(0.2),type:WidthType.DXA},borders:{top:nb,bottom:nb,left:nb,right:nb,insideHorizontal:nb,insideVertical:nb},rows:tRows}));
     } else {
       ch.push(new Paragraph({spacing:{after:40},indent:{left:convertInchesToTwip(0.3)},children:[new TextRun({text:"Sin datos registrados.",size:18,italics:true,color:"999999",font:"Calibri"})]}));
     }
@@ -802,7 +852,7 @@ async function generarCuadernoWord(desde,hasta,residente,inspector,actsRango){
           new TableCell({width:{size:50,type:WidthType.PERCENTAGE},borders:na,children:[new Paragraph({indent:{left:convertInchesToTwip(0.15)},children:[new TextRun({text:rTxt,size:19,font:"Calibri"})]})]})
         ]}));
       }
-      ch.push(new Table({width:{size:95,type:WidthType.PERCENTAGE},indent:{size:convertInchesToTwip(0.2),type:WidthType.DXA},rows:oRows}));
+      ch.push(new Table({width:{size:95,type:WidthType.PERCENTAGE},indent:{size:convertInchesToTwip(0.2),type:WidthType.DXA},borders:{top:nb,bottom:nb,left:nb,right:nb,insideHorizontal:nb,insideVertical:nb},rows:oRows}));
     } else {
       ch.push(new Paragraph({spacing:{after:40},indent:{left:convertInchesToTwip(0.3)},children:[new TextRun({text:"Sin datos registrados.",size:18,italics:true,color:"999999",font:"Calibri"})]}));
     }
@@ -836,7 +886,7 @@ async function generarCuadernoWord(desde,hasta,residente,inspector,actsRango){
           new TableCell({width:{size:50,type:WidthType.PERCENTAGE},borders:na,children:[new Paragraph({indent:{left:convertInchesToTwip(0.15)},children:[new TextRun({text:rTxt,size:19,font:"Calibri"})]})]})
         ]}));
       }
-      ch.push(new Table({width:{size:95,type:WidthType.PERCENTAGE},indent:{size:convertInchesToTwip(0.2),type:WidthType.DXA},rows:eRows}));
+      ch.push(new Table({width:{size:95,type:WidthType.PERCENTAGE},indent:{size:convertInchesToTwip(0.2),type:WidthType.DXA},borders:{top:nb,bottom:nb,left:nb,right:nb,insideHorizontal:nb,insideVertical:nb},rows:eRows}));
     } else {
       ch.push(new Paragraph({spacing:{after:40},indent:{left:convertInchesToTwip(0.3)},children:[new TextRun({text:"Sin datos registrados.",size:18,italics:true,color:"999999",font:"Calibri"})]}));
     }
@@ -851,20 +901,6 @@ async function generarCuadernoWord(desde,hasta,residente,inspector,actsRango){
       ch.push(new Paragraph({spacing:{after:40},indent:{left:convertInchesToTwip(0.3)},children:[new TextRun({text:"Sin observaciones.",size:18,italics:true,color:"999999",font:"Calibri"})]}));
     }
 
-    // Espacio y firmas
-    ch.push(new Paragraph({spacing:{before:400},children:[]}));
-    ch.push(new Table({width:{size:100,type:WidthType.PERCENTAGE},rows:[new TableRow({children:[
-      new TableCell({width:{size:50,type:WidthType.PERCENTAGE},borders:na,children:[
-        new Paragraph({alignment:AlignmentType.CENTER,children:[new TextRun({text:"_".repeat(35),size:20,font:"Calibri"})]}),
-        new Paragraph({alignment:AlignmentType.CENTER,children:[new TextRun({text:residente,bold:true,size:20,font:"Calibri"})]}),
-        new Paragraph({alignment:AlignmentType.CENTER,children:[new TextRun({text:"Residente de Obra",size:18,font:"Calibri"})]})
-      ]}),
-      new TableCell({width:{size:50,type:WidthType.PERCENTAGE},borders:na,children:[
-        new Paragraph({alignment:AlignmentType.CENTER,children:[new TextRun({text:"_".repeat(35),size:20,font:"Calibri"})]}),
-        new Paragraph({alignment:AlignmentType.CENTER,children:[new TextRun({text:inspector,bold:true,size:20,font:"Calibri"})]}),
-        new Paragraph({alignment:AlignmentType.CENTER,children:[new TextRun({text:"Inspector / Supervisor",size:18,font:"Calibri"})]})
-      ]})
-    ]})]}));
 
     sections.push({
       properties:{
