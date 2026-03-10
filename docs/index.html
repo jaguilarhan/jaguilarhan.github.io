@@ -2201,27 +2201,71 @@ function renderTabiqueria() {
   }
 
   // Función para obtener actividades que cubren una zona por contención de ejes
-  // Si una actividad tiene ejes "2-3/A , 3/B-C , 3/C-D , 3/D-E" y la zona es "3/B-C , 3/C-D , 3/D-E",
-  // esa actividad también aplica porque los ejes de la zona están contenidos en los de la actividad
+  // Incluye actividades cuyos ejes contengan TODOS los ejes de la zona,
+  // O actividades que compartan AL MENOS UN eje con la zona
   function getActsConCobertura(zona, todasActsTabi) {
     const ejesZona = zona.ejes.split(' , ').map(e => e.trim().toUpperCase());
     const actsExtra = todasActsTabi.filter(a => {
       if (a.nivel !== zona.nivel) return false;
       const ejesAct = normalizarEjes(a.ejes || '—').split(' , ').map(e => e.trim().toUpperCase());
       if (ejesAct.join(',') === ejesZona.join(',')) return false; // ya está en z.acts
-      // Verificar que TODOS los ejes de la zona estén contenidos en los ejes de la actividad
-      return ejesZona.every(eje => ejesAct.includes(eje));
+      // Incluir si comparte al menos un eje con la zona
+      return ejesZona.some(eje => ejesAct.includes(eje));
     });
     return [...zona.acts, ...actsExtra];
   }
 
+  // Verificar si un paso está completado para TODOS los ejes de una zona
+  // Un paso se considera completo solo si cada eje individual de la zona
+  // tiene ese paso realizado en alguna actividad (directa o de cobertura)
+  function checkPasoZona(paso, zona, todasActsTabi) {
+    const ejesZona = zona.ejes.split(' , ').map(e => e.trim().toUpperCase());
+    return ejesZona.every(eje => {
+      return todasActsTabi.some(a => {
+        if (a.nivel !== zona.nivel) return false;
+        if (!matchPaso(paso, a)) return false;
+        const ejesAct = normalizarEjes(a.ejes || '—').split(' , ').map(e2 => e2.trim().toUpperCase());
+        return ejesAct.includes(eje);
+      });
+    });
+  }
+
+  // Obtener fechas de un paso considerando cobertura por eje individual
+  function getFechasPasoZona(paso, zona, todasActsTabi) {
+    const ejesZona = zona.ejes.split(' , ').map(e => e.trim().toUpperCase());
+    const fechasSet = new Set();
+    todasActsTabi.forEach(a => {
+      if (a.nivel !== zona.nivel) return;
+      if (!matchPaso(paso, a)) return;
+      const ejesAct = normalizarEjes(a.ejes || '—').split(' , ').map(e2 => e2.trim().toUpperCase());
+      if (ejesZona.some(eje => ejesAct.includes(eje))) {
+        fechasSet.add(a.fecha);
+      }
+    });
+    return [...fechasSet].sort();
+  }
+
+  // Obtener elementos de un paso considerando cobertura por eje individual
+  function getElementosPasoZona(paso, zona, todasActsTabi) {
+    const ejesZona = zona.ejes.split(' , ').map(e => e.trim().toUpperCase());
+    const elemsSet = new Set();
+    todasActsTabi.forEach(a => {
+      if (a.nivel !== zona.nivel) return;
+      if (!matchPaso(paso, a)) return;
+      const ejesAct = normalizarEjes(a.ejes || '—').split(' , ').map(e2 => e2.trim().toUpperCase());
+      if (ejesZona.some(eje => ejesAct.includes(eje))) {
+        elemsSet.add(a.elemento || '—');
+      }
+    });
+    return [...elemsSet];
+  }
+
   // Calcular status por zona
   const zonasConStatus = zonasArr.map(z => {
-    const actsAmpliadas = getActsConCobertura(z, actsTabi);
     const pasos = PASOS_TABIQUERIA.map(p => {
-      const hecho = checkPaso(p, actsAmpliadas);
-      const fechas = getFechasPaso(p, actsAmpliadas);
-      const elementos = getElementosPaso(p, actsAmpliadas);
+      const hecho = checkPasoZona(p, z, actsTabi);
+      const fechas = getFechasPasoZona(p, z, actsTabi);
+      const elementos = getElementosPasoZona(p, z, actsTabi);
       return { ...p, hecho, fechas, elementos };
     });
     const completados = pasos.filter(p => p.hecho).length;
