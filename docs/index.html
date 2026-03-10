@@ -1,4 +1,4 @@
-﻿﻿<!DOCTYPE html>
+﻿﻿﻿<!DOCTYPE html>
 <!-- v2026.03.04.01 - Responsive móvil completo -->
 <html lang="es">
 <head>
@@ -605,6 +605,7 @@
       <button class="tab-btn" data-tab="avance">📊 Avance por Elemento</button>
       <button class="tab-btn" data-tab="tabiqueria">🧱 Tabiquería</button>
       <button class="tab-btn" data-tab="colplacas">🏛️ Col. y Placas 5°N</button>
+      <button class="tab-btn" data-tab="informe">📋 Informe Mensual</button>
     </div>
 
     <!-- TAB SEMANA -->
@@ -1086,7 +1087,7 @@ function guardarLanes() {
 // ================================================================
 function normalizarEjes(ejesStr) {
   if (!ejesStr || ejesStr === '—') return '—';
-  return ejesStr.split(',').map(e => e.trim().toUpperCase()).filter(Boolean).sort().join(' , ');
+  return ejesStr.split(',').map(e => e.trim().toUpperCase().replace(/\bEJES?\b/g,'').replace(/\s+/g,' ').trim().replace(/\s+/g,'')).filter(Boolean).sort().join(' , ');
 }
 
 function getSeqKey(cat, elem, nivel) {
@@ -2186,7 +2187,6 @@ function renderTabiqueria() {
         } else if (EJES_PREDEF_NORM.map(x=>x.toUpperCase()).includes(eje)) {
           zonas[key] = { nivel, ejes: ejeNorm2, acts: [a] };
         }
-        // Si el eje no es predefinido, no crear zona agrupada (evitar grupos)
       });
     } else {
       // Para otros niveles, comportamiento original (agrupar por ejes completos)
@@ -2258,6 +2258,8 @@ function renderTabiqueria() {
   // tiene ese paso realizado en alguna actividad (directa o de cobertura)
   function checkPasoZona(paso, zona, todasActsTabi) {
     const ejesZona = zona.ejes.split(' , ').map(e => e.trim().toUpperCase());
+    // Para cada eje de la zona, verificar que existe al menos una actividad
+    // del mismo nivel que cubre ese eje y cumple con el paso
     return ejesZona.every(eje => {
       return todasActsTabi.some(a => {
         if (a.nivel !== zona.nivel) return false;
@@ -2439,8 +2441,8 @@ function renderColumnasPlacas() {
     { id: 'curado',       label: 'Curado' },
   ];
 
-  // ── FUNCIÓN ROBUSTA: normalizar eje eliminando TODO espacio ──
-  function normEje(e) { return (e||'').toUpperCase().replace(/\s+/g,'').replace(/['']/g,"'"); }
+  // ── FUNCIÓN ROBUSTA: normalizar eje eliminando TODO espacio y la palabra EJE/EJES ──
+  function normEje(e) { return (e||'').toUpperCase().replace(/\bEJES?\b/g,'').replace(/\s+/g,'').replace(/['']/g,"'"); }
 
   // ── FUNCIÓN ROBUSTA: extraer ejes individuales de un string de ejes ──
   function extraerEjes(ejesStr) {
@@ -2729,9 +2731,11 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     document.getElementById('tab-avance').style.display = tab === 'avance' ? 'block' : 'none';
     document.getElementById('tab-tabiqueria').style.display = tab === 'tabiqueria' ? 'block' : 'none';
     document.getElementById('tab-colplacas').style.display = tab === 'colplacas' ? 'block' : 'none';
+    document.getElementById('tab-informe').style.display = tab === 'informe' ? 'block' : 'none';
     if (tab === 'avance') renderAvance();
     if (tab === 'tabiqueria') renderTabiqueria();
     if (tab === 'colplacas') renderColumnasPlacas();
+    if (tab === 'informe') initInformeMensual();
   });
 });
 

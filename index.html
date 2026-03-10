@@ -1,4 +1,4 @@
-﻿﻿<!DOCTYPE html>
+﻿﻿﻿<!DOCTYPE html>
 <!-- v2026.03.04.01 - Responsive móvil completo -->
 <html lang="es">
 <head>
@@ -605,6 +605,7 @@
       <button class="tab-btn" data-tab="avance">📊 Avance por Elemento</button>
       <button class="tab-btn" data-tab="tabiqueria">🧱 Tabiquería</button>
       <button class="tab-btn" data-tab="colplacas">🏛️ Col. y Placas 5°N</button>
+      <button class="tab-btn" data-tab="informe">📋 Informe Mensual</button>
     </div>
 
     <!-- TAB SEMANA -->
@@ -2730,9 +2731,11 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     document.getElementById('tab-avance').style.display = tab === 'avance' ? 'block' : 'none';
     document.getElementById('tab-tabiqueria').style.display = tab === 'tabiqueria' ? 'block' : 'none';
     document.getElementById('tab-colplacas').style.display = tab === 'colplacas' ? 'block' : 'none';
+    document.getElementById('tab-informe').style.display = tab === 'informe' ? 'block' : 'none';
     if (tab === 'avance') renderAvance();
     if (tab === 'tabiqueria') renderTabiqueria();
     if (tab === 'colplacas') renderColumnasPlacas();
+    if (tab === 'informe') initInformeMensual();
   });
 });
 
