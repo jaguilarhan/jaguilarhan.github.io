@@ -505,39 +505,7 @@ async function guardarModal(){
   });
   equiposData[fecha]=equipos;
 
-  // ── PROPAGAR CAMBIOS A DÍAS POSTERIORES ──
-  // Obtener todas las fechas del cuaderno (días con actividades en el rango actual)
-  const desde=document.getElementById('rep-desde').value;
-  const hasta=document.getElementById('rep-hasta').value;
-  if(desde && hasta){
-    const desdeD=new Date(desde+'T00:00:00'), hastaD=new Date(hasta+'T00:00:00');
-    // Recopilar todas las fechas del rango que tienen actividades
-    const fechasConActs = new Set();
-    actividades.forEach(a=>{
-      const fa=new Date(a.fecha+'T00:00:00');
-      if(fa>=desdeD && fa<=hastaD) fechasConActs.add(a.fecha);
-    });
-    // También incluir fechas que ya tengan datos de personal/equipos en el rango
-    const todasFechasRango = [];
-    const d = new Date(desde+'T00:00:00');
-    while(d <= hastaD){
-      todasFechasRango.push(d.toISOString().slice(0,10));
-      d.setDate(d.getDate()+1);
-    }
-    // Propagar a todos los días POSTERIORES al día editado
-    const fechaEditada = new Date(fecha+'T00:00:00');
-    todasFechasRango.forEach(f=>{
-      const fDate = new Date(f+'T00:00:00');
-      if(fDate > fechaEditada){
-        // Solo propagar si el día posterior NO tiene datos propios guardados
-        // previamente con una fecha más reciente que la editada
-        // (es decir, si no hay un "guardar" explícito posterior que deba prevalecer)
-        // Para la lógica simple: siempre propagar hacia adelante
-        personalData[f] = JSON.parse(JSON.stringify({tecnico, obrero}));
-        equiposData[f] = JSON.parse(JSON.stringify(equipos));
-      }
-    });
-  }
+  // Cada día es independiente — NO se propagan cambios a días posteriores
 
   // Guardar en Firebase
   try{
