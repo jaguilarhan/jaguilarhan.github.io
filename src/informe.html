@@ -842,6 +842,198 @@ function mostrarPresupuesto(partida) {
   body.innerHTML = html;
   modal.classList.add('show');
 }
+
+// ================================================================
+// VER PLANILLA COMPLETA DEL MES
+// ================================================================
+document.getElementById('btn-ver-planilla').addEventListener('click', () => verPlanillaMes());
+
+async function verPlanillaMes() {
+  // Cargar TODOS los datos del mes desde Firebase
+  const todosMes = await fbLoad('metrados_mensuales', {});
+  if (!todosMes) { alert('No hay datos de metrados guardados.'); return; }
+
+  // Filtrar partidas que tienen datos en el mes actual
+  const partidasConDatos = [];
+  METRADOS_PARTIDAS.forEach(p => {
+    const datosPartida = todosMes[p.id];
+    if (datosPartida && datosPartida[mesActual]) {
+      const filas = datosPartida[mesActual];
+      if (Array.isArray(filas) && filas.length > 0) {
+        // Calcular acumulado anterior
+        let acumAnterior = 0;
+        const pk = p.tipo === 'acero' ? 'peso' : 'parcial';
+        Object.keys(datosPartida).forEach(mes => {
+          if (mes < mesActual) {
+            const fm = datosPartida[mes];
+            if (Array.isArray(fm)) fm.forEach(f => { acumAnterior += parseFloat(f[pk]) || 0; });
+          }
+        });
+        // Total mes
+        let totalMes = 0;
+        filas.forEach(f => { totalMes += parseFloat(f[pk]) || 0; });
+        partidasConDatos.push({ partida: p, filas, acumAnterior, totalMes });
+      }
+    }
+  });
+
+  if (partidasConDatos.length === 0) {
+    alert('No hay partidas con avance registrado en ' + getMesLabel() + '.');
+    return;
+  }
+
+  // Abrir ventana nueva con la planilla
+  const win = window.open('', '_blank');
+  if (!win) { alert('Permite las ventanas emergentes para ver la planilla.'); return; }
+
+  const mesLabel = getMesLabel();
+  let h = '<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"/>';
+  h += '<title>Planilla de Metrados - ' + mesLabel + '</title>';
+  h += '<style>';
+  h += '*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }';
+  h += 'body { font-family: Calibri, Arial, sans-serif; background: #d0d0d0; color: #222; }';
+  h += '.toolbar { position:fixed;top:0;left:0;right:0;z-index:100;background:linear-gradient(135deg,#1a237e,#283593);';
+  h += 'color:#fff;padding:8px 18px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 3px 12px rgba(0,0,0,.4);flex-wrap:wrap;gap:6px; }';
+  h += '.toolbar h1 { font-size:.92rem;font-weight:700; }';
+  h += '.toolbar-btns { display:flex;gap:8px; }';
+  h += '.btn-tb { padding:5px 14px;border:1px solid rgba(255,255,255,.25);border-radius:14px;cursor:pointer;font-size:.72rem;font-weight:600;color:#fff;background:rgba(255,255,255,.12);text-decoration:none; }';
+  h += '.btn-tb:hover { background:rgba(255,255,255,.22); }';
+  h += '.btn-print { background:#2e7d32; }';
+  h += '.pages { padding:56px 0 40px;display:flex;flex-direction:column;align-items:center;gap:24px; }';
+  h += '.page { background:#fff;width:1100px;padding:36px 44px 44px;box-shadow:0 4px 20px rgba(0,0,0,.22);position:relative;page-break-after:always; }';
+  h += '.page-header { text-align:center;margin-bottom:18px; }';
+  h += '.page-header h2 { font-size:.88rem;color:#1a237e;margin-bottom:2px; }';
+  h += '.page-header h3 { font-size:.78rem;color:#333;font-weight:400; }';
+  h += '.partida-title { background:#1a237e;color:#fff;padding:8px 14px;border-radius:6px 6px 0 0;display:flex;justify-content:space-between;align-items:center;margin-top:20px; }';
+  h += '.partida-title .pt-num { font-size:.75rem;font-weight:700;font-family:monospace; }';
+  h += '.partida-title .pt-desc { font-size:.72rem;opacity:.9;margin-left:8px; }';
+  h += '.partida-title .pt-und { font-size:.72rem;font-weight:700; }';
+  h += 'table.met { width:100%;border-collapse:collapse;font-size:.72rem;margin-bottom:4px; }';
+  h += 'table.met th { background:#e8eaf6;color:#1a237e;padding:5px 6px;text-align:center;border:1px solid #bbb;font-size:.68rem; }';
+  h += 'table.met td { padding:3px 6px;border:1px solid #ccc; }';
+  h += 'table.met td.num { text-align:right; }';
+  h += 'table.met tr.total-row { background:#e8eaf6;font-weight:700; }';
+  h += '.resumen-box { margin:6px 0 0;padding:6px 12px;background:#f5f5f5;border:1px solid #ddd;border-radius:0 0 6px 6px;font-size:.72rem;display:flex;gap:20px;flex-wrap:wrap; }';
+  h += '.resumen-box span { white-space:nowrap; }';
+  h += '.resumen-box strong { font-weight:700; }';
+  h += '@media print { body { background:#fff; } .toolbar { display:none; } .pages { padding:0;gap:0; } .page { box-shadow:none;width:100%;padding:20px 24px; } }';
+  h += '</style></head><body>';
+
+  // Toolbar
+  h += '<div class="toolbar">';
+  h += '<h1>Planilla de Sustento de Metrados - ' + mesLabel + '</h1>';
+  h += '<div class="toolbar-btns">';
+  h += '<button class="btn-tb btn-print" onclick="window.print()">🖨 Imprimir</button>';
+  h += '<button class="btn-tb" onclick="window.close()">✕ Cerrar</button>';
+  h += '</div></div>';
+
+  h += '<div class="pages">';
+
+  // Header general en primera página
+  h += '<div class="page">';
+  h += '<div class="page-header">';
+  h += '<h2>PLANILLA DE SUSTENTO DE METRADOS</h2>';
+  h += '<h3>MEJORAMIENTO Y AMPLIACI\u00D3N LABORATORIO AMBIENTAL SAN AGUST\u00CDN DE TORATA</h3>';
+  h += '<h3 style="margin-top:2px;font-weight:700;color:#1a237e">' + mesLabel.toUpperCase() + '</h3>';
+  h += '</div>';
+
+  // Resumen general
+  h += '<table class="met" style="width:auto;margin:0 auto 20px">';
+  h += '<thead><tr><th style="min-width:60px">N\u00B0</th><th style="min-width:80px">Partida</th><th style="min-width:320px">Descripci\u00F3n</th><th>Und</th><th>Met. Pres.</th><th>Acum. Ant.</th><th>Este Mes</th><th>Acum. Total</th><th>Saldo</th></tr></thead><tbody>';
+  partidasConDatos.forEach((d, i) => {
+    const acumTotal = d.acumAnterior + d.totalMes;
+    const saldo = d.partida.metrado_total - acumTotal;
+    h += '<tr>';
+    h += '<td class="num">' + (i+1) + '</td>';
+    h += '<td style="font-family:monospace;font-size:.68rem">' + d.partida.numero + '</td>';
+    h += '<td>' + d.partida.descripcion + '</td>';
+    h += '<td style="text-align:center">' + d.partida.unidad + '</td>';
+    h += '<td class="num">' + d.partida.metrado_total.toFixed(2) + '</td>';
+    h += '<td class="num">' + d.acumAnterior.toFixed(2) + '</td>';
+    h += '<td class="num" style="color:#2e7d32;font-weight:700">' + d.totalMes.toFixed(2) + '</td>';
+    h += '<td class="num">' + acumTotal.toFixed(2) + '</td>';
+    h += '<td class="num" style="color:' + (saldo < 0 ? '#c62828' : '#555') + '">' + saldo.toFixed(2) + '</td>';
+    h += '</tr>';
+  });
+  h += '</tbody></table>';
+  h += '</div>'; // fin primera page
+
+  // Una página por cada partida con su detalle
+  partidasConDatos.forEach(d => {
+    const p = d.partida;
+    const cols = getColumnHeaders(p);
+    const pk = p.tipo === 'acero' ? 'peso' : 'parcial';
+    const acumTotal = d.acumAnterior + d.totalMes;
+    const saldo = p.metrado_total - acumTotal;
+
+    h += '<div class="page">';
+
+    // Título de partida
+    h += '<div class="partida-title">';
+    h += '<div><span class="pt-num">' + p.numero + '</span><span class="pt-desc">' + p.descripcion + '</span></div>';
+    h += '<span class="pt-und">Total: ' + p.metrado_total.toFixed(2) + ' ' + p.unidad + '</span>';
+    h += '</div>';
+
+    // Tabla de detalle
+    h += '<table class="met"><thead><tr>';
+    h += '<th style="width:28px">#</th>';
+    cols.forEach(c => {
+      h += '<th style="text-align:' + (c.type === 'number' ? 'right' : 'left') + '">' + c.label + '</th>';
+    });
+    h += '</tr></thead><tbody>';
+
+    d.filas.forEach((fila, i) => {
+      h += '<tr>';
+      h += '<td class="num">' + (i+1) + '</td>';
+      cols.forEach(c => {
+        const val = fila[c.key];
+        let txt = '';
+        if (val != null) {
+          if (typeof val === 'number') txt = Number.isInteger(val) ? String(val) : val.toFixed(2);
+          else txt = String(val);
+        }
+        h += '<td' + (c.type === 'number' ? ' class="num"' : '') + '>' + txt + '</td>';
+      });
+      h += '</tr>';
+    });
+
+    // Fila total
+    h += '<tr class="total-row">';
+    h += '<td></td>';
+    cols.forEach(c => {
+      if (c.key === pk) {
+        h += '<td class="num" style="font-size:.78rem">' + d.totalMes.toFixed(2) + ' ' + p.unidad + '</td>';
+      } else if (c.key === 'descripcion') {
+        h += '<td style="font-size:.75rem">TOTAL</td>';
+      } else {
+        h += '<td></td>';
+      }
+    });
+    h += '</tr></tbody></table>';
+
+    // Resumen de avance
+    h += '<div class="resumen-box">';
+    h += '<span>Met. Presupuesto: <strong>' + p.metrado_total.toFixed(2) + '</strong></span>';
+    h += '<span>Acum. Anterior: <strong style="color:#1565c0">' + d.acumAnterior.toFixed(2) + '</strong></span>';
+    h += '<span>Este Mes: <strong style="color:#2e7d32">' + d.totalMes.toFixed(2) + '</strong></span>';
+    h += '<span>Acum. Total: <strong>' + acumTotal.toFixed(2) + '</strong></span>';
+    h += '<span>Saldo: <strong style="color:' + (saldo < 0 ? '#c62828' : '#555') + '">' + saldo.toFixed(2) + '</strong></span>';
+    h += '</div>';
+
+    h += '</div>'; // fin page
+  });
+
+  h += '</div>'; // fin pages
+  h += '</body></html>';
+
+  win.document.write(h);
+  win.document.close();
+}
+
+function getMesLabel() {
+  const parts = mesActual.split('-');
+  return MESES_NOMBRES[parseInt(parts[1])-1] + ' ' + parts[0];
+}
 </script>
 </body>
 </html>
