@@ -714,6 +714,11 @@
         <div id="cp-resumen-global" style="font-size:.78rem;font-weight:600;color:#1a237e"></div>
       </div>
       <div id="colplacas-container"></div>
+      <div style="margin:18px 0 10px;border-top:1px dashed #cfd8dc"></div>
+      <h4 style="color:#1a237e;margin:0 0 8px 0;font-size:.94rem">🧱 Análisis de Placas No Portantes</h4>
+      <p style="font-size:.74rem;color:#555;margin:0 0 10px 0">Seguimiento por ejes usando partidas <b>13.02.01</b> a <b>13.02.04</b> (Concreto, Acero, Encofrado/Desencofrado y Curado).</p>
+      <div id="np-resumen-global" style="font-size:.78rem;font-weight:600;color:#1a237e;margin-bottom:10px"></div>
+      <div id="nportantes-container"></div>
     </div>
 
     <div class="resumen-bar">
@@ -2198,7 +2203,7 @@ function renderTabiqueria() {
   // ── EJES PREDEFINIDOS para tabiquería (Columnetas, Viguetas, Muros) ──
   const EJES_TABIQUERIA_PREDEFINIDOS = [
     '1/A-B','1/B-C','1/C-D','1/D-E','1/E-E\'',
-    '1-2/A','1-2/B','1-2/C-D',
+    '1-2/A','1-2/B',
     '2/D-E',
     '2-3/B-C','2-3/C-D',
     '2-3/A',
@@ -2640,6 +2645,7 @@ function renderColumnasPlacas() {
 
   if (!elemFilt.length) {
     container.innerHTML = '<div style="text-align:center;padding:40px;color:#aaa;font-size:.85rem">No se encontraron columnas/placas con los filtros seleccionados.</div>';
+    renderPlacasNoPortantes();
     return;
   }
 
@@ -2708,6 +2714,124 @@ function renderColumnasPlacas() {
     });
 
     html += `</div>`; // eje group
+  });
+
+  container.innerHTML = html;
+  renderPlacasNoPortantes();
+}
+
+function renderPlacasNoPortantes() {
+  const container = document.getElementById('nportantes-container');
+  const resumenEl = document.getElementById('np-resumen-global');
+  if (!container || !resumenEl) return;
+
+  const PASOS_NP = [
+    { codigo: '13.02.01', label: 'Concreto en placas no portantes' },
+    { codigo: '13.02.02', label: 'Acero en placas no portantes' },
+    { codigo: '13.02.03', label: 'Encofrado y desencofrado' },
+    { codigo: '13.02.04', label: 'Curado de concreto' }
+  ];
+
+  const actsNP = actividades.filter(a => String((a.partida || {}).codigo || '').startsWith('13.02.'));
+  const zonas = {};
+
+  function ejesIndividuales(ejesStr) {
+    const norm = normalizarEjes(ejesStr || '—');
+    if (norm === '—') return [];
+    return norm.split(' , ').map(e => e.trim().toUpperCase()).filter(Boolean);
+  }
+
+  actsNP.forEach(a => {
+    const nivel = a.nivel || '—';
+    const ejes = ejesIndividuales(a.ejes);
+    ejes.forEach(eje => {
+      const key = `${nivel}||${eje}`;
+      if (!zonas[key]) zonas[key] = { nivel, ejes: eje, acts: [] };
+      zonas[key].acts.push(a);
+    });
+  });
+
+  const nivelOrd = { 'Sotano': 0, '1er Nivel': 1, '2do Nivel': 2, '3er Nivel': 3, '4to Nivel': 4, '5to Nivel': 5, '6to Nivel': 6, 'Azotea': 7 };
+  const zonasArr = Object.values(zonas).sort((a, b) => (nivelOrd[a.nivel] || 99) - (nivelOrd[b.nivel] || 99) || a.ejes.localeCompare(b.ejes));
+
+  if (!zonasArr.length) {
+    resumenEl.innerHTML = '<span style="color:#1565c0">🔄 0</span> · Total: 0 zonas';
+    container.innerHTML = '<div style="text-align:center;padding:26px;color:#aaa;font-size:.82rem">Aún no hay registros de placas no portantes (13.02.01–13.02.04).</div>';
+    return;
+  }
+
+  const zonasConStatus = zonasArr.map(z => {
+    const pasos = PASOS_NP.map(p => {
+      const actsPaso = z.acts.filter(a => String((a.partida || {}).codigo || '') === p.codigo);
+      const hecho = actsPaso.length > 0;
+      const fechas = [...new Set(actsPaso.map(a => a.fecha))].sort();
+      return { ...p, hecho, fechas };
+    });
+    const completados = pasos.filter(p => p.hecho).length;
+    const total = pasos.length;
+    const pct = Math.round((completados / total) * 100);
+    let estado = 'inicio';
+    if (pct === 100) estado = 'completo';
+    else if (pct > 0) estado = 'proceso';
+    return { ...z, pasos, completados, total, pct, estado };
+  });
+
+  const totalZonas = zonasConStatus.length;
+  const completas = zonasConStatus.filter(z => z.estado === 'completo').length;
+  const enProceso = zonasConStatus.filter(z => z.estado === 'proceso').length;
+  const inicio = zonasConStatus.filter(z => z.estado === 'inicio').length;
+  resumenEl.innerHTML = `<span style="color:#2e7d32">✅ ${completas}</span> · <span style="color:#e65100">⏳ ${enProceso}</span> · <span style="color:#1565c0">🔄 ${inicio}</span> · Total: ${totalZonas} zonas`;
+
+  const porNivel = {};
+  zonasConStatus.forEach(z => {
+    if (!porNivel[z.nivel]) porNivel[z.nivel] = [];
+    porNivel[z.nivel].push(z);
+  });
+
+  let html = '';
+  Object.entries(porNivel).forEach(([nivel, zonasNivel]) => {
+    html += `<div style="margin-bottom:16px">`;
+    html += `<h4 style="color:#1a237e;font-size:.86rem;margin:0 0 8px 0;padding:6px 12px;background:#e8eaf6;border-radius:6px">📍 ${nivel}</h4>`;
+
+    zonasNivel.forEach(z => {
+      const estadoIcon = z.estado === 'completo' ? '✅' : z.estado === 'proceso' ? '⏳' : '🔄';
+      const estadoColor = z.estado === 'completo' ? '#2e7d32' : z.estado === 'proceso' ? '#e65100' : '#1565c0';
+      const pctColor = z.pct >= 80 ? '#2e7d32' : z.pct >= 40 ? '#e65100' : '#c62828';
+
+      html += `<div style="background:#fff;border:1px solid #e0e0e0;border-radius:8px;margin-bottom:8px;overflow:hidden;border-left:4px solid ${estadoColor}">`;
+      html += `<div style="padding:9px 12px;display:flex;align-items:center;gap:10px;cursor:pointer;background:#fafafa" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">`;
+      html += `<span style="font-size:1.05rem">${estadoIcon}</span>`;
+      html += `<div style="flex:1">`;
+      html += `<div style="font-weight:700;color:#222;font-size:.8rem">📐 EJES: ${z.ejes}</div>`;
+      html += `<div style="font-size:.69rem;color:#666">${z.completados}/${z.total} pasos</div>`;
+      html += `</div>`;
+      html += `<div style="text-align:right">`;
+      html += `<div style="font-size:.82rem;font-weight:700;color:${pctColor}">${z.pct}%</div>`;
+      html += `<div style="width:80px;height:6px;background:#e0e0e0;border-radius:3px;overflow:hidden;margin-top:2px"><div style="height:100%;width:${z.pct}%;background:${pctColor};border-radius:3px"></div></div>`;
+      html += `</div></div>`;
+
+      html += `<div style="display:none;padding:8px 12px 10px">`;
+      html += `<table style="width:100%;border-collapse:collapse;font-size:.71rem">`;
+      html += `<thead><tr style="background:#f5f5f5"><th style="text-align:left;padding:5px 7px;border-bottom:1px solid #ddd">Código</th><th style="text-align:left;padding:5px 7px;border-bottom:1px solid #ddd">Paso</th><th style="text-align:center;padding:5px 7px;border-bottom:1px solid #ddd">Estado</th><th style="text-align:left;padding:5px 7px;border-bottom:1px solid #ddd">Fecha(s)</th></tr></thead>`;
+      html += `<tbody>`;
+      z.pasos.forEach(p => {
+        const icon = p.hecho ? '✅' : '⏳';
+        const bgRow = p.hecho ? 'background:#f1f8e9' : 'background:#fff3e0';
+        const fechasStr = p.fechas.length ? p.fechas.map(f => {
+          const d = new Date(f + 'T00:00:00');
+          return d.toLocaleDateString('es-PE', { day: '2-digit', month: 'short' });
+        }).join(', ') : '—';
+        html += `<tr style="${bgRow}">`;
+        html += `<td style="padding:5px 7px;border-bottom:1px solid #eee;font-family:monospace">${p.codigo}</td>`;
+        html += `<td style="padding:5px 7px;border-bottom:1px solid #eee;font-weight:600">${p.label}</td>`;
+        html += `<td style="padding:5px 7px;border-bottom:1px solid #eee;text-align:center">${icon}</td>`;
+        html += `<td style="padding:5px 7px;border-bottom:1px solid #eee;color:#777;font-family:monospace">${fechasStr}</td>`;
+        html += `</tr>`;
+      });
+      html += `</tbody></table></div></div>`;
+    });
+
+    html += `</div>`;
   });
 
   container.innerHTML = html;
