@@ -785,7 +785,7 @@
 
 <!-- REPORTE WORD: Se abre en reporte.html -->
 
-<script src="partidas_data.js?v=20260303"></script>
+<script src="partidas_data.js?v=20260319"></script>
 <script>
 // ================================================================
 // LOGIN SYSTEM — Firebase Authentication (Email/Password)
@@ -1225,12 +1225,59 @@ function guardar() {
 // ================================================================
 // AUTOCOMPLETADO
 // ================================================================
+function normalizarTextoBusqueda(texto) {
+  return String(texto || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function raizTokenBusqueda(token) {
+  if (token.length > 4 && token.endsWith('es')) return token.slice(0, -2);
+  if (token.length > 3 && token.endsWith('s')) return token.slice(0, -1);
+  return token;
+}
+
 function buscarPartidas(texto) {
-  const t = texto.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-  return PARTIDAS.filter(p => {
-    const n = p.nombre.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-    return n.includes(t) || p.codigo.includes(t) || p.categoria.toLowerCase().includes(t);
-  }).slice(0, 12);
+  const query = normalizarTextoBusqueda(texto);
+  if (!query) return [];
+
+  const qTokens = query.split(' ').map(raizTokenBusqueda).filter(Boolean);
+
+  return PARTIDAS
+    .map(p => {
+      const codigo = normalizarTextoBusqueda(p.codigo);
+      const nombre = normalizarTextoBusqueda(p.nombre);
+      const categoria = normalizarTextoBusqueda((p.categoria || '').replace(/_/g, ' '));
+      const compuesto = `${nombre} ${categoria} ${codigo}`;
+      const palabras = compuesto.split(' ').filter(Boolean);
+
+      const matchDirecto = nombre.includes(query) || codigo.includes(query) || categoria.includes(query);
+      const matchTokens = qTokens.every(tok => palabras.some(w => w.startsWith(tok) || w.includes(tok)));
+      if (!matchDirecto && !matchTokens) return null;
+
+      let score = 0;
+      if (codigo === query) score += 120;
+      if (codigo.includes(query)) score += 80;
+      if (nombre.includes(query)) score += 70;
+      if (categoria.includes(query)) score += 40;
+
+      qTokens.forEach(tok => {
+        if (nombre.split(' ').some(w => w.startsWith(tok))) score += 12;
+        else if (nombre.includes(tok)) score += 8;
+        if (categoria.split(' ').some(w => w.startsWith(tok))) score += 6;
+      });
+
+      if (p.nueva) score += 5;
+      return { p, score };
+    })
+    .filter(Boolean)
+    .sort((a, b) => b.score - a.score || a.p.codigo.localeCompare(b.p.codigo))
+    .slice(0, 12)
+    .map(x => x.p);
 }
 
 function renderSugBox(boxEl, partidas, onSelect) {
