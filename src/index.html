@@ -716,7 +716,7 @@
       <div id="colplacas-container"></div>
       <div style="margin:18px 0 10px;border-top:1px dashed #cfd8dc"></div>
       <h4 style="color:#1a237e;margin:0 0 8px 0;font-size:.94rem">🧱 Análisis de Placas No Portantes</h4>
-      <p style="font-size:.74rem;color:#555;margin:0 0 10px 0">Seguimiento por ejes usando partidas <b>13.02.01</b> a <b>13.02.04</b> (Concreto, Acero, Encofrado/Desencofrado y Curado).</p>
+      <p style="font-size:.74rem;color:#555;margin:0 0 10px 0">Seguimiento por ejes con la secuencia: <b>Habilitado de Formas → Habilitado de Acero → Armado de Acero → Trazo para Encofrado → Encofrado → Alineado y Apuntalado → Vaciado → Desencofrado → Curado</b>.</p>
       <div id="np-resumen-global" style="font-size:.78rem;font-weight:600;color:#1a237e;margin-bottom:10px"></div>
       <div id="nportantes-container"></div>
     </div>
@@ -2726,14 +2726,56 @@ function renderPlacasNoPortantes() {
   if (!container || !resumenEl) return;
 
   const PASOS_NP = [
-    { codigo: '13.02.01', label: 'Concreto en placas no portantes' },
-    { codigo: '13.02.02', label: 'Acero en placas no portantes' },
-    { codigo: '13.02.03', label: 'Encofrado y desencofrado' },
-    { codigo: '13.02.04', label: 'Curado de concreto' }
+    { id: 'hab_formas',   label: 'Habilitado de Formas' },
+    { id: 'hab_acero',    label: 'Habilitado de Acero' },
+    { id: 'arm_acero',    label: 'Armado de Acero' },
+    { id: 'trazo',        label: 'Trazo para Encofrado' },
+    { id: 'encofrado',    label: 'Encofrado' },
+    { id: 'alineado',     label: 'Alineado y Apuntalado' },
+    { id: 'vaciado',      label: 'Vaciado' },
+    { id: 'desencofrado', label: 'Desencofrado' },
+    { id: 'curado',       label: 'Curado' }
   ];
 
   const actsNP = actividades.filter(a => String((a.partida || {}).codigo || '').startsWith('13.02.'));
   const zonas = {};
+
+  function detectarPasoNP(a) {
+    const desc = (a.descripcion || '').toUpperCase();
+
+    // Si registran una sola actividad con ambos términos, cuenta para ambos pasos.
+    if (desc.includes('HABILITADO') && desc.includes('ARMADO') && desc.includes('ACERO')) {
+      return ['hab_acero', 'arm_acero'];
+    }
+    if ((desc.includes('FORMA') || desc.includes('MANTENIMIENTO')) && !desc.includes('ACERO')) {
+      return ['hab_formas'];
+    }
+    if (desc.includes('HABILITAD') && desc.includes('ACERO')) {
+      return ['hab_acero'];
+    }
+    if (desc.includes('ARMADO') && desc.includes('ACERO')) {
+      return ['arm_acero'];
+    }
+    if (desc.includes('TRAZO') || desc.includes('TRAZADO')) {
+      return ['trazo'];
+    }
+    if (desc.includes('DESENCOFRADO')) {
+      return ['desencofrado'];
+    }
+    if (desc.includes('ENCOFRADO') && !desc.includes('DESENCOFRADO') && !desc.includes('TRAZO')) {
+      return ['encofrado'];
+    }
+    if (desc.includes('ALINEADO') || desc.includes('APUNTALADO') || desc.includes('APLOMADO')) {
+      return ['alineado'];
+    }
+    if (desc.includes('VACIADO') || (desc.includes('CONCRETO') && !desc.includes('ENCOFRADO'))) {
+      return ['vaciado'];
+    }
+    if (desc.includes('CURADO')) {
+      return ['curado'];
+    }
+    return [];
+  }
 
   function ejesIndividuales(ejesStr) {
     const norm = normalizarEjes(ejesStr || '—');
@@ -2762,7 +2804,7 @@ function renderPlacasNoPortantes() {
 
   const zonasConStatus = zonasArr.map(z => {
     const pasos = PASOS_NP.map(p => {
-      const actsPaso = z.acts.filter(a => String((a.partida || {}).codigo || '') === p.codigo);
+      const actsPaso = z.acts.filter(a => detectarPasoNP(a).includes(p.id));
       const hecho = actsPaso.length > 0;
       const fechas = [...new Set(actsPaso.map(a => a.fecha))].sort();
       return { ...p, hecho, fechas };
@@ -2812,9 +2854,9 @@ function renderPlacasNoPortantes() {
 
       html += `<div style="display:none;padding:8px 12px 10px">`;
       html += `<table style="width:100%;border-collapse:collapse;font-size:.71rem">`;
-      html += `<thead><tr style="background:#f5f5f5"><th style="text-align:left;padding:5px 7px;border-bottom:1px solid #ddd">Código</th><th style="text-align:left;padding:5px 7px;border-bottom:1px solid #ddd">Paso</th><th style="text-align:center;padding:5px 7px;border-bottom:1px solid #ddd">Estado</th><th style="text-align:left;padding:5px 7px;border-bottom:1px solid #ddd">Fecha(s)</th></tr></thead>`;
+      html += `<thead><tr style="background:#f5f5f5"><th style="text-align:left;padding:5px 7px;border-bottom:1px solid #ddd">N°</th><th style="text-align:left;padding:5px 7px;border-bottom:1px solid #ddd">Paso</th><th style="text-align:center;padding:5px 7px;border-bottom:1px solid #ddd">Estado</th><th style="text-align:left;padding:5px 7px;border-bottom:1px solid #ddd">Fecha(s)</th></tr></thead>`;
       html += `<tbody>`;
-      z.pasos.forEach(p => {
+      z.pasos.forEach((p, idx) => {
         const icon = p.hecho ? '✅' : '⏳';
         const bgRow = p.hecho ? 'background:#f1f8e9' : 'background:#fff3e0';
         const fechasStr = p.fechas.length ? p.fechas.map(f => {
@@ -2822,7 +2864,7 @@ function renderPlacasNoPortantes() {
           return d.toLocaleDateString('es-PE', { day: '2-digit', month: 'short' });
         }).join(', ') : '—';
         html += `<tr style="${bgRow}">`;
-        html += `<td style="padding:5px 7px;border-bottom:1px solid #eee;font-family:monospace">${p.codigo}</td>`;
+        html += `<td style="padding:5px 7px;border-bottom:1px solid #eee;font-weight:600;color:#888">${idx + 1}</td>`;
         html += `<td style="padding:5px 7px;border-bottom:1px solid #eee;font-weight:600">${p.label}</td>`;
         html += `<td style="padding:5px 7px;border-bottom:1px solid #eee;text-align:center">${icon}</td>`;
         html += `<td style="padding:5px 7px;border-bottom:1px solid #eee;color:#777;font-family:monospace">${fechasStr}</td>`;
