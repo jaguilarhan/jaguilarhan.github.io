@@ -1,4 +1,4 @@
-﻿﻿﻿<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!-- v2026.03.04.01 - Responsive móvil completo -->
 <html lang="es">
 <head>
@@ -590,6 +590,9 @@
         <span id="inp-pct-val" style="font-weight:700;font-size:.85rem;min-width:36px;text-align:right">100%</span>
       </div>
 
+      <label>Metrado (opcional)</label>
+      <input type="text" id="inp-metrado" placeholder="Ej: 10 KG, 15 M2, 2.5 M3"/>
+
       <button class="btn-agregar" id="btn-agregar">Agregar Actividad</button>
     </div>
 
@@ -772,6 +775,8 @@
       <input type="range" id="edit-pct" min="0" max="100" step="5" value="100" style="flex:1"/>
       <span id="edit-pct-val" style="font-weight:700;font-size:.85rem;min-width:36px;text-align:right">100%</span>
     </div>
+    <label>Metrado (opcional)</label>
+    <input type="text" id="edit-metrado" placeholder="Ej: 10 KG, 15 M2, 2.5 M3"/>
     <label>Cambiar Partida Asociada</label>
     <div class="autocomplete-wrap">
       <input type="text" id="edit-buscar-partida" placeholder="Escribe para buscar otra partida..." autocomplete="off"/>
@@ -1145,7 +1150,7 @@ function calcularAvance(categoria, actsDelElemento, elemStr, nivelStr) {
 // ================================================================
 // ESTADO GLOBAL
 // ================================================================
-let actividades = JSON.parse(localStorage.getItem('obra_actividades') || '[]');
+let actividades = (JSON.parse(localStorage.getItem('obra_actividades') || '[]') || []).filter(a => a != null).map(normalizarActividad);
 let semanaOffset = 0;
 let partidaSeleccionada = null;
 let pendingDeleteId = null;
@@ -1221,8 +1226,18 @@ function pegarCard() {
 }
 
 function guardar() {
+  actividades = actividades.filter(a => a != null).map(normalizarActividad);
   localStorage.setItem('obra_actividades', JSON.stringify(actividades));
   fbSave('actividades', actividades);
+}
+
+function normalizarMetrado(valor) {
+  return String(valor == null ? '' : valor).trim();
+}
+
+function normalizarActividad(act) {
+  if (!act || typeof act !== 'object') return act;
+  return { ...act, metrado: normalizarMetrado(act.metrado) };
 }
 
 // Datos se guardan en localStorage (cache local) y Firebase (persistencia nube)
@@ -1504,6 +1519,7 @@ document.getElementById('btn-agregar').addEventListener('click', () => {
   const ejes  = document.getElementById('inp-ejes').value.trim();
   const nivel = document.getElementById('inp-nivel').value;
   const pct   = Number(document.getElementById('inp-pct').value);
+  const metrado = normalizarMetrado(document.getElementById('inp-metrado').value);
 
   if (!fecha) { alert('Selecciona una fecha.'); return; }
   if (!desc)  { alert('Ingresa una descripción.'); return; }
@@ -1511,7 +1527,7 @@ document.getElementById('btn-agregar').addEventListener('click', () => {
   if (!partidaSeleccionada) { alert('Selecciona una partida del buscador.'); return; }
   const partida = {...partidaSeleccionada};
 
-  actividades.push({ id: Date.now(), fecha, descripcion: desc, elemento: elem||'—', ejes: ejes||'—', nivel: nivel||'—', pct, partida });
+  actividades.push({ id: Date.now(), fecha, descripcion: desc, elemento: elem||'—', ejes: ejes||'—', nivel: nivel||'—', pct, metrado, partida });
   guardar();
 
   inpDesc.value = ''; document.getElementById('inp-elemento').value = '';
@@ -1519,6 +1535,7 @@ document.getElementById('btn-agregar').addEventListener('click', () => {
   document.getElementById('inp-nivel').value = ''; inpBuscar.value = '';
   document.getElementById('inp-pct').value = 100;
   document.getElementById('inp-pct-val').textContent = '100%';
+  document.getElementById('inp-metrado').value = '';
   partidaSeleccionada = null;
   document.getElementById('partida-sel-display').style.display = 'none';
   document.getElementById('seq-preview').style.display = 'none';
@@ -1903,6 +1920,7 @@ function renderGrid() {
       const editPct = act.pct != null ? act.pct : 100;
       document.getElementById('edit-pct').value = editPct;
       document.getElementById('edit-pct-val').textContent = editPct + '%';
+      document.getElementById('edit-metrado').value = normalizarMetrado(act.metrado);
       document.getElementById('edit-partida-cod').textContent = act.partida.codigo;
       document.getElementById('edit-partida-nom').textContent = act.partida.nombre;
       document.getElementById('edit-partida-info').style.borderLeftColor = act.partida.color;
@@ -1987,6 +2005,7 @@ function renderGrid() {
 // ── Función helper para crear una tarjeta de actividad ──
 function crearCard(act) {
   const c = act.partida.color;
+  const metradoTxt = normalizarMetrado(act.metrado);
   const card = document.createElement('div');
   card.className = 'actividad-card';
   card.setAttribute('draggable', 'true');
@@ -1997,9 +2016,10 @@ function crearCard(act) {
   const tooltipParts = [act.descripcion, act.partida.codigo + ' — ' + act.partida.nombre];
   if (act.elemento && act.elemento !== '—') tooltipParts.push('🔧 ' + act.elemento + (act.nivel && act.nivel !== '—' ? ' · ' + act.nivel : ''));
   if (act.ejes && act.ejes !== '—') tooltipParts.push('📐 ' + act.ejes);
+  if (metradoTxt) tooltipParts.push('📏 Metrado: ' + metradoTxt);
   card.title = tooltipParts.join('\n');
   const esNueva = act.partida.nueva === true;
-  const badgeNueva = esNueva ? '<span style="display:inline-block;background:#c62828;color:#fff;font-size:.55rem;font-weight:700;padding:1px 5px;border-radius:3px;margin-left:4px;vertical-align:middle">NUEVA</span>' : '';
+  const badgeNueva = esNueva ? '<span style="display:inline-block;background:#c62828;color:#fff;font-size:.6rem;padding:1px 4px;border-radius:2px">NUEVA</span>' : '';
   card.innerHTML = `
     <button class="btn-del" data-id="${act.id}" title="Eliminar">✕</button>
     <button class="btn-edit" data-id="${act.id}" title="Editar">✏️</button>
@@ -2009,6 +2029,7 @@ function crearCard(act) {
     ${act.nivel && act.nivel !== '—' ? `<div style="font-size:.64rem;color:#e65100;font-weight:700;text-transform:uppercase;margin-top:1px">${act.nivel}</div>` : ''}
     ${act.ejes && act.ejes !== '—' ? `<div style="font-size:.64rem;color:#6a1b9a;font-weight:600;margin-top:1px">📐 ${act.ejes}</div>` : ''}
     ${act.pct != null ? `<div style="font-size:.6rem;color:#1565c0;font-weight:700;margin-top:1px">▶ ${act.pct}%</div>` : ''}
+    ${metradoTxt ? `<div style="font-size:.62rem;color:#2e7d32;font-weight:700;margin-top:1px">${metradoTxt}</div>` : ''}
   `;
   // Click para seleccionar la tarjeta (copiar/pegar)
   card.addEventListener('click', (e) => {
@@ -2173,16 +2194,16 @@ function renderTabiqueria() {
   // Definir los pasos de un muro de tabiquería completo
   const PASOS_TABIQUERIA = [
     { id: 'hab_col', label: 'Habilitado Acero Columnetas', keywords: ['HABILITADO','ACERO'], cats: ['COLUMNETAS'] },
-    { id: 'arm_col', label: 'Armado Acero Columnetas', keywords: ['ARMADO','ACERO'], cats: ['COLUMNETAS'] },
-    { id: 'asentado', label: 'Asentado de Ladrillo', keywords: ['ASENTADO','LADRILLO'], cats: ['MUROS'] },
-    { id: 'enc_col', label: 'Encofrado Columnetas', keywords: ['ENCOFRADO'], cats: ['COLUMNETAS'] },
-    { id: 'vac_col', label: 'Vaciado Columnetas', keywords: ['VACIADO','CONCRETO'], cats: ['COLUMNETAS'] },
-    { id: 'hab_vig', label: 'Habilitado Acero Viguetas', keywords: ['HABILITADO','ACERO'], cats: ['VIGUETAS'] },
-    { id: 'arm_vig', label: 'Armado Acero Viguetas', keywords: ['ARMADO','ACERO'], cats: ['VIGUETAS'] },
-    { id: 'enc_vig', label: 'Encofrado Viguetas', keywords: ['ENCOFRADO'], cats: ['VIGUETAS'] },
-    { id: 'vac_vig', label: 'Vaciado Viguetas', keywords: ['VACIADO','CONCRETO'], cats: ['VIGUETAS'] },
-    { id: 'desenc', label: 'Desencofrado', keywords: ['DESENCOFRADO'], cats: ['COLUMNETAS','VIGUETAS'] },
-    { id: 'curado', label: 'Curado', keywords: ['CURADO'], cats: ['COLUMNETAS','VIGUETAS'] },
+    { id: 'arm_col', label: 'Armado Acero Columnetas',          keywords: ['ARMADO','ACERO'], cats: ['COLUMNETAS'] },
+    { id: 'asentado', label: 'Asentado de Ladrillo',             keywords: ['ASENTADO','LADRILLO'], cats: ['MUROS'] },
+    { id: 'enc_col', label: 'Encofrado Columnetas',                keywords: ['ENCOFRADO'], cats: ['COLUMNETAS'] },
+    { id: 'vac_col', label: 'Vaciado Columnetas',                  keywords: ['VACIADO','CONCRETO'], cats: ['COLUMNETAS'] },
+    { id: 'hab_vig', label: 'Habilitado Acero Viguetas',      keywords: ['HABILITADO','ACERO'], cats: ['VIGUETAS'] },
+    { id: 'arm_vig', label: 'Armado Acero Viguetas',          keywords: ['ARMADO','ACERO'], cats: ['VIGUETAS'] },
+    { id: 'enc_vig', label: 'Encofrado Viguetas',                keywords: ['ENCOFRADO'], cats: ['VIGUETAS'] },
+    { id: 'vac_vig', label: 'Vaciado Viguetas',                  keywords: ['VACIADO','CONCRETO'], cats: ['VIGUETAS'] },
+    { id: 'desenc', label: 'Desencofrado',                         keywords: ['DESENCOFRADO'], cats: ['COLUMNETAS','VIGUETAS'] },
+    { id: 'curado', label: 'Curado',                               keywords: ['CURADO'], cats: ['COLUMNETAS','VIGUETAS'] },
   ];
 
   // Filtrar actividades relevantes a tabiquería (columnetas, viguetas, muros de ladrillo)
@@ -2297,7 +2318,7 @@ function renderTabiqueria() {
     const ejesZona = zona.ejes.split(' , ').map(e => e.trim().toUpperCase());
     const actsExtra = todasActsTabi.filter(a => {
       if (a.nivel !== zona.nivel) return false;
-      const ejesAct = normalizarEjes(a.ejes || '—').split(' , ').map(e => e.trim().toUpperCase());
+      const ejesAct = normalizarEjes(a.ejes || '—').split(' , ').map(e2 => e2.trim().toUpperCase());
       if (ejesAct.join(',') === ejesZona.join(',')) return false; // ya está en z.acts
       // Incluir si comparte al menos un eje con la zona
       return ejesZona.some(eje => ejesAct.includes(eje));
@@ -2402,447 +2423,9 @@ function renderTabiqueria() {
       const estadoColor = z.estado === 'completo' ? '#2e7d32' : z.estado === 'proceso' ? '#e65100' : '#1565c0';
       const pctColor = z.pct >= 80 ? '#2e7d32' : z.pct >= 40 ? '#e65100' : '#c62828';
 
-      html += `<div style="background:#fff;border:1px solid #e0e0e0;border-radius:8px;margin-bottom:10px;overflow:hidden;border-left:4px solid ${estadoColor}">`;
-      html += `<div style="padding:10px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;background:#fafafa" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">`;
-      html += `<span style="font-size:1.1rem">${estadoIcon}</span>`;
-      html += `<div style="flex:1">`;
-      html += `<div style="font-weight:700;color:#222;font-size:.82rem">📐 EJES: ${z.ejes}</div>`;
-      html += `<div style="font-size:.7rem;color:#666">${z.completados}/${z.total} pasos · ${z.acts.length} actividades registradas</div>`;
-      html += `</div>`;
-      html += `<div style="text-align:right">`;
-      html += `<div style="font-size:.85rem;font-weight:700;color:${pctColor}">${z.pct}%</div>`;
-      html += `<div style="width:80px;height:6px;background:#e0e0e0;border-radius:3px;overflow:hidden;margin-top:2px"><div style="height:100%;width:${z.pct}%;background:${pctColor};border-radius:3px"></div></div>`;
-      html += `</div>`;
-      html += `</div>`; // header
-
-      // Detalle (colapsable)
-      html += `<div style="display:none;padding:8px 14px 12px">`;
-      html += `<table style="width:100%;border-collapse:collapse;font-size:.72rem">`;
-      html += `<thead><tr style="background:#f5f5f5"><th style="text-align:left;padding:5px 8px;border-bottom:1px solid #ddd">Paso</th><th style="text-align:center;padding:5px 8px;border-bottom:1px solid #ddd">Estado</th><th style="text-align:left;padding:5px 8px;border-bottom:1px solid #ddd">Elemento</th><th style="text-align:left;padding:5px 8px;border-bottom:1px solid #ddd">Fecha(s)</th></tr></thead>`;
-      html += `<tbody>`;
-      z.pasos.forEach(p => {
-        const icon = p.hecho ? '✅' : '⏳';
-        const bgRow = p.hecho ? 'background:#f1f8e9' : 'background:#fff3e0';
-        const fechasStr = p.fechas.length ? p.fechas.map(f => {
-          const d = new Date(f + 'T00:00:00');
-          return d.toLocaleDateString('es-PE', {day:'2-digit',month:'short'});
-        }).join(', ') : '—';
-        const elemStr = p.elementos.length ? p.elementos.join(', ') : '—';
-        html += `<tr style="${bgRow}">`;
-        html += `<td style="padding:5px 8px;border-bottom:1px solid #eee;font-weight:600">${p.label}</td>`;
-        html += `<td style="padding:5px 8px;border-bottom:1px solid #eee;text-align:center">${icon}</td>`;
-        html += `<td style="padding:5px 8px;border-bottom:1px solid #eee;color:#555">${elemStr}</td>`;
-        html += `<td style="padding:5px 8px;border-bottom:1px solid #eee;color:#777;font-family:monospace">${fechasStr}</td>`;
-        html += `</tr>`;
-      });
-      html += `</tbody></table>`;
-      html += `</div>`; // detalle
-      html += `</div>`; // card zona
-    });
-
-    html += `</div>`; // nivel group
-  });
-
-  container.innerHTML = html;
-}
-
-// Event listeners para filtros de tabiquería
-document.getElementById('tab-filtro-nivel').addEventListener('change', renderTabiqueria);
-document.getElementById('tab-filtro-estado').addEventListener('change', renderTabiqueria);
-
-// ================================================================
-// RENDER COLUMNAS Y PLACAS 5TO NIVEL
-// ================================================================
-function renderColumnasPlacas() {
-  const container = document.getElementById('colplacas-container');
-  const filtEstado = document.getElementById('cp-filtro-estado').value;
-  const filtTipo = document.getElementById('cp-filtro-tipo').value;
-
-  // Definición de columnas y placas del 5to nivel con sus ejes
-  const ELEMENTOS_5N = [
-    { nombre: 'PL-01', eje: '3/A', tipo: 'PL' },
-    { nombre: 'C-02',  eje: '2/A', tipo: 'C' },
-    { nombre: 'PL-02', eje: '1/A', tipo: 'PL' },
-    { nombre: 'PL-04\'', eje: '3/B', tipo: 'PL' },
-    { nombre: 'PL-05', eje: '2/B', tipo: 'PL' },
-    { nombre: 'PL-04', eje: '1/B', tipo: 'PL' },
-    { nombre: 'C-01',  eje: '3/C', tipo: 'C' },
-    { nombre: 'PL-06', eje: '2/C', tipo: 'PL' },
-    { nombre: 'C-03',  eje: '1/C', tipo: 'C' },
-    { nombre: 'C-01',  eje: '3/D', tipo: 'C' },
-    { nombre: 'C-01',  eje: '2/D', tipo: 'C' },
-    { nombre: 'C-01',  eje: '1/D', tipo: 'C' },
-    { nombre: 'PL-01\'', eje: '3/E', tipo: 'PL' },
-    { nombre: 'C-01',  eje: '2/E', tipo: 'C' },
-    { nombre: 'C-02',  eje: '1/E', tipo: 'C' },
-    { nombre: 'PL-01', eje: '3/E\'', tipo: 'PL' },
-    { nombre: 'C-01',  eje: '2/E\'', tipo: 'C' },
-    { nombre: 'PL-03', eje: '1/E\'', tipo: 'PL' },
-  ];
-
-  // Pasos del proceso constructivo para columnas y placas
-  const PASOS_CP = [
-    { id: 'hab_formas',   label: 'Habilitado de Formas' },
-    { id: 'hab_acero',    label: 'Habilitado de Acero' },
-    { id: 'arm_acero',    label: 'Armado de Acero' },
-    { id: 'trazo',        label: 'Trazo para Encofrado' },
-    { id: 'encofrado',    label: 'Encofrado' },
-    { id: 'alineado',     label: 'Alineado y Apuntalado' },
-    { id: 'vaciado',      label: 'Vaciado' },
-    { id: 'desencofrado', label: 'Desencofrado' },
-    { id: 'curado',       label: 'Curado' },
-  ];
-
-  // ── FUNCIÓN ROBUSTA: normalizar eje eliminando TODO espacio y la palabra EJE/EJES ──
-  function normEje(e) { return (e||'').toUpperCase().replace(/\bEJES?\b/g,'').replace(/\s+/g,'').replace(/['']/g,"'"); }
-
-  // ── FUNCIÓN ROBUSTA: extraer ejes individuales de un string de ejes ──
-  function extraerEjes(ejesStr) {
-    if (!ejesStr || ejesStr === '—') return [];
-    return ejesStr.split(',').map(e => normEje(e)).filter(Boolean);
-  }
-
-  // ── FUNCIÓN ROBUSTA: verificar si un eje buscado está contenido en los ejes de una actividad ──
-  function contieneEje(ejesActividad, ejeBuscado) {
-    const ejesArr = extraerEjes(ejesActividad);
-    const ejeN = normEje(ejeBuscado);
-    return ejesArr.some(ej => ej === ejeN);
-  }
-
-  // ── FUNCIÓN ROBUSTA: verificar si el nombre de elemento coincide ──
-  // Busca "PL-01" dentro de "PLACAS PL-01, PL-04'" o "PLACAS PL-01" etc.
-  // Evita falsos positivos: "PL-01" no debe matchear "PL-01'" (a menos que se busque PL-01')
-  function contieneElemento(elemActStr, nombreBuscado) {
-    const elemAct = (elemActStr || '').toUpperCase().replace(/['']/g,"'");
-    const nombre = nombreBuscado.toUpperCase().replace(/['']/g,"'");
-    if (!elemAct || !nombre) return false;
-
-    // Si el nombre buscado NO termina en ', verificar que no sea falso positivo con versión prima
-    // Ej: buscamos "PL-01" y el elemento dice "PL-01'" → NO match (PL-01' es diferente de PL-01)
-    // Pero "PL-01" en "PLACAS PL-01, PL-04'" → SÍ match (PL-01 y PL-04' son elementos separados)
-
-    // Extraer todos los nombres de elementos del campo
-    // "PLACAS PL-01, PL-04'" → ["PLACAS PL-01", "PL-04'"]
-    // "COLUMNAS C-01" → ["COLUMNAS C-01"]
-    // "PLACAS PL-01" → ["PLACAS PL-01"]
-    const partes = elemAct.split(',').map(p => p.trim());
-
-    for (const parte of partes) {
-      // Verificar si esta parte contiene el nombre buscado
-      if (parte.includes(nombre)) {
-        // Verificar que no sea falso positivo con versión prima
-        // Si buscamos "PL-01" (sin prima), verificar que en la parte no sea "PL-01'"
-        if (!nombre.endsWith("'")) {
-          // Buscar la posición del nombre en la parte
-          const idx = parte.indexOf(nombre);
-          const charDespues = parte[idx + nombre.length] || '';
-          // Si el carácter después es ', es la versión prima → no match
-          if (charDespues === "'") continue;
-        }
-        return true;
-      }
-    }
-    return false;
-  }
-
-  // ── FUNCIÓN ROBUSTA: determinar qué paso representa una actividad ──
-  function detectarPaso(a) {
-    const desc = (a.descripcion || '').toUpperCase();
-
-    // Habilitado y Armado combinado → cuenta como ambos
-    if (desc.includes('HABILITADO') && desc.includes('ARMADO') && desc.includes('ACERO')) {
-      return ['hab_acero', 'arm_acero'];
-    }
-    // Habilitado de formas / mantenimiento de formas
-    if ((desc.includes('FORMA') || desc.includes('MANTENIMIENTO')) && !desc.includes('ACERO')) {
-      return ['hab_formas'];
-    }
-    // Habilitado de acero (sin armado)
-    if (desc.includes('HABILITAD') && desc.includes('ACERO')) {
-      return ['hab_acero'];
-    }
-    // Armado de acero (sin habilitado)
-    if (desc.includes('ARMADO') && desc.includes('ACERO')) {
-      return ['arm_acero'];
-    }
-    // Trazo
-    if (desc.includes('TRAZO') || desc.includes('TRAZADO')) {
-      return ['trazo'];
-    }
-    // Desencofrado (antes de encofrado para evitar confusión)
-    if (desc.includes('DESENCOFRADO')) {
-      return ['desencofrado'];
-    }
-    // Encofrado (excluir desencofrado y trazo)
-    if (desc.includes('ENCOFRADO') && !desc.includes('DESENCOFRADO') && !desc.includes('TRAZO')) {
-      return ['encofrado'];
-    }
-    // Alineado y apuntalado
-    if (desc.includes('ALINEADO') || desc.includes('APUNTALADO') || desc.includes('APLOMADO')) {
-      return ['alineado'];
-    }
-    // Vaciado
-    if (desc.includes('VACIADO') || (desc.includes('CONCRETO') && !desc.includes('ENCOFRADO'))) {
-      return ['vaciado'];
-    }
-    // Curado
-    if (desc.includes('CURADO')) {
-      return ['curado'];
-    }
-    return [];
-  }
-
-  // ── BUSCAR TODAS las actividades del 5to nivel (SIN filtrar por categoría) ──
-  const acts5N = actividades.filter(a => a.nivel === '5to Nivel');
-
-  // Para cada elemento definido, buscar qué pasos se han completado
-  const elementosConStatus = ELEMENTOS_5N.map(elem => {
-    // Filtrar por tipo si hay filtro
-    if (filtTipo && elem.tipo !== filtTipo) return null;
-
-    // Buscar TODAS las actividades que coincidan con este elemento + eje
-    // No filtrar por categoría, buscar en TODAS las del 5to nivel
-    const actsElem = acts5N.filter(a => {
-      // Verificar que el nombre del elemento coincida
-      if (!contieneElemento(a.elemento, elem.nombre)) return false;
-      // Verificar que el eje coincida
-      if (!contieneEje(a.ejes, elem.eje)) return false;
-      return true;
-    });
-
-    // Evaluar cada paso
-    const pasos = PASOS_CP.map(paso => {
-      const actsDelPaso = actsElem.filter(a => {
-        const pasosDet = detectarPaso(a);
-        return pasosDet.includes(paso.id);
-      });
-
-      const hecho = actsDelPaso.length > 0;
-      const fechas = actsDelPaso.map(a => a.fecha).sort();
-      return { ...paso, hecho, fechas };
-    });
-
-    const completados = pasos.filter(p => p.hecho).length;
-    const total = pasos.length;
-    const pct = Math.round(completados / total * 100);
-    let estado = 'inicio';
-    if (pct === 100) estado = 'completo';
-    else if (pct > 0) estado = 'proceso';
-
-    return { ...elem, pasos, completados, total, pct, estado, actsCount: actsElem.length };
-  }).filter(e => e !== null);
-
-  // Filtrar por estado
-  const elemFilt = filtEstado ? elementosConStatus.filter(e => e.estado === filtEstado) : elementosConStatus;
-
-  // Resumen global
-  const totalElems = elementosConStatus.length;
-  const completas = elementosConStatus.filter(e => e.estado === 'completo').length;
-  const enProceso = elementosConStatus.filter(e => e.estado === 'proceso').length;
-  const sinIniciar = elementosConStatus.filter(e => e.estado === 'inicio').length;
-  document.getElementById('cp-resumen-global').innerHTML =
-    `<span style="color:#2e7d32">✅ ${completas}</span> · <span style="color:#e65100">⏳ ${enProceso}</span> · <span style="color:#1565c0">🔄 ${sinIniciar}</span> · Total: ${totalElems} elementos`;
-
-  if (!elemFilt.length) {
-    container.innerHTML = '<div style="text-align:center;padding:40px;color:#aaa;font-size:.85rem">No se encontraron columnas/placas con los filtros seleccionados.</div>';
-    renderPlacasNoPortantes();
-    return;
-  }
-
-  // Agrupar por eje principal (A, B, C, D, E, E')
-  const porEjePrincipal = {};
-  elemFilt.forEach(e => {
-    const ejeParts = e.eje.split('/');
-    const ejePrinc = ejeParts.length > 1 ? ejeParts[1] : e.eje;
-    if (!porEjePrincipal[ejePrinc]) porEjePrincipal[ejePrinc] = [];
-    porEjePrincipal[ejePrinc].push(e);
-  });
-
-  // Orden de ejes
-  const ordenEjes = ['A','B','C','D','E',"E'"];
-
-  let html = '';
-  ordenEjes.forEach(ejePrinc => {
-    const elems = porEjePrincipal[ejePrinc];
-    if (!elems || !elems.length) return;
-
-    html += `<div style="margin-bottom:20px">`;
-    html += `<h4 style="color:#1a237e;font-size:.9rem;margin:0 0 8px 0;padding:6px 12px;background:#e8eaf6;border-radius:6px">📍 Eje ${ejePrinc}</h4>`;
-
-    elems.forEach(e => {
-      const estadoIcon = e.estado === 'completo' ? '✅' : e.estado === 'proceso' ? '⏳' : '🔄';
-      const estadoColor = e.estado === 'completo' ? '#2e7d32' : e.estado === 'proceso' ? '#e65100' : '#1565c0';
-      const pctColor = e.pct >= 80 ? '#2e7d32' : e.pct >= 40 ? '#e65100' : '#c62828';
-      const tipoIcon = e.tipo === 'PL' ? '🟦' : '🟧';
-      const tipoLabel = e.tipo === 'PL' ? 'Placa' : 'Columna';
-
-      html += `<div style="background:#fff;border:1px solid #e0e0e0;border-radius:8px;margin-bottom:10px;overflow:hidden;border-left:4px solid ${estadoColor}">`;
-      html += `<div style="padding:10px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;background:#fafafa" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">`;
-      html += `<span style="font-size:1.1rem">${estadoIcon}</span>`;
-      html += `<div style="flex:1">`;
-      html += `<div style="font-weight:700;color:#222;font-size:.82rem">${tipoIcon} ${e.nombre} <span style="color:#555;font-weight:400;font-size:.75rem">— EJE ${e.eje}</span> <span style="background:${e.tipo==='PL'?'#1565c0':'#e65100'};color:#fff;font-size:.62rem;padding:1px 6px;border-radius:8px;margin-left:4px">${tipoLabel}</span></div>`;
-      html += `<div style="font-size:.7rem;color:#666">${e.completados}/${e.total} pasos · ${e.actsCount} actividades registradas</div>`;
-      html += `</div>`;
-      html += `<div style="text-align:right">`;
-      html += `<div style="font-size:.85rem;font-weight:700;color:${pctColor}">${e.pct}%</div>`;
-      html += `<div style="width:80px;height:6px;background:#e0e0e0;border-radius:3px;overflow:hidden;margin-top:2px"><div style="height:100%;width:${e.pct}%;background:${pctColor};border-radius:3px"></div></div>`;
-      html += `</div>`;
-      html += `</div>`; // header
-
-      // Detalle colapsable con pasos
-      html += `<div style="display:none;padding:8px 14px 12px">`;
-      html += `<table style="width:100%;border-collapse:collapse;font-size:.72rem">`;
-      html += `<thead><tr style="background:#f5f5f5"><th style="text-align:left;padding:5px 8px;border-bottom:1px solid #ddd">N°</th><th style="text-align:left;padding:5px 8px;border-bottom:1px solid #ddd">Paso</th><th style="text-align:center;padding:5px 8px;border-bottom:1px solid #ddd">Estado</th><th style="text-align:left;padding:5px 8px;border-bottom:1px solid #ddd">Fecha(s)</th></tr></thead>`;
-      html += `<tbody>`;
-      e.pasos.forEach((p, idx) => {
-        const icon = p.hecho ? '✅' : '⏳';
-        const bgRow = p.hecho ? 'background:#f1f8e9' : 'background:#fff3e0';
-        const fechasStr = p.fechas.length ? p.fechas.map(f => {
-          const d = new Date(f + 'T00:00:00');
-          return d.toLocaleDateString('es-PE', {day:'2-digit',month:'short'});
-        }).join(', ') : '—';
-        html += `<tr style="${bgRow}">`;
-        html += `<td style="padding:5px 8px;border-bottom:1px solid #eee;font-weight:600;color:#888">${idx+1}</td>`;
-        html += `<td style="padding:5px 8px;border-bottom:1px solid #eee;font-weight:600">${p.label}</td>`;
-        html += `<td style="padding:5px 8px;border-bottom:1px solid #eee;text-align:center">${icon}</td>`;
-        html += `<td style="padding:5px 8px;border-bottom:1px solid #eee;color:#777;font-family:monospace">${fechasStr}</td>`;
-        html += `</tr>`;
-      });
-      html += `</tbody></table>`;
-      html += `</div>`; // detalle
-      html += `</div>`; // card
-    });
-
-    html += `</div>`; // eje group
-  });
-
-  container.innerHTML = html;
-  renderPlacasNoPortantes();
-}
-
-function renderPlacasNoPortantes() {
-  const container = document.getElementById('nportantes-container');
-  const resumenEl = document.getElementById('np-resumen-global');
-  if (!container || !resumenEl) return;
-
-  const PASOS_NP = [
-    { id: 'hab_formas',   label: 'Habilitado de Formas' },
-    { id: 'hab_acero',    label: 'Habilitado de Acero' },
-    { id: 'arm_acero',    label: 'Armado de Acero' },
-    { id: 'trazo',        label: 'Trazo para Encofrado' },
-    { id: 'encofrado',    label: 'Encofrado' },
-    { id: 'alineado',     label: 'Alineado y Apuntalado' },
-    { id: 'vaciado',      label: 'Vaciado' },
-    { id: 'desencofrado', label: 'Desencofrado' },
-    { id: 'curado',       label: 'Curado' }
-  ];
-
-  const actsNP = actividades.filter(a => String((a.partida || {}).codigo || '').startsWith('13.02.'));
-  const zonas = {};
-
-  function detectarPasoNP(a) {
-    const desc = (a.descripcion || '').toUpperCase();
-
-    // Si registran una sola actividad con ambos términos, cuenta para ambos pasos.
-    if (desc.includes('HABILITADO') && desc.includes('ARMADO') && desc.includes('ACERO')) {
-      return ['hab_acero', 'arm_acero'];
-    }
-    if ((desc.includes('FORMA') || desc.includes('MANTENIMIENTO')) && !desc.includes('ACERO')) {
-      return ['hab_formas'];
-    }
-    if (desc.includes('HABILITAD') && desc.includes('ACERO')) {
-      return ['hab_acero'];
-    }
-    if (desc.includes('ARMADO') && desc.includes('ACERO')) {
-      return ['arm_acero'];
-    }
-    if (desc.includes('TRAZO') || desc.includes('TRAZADO')) {
-      return ['trazo'];
-    }
-    if (desc.includes('DESENCOFRADO')) {
-      return ['desencofrado'];
-    }
-    if (desc.includes('ENCOFRADO') && !desc.includes('DESENCOFRADO') && !desc.includes('TRAZO')) {
-      return ['encofrado'];
-    }
-    if (desc.includes('ALINEADO') || desc.includes('APUNTALADO') || desc.includes('APLOMADO')) {
-      return ['alineado'];
-    }
-    if (desc.includes('VACIADO') || (desc.includes('CONCRETO') && !desc.includes('ENCOFRADO'))) {
-      return ['vaciado'];
-    }
-    if (desc.includes('CURADO')) {
-      return ['curado'];
-    }
-    return [];
-  }
-
-  function ejesIndividuales(ejesStr) {
-    const norm = normalizarEjes(ejesStr || '—');
-    if (norm === '—') return [];
-    return norm.split(' , ').map(e => e.trim().toUpperCase()).filter(Boolean);
-  }
-
-  actsNP.forEach(a => {
-    const nivel = a.nivel || '—';
-    const ejes = ejesIndividuales(a.ejes);
-    ejes.forEach(eje => {
-      const key = `${nivel}||${eje}`;
-      if (!zonas[key]) zonas[key] = { nivel, ejes: eje, acts: [] };
-      zonas[key].acts.push(a);
-    });
-  });
-
-  const nivelOrd = { 'Sotano': 0, '1er Nivel': 1, '2do Nivel': 2, '3er Nivel': 3, '4to Nivel': 4, '5to Nivel': 5, '6to Nivel': 6, 'Azotea': 7 };
-  const zonasArr = Object.values(zonas).sort((a, b) => (nivelOrd[a.nivel] || 99) - (nivelOrd[b.nivel] || 99) || a.ejes.localeCompare(b.ejes));
-
-  if (!zonasArr.length) {
-    resumenEl.innerHTML = '<span style="color:#1565c0">🔄 0</span> · Total: 0 zonas';
-    container.innerHTML = '<div style="text-align:center;padding:26px;color:#aaa;font-size:.82rem">Aún no hay registros de placas no portantes (13.02.01–13.02.04).</div>';
-    return;
-  }
-
-  const zonasConStatus = zonasArr.map(z => {
-    const pasos = PASOS_NP.map(p => {
-      const actsPaso = z.acts.filter(a => detectarPasoNP(a).includes(p.id));
-      const hecho = actsPaso.length > 0;
-      const fechas = [...new Set(actsPaso.map(a => a.fecha))].sort();
-      return { ...p, hecho, fechas };
-    });
-    const completados = pasos.filter(p => p.hecho).length;
-    const total = pasos.length;
-    const pct = Math.round((completados / total) * 100);
-    let estado = 'inicio';
-    if (pct === 100) estado = 'completo';
-    else if (pct > 0) estado = 'proceso';
-    return { ...z, pasos, completados, total, pct, estado };
-  });
-
-  const totalZonas = zonasConStatus.length;
-  const completas = zonasConStatus.filter(z => z.estado === 'completo').length;
-  const enProceso = zonasConStatus.filter(z => z.estado === 'proceso').length;
-  const inicio = zonasConStatus.filter(z => z.estado === 'inicio').length;
-  resumenEl.innerHTML = `<span style="color:#2e7d32">✅ ${completas}</span> · <span style="color:#e65100">⏳ ${enProceso}</span> · <span style="color:#1565c0">🔄 ${inicio}</span> · Total: ${totalZonas} zonas`;
-
-  const porNivel = {};
-  zonasConStatus.forEach(z => {
-    if (!porNivel[z.nivel]) porNivel[z.nivel] = [];
-    porNivel[z.nivel].push(z);
-  });
-
-  let html = '';
-  Object.entries(porNivel).forEach(([nivel, zonasNivel]) => {
-    html += `<div style="margin-bottom:16px">`;
-    html += `<h4 style="color:#1a237e;font-size:.86rem;margin:0 0 8px 0;padding:6px 12px;background:#e8eaf6;border-radius:6px">📍 ${nivel}</h4>`;
-
-    zonasNivel.forEach(z => {
-      const estadoIcon = z.estado === 'completo' ? '✅' : z.estado === 'proceso' ? '⏳' : '🔄';
-      const estadoColor = z.estado === 'completo' ? '#2e7d32' : z.estado === 'proceso' ? '#e65100' : '#1565c0';
-      const pctColor = z.pct >= 80 ? '#2e7d32' : z.pct >= 40 ? '#e65100' : '#c62828';
-
       html += `<div style="background:#fff;border:1px solid #e0e0e0;border-radius:8px;margin-bottom:8px;overflow:hidden;border-left:4px solid ${estadoColor}">`;
       html += `<div style="padding:9px 12px;display:flex;align-items:center;gap:10px;cursor:pointer;background:#fafafa" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">`;
-      html += `<span style="font-size:1.05rem">${estadoIcon}</span>`;
+      html += `<span style="font-size:1.1rem">${estadoIcon}</span>`;
       html += `<div style="flex:1">`;
       html += `<div style="font-weight:700;color:#222;font-size:.8rem">📐 EJES: ${z.ejes}</div>`;
       html += `<div style="font-size:.69rem;color:#666">${z.completados}/${z.total} pasos</div>`;
@@ -2852,6 +2435,7 @@ function renderPlacasNoPortantes() {
       html += `<div style="width:80px;height:6px;background:#e0e0e0;border-radius:3px;overflow:hidden;margin-top:2px"><div style="height:100%;width:${z.pct}%;background:${pctColor};border-radius:3px"></div></div>`;
       html += `</div></div>`;
 
+      // Detalle colapsable con pasos
       html += `<div style="display:none;padding:8px 12px 10px">`;
       html += `<table style="width:100%;border-collapse:collapse;font-size:.71rem">`;
       html += `<thead><tr style="background:#f5f5f5"><th style="text-align:left;padding:5px 7px;border-bottom:1px solid #ddd">N°</th><th style="text-align:left;padding:5px 7px;border-bottom:1px solid #ddd">Paso</th><th style="text-align:center;padding:5px 7px;border-bottom:1px solid #ddd">Estado</th><th style="text-align:left;padding:5px 7px;border-bottom:1px solid #ddd">Fecha(s)</th></tr></thead>`;
@@ -2870,7 +2454,9 @@ function renderPlacasNoPortantes() {
         html += `<td style="padding:5px 7px;border-bottom:1px solid #eee;color:#777;font-family:monospace">${fechasStr}</td>`;
         html += `</tr>`;
       });
-      html += `</tbody></table></div></div>`;
+      html += `</tbody></table>`;
+      html += `</div>`; // detalle
+      html += `</div>`; // card
     });
 
     html += `</div>`;
@@ -3053,6 +2639,7 @@ document.getElementById('modal-edit-save').addEventListener('click', () => {
   const newEjes  = document.getElementById('edit-ejes').value.trim();
   const newNivel = document.getElementById('edit-nivel').value;
   const newPct   = Number(document.getElementById('edit-pct').value);
+  const newMetrado = normalizarMetrado(document.getElementById('edit-metrado').value);
 
   if (!newFecha) { alert('Selecciona una fecha.'); return; }
   if (!newDesc)  { alert('Ingresa una descripcion.'); return; }
@@ -3063,6 +2650,7 @@ document.getElementById('modal-edit-save').addEventListener('click', () => {
   act.ejes        = newEjes || '—';
   act.nivel       = newNivel || '—';
   act.pct         = newPct;
+  act.metrado     = newMetrado;
 
   // Si se seleccionó una nueva partida, actualizarla
   if (editPartidaSeleccionada) {
@@ -3199,7 +2787,7 @@ renderAvance();
 
     // Actividades: Firebase manda
     if (fbAct && Array.isArray(fbAct) && fbAct.length > 0) {
-      actividades = fbAct.filter(a => a != null);
+      actividades = fbAct.filter(a => a != null).map(normalizarActividad);
       localStorage.setItem('obra_actividades', JSON.stringify(actividades));
     }
     if (fbSeq && typeof fbSeq === 'object') {
@@ -3230,7 +2818,7 @@ renderAvance();
   // Escuchar cambios en tiempo real (sincroniza si editas desde otro dispositivo)
   fbListen('actividades', (data) => {
     if (data && Array.isArray(data)) {
-      const filtered = data.filter(a => a != null);
+      const filtered = data.filter(a => a != null).map(normalizarActividad);
       if (JSON.stringify(filtered) !== JSON.stringify(actividades)) {
         actividades = filtered;
         localStorage.setItem('obra_actividades', JSON.stringify(actividades));
@@ -3315,7 +2903,8 @@ renderGrid = function() {
     scrollToToday();
   }
 };
+
 </script>
-<div class="clipboard-indicator" id="clipboard-indicator">📋 Actividad copiada — Ctrl+V para pegar</div>
 </body>
 </html>
+

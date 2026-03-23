@@ -626,7 +626,8 @@ function agruparActividadesPorEjes(acts){
     const nivel = (a.nivel||'').trim();
     const codigo = (a.partida.codigo||'').trim();
     const pct = a.pct != null ? Number(a.pct) : null;
-    const key = `${desc}||${elem}||${nivel}||${codigo}||${pct}`;
+    const metrado = String(a.metrado == null ? '' : a.metrado).trim();
+    const key = `${desc}||${elem}||${nivel}||${codigo}||${pct}||${metrado}`;
     if(mapaGrupos[key] !== undefined){
       const grupo = grupos[mapaGrupos[key]];
       // Agregar ejes
@@ -659,6 +660,7 @@ function generarParrafo(a){
   const codigo = a.partida.codigo || '';
   const partida = a.partida.nombre || '';
   const pct = a.pct != null ? Number(a.pct) : null;
+  const metrado = String(a.metrado == null ? '' : a.metrado).trim();
 
   let verbo = 'Se programó';
   if(pct !== null){
@@ -674,6 +676,7 @@ function generarParrafo(a){
   txt += ', correspondiente a la partida ' + codigo + ' ' + partida;
   if(pct !== null && pct < 100 && pct > 0) txt += ' (avance: ' + pct + '%)';
   txt += '.';
+  if(metrado) txt += ' Metrado ejecutado ' + metrado;
   return txt;
 }
 
