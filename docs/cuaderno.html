@@ -109,6 +109,13 @@
     font-size: 8pt; font-weight: 600;
   }
   .dia-titulo .btn-editar-dia:hover { background: rgba(255,255,255,.35); }
+  .dia-acciones { display: flex; align-items: center; gap: 6px; }
+  .dia-titulo .btn-descargar-dia {
+    background: rgba(46,125,50,.22); border: 1px solid rgba(255,255,255,.45);
+    color: #fff; padding: 3px 10px; border-radius: 12px; cursor: pointer;
+    font-size: 8pt; font-weight: 600;
+  }
+  .dia-titulo .btn-descargar-dia:hover { background: rgba(46,125,50,.45); }
 
   .seccion-titulo {
     color: #0d47a1; font-size: 11pt; font-weight: 700;
@@ -119,16 +126,16 @@
     margin: 8px 0 4px; padding-left: 12px;
   }
 
-  .lista-personal, .lista-equipos {
+  .lista-personal, .lista-equipos, .lista-almacen {
     display: flex; flex-wrap: wrap; margin: 0 0 8px 12px; padding: 0; list-style: none;
   }
-  .lista-personal li, .lista-equipos li {
+  .lista-personal li, .lista-equipos li, .lista-almacen li {
     width: 50%; font-size: 9.5pt; padding: 2px 6px; display: flex; align-items: baseline; gap: 4px;
   }
-  .lista-personal li::before, .lista-equipos li::before {
+  .lista-personal li::before, .lista-equipos li::before, .lista-almacen li::before {
     content: '•'; font-weight: 700; color: #0d47a1;
   }
-  .lista-personal .cant, .lista-equipos .cant {
+  .lista-personal .cant, .lista-equipos .cant, .lista-almacen .cant {
     font-weight: 700; min-width: 18px; text-align: right; margin-right: 2px;
   }
 
@@ -279,7 +286,7 @@
     .pages-container { padding: 0; gap: 0; }
     .word-page { box-shadow: none; margin: 0; width: 100%; page-break-after: always; }
     body { background: #fff; }
-    .dia-titulo .btn-editar-dia { display: none !important; }
+    .dia-titulo .btn-editar-dia, .dia-titulo .btn-descargar-dia { display: none !important; }
   }
   @media (max-width: 840px) {
     .word-page { width: 97vw; min-height: auto; padding: 24px; }
@@ -324,6 +331,12 @@
       <button class="btn-modal-add" onclick="agregarEquipoModal()" style="margin-top:6px;">+ Agregar equipo</button>
     </div>
 
+    <div class="modal-section">
+      <h3>📦 IV. MOVIMIENTOS DE ALMACEN</h3>
+      <div id="modal-almacen"></div>
+      <button class="btn-modal-add" onclick="agregarAlmacenModal()" style="margin-top:6px;">+ Agregar movimiento</button>
+    </div>
+
     <div class="modal-btns">
       <button class="btn-modal-cancel" onclick="cerrarModal()">Cancelar</button>
       <button class="btn-modal-save" onclick="guardarModal()">💾 Guardar</button>
@@ -357,6 +370,7 @@ let cambiosPendientes=false;
 // ================================================================
 let personalData={};     // { "2026-02-01": { tecnico: [{rol,cant},...], obrero: [{cat,cant},...] } }
 let equiposData={};      // { "2026-02-01": [{nombre,cant},...] }
+let movimientosAlmacenData={}; // { "2026-02-01": [{detalle,cant},...] }
 let observacionesData={}; // { "2026-02-01": "texto" }
 let actividadesManuales={}; // { "2026-02-01": ["texto1","texto2",...] }
 let observacionesManuales={}; // { "2026-02-01": ["obs1","obs2",...] }
@@ -492,6 +506,10 @@ function getEquiposDia(fecha){
 function getObservacionesDia(fecha){
   return observacionesData[fecha]||'';
 }
+function getMovimientosAlmacenDia(fecha){
+  if(!Array.isArray(movimientosAlmacenData[fecha])) return [];
+  return movimientosAlmacenData[fecha];
+}
 
 // ================================================================
 // MODAL — Editar datos del día
@@ -502,7 +520,7 @@ function abrirModal(fecha){
   modalFechaActual=fecha;
   document.getElementById('modal-fecha-label').textContent=fmtFecha(fecha);
 
-  // Personal Técnico
+  // Personal Tecnico
   const pDia=getPersonalDia(fecha);
   renderTecnicoModal(pDia.tecnico);
 
@@ -512,6 +530,10 @@ function abrirModal(fecha){
   // Equipos
   const eqDia=getEquiposDia(fecha);
   renderEquiposModal(eqDia);
+
+  // Movimientos de almacen
+  const almDia=getMovimientosAlmacenDia(fecha);
+  renderAlmacenModal(almDia);
 
   document.getElementById('modal-dia').classList.add('active');
 }
@@ -596,6 +618,31 @@ function eliminarEquipoModal(idx){
   if(row) row.remove();
 }
 
+function renderAlmacenModal(lista){
+  let h='';
+  lista.forEach((mov,i)=>{
+    h+=`<div class="modal-row" data-alm-idx="${i}">
+      <input type="text" value="${esc(mov.detalle||'')}" data-alm-detalle="${i}" placeholder="Detalle"/>
+      <input type="text" value="${esc(mov.cant||'')}" data-alm-cant="${i}" placeholder="Cant/UM" style="width:110px"/>
+      <button class="btn-modal-remove" onclick="this.parentElement.remove()">✕</button>
+    </div>`;
+  });
+  document.getElementById('modal-almacen').innerHTML=h;
+}
+
+function agregarAlmacenModal(){
+  const ctn=document.getElementById('modal-almacen');
+  const rows=ctn.querySelectorAll('.modal-row');
+  const idx=rows.length;
+  const div=document.createElement('div');
+  div.className='modal-row';
+  div.dataset.almIdx=idx;
+  div.innerHTML=`<input type="text" value="" data-alm-detalle="${idx}" placeholder="Detalle"/>
+    <input type="text" value="" data-alm-cant="${idx}" placeholder="Cant/UM" style="width:110px"/>
+    <button class="btn-modal-remove" onclick="this.parentElement.remove()">✕</button>`;
+  ctn.appendChild(div);
+}
+
 function cerrarModal(){
   document.getElementById('modal-dia').classList.remove('active');
   modalFechaActual='';
@@ -644,19 +691,24 @@ async function guardarModal(){
   });
   equiposData[fecha]=equipos;
 
-  // Cada día es independiente — NO se propagan cambios a días posteriores
+  // Leer movimientos de almacen
+  const almRows=document.querySelectorAll('#modal-almacen .modal-row');
+  const movimientos=[];
+  almRows.forEach(row=>{
+    const detalleInp=row.querySelector('input[data-alm-detalle]');
+    const cantInp=row.querySelector('input[data-alm-cant]');
+    if(detalleInp){
+      const detalle=detalleInp.value.trim();
+      const cant=cantInp ? cantInp.value.trim() : '';
+      if(detalle) movimientos.push({detalle,cant});
+    }
+  });
+  if(movimientos.length) movimientosAlmacenData[fecha]=movimientos;
+  else delete movimientosAlmacenData[fecha];
 
-  // Guardar en Firebase
-  try{
-    await Promise.all([
-      fbSave('personal_data',personalData),
-      fbSave('equipos_data',equiposData)
-    ]);
-  }catch(e){ console.warn('Error guardando modal:',e); }
-
-  cerrarModal();
   cambiosPendientes=true;
   document.getElementById('btn-guardar').style.display='inline-block';
+  cerrarModal();
   renderDocumento();
 }
 
@@ -805,6 +857,7 @@ function renderDocumento(){
     const actsDia=agruparActividadesPorEjes(actsDiaOrdenadas);
     const pDia=getPersonalDia(fecha);
     const eqDia=getEquiposDia(fecha);
+    const almDia=getMovimientosAlmacenDia(fecha);
     const obsDia=getObservacionesDia(fecha);
 
     h+='<div class="word-page">';
@@ -823,7 +876,7 @@ function renderDocumento(){
 
     // Día con botón editar
     h+='<div class="dia-section">';
-    h+=`<div class="dia-titulo"><span>${fmtFecha(fecha).toUpperCase()}</span><button class="btn-editar-dia" onclick="abrirModal('${fecha}')">✏ Editar datos del día</button></div>`;
+    h+=`<div class="dia-titulo"><span>${fmtFecha(fecha).toUpperCase()}</span><span class="dia-acciones"><button class="btn-descargar-dia" onclick="descargarDia('${fecha}', this)">⬇ Descargar este dia</button><button class="btn-editar-dia" onclick="abrirModal('${fecha}')">✏ Editar datos del dia</button></span></div>`;
 
     // ── I. PERSONAL ──
     h+='<div class="seccion-titulo">I. PERSONAL</div>';
@@ -892,8 +945,21 @@ function renderDocumento(){
       h+='<p style="font-size:9pt;color:#999;margin-left:12px;margin-bottom:6px;font-style:italic;">Sin datos — use el botón "Editar datos del día"</p>';
     }
 
-    // ── IV. OBSERVACIONES ──
-    h+='<div class="seccion-titulo">IV. OBSERVACIONES</div>';
+    // -- IV. MOVIMIENTOS DE ALMACEN --
+    h+='<div class="seccion-titulo">IV. MOVIMIENTOS DE ALMACEN</div>';
+    if(almDia.length){
+      h+='<ul class="lista-almacen">';
+      almDia.forEach(mov=>{
+        const cantTxt = mov.cant ? `<span class="cant">${esc(mov.cant)}</span>` : '';
+        h+=`<li>${cantTxt} ${esc(mov.detalle)}</li>`;
+      });
+      h+='</ul>';
+    } else {
+      h+='<p style="font-size:9pt;color:#999;margin-left:12px;margin-bottom:6px;font-style:italic;">Sin datos - use el boton "Editar datos del dia"</p>';
+    }
+
+    // -- V. OBSERVACIONES --
+    h+='<div class="seccion-titulo">V. OBSERVACIONES</div>';
 
     // Observaciones manuales con viñetas
     const obsManualesDia = observacionesManuales[fecha] || [];
@@ -919,19 +985,35 @@ function renderDocumento(){
 // DESCARGAR .DOCX
 // ================================================================
 document.getElementById('btn-descargar').addEventListener('click',async()=>{
-  const desde=document.getElementById('rep-desde').value,hasta=document.getElementById('rep-hasta').value;
+  const btn=document.getElementById('btn-descargar');
+  await descargarCuadernoPorFechas(document.getElementById('rep-desde').value, document.getElementById('rep-hasta').value, btn, '⬇ Descargar .docx');
+});
+
+async function descargarCuadernoPorFechas(desde,hasta,btn,textoOriginal){
   const residente=document.getElementById('rep-residente').value.trim()||'Arq. Luis Javier Huanca Barrantes';
   const inspector=document.getElementById('rep-inspector').value.trim()||'Arq. Marco Antonio Ramirez Luque';
-  if(!desde||!hasta)return;
+  if(!desde||!hasta) return;
   const desdeD=new Date(desde+'T00:00:00'),hastaD=new Date(hasta+'T00:00:00');
-  let ar=actividades.filter(a=>{const fa=new Date(a.fecha+'T00:00:00');return fa>=desdeD&&fa<=hastaD;});
-  if(!ar.length)return;
-  const btn=document.getElementById('btn-descargar');
-  btn.textContent='⏳ Generando...';btn.disabled=true;
-  try{await generarCuadernoWord(desde,hasta,residente,inspector,ar);btn.textContent='✅ ¡Descargado!';}
-  catch(e){console.error(e);alert('Error: '+e.message);btn.textContent='⬇ Descargar .docx';}
-  setTimeout(()=>{btn.disabled=false;btn.textContent='⬇ Descargar .docx';},3000);
-});
+  const ar=actividades.filter(a=>{const fa=new Date(a.fecha+'T00:00:00');return fa>=desdeD&&fa<=hastaD;});
+  if(!ar.length) return;
+
+  const textoBtn=textoOriginal||'⬇ Descargar .docx';
+  btn.textContent='⏳ Generando...';
+  btn.disabled=true;
+  try{
+    await generarCuadernoWord(desde,hasta,residente,inspector,ar);
+    btn.textContent='✅ !Descargado!';
+  }catch(e){
+    console.error(e);
+    alert('Error: '+e.message);
+    btn.textContent=textoBtn;
+  }
+  setTimeout(()=>{btn.disabled=false;btn.textContent=textoBtn;},2500);
+}
+
+async function descargarDia(fecha,btn){
+  await descargarCuadernoPorFechas(fecha,fecha,btn,'⬇ Descargar este dia');
+}
 
 // ================================================================
 // GENERADOR WORD — Cuaderno de Obra con párrafos
@@ -954,6 +1036,7 @@ async function generarCuadernoWord(desde,hasta,residente,inspector,actsRango){
     const actsDia=agruparActividadesPorEjes(actsDiaOrdenadas);
     const pDia=getPersonalDia(fecha);
     const eqDia=getEquiposDia(fecha);
+    const almDia=getMovimientosAlmacenDia(fecha);
     const obsDia=getObservacionesDia(fecha);
     const ch=[];
 
@@ -1066,27 +1149,41 @@ async function generarCuadernoWord(desde,hasta,residente,inspector,actsRango){
       ch.push(new Paragraph({spacing:{after:40},indent:{left:convertInchesToTwip(0.3)},children:[new TextRun({text:"Sin datos registrados.",size:18,italics:true,color:"999999",font:"Calibri"})]}));
     }
 
-    // ── IV. OBSERVACIONES ──
-    ch.push(new Paragraph({spacing:{before:120,after:60},children:[new TextRun({text:"IV. OBSERVACIONES",bold:true,size:22,color:"0D47A1",font:"Calibri",underline:{}})]}));
-    const obsManualesDiaWord = observacionesManuales[fecha] || [];
-    if(obsManualesDiaWord.length){
-      obsManualesDiaWord.forEach(txt=>{
-        if(txt && txt.trim()){
-          ch.push(new Paragraph({
-            spacing:{after:60},
-            bullet:{level:0},
-            children:[new TextRun({text:txt.trim(),size:20,font:"Calibri"})]
-          }));
-        }
-      });
-    } else if(obsDia){
-      obsDia.split('\n').forEach(linea=>{
-        ch.push(new Paragraph({spacing:{after:60},indent:{left:convertInchesToTwip(0.3)},children:[new TextRun({text:linea,size:20,font:"Calibri"})]}));
-      });
+    // -- IV. MOVIMIENTOS DE ALMACEN --
+    ch.push(new Paragraph({spacing:{before:120,after:60},children:[new TextRun({text:"IV. MOVIMIENTOS DE ALMACEN",bold:true,size:22,color:"0D47A1",font:"Calibri",underline:{}})]}));
+    if(almDia.length){
+      const mitadAlm=Math.ceil(almDia.length/2);
+      const colIzqAlm=almDia.slice(0,mitadAlm);
+      const colDerAlm=almDia.slice(mitadAlm);
+      const maxRowsAlm=Math.max(colIzqAlm.length,colDerAlm.length);
+      const aRows=[];
+      for(let i=0;i<maxRowsAlm;i++){
+        const lTxt=colIzqAlm[i]?`•  ${colIzqAlm[i].cant?`${colIzqAlm[i].cant}  `:''}${colIzqAlm[i].detalle}`:'';
+        const rTxt=colDerAlm[i]?`•  ${colDerAlm[i].cant?`${colDerAlm[i].cant}  `:''}${colDerAlm[i].detalle}`:'';
+        aRows.push(new TableRow({children:[
+          new TableCell({width:{size:50,type:WidthType.PERCENTAGE},borders:na,children:[new Paragraph({indent:{left:convertInchesToTwip(0.15)},children:[new TextRun({text:lTxt,size:19,font:"Calibri"})]})]}),
+          new TableCell({width:{size:50,type:WidthType.PERCENTAGE},borders:na,children:[new Paragraph({indent:{left:convertInchesToTwip(0.15)},children:[new TextRun({text:rTxt,size:19,font:"Calibri"})]})]})
+        ]}));
+      }
+      ch.push(new Table({width:{size:95,type:WidthType.PERCENTAGE},indent:{size:convertInchesToTwip(0.2),type:WidthType.DXA},borders:{top:nb,bottom:nb,left:nb,right:nb,insideHorizontal:nb,insideVertical:nb},rows:aRows}));
     } else {
-      ch.push(new Paragraph({spacing:{after:40},indent:{left:convertInchesToTwip(0.3)},children:[new TextRun({text:"Sin observaciones.",size:18,italics:true,color:"999999",font:"Calibri"})]}));
+      ch.push(new Paragraph({spacing:{after:40},indent:{left:convertInchesToTwip(0.3)},children:[new TextRun({text:"Sin datos registrados.",size:18,italics:true,color:"999999",font:"Calibri"})]}));
     }
 
+    // -- V. OBSERVACIONES --
+    ch.push(new Paragraph({spacing:{before:120,after:60},children:[new TextRun({text:"V. OBSERVACIONES",bold:true,size:22,color:"0D47A1",font:"Calibri",underline:{}})]}));
+
+    // observaciones manuales en Word
+    const obsManualesDiaWord = observacionesManuales[fecha] || [];
+    obsManualesDiaWord.forEach(txt=>{
+      if(txt && txt.trim()){
+        ch.push(new Paragraph({
+          spacing:{after:60},
+          bullet:{level:0},
+          children:[new TextRun({text:txt.trim(),size:20,font:"Calibri"})]
+        }));
+      }
+    });
 
     sections.push({
       properties:{
@@ -1218,6 +1315,7 @@ document.getElementById('btn-guardar').addEventListener('click', async () => {
       fbSave('observaciones_data', observacionesData),
       fbSave('personal_data', personalData),
       fbSave('equipos_data', equiposData),
+      fbSave('movimientos_almacen_data', movimientosAlmacenData),
       fbSave('actividades_manuales', actividadesManuales),
       fbSave('observaciones_manuales', observacionesManuales)
     ]);
@@ -1258,11 +1356,12 @@ window.addEventListener('beforeunload', (e) => {
 // ================================================================
 (async function(){
   try{
-    const [fb, pe, pd, ed, od, am, om, asd, pcat] = await Promise.all([
+    const [fb, pe, pd, ed, mad, od, am, om, asd, pcat] = await Promise.all([
       fbLoad('actividades',null),
       fbLoad('parrafos_editados',null),
       fbLoad('personal_data',null),
       fbLoad('equipos_data',null),
+      fbLoad('movimientos_almacen_data',null),
       fbLoad('observaciones_data',null),
       fbLoad('actividades_manuales',null),
       fbLoad('observaciones_manuales',null),
@@ -1274,6 +1373,7 @@ window.addEventListener('beforeunload', (e) => {
     if(pe && typeof pe === 'object') parrafosEditados = pe;
     if(pd && typeof pd === 'object') personalData = pd;
     if(ed && typeof ed === 'object') equiposData = ed;
+    if(mad && typeof mad === 'object') movimientosAlmacenData = mad;
     if(od && typeof od === 'object') observacionesData = od;
     if(am && typeof am === 'object') actividadesManuales = am;
     if(om && typeof om === 'object') observacionesManuales = om;
