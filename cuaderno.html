@@ -360,6 +360,8 @@ let equiposData={};      // { "2026-02-01": [{nombre,cant},...] }
 let observacionesData={}; // { "2026-02-01": "texto" }
 let actividadesManuales={}; // { "2026-02-01": ["texto1","texto2",...] }
 let observacionesManuales={}; // { "2026-02-01": ["obs1","obs2",...] }
+let asistenciaData={};
+let personalCatalog=[];
 
 // Roles fijos
 const ROLES_TECNICO = [
@@ -367,8 +369,86 @@ const ROLES_TECNICO = [
   'Ing. de Seguridad','Ing. Ambiental','Ing. Calidad',
   'Especialista En Procesos De Selección','Topógrafo'
 ];
-const CATS_OBRERO = ['Capataz','Operarios','Oficiales','Oficiales Guardianes','Peones'];
+const CATS_OBRERO = ['Capataz','Operarios','Oficiales','Oficiales Guardianes','Oficial Prevencionista','Peones'];
 const EQUIPOS_DEFAULT = ['Vibradora Eléctrica','Mezcladora Eléctrica'];
+
+function nrm(v){
+  return (v||'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().trim();
+}
+
+function parseFechaIngresoToIso(fechaIngreso){
+  const v=(fechaIngreso||'').trim();
+  const m=v.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+  if(!m) return '';
+  return `${m[3]}-${m[2]}-${m[1]}`;
+}
+
+function personaActivaEnFecha(persona,fecha){
+  const alta = persona.fechaAlta || parseFechaIngresoToIso(persona.fechaIngreso||'') || '';
+  const baja = persona.fechaBaja || '';
+  if(alta && fecha < alta) return false;
+  if(persona.activo === false){
+    if(!baja) return false;
+    if(fecha > baja) return false;
+  }
+  return true;
+}
+
+function calcularResumenObreroDesdeAsistencia(fecha){
+  const resumen = {
+    capataz:0,
+    operarios:0,
+    oficiales:0,
+    oficialesGuardianes:0,
+    oficialPrevencionista:0,
+    peones:0,
+  };
+
+  const asistenciaDia = (asistenciaData && asistenciaData[fecha]) ? asistenciaData[fecha] : {};
+  if(!asistenciaDia || typeof asistenciaDia !== 'object' || !Array.isArray(personalCatalog) || !personalCatalog.length){
+    return CATS_OBRERO.map(cat=>({cat,cant:0}));
+  }
+
+  const mapPersonal = new Map();
+  personalCatalog.forEach(p=> mapPersonal.set(p.id,p));
+
+  Object.keys(asistenciaDia).forEach(id=>{
+    // Solo P cuenta como presente para el resumen obrero
+    if(asistenciaDia[id] !== 'P') return;
+    const p = mapPersonal.get(id);
+    if(!p) return;
+    if(!personaActivaEnFecha(p,fecha)) return;
+
+    const categoria = nrm(p.categoria);
+    const ocupacion = nrm(p.ocupacion);
+
+    if(categoria === 'OPERARIO'){
+      if(ocupacion.includes('CAPATAZ')) resumen.capataz += 1;
+      else resumen.operarios += 1;
+      return;
+    }
+
+    if(categoria === 'OFICIAL'){
+      if(ocupacion.includes('GUARDIAN')) resumen.oficialesGuardianes += 1;
+      else if(ocupacion.includes('PREVENCION')) resumen.oficialPrevencionista += 1;
+      else resumen.oficiales += 1;
+      return;
+    }
+
+    if(categoria === 'PEON'){
+      resumen.peones += 1;
+    }
+  });
+
+  return [
+    {cat:'Capataz',cant:resumen.capataz},
+    {cat:'Operarios',cant:resumen.operarios},
+    {cat:'Oficiales',cant:resumen.oficiales},
+    {cat:'Oficiales Guardianes',cant:resumen.oficialesGuardianes},
+    {cat:'Oficial Prevencionista',cant:resumen.oficialPrevencionista},
+    {cat:'Peones',cant:resumen.peones},
+  ];
+}
 
 // Obtener día anterior en formato YYYY-MM-DD
 function diaAnterior(fecha){
@@ -379,15 +459,24 @@ function diaAnterior(fecha){
 
 function getPersonalDia(fecha){
   if(personalData[fecha]) return personalData[fecha];
-  // Buscar día anterior con datos (hasta 30 días atrás)
+
+  // Técnico mantiene fallback por día anterior
+  let tecnico = ROLES_TECNICO.map(r=>({rol:r,cant:0}));
   let f=fecha;
   for(let i=0;i<30;i++){
     f=diaAnterior(f);
-    if(personalData[f]) return JSON.parse(JSON.stringify(personalData[f]));
+    if(personalData[f] && Array.isArray(personalData[f].tecnico)){
+      tecnico = JSON.parse(JSON.stringify(personalData[f].tecnico));
+      break;
+    }
   }
+
+  // Obrero por defecto se toma desde asistencia
+  const obrero = calcularResumenObreroDesdeAsistencia(fecha);
+
   return {
-    tecnico: ROLES_TECNICO.map(r=>({rol:r,cant:0})),
-    obrero: CATS_OBRERO.map(c=>({cat:c,cant:0}))
+    tecnico,
+    obrero
   };
 }
 function getEquiposDia(fecha){
@@ -1169,14 +1258,16 @@ window.addEventListener('beforeunload', (e) => {
 // ================================================================
 (async function(){
   try{
-    const [fb, pe, pd, ed, od, am, om] = await Promise.all([
+    const [fb, pe, pd, ed, od, am, om, asd, pcat] = await Promise.all([
       fbLoad('actividades',null),
       fbLoad('parrafos_editados',null),
       fbLoad('personal_data',null),
       fbLoad('equipos_data',null),
       fbLoad('observaciones_data',null),
       fbLoad('actividades_manuales',null),
-      fbLoad('observaciones_manuales',null)
+      fbLoad('observaciones_manuales',null),
+      fbLoad('asistencia_data',null),
+      fbLoad('personal_catalog',null)
     ]);
 
     if(fb&&Array.isArray(fb)) actividades=fb.filter(a=>a!=null);
@@ -1186,6 +1277,8 @@ window.addEventListener('beforeunload', (e) => {
     if(od && typeof od === 'object') observacionesData = od;
     if(am && typeof am === 'object') actividadesManuales = am;
     if(om && typeof om === 'object') observacionesManuales = om;
+    if(asd && typeof asd === 'object') asistenciaData = asd;
+    if(Array.isArray(pcat)) personalCatalog = pcat;
 
     // Migrar observaciones antiguas (texto corrido) a observaciones manuales (viñetas)
     if(observacionesData && typeof observacionesData === 'object'){

@@ -156,6 +156,56 @@
     font-size: .72rem;
     opacity: .9;
   }
+  .panel {
+    background: #fff;
+    border: 1px solid #e3e8ef;
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+  }
+  .panel h3 { font-size: .9rem; margin: 0 0 8px; color: #1a237e; }
+  .grid-form {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(120px, 1fr));
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+  .grid-form input, .grid-form select {
+    border: 1px solid #cfd8e3;
+    border-radius: 6px;
+    padding: 6px 8px;
+    font-size: .78rem;
+    font-family: inherit;
+  }
+  .panel-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .btn-secondary {
+    border: 1px solid #1a237e;
+    background: #fff;
+    color: #1a237e;
+    border-radius: 16px;
+    padding: 5px 10px;
+    font-size: .76rem;
+    cursor: pointer;
+  }
+  .catalogo-info { font-size: .75rem; color: #555; }
+  .btn-row {
+    border: 1px solid #90a4ae;
+    border-radius: 10px;
+    background: #fff;
+    color: #37474f;
+    padding: 3px 8px;
+    font-size: .72rem;
+    cursor: pointer;
+  }
+  .estado-tag {
+    display: inline-block;
+    border-radius: 12px;
+    padding: 2px 8px;
+    font-size: .68rem;
+    font-weight: 700;
+  }
+  .estado-tag.activo { background: #e8f5e9; color: #2e7d32; }
+  .estado-tag.retirado { background: #ffebee; color: #c62828; }
 </style>
 </head>
 <body>
@@ -170,10 +220,32 @@
   <button class="btn-aux" id="btn-f">Marcar todos F</button>
   <button class="btn-aux" id="btn-limpiar">Limpiar</button>
   <button class="btn-main" id="btn-guardar">Guardar</button>
+  <button class="btn-aux" id="btn-guardar-catalogo">Guardar personal</button>
   <a href="index.html">Volver</a>
 </div>
 
 <div class="container">
+  <div class="panel">
+    <h3>Alta / Baja de personal</h3>
+    <div class="grid-form">
+      <input type="text" id="new-dni" placeholder="DNI"/>
+      <input type="text" id="new-apepat" placeholder="Apellido paterno"/>
+      <input type="text" id="new-apemat" placeholder="Apellido materno"/>
+      <input type="text" id="new-nombres" placeholder="Nombres"/>
+      <select id="new-categoria">
+        <option value="OPERARIO">OPERARIO</option>
+        <option value="OFICIAL">OFICIAL</option>
+        <option value="PEON">PEON</option>
+      </select>
+      <input type="text" id="new-ocupacion" placeholder="Ocupacion"/>
+      <input type="date" id="new-fecha-ingreso"/>
+    </div>
+    <div class="panel-actions">
+      <button class="btn-secondary" id="btn-agregar-persona">Agregar persona</button>
+      <label class="catalogo-info"><input type="checkbox" id="chk-retirados"/> Mostrar retirados</label>
+      <span class="catalogo-info" id="catalogo-total">0 personas</span>
+    </div>
+  </div>
   <div class="resumen" id="resumen"></div>
   <div class="table-wrap">
     <table>
@@ -187,7 +259,9 @@
           <th>CATEGORIA</th>
           <th>OCUPACION</th>
           <th>FECHA DE INGRESO</th>
+          <th class="col-center">ESTADO</th>
           <th class="col-center">ASISTENCIA</th>
+          <th class="col-center">ACCION</th>
         </tr>
       </thead>
       <tbody id="tabla-body"></tbody>
@@ -196,10 +270,57 @@
 </div>
 
 <script>
-const PERSONAL = Array.isArray(window.PERSONAL_ASISTENCIA) ? window.PERSONAL_ASISTENCIA : [];
+const PERSONAL_SEMILLA = Array.isArray(window.PERSONAL_ASISTENCIA) ? window.PERSONAL_ASISTENCIA : [];
 const ESTADOS = ['', 'P', 'F', 'CP'];
+let personalCatalog = [];
 let asistenciaData = {};
 let cambiosPendientes = false;
+let cambiosCatalogo = false;
+
+function normalizarTexto(v) {
+  return (v || '').toString().trim().toUpperCase();
+}
+
+function parseFechaIngresoToIso(fechaIngreso) {
+  const v = (fechaIngreso || '').trim();
+  const m = v.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+  if (!m) return '';
+  return `${m[3]}-${m[2]}-${m[1]}`;
+}
+
+function seedCatalogo() {
+  return PERSONAL_SEMILLA.map((p, idx) => ({
+    id: p.id || (`SEED-${Date.now()}-${idx}`),
+    n: p.n || String(idx + 1),
+    dni: p.dni || '',
+    apellidoPaterno: p.apellidoPaterno || '',
+    apellidoMaterno: p.apellidoMaterno || '',
+    nombres: p.nombres || '',
+    categoria: p.categoria || '',
+    ocupacion: p.ocupacion || '',
+    fechaIngreso: p.fechaIngreso || '',
+    fechaAlta: parseFechaIngresoToIso(p.fechaIngreso || ''),
+    fechaBaja: '',
+    activo: true,
+    nombreCompleto: p.nombreCompleto || [p.apellidoPaterno, p.apellidoMaterno, p.nombres].filter(Boolean).join(' ')
+  }));
+}
+
+function isoHoy() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function isActivoEnFecha(persona, fechaIso) {
+  const fecha = fechaIso || isoHoy();
+  const alta = persona.fechaAlta || parseFechaIngresoToIso(persona.fechaIngreso || '') || '';
+  const baja = persona.fechaBaja || '';
+  if (alta && fecha < alta) return false;
+  if (!persona.activo) {
+    if (!baja) return false;
+    if (fecha > baja) return false;
+  }
+  return true;
+}
 
 function getFechaActual() {
   return document.getElementById('asistencia-fecha').value;
@@ -222,6 +343,20 @@ function applyEstadoClass(selectEl, estado) {
 
 function setStatus(texto) {
   document.getElementById('status').textContent = texto;
+}
+
+function actualizarConteoCatalogo() {
+  const activos = personalCatalog.filter(p => p.activo).length;
+  document.getElementById('catalogo-total').textContent = `${personalCatalog.length} personas (${activos} activas)`;
+}
+
+function ordenarCatalogo(lista) {
+  return lista.slice().sort((a, b) => {
+    const an = parseInt(a.n, 10) || 0;
+    const bn = parseInt(b.n, 10) || 0;
+    if (an !== bn) return an - bn;
+    return normalizarTexto(a.nombreCompleto).localeCompare(normalizarTexto(b.nombreCompleto));
+  });
 }
 
 function renderResumen(filasVisibles, mapaDia) {
@@ -249,10 +384,13 @@ function renderResumen(filasVisibles, mapaDia) {
 function renderTabla() {
   const fecha = getFechaActual();
   const filtro = (document.getElementById('filtro').value || '').trim().toUpperCase();
+  const mostrarRetirados = document.getElementById('chk-retirados').checked;
   const mapaDia = getAsistenciaDia(fecha);
   const body = document.getElementById('tabla-body');
 
-  const filas = PERSONAL.filter(persona => {
+  const filas = ordenarCatalogo(personalCatalog).filter(persona => {
+    const visiblePorEstado = mostrarRetirados || isActivoEnFecha(persona, fecha) || mapaDia[persona.id] != null;
+    if (!visiblePorEstado) return false;
     if (!filtro) return true;
     const texto = [
       persona.dni,
@@ -279,9 +417,17 @@ function renderTabla() {
       '<td>' + (persona.ocupacion || '') + '</td>' +
       '<td>' + (persona.fechaIngreso || '') + '</td>' +
       '<td class="col-center">' +
+        (persona.activo
+          ? '<span class="estado-tag activo">ACTIVO</span>'
+          : '<span class="estado-tag retirado">RETIRADO</span>') +
+      '</td>' +
+      '<td class="col-center">' +
         '<select class="estado" data-id="' + persona.id + '">' +
           ESTADOS.map(st => '<option value="' + st + '"' + (st === estado ? ' selected' : '') + '>' + (st || '--') + '</option>').join('') +
         '</select>' +
+      '</td>' +
+      '<td class="col-center">' +
+        '<button class="btn-row" data-accion-id="' + persona.id + '">' + (persona.activo ? 'Quitar' : 'Reactivar') + '</button>' +
       '</td>' +
       '</tr>';
   });
@@ -304,7 +450,14 @@ function renderTabla() {
     });
   });
 
+  body.querySelectorAll('button[data-accion-id]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      togglePersona(btn.getAttribute('data-accion-id'));
+    });
+  });
+
   renderResumen(filas, mapaDia);
+  actualizarConteoCatalogo();
 }
 
 function marcarVisibles(estado) {
@@ -319,6 +472,111 @@ function marcarVisibles(estado) {
   });
   cambiosPendientes = true;
   setStatus('Cambios pendientes');
+  renderTabla();
+}
+
+async function guardarCatalogo() {
+  const btn = document.getElementById('btn-guardar-catalogo');
+  btn.disabled = true;
+  btn.textContent = 'Guardando...';
+  try {
+    await fbSave('personal_catalog', personalCatalog);
+    cambiosCatalogo = false;
+    setStatus('Personal guardado en Firebase');
+    btn.textContent = 'Guardado';
+  } catch (e) {
+    console.warn(e);
+    setStatus('Error guardando personal');
+    btn.textContent = 'Guardar personal';
+  }
+  setTimeout(() => {
+    btn.disabled = false;
+    btn.textContent = 'Guardar personal';
+  }, 1200);
+}
+
+function generarIdPersona(dni) {
+  const cleanDni = normalizarTexto(dni).replace(/\s+/g, '');
+  if (cleanDni && !personalCatalog.some(p => p.id === `DNI-${cleanDni}`)) {
+    return `DNI-${cleanDni}`;
+  }
+  return `PERS-${Date.now()}`;
+}
+
+function proximoN() {
+  let maxN = 0;
+  personalCatalog.forEach(p => {
+    const n = parseInt(p.n, 10);
+    if (!Number.isNaN(n) && n > maxN) maxN = n;
+  });
+  return String(maxN + 1);
+}
+
+function limpiarFormularioAlta() {
+  ['new-dni','new-apepat','new-apemat','new-nombres','new-ocupacion'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('new-categoria').value = 'OPERARIO';
+  document.getElementById('new-fecha-ingreso').value = getFechaActual() || isoHoy();
+}
+
+function agregarPersona() {
+  const dni = normalizarTexto(document.getElementById('new-dni').value);
+  const apePat = normalizarTexto(document.getElementById('new-apepat').value);
+  const apeMat = normalizarTexto(document.getElementById('new-apemat').value);
+  const nombres = normalizarTexto(document.getElementById('new-nombres').value);
+  const categoria = normalizarTexto(document.getElementById('new-categoria').value);
+  const ocupacion = normalizarTexto(document.getElementById('new-ocupacion').value);
+  const fechaAlta = document.getElementById('new-fecha-ingreso').value || getFechaActual() || isoHoy();
+
+  if (!nombres) {
+    setStatus('Completa al menos nombres para agregar');
+    return;
+  }
+
+  const fechaIngreso = (() => {
+    const d = new Date(fechaAlta + 'T00:00:00');
+    if (Number.isNaN(d.getTime())) return '';
+    return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+  })();
+
+  const persona = {
+    id: generarIdPersona(dni),
+    n: proximoN(),
+    dni,
+    apellidoPaterno: apePat,
+    apellidoMaterno: apeMat,
+    nombres,
+    categoria,
+    ocupacion,
+    fechaIngreso,
+    fechaAlta,
+    fechaBaja: '',
+    activo: true,
+    nombreCompleto: [apePat, apeMat, nombres].filter(Boolean).join(' ').trim()
+  };
+
+  personalCatalog.push(persona);
+  cambiosCatalogo = true;
+  setStatus('Persona agregada (falta guardar personal)');
+  limpiarFormularioAlta();
+  renderTabla();
+}
+
+function togglePersona(id) {
+  const idx = personalCatalog.findIndex(p => p.id === id);
+  if (idx < 0) return;
+  const persona = personalCatalog[idx];
+  if (persona.activo) {
+    persona.activo = false;
+    persona.fechaBaja = getFechaActual() || isoHoy();
+  } else {
+    persona.activo = true;
+    persona.fechaBaja = '';
+    if (!persona.fechaAlta) persona.fechaAlta = getFechaActual() || isoHoy();
+  }
+  cambiosCatalogo = true;
+  setStatus('Cambio de estado de personal pendiente de guardar');
   renderTabla();
 }
 
@@ -345,15 +603,30 @@ async function guardarAsistencia() {
 (async function init() {
   const fechaInp = document.getElementById('asistencia-fecha');
   fechaInp.valueAsDate = new Date();
+  document.getElementById('new-fecha-ingreso').value = isoHoy();
 
-  const data = await fbLoad('asistencia_data', {});
-  asistenciaData = (data && typeof data === 'object') ? data : {};
+  const [catalogoFb, dataAsis] = await Promise.all([
+    fbLoad('personal_catalog', null),
+    fbLoad('asistencia_data', {})
+  ]);
 
-  setStatus('Listo: ' + PERSONAL.length + ' personas');
+  if (Array.isArray(catalogoFb) && catalogoFb.length) {
+    personalCatalog = catalogoFb;
+  } else {
+    personalCatalog = seedCatalogo();
+    try { await fbSave('personal_catalog', personalCatalog); } catch (e) { console.warn(e); }
+  }
+
+  asistenciaData = (dataAsis && typeof dataAsis === 'object') ? dataAsis : {};
+
+  setStatus('Listo: ' + personalCatalog.length + ' personas');
   renderTabla();
 
   fechaInp.addEventListener('change', renderTabla);
   document.getElementById('filtro').addEventListener('input', renderTabla);
+  document.getElementById('chk-retirados').addEventListener('change', renderTabla);
+  document.getElementById('btn-agregar-persona').addEventListener('click', agregarPersona);
+  document.getElementById('btn-guardar-catalogo').addEventListener('click', guardarCatalogo);
   document.getElementById('btn-p').addEventListener('click', () => marcarVisibles('P'));
   document.getElementById('btn-f').addEventListener('click', () => marcarVisibles('F'));
   document.getElementById('btn-limpiar').addEventListener('click', () => marcarVisibles(''));
@@ -361,7 +634,7 @@ async function guardarAsistencia() {
 })();
 
 window.addEventListener('beforeunload', (e) => {
-  if (cambiosPendientes) {
+  if (cambiosPendientes || cambiosCatalogo) {
     e.preventDefault();
     e.returnValue = '';
   }
