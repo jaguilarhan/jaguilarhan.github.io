@@ -464,6 +464,11 @@ function calcularResumenObreroDesdeAsistencia(fecha){
   ];
 }
 
+function tieneConteoObreroValido(lista){
+  if(!Array.isArray(lista) || !lista.length) return false;
+  return lista.some(o => (parseInt(o && o.cant, 10) || 0) > 0);
+}
+
 // Obtener día anterior en formato YYYY-MM-DD
 function diaAnterior(fecha){
   const d=new Date(fecha+'T00:00:00');
@@ -472,21 +477,32 @@ function diaAnterior(fecha){
 }
 
 function getPersonalDia(fecha){
-  if(personalData[fecha]) return personalData[fecha];
+  const dataDia = (personalData && typeof personalData[fecha] === 'object') ? personalData[fecha] : null;
 
   // Técnico mantiene fallback por día anterior
-  let tecnico = ROLES_TECNICO.map(r=>({rol:r,cant:0}));
-  let f=fecha;
-  for(let i=0;i<30;i++){
-    f=diaAnterior(f);
-    if(personalData[f] && Array.isArray(personalData[f].tecnico)){
-      tecnico = JSON.parse(JSON.stringify(personalData[f].tecnico));
-      break;
+  let tecnico;
+  if(dataDia && Array.isArray(dataDia.tecnico)){
+    tecnico = JSON.parse(JSON.stringify(dataDia.tecnico));
+  } else {
+    tecnico = ROLES_TECNICO.map(r=>({rol:r,cant:0}));
+    let f=fecha;
+    for(let i=0;i<30;i++){
+      f=diaAnterior(f);
+      if(personalData[f] && Array.isArray(personalData[f].tecnico)){
+        tecnico = JSON.parse(JSON.stringify(personalData[f].tecnico));
+        break;
+      }
     }
   }
 
-  // Obrero por defecto se toma desde asistencia
-  const obrero = calcularResumenObreroDesdeAsistencia(fecha);
+  // Obrero por defecto se toma desde asistencia.
+  // Solo respeta `personal_data` cuando realmente hay edición manual (>0).
+  const obreroAuto = calcularResumenObreroDesdeAsistencia(fecha);
+  let obrero = obreroAuto;
+  if(dataDia && Array.isArray(dataDia.obrero)){
+    const obreroManual = JSON.parse(JSON.stringify(dataDia.obrero));
+    if(tieneConteoObreroValido(obreroManual)) obrero = obreroManual;
+  }
 
   return {
     tecnico,
