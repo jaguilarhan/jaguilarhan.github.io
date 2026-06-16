@@ -1,4 +1,4 @@
-﻿﻿<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!-- v2026.03.04.01 - Responsive móvil completo -->
 <html lang="es">
 <head>
@@ -1629,31 +1629,44 @@ document.getElementById('btn-procesar-wa').addEventListener('click', () => {
       } else {
         ejesDetectados = matchEjes[1].toUpperCase();
       }
+      // Quitar los ejes de la descripción
+      limpia = limpia.replace(matchEjes[0], '').trim();
     }
 
     // Extraer NIVEL
     let nivelDetectado = '—';
-    if (lower.includes('sotano') || lower.includes('sótano')) nivelDetectado = 'Sotano';
-    else if (lower.includes('primer') || lower.includes('1er')) nivelDetectado = '1er Nivel';
-    else if (lower.includes('segundo') || lower.includes('2do')) nivelDetectado = '2do Nivel';
-    else if (lower.includes('tercer') || lower.includes('3er')) nivelDetectado = '3er Nivel';
-    else if (lower.includes('cuarto') || lower.includes('4to')) nivelDetectado = '4to Nivel';
-    else if (lower.includes('quinto') || lower.includes('5to')) nivelDetectado = '5to Nivel';
-    else if (lower.includes('sexto') || lower.includes('6to')) nivelDetectado = '6to Nivel';
-    else if (lower.includes('azotea')) nivelDetectado = 'Azotea';
+    const nivelesRegex = /(?:primer|1er|segundo|2do|tercer|3er|cuarto|4to|quinto|5to|sexto|6to)\s+nivel|s[oó]tano|azotea/i;
+    const matchNivel = limpia.match(nivelesRegex);
+    if (matchNivel) {
+      const nLower = matchNivel[0].toLowerCase();
+      if (nLower.includes('sotano') || nLower.includes('sótano')) nivelDetectado = 'SÓTANO';
+      else if (nLower.includes('primer') || nLower.includes('1er')) nivelDetectado = '1ER NIVEL';
+      else if (nLower.includes('segundo') || nLower.includes('2do')) nivelDetectado = '2DO NIVEL';
+      else if (nLower.includes('tercer') || nLower.includes('3er')) nivelDetectado = '3ER NIVEL';
+      else if (nLower.includes('cuarto') || nLower.includes('4to')) nivelDetectado = '4TO NIVEL';
+      else if (nLower.includes('quinto') || nLower.includes('5to')) nivelDetectado = '5TO NIVEL';
+      else if (nLower.includes('sexto') || nLower.includes('6to')) nivelDetectado = '6TO NIVEL';
+      else if (nLower.includes('azotea')) nivelDetectado = 'AZOTEA';
+
+      // Quitar el nivel de la descripción
+      limpia = limpia.replace(matchNivel[0], '').trim();
+    }
+
+    // Quitar espacios extra, guiones o comas sueltas que puedan quedar en la descripción
+    limpia = limpia.replace(/^[\s\,\-]+|[\s\,\-]+$/g, '').trim().toUpperCase();
 
     // Extraer ELEMENTO
     let elementoDetectado = '—';
-    if (lower.includes('columneta')) elementoDetectado = 'Columnetas';
-    else if (lower.includes('vigueta')) elementoDetectado = 'Viguetas';
-    else if (lower.includes('columna')) elementoDetectado = 'Columnas';
-    else if (lower.includes('viga')) elementoDetectado = 'Vigas';
-    else if (lower.includes('placa')) elementoDetectado = 'Placas';
-    else if (lower.includes('losa') && lower.includes('aligerada')) elementoDetectado = 'Losa Aligerada';
-    else if (lower.includes('losa') && lower.includes('maciza')) elementoDetectado = 'Losa Maciza';
-    else if (lower.includes('escalera')) elementoDetectado = 'Escaleras';
+    if (lower.includes('columneta')) elementoDetectado = 'COLUMNETAS';
+    else if (lower.includes('vigueta')) elementoDetectado = 'VIGUETAS';
+    else if (lower.includes('columna')) elementoDetectado = 'COLUMNAS';
+    else if (lower.includes('viga')) elementoDetectado = 'VIGAS';
+    else if (lower.includes('placa')) elementoDetectado = 'PLACAS';
+    else if (lower.includes('losa') && lower.includes('aligerada')) elementoDetectado = 'LOSA ALIGERADA';
+    else if (lower.includes('losa') && lower.includes('maciza')) elementoDetectado = 'LOSA MACIZA';
+    else if (lower.includes('escalera')) elementoDetectado = 'ESCALERAS';
     else if (lower.includes('muro') || lower.includes('ladrillo') || lower.includes('tarrajeo')) {
-      elementoDetectado = 'Muros Interiores'; // Default para no especificados si es tarrajeo/ladrillo
+      elementoDetectado = 'MUROS INTERIORES'; // Default para no especificados si es tarrajeo/ladrillo
     }
 
     // Deducir PARTIDA
@@ -1666,19 +1679,19 @@ document.getElementById('btn-procesar-wa').addEventListener('click', () => {
       
       // Reglas de prioridad
       if (lower.includes('curado')) {
-        if (pNombre.includes('CURADO') && (elementoDetectado !== '—' && pCat.includes(elementoDetectado.toUpperCase().replace('S','')))) {
+        if (pNombre.includes('CURADO') && (elementoDetectado !== '—' && pCat.includes(elementoDetectado.replace('S','')))) {
           partidaMatch = p; break;
         }
       } else if (lower.includes('desencofrado') || lower.includes('encofrado')) {
-        if (pNombre.includes('ENCOFRADO Y DESENCOFRADO') && (elementoDetectado !== '—' && pCat.includes(elementoDetectado.toUpperCase().replace('S','')))) {
+        if (pNombre.includes('ENCOFRADO Y DESENCOFRADO') && (elementoDetectado !== '—' && pCat.includes(elementoDetectado.replace('S','')))) {
           partidaMatch = p; break;
         }
       } else if (lower.includes('armado') || lower.includes('acero')) {
-        if (pNombre.includes('ACERO EN') && (elementoDetectado !== '—' && pCat.includes(elementoDetectado.toUpperCase().replace('S','')))) {
+        if (pNombre.includes('ACERO EN') && (elementoDetectado !== '—' && pCat.includes(elementoDetectado.replace('S','')))) {
           partidaMatch = p; break;
         }
       } else if (lower.includes('vaciado')) {
-        if (pNombre.includes('CONCRETO') && (elementoDetectado !== '—' && pCat.includes(elementoDetectado.toUpperCase().replace('S','')))) {
+        if (pNombre.includes('CONCRETO') && (elementoDetectado !== '—' && pCat.includes(elementoDetectado.replace('S','')))) {
           partidaMatch = p; break;
         }
       } else if (lower.includes('tarrajeo')) {
