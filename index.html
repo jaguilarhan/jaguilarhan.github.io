@@ -1603,16 +1603,18 @@ document.getElementById('btn-procesar-wa').addEventListener('click', () => {
     linea = linea.trim();
     if (!linea) continue;
 
+    // Limpiar viñetas ANTES de procesar
+    let limpia = linea.replace(/^[\u2022\-\*\.]\s*/, '').trim();
+    if (!limpia) continue;
+
+    const lower = limpia.toLowerCase();
+
     // 1. Detección de rama (Topografía vs Calidad)
     const esTopografia = lower.startsWith('se realizo') || lower.startsWith('se realizó') || lower.includes('topográfic') || lower.includes('nivelación') || lower.includes('verticalidad');
 
     if (!esTopografia && !lower.includes('eje') && !lower.includes('ejes')) {
       continue;
     }
-
-    // Limpiar viñetas
-    let limpia = linea.replace(/^[\u2022\-\*\.]\s*/, '').trim();
-    if (!limpia) continue;
 
     // --- VARIABLES BASE ---
     let descripcionFinal = '—';
