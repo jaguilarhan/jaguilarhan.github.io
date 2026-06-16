@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!-- v2026.03.04.01 - Responsive móvil completo -->
 <html lang="es">
 <head>
@@ -1603,9 +1603,10 @@ document.getElementById('btn-procesar-wa').addEventListener('click', () => {
     linea = linea.trim();
     if (!linea) continue;
 
-    // Solo procesar lineas que contengan "eje " o "ejes "
-    const lower = linea.toLowerCase();
-    if (!lower.includes('eje') && !lower.includes('ejes')) {
+    // 1. Detección de rama (Topografía vs Calidad)
+    const esTopografia = lower.startsWith('se realizo') || lower.startsWith('se realizó') || lower.includes('topográfic') || lower.includes('nivelación') || lower.includes('verticalidad');
+
+    if (!esTopografia && !lower.includes('eje') && !lower.includes('ejes')) {
       continue;
     }
 
@@ -1613,28 +1614,14 @@ document.getElementById('btn-procesar-wa').addEventListener('click', () => {
     let limpia = linea.replace(/^[\u2022\-\*\.]\s*/, '').trim();
     if (!limpia) continue;
 
-    // Extraer EJES (Patrón: "eje 1 entre A-B" o "eje A entre 1-2" o "eje 1-2")
+    // --- VARIABLES BASE ---
+    let descripcionFinal = '—';
+    let elementoDetectado = '—';
     let ejesDetectados = '—';
-    const matchEjes = limpia.match(/ejes?\s+([\w\-\']+)(?:\s+entre\s+([\w\-\']+))?/i);
-    if (matchEjes) {
-      if (matchEjes[2]) {
-        // Tiene "entre", ejemplo: eje 1 entre A-B -> 1/A-B
-        const p1 = matchEjes[1].toUpperCase();
-        const p2 = matchEjes[2].toUpperCase();
-        if (/^\d/.test(p1)) {
-          ejesDetectados = `${p1}/${p2}`;
-        } else {
-          ejesDetectados = `${p2}/${p1}`;
-        }
-      } else {
-        ejesDetectados = matchEjes[1].toUpperCase();
-      }
-      // Quitar los ejes de la descripción
-      limpia = limpia.replace(matchEjes[0], '').trim();
-    }
-
-    // Extraer NIVEL
     let nivelDetectado = '—';
+    let partidaMatch = null;
+
+    // Extraer NIVEL (Común para ambas ramas)
     const nivelesRegex = /(?:primer|1er|segundo|2do|tercer|3er|cuarto|4to|quinto|5to|sexto|6to)\s+nivel|s[oó]tano|azotea/i;
     const matchNivel = limpia.match(nivelesRegex);
     if (matchNivel) {
@@ -1647,82 +1634,143 @@ document.getElementById('btn-procesar-wa').addEventListener('click', () => {
       else if (nLower.includes('quinto') || nLower.includes('5to')) nivelDetectado = '5TO NIVEL';
       else if (nLower.includes('sexto') || nLower.includes('6to')) nivelDetectado = '6TO NIVEL';
       else if (nLower.includes('azotea')) nivelDetectado = 'AZOTEA';
-
-      // Quitar el nivel de la descripción
-      limpia = limpia.replace(matchNivel[0], '').trim();
     }
 
-    // Quitar espacios extra, guiones o comas sueltas que puedan quedar en la descripción
-    limpia = limpia.replace(/^[\s\,\-]+|[\s\,\-]+$/g, '').trim().toUpperCase();
+    if (esTopografia) {
+      // ==========================================
+      // RAMA TOPOGRAFÍA
+      // ==========================================
 
-    // Extraer ELEMENTO
-    let elementoDetectado = '—';
-    if (lower.includes('columneta')) elementoDetectado = 'COLUMNETAS';
-    else if (lower.includes('vigueta')) elementoDetectado = 'VIGUETAS';
-    else if (lower.includes('columna')) elementoDetectado = 'COLUMNAS';
-    else if (lower.includes('viga')) elementoDetectado = 'VIGAS';
-    else if (lower.includes('placa')) elementoDetectado = 'PLACAS';
-    else if (lower.includes('losa') && lower.includes('aligerada')) elementoDetectado = 'LOSA ALIGERADA';
-    else if (lower.includes('losa') && lower.includes('maciza')) elementoDetectado = 'LOSA MACIZA';
-    else if (lower.includes('escalera')) elementoDetectado = 'ESCALERAS';
-    else if (lower.includes('muro') || lower.includes('ladrillo') || lower.includes('tarrajeo')) {
-      elementoDetectado = 'MUROS INTERIORES'; // Default para no especificados si es tarrajeo/ladrillo
-    }
+      // 1. Extraer Descripción
+      const matchDesc = limpia.match(/^Se\s+realiz[oó]\s+(?:el|la)\s+(trazo\s+topográfico|trazo\s+de\s+la\s+verticalidad|nivelación\s+de\s+la\s+altura|nivelación\s+topográfica|verticalidad|trazo|nivelación)/i);
+      if (matchDesc) {
+        descripcionFinal = matchDesc[1].replace(/[\.,]/g, '').trim().toUpperCase();
+      } else {
+        descripcionFinal = 'TOPOGRAFÍA';
+      }
 
-    // Deducir PARTIDA
-    let partidaMatch = null;
-    let fallbackPartida = null;
-    
-    for (const p of PARTIDAS) {
-      const pNombre = p.nombre.toUpperCase();
-      const pCat = (p.categoria || '').toUpperCase();
-      
-      // Reglas de prioridad
-      if (lower.includes('curado')) {
-        if (pNombre.includes('CURADO') && (elementoDetectado !== '—' && pCat.includes(elementoDetectado.replace('S','')))) {
-          partidaMatch = p; break;
-        }
-      } else if (lower.includes('desencofrado') || lower.includes('encofrado')) {
-        if (pNombre.includes('ENCOFRADO Y DESENCOFRADO') && (elementoDetectado !== '—' && pCat.includes(elementoDetectado.replace('S','')))) {
-          partidaMatch = p; break;
-        }
-      } else if (lower.includes('armado') || lower.includes('acero')) {
-        if (pNombre.includes('ACERO EN') && (elementoDetectado !== '—' && pCat.includes(elementoDetectado.replace('S','')))) {
-          partidaMatch = p; break;
-        }
-      } else if (lower.includes('vaciado')) {
-        if (pNombre.includes('CONCRETO') && (elementoDetectado !== '—' && pCat.includes(elementoDetectado.replace('S','')))) {
-          partidaMatch = p; break;
-        }
-      } else if (lower.includes('tarrajeo')) {
-        if (pNombre.includes('TARRAJEO EN SUPERFICIES DE MUROS INTERIORES')) {
-          partidaMatch = p; break;
-        } else if (pNombre.includes('TARRAJEO')) {
-          fallbackPartida = p;
-        }
-      } else if (lower.includes('asentado') || lower.includes('ladrillo')) {
-        if (pNombre.includes('MURO DE LADRILLO K.K. TIPO V DE CABEZA')) {
-          partidaMatch = p; break;
-        } else if (pNombre.includes('MURO DE LADRILLO')) {
-          fallbackPartida = p;
+      // 2. Extraer Ejes
+      const matchInterseccion = limpia.match(/ejes?\s+([\w\-\']+)\s+(?:con\s+intersección\s+con\s+el\s+eje|entre\s+el\s+eje)\s+([\w\-\']+)/i);
+      if (matchInterseccion) {
+        const p1 = matchInterseccion[1].toUpperCase();
+        const p2 = matchInterseccion[2].toUpperCase();
+        const cleanP1 = p1.replace(/^([A-Z0-9]+)-\1$/, '$1'); // A-A -> A
+        const cleanP2 = p2.replace(/^([A-Z0-9]+)-\1$/, '$1'); // 1-1 -> 1
+        
+        if (/^\d/.test(cleanP1)) ejesDetectados = `${cleanP1}/${cleanP2}`;
+        else ejesDetectados = `${cleanP2}/${cleanP1}`;
+      } else {
+        const matchEjeSimple = limpia.match(/ejes?\s+([\w\-\']+)/i);
+        if (matchEjeSimple) {
+          ejesDetectados = matchEjeSimple[1].toUpperCase().replace(/^([A-Z0-9]+)-\1$/, '$1');
         }
       }
-    }
-    
-    if (!partidaMatch && fallbackPartida) partidaMatch = fallbackPartida;
 
-    // Si no encuentra nada, pone una por defecto o ignora
-    if (!partidaMatch) {
-       // Asignar partida "OTROS" genérica para que el usuario la cambie, 
-       // o usar la primera que encuentre. Usaremos una por defecto visible.
-       partidaMatch = PARTIDAS.find(p => p.nombre.includes('MURO DE LADRILLO')) || PARTIDAS[0];
+      // 3. Extraer Elemento Estructural
+      let elementoRaw = limpia;
+      if (matchDesc) elementoRaw = elementoRaw.replace(matchDesc[0], '');
+      elementoRaw = elementoRaw.replace(/^\s*(del|de acuerdo al|de la|de|para el tarrajeo del)\s+/i, '');
+      if (matchNivel) elementoRaw = elementoRaw.replace(matchNivel[0], '');
+      elementoRaw = elementoRaw.replace(/ubicado\s+en\s+(?:el\s+)?eje.*?(?=\s+para|\s+longitud|\s*,|$)/i, '');
+      elementoRaw = elementoRaw.replace(/en\s+el\s+eje.*?(?=\s+para|\s+longitud|\s*,|$)/i, '');
+      elementoRaw = elementoRaw.replace(/para\s+el\s+tarrajeo\s+(?:en\s+el\s*)?/i, '');
+      elementoRaw = elementoRaw.replace(/en\s+el\s*$/i, '');
+      elementoDetectado = elementoRaw.replace(/[\.,]+$/, '').replace(/^[\s\,\-]+|[\s\,\-]+$/g, '').trim().toUpperCase();
+
+      // 4. Asignar Partida "11.01.01"
+      partidaMatch = PARTIDAS.find(p => p.nombre.includes('TRAZO, NIVELES Y REPLANTEO') || p.nombre.includes('TRAZO TOPOGRÁFICO') || p.codigo === '11.01.01') || PARTIDAS[0];
+
+    } else {
+      // ==========================================
+      // RAMA CALIDAD (Normal)
+      // ==========================================
+
+      // Extraer EJES
+      const matchEjes = limpia.match(/ejes?\s+([\w\-\']+)(?:\s+entre\s+([\w\-\']+))?/i);
+      if (matchEjes) {
+        if (matchEjes[2]) {
+          const p1 = matchEjes[1].toUpperCase();
+          const p2 = matchEjes[2].toUpperCase();
+          if (/^\d/.test(p1)) {
+            ejesDetectados = `${p1}/${p2}`;
+          } else {
+            ejesDetectados = `${p2}/${p1}`;
+          }
+        } else {
+          ejesDetectados = matchEjes[1].toUpperCase();
+        }
+        limpia = limpia.replace(matchEjes[0], '').trim();
+      }
+
+      if (matchNivel) {
+        limpia = limpia.replace(matchNivel[0], '').trim();
+      }
+
+      // Quitar comas y puntos finales y limpiar descripcion
+      descripcionFinal = limpia.replace(/[\.,]+$/, '').replace(/^[\s\,\-]+|[\s\,\-]+$/g, '').trim().toUpperCase();
+
+      // Extraer ELEMENTO
+      if (lower.includes('columneta')) elementoDetectado = 'COLUMNETAS';
+      else if (lower.includes('vigueta')) elementoDetectado = 'VIGUETAS';
+      else if (lower.includes('columna')) elementoDetectado = 'COLUMNAS';
+      else if (lower.includes('viga')) elementoDetectado = 'VIGAS';
+      else if (lower.includes('placa')) elementoDetectado = 'PLACAS';
+      else if (lower.includes('losa') && lower.includes('aligerada')) elementoDetectado = 'LOSA ALIGERADA';
+      else if (lower.includes('losa') && lower.includes('maciza')) elementoDetectado = 'LOSA MACIZA';
+      else if (lower.includes('escalera')) elementoDetectado = 'ESCALERAS';
+      else if (lower.includes('muro') || lower.includes('ladrillo') || lower.includes('tarrajeo')) {
+        elementoDetectado = 'MUROS INTERIORES'; 
+      }
+
+      // Deducir PARTIDA
+      let fallbackPartida = null;
+      for (const p of PARTIDAS) {
+        const pNombre = p.nombre.toUpperCase();
+        const pCat = (p.categoria || '').toUpperCase();
+        
+        if (lower.includes('curado')) {
+          if (pNombre.includes('CURADO') && (elementoDetectado !== '—' && pCat.includes(elementoDetectado.replace('S','')))) {
+            partidaMatch = p; break;
+          }
+        } else if (lower.includes('desencofrado') || lower.includes('encofrado')) {
+          if (pNombre.includes('ENCOFRADO Y DESENCOFRADO') && (elementoDetectado !== '—' && pCat.includes(elementoDetectado.replace('S','')))) {
+            partidaMatch = p; break;
+          }
+        } else if (lower.includes('armado') || lower.includes('acero')) {
+          if (pNombre.includes('ACERO EN') && (elementoDetectado !== '—' && pCat.includes(elementoDetectado.replace('S','')))) {
+            partidaMatch = p; break;
+          }
+        } else if (lower.includes('vaciado')) {
+          if (pNombre.includes('CONCRETO') && (elementoDetectado !== '—' && pCat.includes(elementoDetectado.replace('S','')))) {
+            partidaMatch = p; break;
+          }
+        } else if (lower.includes('tarrajeo')) {
+          if (pNombre.includes('TARRAJEO EN SUPERFICIES DE MUROS INTERIORES')) {
+            partidaMatch = p; break;
+          } else if (pNombre.includes('TARRAJEO')) {
+            fallbackPartida = p;
+          }
+        } else if (lower.includes('asentado') || lower.includes('ladrillo')) {
+          if (pNombre.includes('MURO DE LADRILLO K.K. TIPO V DE CABEZA')) {
+            partidaMatch = p; break;
+          } else if (pNombre.includes('MURO DE LADRILLO')) {
+            fallbackPartida = p;
+          }
+        }
+      }
+      
+      if (!partidaMatch && fallbackPartida) partidaMatch = fallbackPartida;
+
+      if (!partidaMatch) {
+         partidaMatch = PARTIDAS.find(p => p.nombre.includes('MURO DE LADRILLO')) || PARTIDAS[0];
+      }
     }
 
     // Agregar actividad
     actividades.push({
       id: Date.now() + añadidas,
       fecha: fechaBase,
-      descripcion: limpia,
+      descripcion: descripcionFinal,
       elemento: elementoDetectado,
       ejes: ejesDetectados,
       nivel: nivelDetectado,
