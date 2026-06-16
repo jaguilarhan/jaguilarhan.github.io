@@ -1610,7 +1610,7 @@ document.getElementById('btn-procesar-wa').addEventListener('click', () => {
     const lower = limpia.toLowerCase();
 
     // 1. Detección de rama (Topografía vs Calidad)
-    const esTopografia = lower.startsWith('se realizo') || lower.startsWith('se realizó') || lower.includes('topográfic') || lower.includes('nivelación') || lower.includes('verticalidad');
+    const esTopografia = lower.includes('se realizo') || lower.includes('se realizó') || lower.includes('topográfic') || lower.includes('nivelación') || lower.includes('verticalidad');
 
     if (!esTopografia && !lower.includes('eje') && !lower.includes('ejes')) {
       continue;
