@@ -668,7 +668,7 @@ function procesarWhatsappAlmacen() {
   const text = document.getElementById('whatsapp-almacen').value;
   if (!text.trim()) return;
 
-  const parts = text.split(/ocurrencias\s*:/i);
+  const parts = text.split(/ocurrencias\s*:|salida[sd]?\s+de\s+materiales\s+de\s+adelanto/i);
   let mainText = parts[0];
 
   const items = {};
@@ -684,9 +684,10 @@ function procesarWhatsappAlmacen() {
     if (!line) return;
 
     let segmentos = [line];
-    if (line.includes(',') || line.includes('.')) {
+    if (line.includes(',') || line.includes('. ')) {
        if (!/^[\•\-\*]/.test(line)) {
-           segmentos = line.split(/[,.]/);
+           // Dividimos por coma o punto seguido de espacio, para no romper decimales como "1.79"
+           segmentos = line.split(/,|\.\s+/);
        }
     }
 
