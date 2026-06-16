@@ -1644,7 +1644,7 @@ document.getElementById('btn-procesar-wa').addEventListener('click', () => {
       // ==========================================
 
       // 1. Extraer Descripción
-      const matchDesc = limpia.match(/^Se\s+realiz[oó]\s+(?:el|la)\s+(trazo\s+topográfico|trazo\s+de\s+la\s+verticalidad|nivelación\s+de\s+la\s+altura|nivelación\s+topográfica|verticalidad|trazo|nivelación)/i);
+      const matchDesc = limpia.match(/^Se\s+realiz[oó]\s+(?:el|la)\s+(verificación\s+de\s+la\s+verticalidad|trazo\s+topográfico|trazo\s+de\s+la\s+verticalidad|nivelación\s+de\s+la\s+altura|nivelación\s+topográfica|verticalidad|trazo|nivelación)/i);
       if (matchDesc) {
         descripcionFinal = matchDesc[1].replace(/[\.,]/g, '').trim().toUpperCase();
       } else {
@@ -1671,13 +1671,12 @@ document.getElementById('btn-procesar-wa').addEventListener('click', () => {
       // 3. Extraer Elemento Estructural
       let elementoRaw = limpia;
       if (matchDesc) elementoRaw = elementoRaw.replace(matchDesc[0], '');
-      elementoRaw = elementoRaw.replace(/^\s*(del|de acuerdo al|de la|de|para el tarrajeo del)\s+/i, '');
+      elementoRaw = elementoRaw.replace(/^\s*(del|de acuerdo al|de la|de)\s+/i, '');
       if (matchNivel) elementoRaw = elementoRaw.replace(matchNivel[0], '');
-      elementoRaw = elementoRaw.replace(/ubicado\s+en\s+(?:el\s+)?eje.*?(?=\s+para|\s+longitud|\s*,|$)/i, '');
-      elementoRaw = elementoRaw.replace(/en\s+el\s+eje.*?(?=\s+para|\s+longitud|\s*,|$)/i, '');
-      elementoRaw = elementoRaw.replace(/para\s+el\s+tarrajeo\s+(?:en\s+el\s*)?/i, '');
+      elementoRaw = elementoRaw.replace(/ubicado\s+.*?(?:eje|ejes).*?(?=\s+para|\s+longitud|\s*,|$)/i, '');
+      elementoRaw = elementoRaw.replace(/en\s+(?:el\s+)?eje.*?(?=\s+para|\s+longitud|\s*,|$)/i, '');
       elementoRaw = elementoRaw.replace(/\s+(en|para)\s+(el|la|los|las)\s*$/i, '');
-      elementoRaw = elementoRaw.replace(/\s+(en|para)\s*$/i, '');
+      elementoRaw = elementoRaw.replace(/\s+(en|para|del)\s*$/i, '');
       elementoDetectado = elementoRaw.replace(/[\.,]+$/, '').replace(/^[\s\,\-]+|[\s\,\-]+$/g, '').trim().toUpperCase();
 
       // 4. Asignar Partida "11.01.01"
