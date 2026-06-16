@@ -1,0 +1,17 @@
+03.01.01.02: 0
+03.01.01.01: 19
+SOGA: 0
+CABEZA: 19
+
+Actividad [9]:
+  codigo: 03.01.01.01
+  nombre: MURO DE LADRILLO K.K. TIPO V DE CABEZA, C/MEZCLA C:A 1:5
+
+Actividad [13]:
+  codigo: 03.01.01.01
+  nombre: MURO DE LADRILLO K.K. TIPO V DE CABEZA, C/MEZCLA C:A 1:5
+
+Actividad [14]:
+  codigo: 03.01.01.01
+  nombre: MURO DE LADRILLO K.K. TIPO V DE CABEZA, C/MEZCLA C:A 1:5
+

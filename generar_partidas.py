@@ -9,6 +9,17 @@ BASE = os.path.dirname(os.path.abspath(__file__))
 EXCEL = os.path.join(BASE, "DATA PARTIDAS", "PRESUPUESTO TOTAL - 01 INFRAESTRUCTURA.xlsx")
 OUT = os.path.join(BASE, "src", "partidas.json")
 
+partidas_previas = {}
+if os.path.exists(OUT):
+    try:
+        with open(OUT, "r", encoding="utf-8") as f_prev:
+            for pprev in json.load(f_prev):
+                cod_prev = str(pprev.get("codigo", "")).strip()
+                if cod_prev:
+                    partidas_previas[cod_prev] = pprev
+    except Exception:
+        partidas_previas = {}
+
 wb = openpyxl.load_workbook(EXCEL, data_only=True)
 ws = wb.active
 
@@ -156,31 +167,65 @@ EXCEL_NUEVAS = os.path.join(BASE, "DATA PARTIDAS", "PRESUPUESTO - PARTIDAS NUEVA
 if os.path.exists(EXCEL_NUEVAS):
     print("Leyendo partidas nuevas...")
     wb2 = openpyxl.load_workbook(EXCEL_NUEVAS, data_only=True)
-    ws2 = wb2['JUSTIFICACION']
+    ws2 = wb2['JUSTIFICACION'] if 'JUSTIFICACION' in wb2.sheetnames else None
 
-    # Hoja JUSTIFICACION: A=Item, B=Descripcion, E=Unidad, F=Metrado
-    # Títulos no tienen metrado, partidas reales sí
+    # Si no existe JUSTIFICACION (nuevo formato), usar la hoja que contenga filas tipo "Partida".
+    if ws2 is None:
+        for ws_tmp in wb2.worksheets:
+            if any(str(ws_tmp.cell(r, 1).value).strip().lower() == "partida" for r in range(1, min(ws_tmp.max_row, 500) + 1)):
+                ws2 = ws_tmp
+                break
+        if ws2 is None:
+            ws2 = wb2.active
+
     items_nuevas = []
     nombres_nuevas = {}
-    for row in range(13, ws2.max_row + 1):
-        cod_raw = ws2.cell(row, 1).value
-        nom_raw = ws2.cell(row, 2).value
-        metrado = ws2.cell(row, 6).value  # columna F = metrado
 
-        if not cod_raw or not nom_raw:
-            continue
-        codigo = str(cod_raw).strip()
-        nombre = str(nom_raw).strip()
-        if not codigo or not nombre or nombre == 'None':
-            continue
+    if ws2.title == 'JUSTIFICACION':
+        # Formato antiguo: A=Item, B=Descripcion, F=Metrado
+        for row in range(13, ws2.max_row + 1):
+            cod_raw = ws2.cell(row, 1).value
+            nom_raw = ws2.cell(row, 2).value
+            metrado = ws2.cell(row, 6).value
 
-        nombres_nuevas[codigo] = nombre
-        items_nuevas.append({
-            "codigo": codigo,
-            "nombre": nombre,
-            "metrado": metrado,
-            "fila": row,
-        })
+            if not cod_raw or not nom_raw:
+                continue
+            codigo = str(cod_raw).strip()
+            nombre = str(nom_raw).strip()
+            if not codigo or not nombre or nombre == 'None':
+                continue
+
+            nombres_nuevas[codigo] = nombre
+            items_nuevas.append({
+                "codigo": codigo,
+                "nombre": nombre,
+                "metrado": metrado,
+                "fila": row,
+            })
+    else:
+        # Formato nuevo (SP2): A="Partida", B=Código, D=Descripción
+        for row in range(1, ws2.max_row + 1):
+            if str(ws2.cell(row, 1).value).strip().lower() != "partida":
+                continue
+
+            cod_raw = ws2.cell(row, 2).value
+            nom_raw = ws2.cell(row, 4).value
+            metrado = ws2.cell(row, 6).value
+
+            if not cod_raw or not nom_raw:
+                continue
+            codigo = str(cod_raw).strip()
+            nombre = str(nom_raw).strip()
+            if not codigo or not nombre or nombre == 'None':
+                continue
+
+            nombres_nuevas[codigo] = nombre
+            items_nuevas.append({
+                "codigo": codigo,
+                "nombre": nombre,
+                "metrado": metrado,
+                "fila": row,
+            })
 
     def obtener_ruta_nuevas(codigo):
         parts = codigo.split(".")
@@ -193,15 +238,22 @@ if os.path.exists(EXCEL_NUEVAS):
 
     count_nuevas = 0
     for item in items_nuevas:
-        metrado = item["metrado"]
-        if metrado is None or metrado == '' or metrado == 0:
-            continue
-
         codigo = item["codigo"]
         nombre = item["nombre"]
-        cat = clasificar(codigo, nombre)
+        previo = partidas_previas.get(codigo, {})
+
+        metrado = item["metrado"]
+        if metrado in (None, '', 0):
+            metrado = previo.get("metrado")
+        if metrado in (None, '', 0):
+            # Fallback para que no se pierda la partida si el Excel no trae metrado explícito.
+            metrado = 1.0
+
+        cat = previo.get("categoria") or clasificar(codigo, nombre)
         ruta = obtener_ruta_nuevas(codigo)
-        esp_nombre = ruta[0] if ruta else "PARTIDAS NUEVAS"
+        if not ruta and previo.get("ruta"):
+            ruta = previo.get("ruta")
+        esp_nombre = ruta[0] if ruta else (previo.get("especialidad") or "PARTIDAS NUEVAS")
 
         partidas.append({
             "codigo": codigo,

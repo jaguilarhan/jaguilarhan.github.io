@@ -1,0 +1,7 @@
+Descargando datos...
+SOGA antes: 19
+SOGA despues: 0
+CABEZA despues: 19
+Subiendo...
+Firebase: 200
+LISTO!

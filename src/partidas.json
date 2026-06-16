@@ -7230,7 +7230,7 @@
   },
   {
     "codigo": "11.02.05",
-    "nombre": "ACARREO MANUAL DE MATERIAL PROCEDENTE DE DEMOLICION (D.prom=30 M)",
+    "nombre": "ACARREO DE MATERIAL PROCEDENTE DE DEMOLICION (D.prom=30 M)",
     "categoria": "OTROS",
     "color": "#90A4AE",
     "metrado": 4.0,
@@ -7296,6 +7296,50 @@
       "OBRAS DE CONCRETO ARMADO",
       "ZAPATAS"
     ],
+    "nueva": true
+  },
+  {
+    "codigo": "13.02.01",
+    "nombre": "CONCRETO EN PLACAS NO PORTANTES F'C= 175 KG/CM2, C/CEMENTO TIPO IP",
+    "categoria": "PLACAS",
+    "color": "#1ABC9C",
+    "metrado": 1.0,
+    "especialidad": "PARTIDAS NUEVAS",
+    "especialidad_cod": "13",
+    "ruta": [],
+    "nueva": true
+  },
+  {
+    "codigo": "13.02.02",
+    "nombre": "ACERO EN PLACAS NO PORTANTES Fy=4200 kg/cm2 GRADO 60",
+    "categoria": "PLACAS",
+    "color": "#1ABC9C",
+    "metrado": 1.0,
+    "especialidad": "PARTIDAS NUEVAS",
+    "especialidad_cod": "13",
+    "ruta": [],
+    "nueva": true
+  },
+  {
+    "codigo": "13.02.03",
+    "nombre": "ENCOFRADO Y DESENCOFRADO EN PLACAS NO PORTANTES",
+    "categoria": "PLACAS",
+    "color": "#1ABC9C",
+    "metrado": 1.0,
+    "especialidad": "PARTIDAS NUEVAS",
+    "especialidad_cod": "13",
+    "ruta": [],
+    "nueva": true
+  },
+  {
+    "codigo": "13.02.04",
+    "nombre": "CURADO DE CONCRETO EN PLACAS NO PORTANTES",
+    "categoria": "PLACAS",
+    "color": "#1ABC9C",
+    "metrado": 1.0,
+    "especialidad": "PARTIDAS NUEVAS",
+    "especialidad_cod": "13",
+    "ruta": [],
     "nueva": true
   },
   {
@@ -7549,7 +7593,7 @@
   },
   {
     "codigo": "15.03.01",
-    "nombre": "CONSULTORIA EN TEMAS MECANICO - ELECTRICOS",
+    "nombre": "CONSULTORIA EN TEMAS MECANICOS - ELECTRICOS",
     "categoria": "OTROS",
     "color": "#90A4AE",
     "metrado": 120.0,

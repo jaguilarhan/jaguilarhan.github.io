@@ -289,6 +289,7 @@ window.addEventListener('DOMContentLoaded', () => {
   initMeses();
   renderSidebar();
   initModal();
+  document.getElementById('btn-ver-planilla').addEventListener('click', () => verPlanillaMes());
 });
 
 function initMeses() {
@@ -846,29 +847,37 @@ function mostrarPresupuesto(partida) {
 // ================================================================
 // VER PLANILLA COMPLETA DEL MES
 // ================================================================
-document.getElementById('btn-ver-planilla').addEventListener('click', () => verPlanillaMes());
 
 async function verPlanillaMes() {
   // Cargar TODOS los datos del mes desde Firebase
-  const todosMes = await fbLoad('metrados_mensuales', {});
-  if (!todosMes) { alert('No hay datos de metrados guardados.'); return; }
+  let todosMes = {};
+  try {
+    todosMes = await fbLoad('metrados_mensuales', {}) || {};
+  } catch(e) { console.warn(e); }
 
   // Filtrar partidas que tienen datos en el mes actual
+  // Combinar datos de Firebase con datos de la sesión actual (avanceData)
   const partidasConDatos = [];
   METRADOS_PARTIDAS.forEach(p => {
-    const datosPartida = todosMes[p.id];
-    if (datosPartida && datosPartida[mesActual]) {
-      const filas = datosPartida[mesActual];
-      if (Array.isArray(filas) && filas.length > 0) {
-        // Calcular acumulado anterior
-        let acumAnterior = 0;
-        const pk = p.tipo === 'acero' ? 'peso' : 'parcial';
-        Object.keys(datosPartida).forEach(mes => {
-          if (mes < mesActual) {
-            const fm = datosPartida[mes];
-            if (Array.isArray(fm)) fm.forEach(f => { acumAnterior += parseFloat(f[pk]) || 0; });
-          }
-        });
+    const datosPartida = todosMes[p.id] || {};
+    // Priorizar datos de sesión actual si existen
+    let filas = null;
+    if (avanceData[p.id] && avanceData[p.id].length > 0) {
+      filas = avanceData[p.id];
+    } else if (datosPartida[mesActual]) {
+      filas = datosPartida[mesActual];
+    }
+
+    if (filas && Array.isArray(filas) && filas.length > 0) {
+      // Calcular acumulado anterior
+      let acumAnterior = 0;
+      const pk = p.tipo === 'acero' ? 'peso' : 'parcial';
+      Object.keys(datosPartida).forEach(mes => {
+        if (mes < mesActual) {
+          const fm = datosPartida[mes];
+          if (Array.isArray(fm)) fm.forEach(f => { acumAnterior += parseFloat(f[pk]) || 0; });
+        }
+      });
         // Total mes
         let totalMes = 0;
         filas.forEach(f => { totalMes += parseFloat(f[pk]) || 0; });

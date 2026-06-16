@@ -1676,7 +1676,8 @@ document.getElementById('btn-procesar-wa').addEventListener('click', () => {
       elementoRaw = elementoRaw.replace(/ubicado\s+en\s+(?:el\s+)?eje.*?(?=\s+para|\s+longitud|\s*,|$)/i, '');
       elementoRaw = elementoRaw.replace(/en\s+el\s+eje.*?(?=\s+para|\s+longitud|\s*,|$)/i, '');
       elementoRaw = elementoRaw.replace(/para\s+el\s+tarrajeo\s+(?:en\s+el\s*)?/i, '');
-      elementoRaw = elementoRaw.replace(/en\s+el\s*$/i, '');
+      elementoRaw = elementoRaw.replace(/\s+(en|para)\s+(el|la|los|las)\s*$/i, '');
+      elementoRaw = elementoRaw.replace(/\s+(en|para)\s*$/i, '');
       elementoDetectado = elementoRaw.replace(/[\.,]+$/, '').replace(/^[\s\,\-]+|[\s\,\-]+$/g, '').trim().toUpperCase();
 
       // 4. Asignar Partida "11.01.01"

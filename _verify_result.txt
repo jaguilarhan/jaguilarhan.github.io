@@ -1,0 +1,19 @@
+Ocurrencias 03.01.01.02: 0
+Ocurrencias 03.01.01.01: 19
+Ocurrencias SOGA: 19
+Ocurrencias CABEZA: 0
+
+Actividad [9]:
+  codigo: 03.01.01.01
+  nombre: MURO DE LADRILLO K.K. TIPO V DE SOGA, C/MEZCLA C:A 1:5
+  descripcion: ASENTADO DE LADRILLO
+
+Actividad [13]:
+  codigo: 03.01.01.01
+  nombre: MURO DE LADRILLO K.K. TIPO V DE SOGA, C/MEZCLA C:A 1:5
+  descripcion: ASENTADO DE LADRILLO
+
+Actividad [14]:
+  codigo: 03.01.01.01
+  nombre: MURO DE LADRILLO K.K. TIPO V DE SOGA, C/MEZCLA C:A 1:5
+  descripcion: ASENTADO DE LADRILLO

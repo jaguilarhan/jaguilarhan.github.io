@@ -1,0 +1,52 @@
+INICIO - Descargando datos de Firebase...
+Datos descargados OK. Tipo: dict, longitud raw: 157883
+Backup guardado en _backup_partida.json
+Ocurrencias 03.01.01.02 ANTES: 19
+Ocurrencias SOGA ANTES: 19
+
+Paths encontrados: 19
+  /actividades[9]/partida/codigo
+    VAL: 03.01.01.02
+  /actividades[13]/partida/codigo
+    VAL: 03.01.01.02
+  /actividades[14]/partida/codigo
+    VAL: 03.01.01.02
+  /actividades[22]/partida/codigo
+    VAL: 03.01.01.02
+  /actividades[29]/partida/codigo
+    VAL: 03.01.01.02
+  /actividades[33]/partida/codigo
+    VAL: 03.01.01.02
+  /actividades[34]/partida/codigo
+    VAL: 03.01.01.02
+  /actividades[35]/partida/codigo
+    VAL: 03.01.01.02
+  /actividades[72]/partida/codigo
+    VAL: 03.01.01.02
+  /actividades[81]/partida/codigo
+    VAL: 03.01.01.02
+  /actividades[120]/partida/codigo
+    VAL: 03.01.01.02
+  /actividades[124]/partida/codigo
+    VAL: 03.01.01.02
+  /actividades[125]/partida/codigo
+    VAL: 03.01.01.02
+  /actividades[169]/partida/codigo
+    VAL: 03.01.01.02
+  /actividades[175]/partida/codigo
+    VAL: 03.01.01.02
+  /actividades[189]/partida/codigo
+    VAL: 03.01.01.02
+  /actividades[193]/partida/codigo
+    VAL: 03.01.01.02
+  /actividades[194]/partida/codigo
+    VAL: 03.01.01.02
+  /actividades[215]/partida/codigo
+    VAL: 03.01.01.02
+
+Ocurrencias 03.01.01.02 DESPUES: 0
+Ocurrencias SOGA DESPUES: 19
+
+Subiendo a Firebase...
+Respuesta Firebase: 200
+CAMBIOS APLICADOS EXITOSAMENTE!

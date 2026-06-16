@@ -914,7 +914,7 @@ function agruparActividadesPorEjes(acts){
 // ================================================================
 function generarParrafo(a){
   const desc = a.descripcion || '';
-  const elem = (a.elemento && a.elemento !== '—') ? a.elemento : '';
+  let elem = (a.elemento && a.elemento !== '—') ? a.elemento : '';
   const nivel = (a.nivel && a.nivel !== '—') ? a.nivel : '';
   const ejes = (a.ejes && a.ejes !== '—') ? a.ejes : '';
   const codigo = a.partida.codigo || '';
@@ -922,15 +922,40 @@ function generarParrafo(a){
   const pct = a.pct != null ? Number(a.pct) : null;
   const metrado = String(a.metrado == null ? '' : a.metrado).trim();
 
+  // Limpiar conectores residuales al final del elemento para evitar repetición
+  elem = elem.replace(/\s+(EN|PARA)\s+(EL|LA|LOS|LAS)$/i, '')
+             .replace(/\s+(EN|PARA)$/i, '').trim();
+
   let verbo = 'Se programó';
   if(pct !== null){
     if(pct >= 100) verbo = 'Se realizó';
     else if(pct > 0) verbo = 'Se inició';
   }
 
+  // Deducción de artículo para Descripción
+  let artDesc = 'el';
+  if (desc) {
+    const primeraD = desc.split(/\s+/)[0].toLowerCase();
+    if (primeraD.endsWith('as')) artDesc = 'las';
+    else if (primeraD.endsWith('os')) artDesc = 'los';
+    else if (primeraD.endsWith('a') || primeraD.endsWith('ción') || primeraD.endsWith('cion') || primeraD.endsWith('dad')) artDesc = 'la';
+  }
+
   const descFmt = desc.charAt(0).toUpperCase() + desc.slice(1).toLowerCase();
-  let txt = verbo + ' el ' + descFmt;
-  if(elem) txt += ' de las ' + elem;
+  let txt = verbo + ' ' + artDesc + ' ' + descFmt;
+
+  if(elem) {
+    let artElem = 'del';
+    const primeraE = elem.split(/\s+/)[0].toLowerCase();
+    
+    if (primeraE.endsWith('as') || primeraE === 'placas') artElem = 'de las';
+    else if (primeraE === 'muros' || primeraE === 'ladrillos' || primeraE === 'paños') artElem = 'de los';
+    else if (primeraE.endsWith('os')) artElem = 'de los';
+    else if (primeraE.endsWith('a') || primeraE.endsWith('ción') || primeraE.endsWith('cion') || primeraE.endsWith('dad')) artElem = 'de la';
+    
+    txt += ' ' + artElem + ' ' + elem;
+  }
+  
   if(nivel) txt += ' en el ' + nivel;
   if(ejes) txt += ' en los ejes ' + ejes;
   txt += ', correspondiente a la partida ' + codigo + ' ' + partida;
