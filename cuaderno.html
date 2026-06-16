@@ -333,8 +333,13 @@
 
     <div class="modal-section">
       <h3>📦 IV. MOVIMIENTOS DE ALMACEN</h3>
+      <div style="margin-bottom: 12px; background: #f8f9fa; padding: 10px; border-radius: 6px; border: 1px dashed #ccc;">
+        <label style="font-size:.75rem; font-weight:600; color:#555; display:block; margin-bottom:4px;">Pegar reporte de WhatsApp:</label>
+        <textarea id="whatsapp-almacen" rows="3" style="width:100%; border:1px solid #ccc; border-radius:4px; font-size:.75rem; padding:6px; font-family:inherit; resize:vertical;" placeholder="Ej: • 11 UND MAMELUCO DESCARTABLE..."></textarea>
+        <button class="btn-modal-add" onclick="procesarWhatsappAlmacen()" style="margin-top:6px; background:#e8f5e9; border-color:#81c784; color:#2e7d32;">✨ Procesar WhatsApp</button>
+      </div>
       <div id="modal-almacen"></div>
-      <button class="btn-modal-add" onclick="agregarAlmacenModal()" style="margin-top:6px;">+ Agregar movimiento</button>
+      <button class="btn-modal-add" onclick="agregarAlmacenModal()" style="margin-top:6px;">+ Agregar movimiento manual</button>
     </div>
 
     <div class="modal-btns">
@@ -657,6 +662,103 @@ function agregarAlmacenModal(){
     <input type="text" value="" data-alm-cant="${idx}" placeholder="Cant/UM" style="width:110px"/>
     <button class="btn-modal-remove" onclick="this.parentElement.remove()">✕</button>`;
   ctn.appendChild(div);
+}
+
+function procesarWhatsappAlmacen() {
+  const text = document.getElementById('whatsapp-almacen').value;
+  if (!text.trim()) return;
+
+  const parts = text.split(/ocurrencias\s*:/i);
+  let mainText = parts[0];
+
+  const items = {};
+  
+  mainText = mainText.replace(/REPORTE DE ALMACEN/ig, '');
+  mainText = mainText.replace(/SALIDAS DEL[^\n]*/ig, '');
+
+  const lines = mainText.split('\n');
+  const regexCantUnidad = /(?:^|\s|-|•|\*)(\d+(?:\.\d+)?)\s*(UND|UNID|UNIDADES|U|PAR|PARES|M|M2|M3|L|LITROS|GLN|GALONES|BLS|BOLSAS|PAQ|ROLLO|VAR|KG)?\s+(.*)/i;
+
+  lines.forEach(line => {
+    line = line.trim();
+    if (!line) return;
+
+    let segmentos = [line];
+    if (line.includes(',') || line.includes('.')) {
+       if (!/^[\•\-\*]/.test(line)) {
+           segmentos = line.split(/[,.]/);
+       }
+    }
+
+    segmentos.forEach(seg => {
+        seg = seg.trim();
+        if (!seg) return;
+        
+        let match = seg.match(regexCantUnidad);
+        if (match) {
+            let cant = parseFloat(match[1]);
+            let unidad = (match[2] || 'UND').toUpperCase();
+            if (['UNIDADES', 'UNID', 'U'].includes(unidad)) unidad = 'UND';
+            if (unidad === 'PARES') unidad = 'PAR';
+            if (unidad === 'BOLSAS') unidad = 'BLS';
+            if (unidad === 'LITROS') unidad = 'L';
+            if (unidad === 'GALONES') unidad = 'GLN';
+
+            let resto = match[3].trim().toUpperCase();
+            resto = resto.replace(/^PARA\s+[A-Z]+\s*/i, '');
+            resto = resto.replace(/PARA\s+.*$/i, '').trim();
+            resto = resto.replace(/VACIADO\s+.*$/i, '').trim();
+
+            let materialKey = resto;
+            let materialName = resto;
+            
+            if (/\bCEMENTO\b/.test(resto)) {
+                materialKey = 'CEMENTO';
+                materialName = 'CEMENTO';
+            } else if (/\bAGREGADO[S]?\b/.test(resto)) {
+                materialKey = 'AGREGADOS';
+                materialName = 'AGREGADOS';
+            } else if (/\b(ACERO|FIERRO)\b/.test(resto) && (resto.startsWith('ACERO') || resto.startsWith('FIERRO'))) {
+                materialKey = 'ACERO';
+                materialName = 'ACERO';
+            } else {
+                materialKey = resto.replace(/\s+/g, ' ');
+            }
+
+            if (!items[materialKey]) {
+                items[materialKey] = { material: materialName, cant: 0, unidad: unidad };
+            }
+            items[materialKey].cant += cant;
+            
+        } else {
+            let upper = seg.toUpperCase();
+            if (/\b(ACERO|FIERRO)\b/.test(upper)) {
+                if (upper.includes('REPORTARA') || upper.startsWith('ACERO') || upper.startsWith('FIERRO')) {
+                    if (!items['ACERO']) items['ACERO'] = { material: 'ACERO', cant: '', unidad: '' };
+                }
+            } else if (/\bAGREGADO[S]?\b/.test(upper)) {
+                if (!items['AGREGADOS']) items['AGREGADOS'] = { material: 'AGREGADOS', cant: '', unidad: '' };
+            }
+        }
+    });
+  });
+
+  const ctn = document.getElementById('modal-almacen');
+  Object.values(items).forEach(item => {
+     const idx = ctn.querySelectorAll('.modal-row').length;
+     const div = document.createElement('div');
+     div.className = 'modal-row';
+     div.dataset.almIdx = idx;
+     
+     let cantStr = item.cant ? item.cant + ' ' + item.unidad : '';
+     
+     div.innerHTML = '<input type="text" value="' + esc(item.material) + '" data-alm-detalle="' + idx + '" placeholder="Detalle"/>' +
+        '<input type="text" value="' + esc(cantStr) + '" data-alm-cant="' + idx + '" placeholder="Cant/UM" style="width:110px; margin-left:8px;"/>' +
+        '<button class="btn-modal-remove" style="margin-left:8px;" onclick="this.parentElement.remove()">✕</button>';
+     ctn.appendChild(div);
+  });
+
+  document.getElementById('whatsapp-almacen').value = '';
 }
 
 function cerrarModal(){
