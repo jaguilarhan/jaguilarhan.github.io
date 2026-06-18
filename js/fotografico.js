@@ -133,7 +133,9 @@ async function generarExcelFotografico() {
     const templateBuffer = await fetchTemplateBuffer('assets/template_reg_fotografico.xlsx');
     
     // 3. Load Workbook
-    const workbook = new ExcelJS.Workbook();
+    const _ExcelJS = (typeof ExcelJS !== 'undefined') ? ExcelJS : (window.ExcelJS || window.exceljs);
+    if (!_ExcelJS) { throw new Error('La librería ExcelJS no se cargó. Intenta recargar la página con Ctrl+F5.'); }
+    const workbook = new _ExcelJS.Workbook();
     await workbook.xlsx.load(templateBuffer);
     
     // Limites de fotos
