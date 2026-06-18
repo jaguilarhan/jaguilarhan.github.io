@@ -41,19 +41,19 @@ function agregarFilaFoto() {
   let selectHtml = `<select class="sel-actividad" style="flex:1; padding:6px; font-size:9pt; border-radius:4px; border:1px solid #ccc;"><option value="">-- Escribir un comentario personalizado abajo --</option>`;
   currentActividades.forEach((a, i) => {
     let descCorta = (a.descripcion || 'Sin descripción') + (a.elemento && a.elemento!=='—' ? ' - ' + a.elemento : '');
+    // Usamos la descripción completa (párrafo generado)
     let valStr = typeof generarParrafo === 'function' ? generarParrafo(a) : descCorta;
     
-    // Simplificamos el nombre que ve el usuario en el select
-    selectHtml += `<option value="${esc(descCorta)}">${esc(descCorta)}</option>`;
+    selectHtml += `<option value="${esc(valStr)}">${esc(valStr)}</option>`;
   });
   selectHtml += `</select>`;
 
   div.innerHTML = `
-    <div style="width:100px; height:100px; border:1px dashed #aaa; display:flex; align-items:center; justify-content:center; background:#eee; position:relative; overflow:hidden;">
+    <label style="width:100px; height:100px; border:1px dashed #aaa; display:flex; align-items:center; justify-content:center; background:#eee; position:relative; overflow:hidden; cursor:pointer; flex-shrink:0;">
        <span style="font-size:24pt; color:#ccc;">📷</span>
        <img src="" style="width:100%; height:100%; object-fit:contain; position:absolute; top:0; left:0; display:none;" class="img-preview" />
-       <input type="file" accept="image/png, image/jpeg" class="inp-file-foto" style="position:absolute; top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;" onchange="previewFoto(this)">
-    </div>
+       <input type="file" accept="image/*" class="inp-file-foto" style="display:none;" onchange="previewFoto(this)">
+    </label>
     <div style="flex:1; display:flex; flex-direction:column; gap:8px;">
        <label style="font-size:9pt; font-weight:bold;">Selecciona Actividad (opcional):</label>
        ${selectHtml}
