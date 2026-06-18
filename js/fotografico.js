@@ -142,17 +142,12 @@ async function generarExcelFotografico() {
     const workbook = new _ExcelJS.Workbook();
     await workbook.xlsx.load(templateBuffer);
     
-    // Preservar imágenes existentes (logos del encabezado) - guardar sus posiciones originales
-    // ExcelJS puede distorsionarlas al re-guardar, así que las fijamos con editAs 'absolute'
-    workbook.worksheets.forEach(ws => {
-      if (ws.getImages && ws.getImages().length > 0) {
-        ws.getImages().forEach(img => {
-          if (img.range && img.range.editAs !== 'absolute') {
-            img.range.editAs = 'absolute';
-          }
-        });
-      }
-    });
+    // Cargar logos de encabezado dinámicamente para evitar distorsión de ExcelJS
+    const bufLogo1 = await fetchTemplateBuffer('assets/logo1.png');
+    const idLogo1 = workbook.addImage({ buffer: bufLogo1, extension: 'png' });
+    
+    const bufLogo2 = await fetchTemplateBuffer('assets/logo2.png');
+    const idLogo2 = workbook.addImage({ buffer: bufLogo2, extension: 'png' });
     
     // Limites de fotos
     const slots = [
@@ -174,6 +169,10 @@ async function generarExcelFotografico() {
        
        // Escribir Titulo con fecha en H3
        worksheet.getCell('H3').value = "REGISTRO FOTOGRÁFICO " + dd + "/" + mm + "/" + yyyy;
+       
+       // Inyectar logos dinámicos
+       worksheet.addImage(idLogo1, { tl: { col: 2.99, row: 0.33 }, br: { col: 4.99, row: 2.93 }, editAs: 'absolute' });
+       worksheet.addImage(idLogo2, { tl: { col: 38.99, row: 0.37 }, br: { col: 41.99, row: 2.99 }, editAs: 'absolute' });
        
        // Llenar 4 fotos en esta hoja
        for(let slotIdx = 0; slotIdx < 4; slotIdx++) {
