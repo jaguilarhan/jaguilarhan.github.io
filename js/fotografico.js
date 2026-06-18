@@ -17,6 +17,10 @@ function abrirModalFoto(fecha) {
     agregarFilaFoto();
   }
   
+  // Poblar fecha por defecto con la fecha del cuaderno
+  const fechaInput = document.getElementById('foto-fecha-reporte');
+  if (fechaInput) fechaInput.value = fecha;
+  
   document.getElementById('modal-foto').classList.add('active');
 }
 
@@ -138,6 +142,18 @@ async function generarExcelFotografico() {
     const workbook = new _ExcelJS.Workbook();
     await workbook.xlsx.load(templateBuffer);
     
+    // Preservar imágenes existentes (logos del encabezado) - guardar sus posiciones originales
+    // ExcelJS puede distorsionarlas al re-guardar, así que las fijamos con editAs 'absolute'
+    workbook.worksheets.forEach(ws => {
+      if (ws.getImages && ws.getImages().length > 0) {
+        ws.getImages().forEach(img => {
+          if (img.range && img.range.editAs !== 'absolute') {
+            img.range.editAs = 'absolute';
+          }
+        });
+      }
+    });
+    
     // Limites de fotos
     const slots = [
        { imgTl: { col: 2.2, row: 4.2 }, imgBr: { col: 21.8, row: 37.8 }, txtCell: 'C39' }, 
@@ -149,11 +165,14 @@ async function generarExcelFotografico() {
     const maxHojas = workbook.worksheets.length;
     let fotosProcesadas = 0;
     
+    // Leer fecha del input del modal (permite al usuario cambiarla)
+    const fechaReporte = document.getElementById('foto-fecha-reporte')?.value || currentFotoFecha;
+    let [yyyy, mm, dd] = fechaReporte.split('-');
+    
     for(let sheetIdx = 0; sheetIdx < maxHojas; sheetIdx++) {
        const worksheet = workbook.worksheets[sheetIdx];
        
        // Escribir Titulo con fecha en H3
-       let [yyyy, mm, dd] = currentFotoFecha.split('-');
        worksheet.getCell('H3').value = "REGISTRO FOTOGRÁFICO " + dd + "/" + mm + "/" + yyyy;
        
        // Llenar 4 fotos en esta hoja
@@ -197,8 +216,7 @@ async function generarExcelFotografico() {
     const buffer = await workbook.xlsx.writeBuffer();
     const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
     
-    let [y, m, d] = currentFotoFecha.split('-');
-    saveAs(blob, `Registro_Fotografico_${d}-${m}-${y}.xlsx`);
+    saveAs(blob, `Registro_Fotografico_${dd}-${mm}-${yyyy}.xlsx`);
     
     cerrarModalFoto();
     

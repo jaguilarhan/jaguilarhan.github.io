@@ -323,7 +323,11 @@
   <div class="modal-content" style="max-width: 650px; max-height: 90vh; display:flex; flex-direction:column; padding: 20px;">
     <span class="modal-close" onclick="cerrarModalFoto()">✕</span>
     <h2 style="margin-top:0; color:#0d47a1;">📸 Registro Fotográfico</h2>
-    <p style="font-size:10pt; color:#666; margin-bottom:15px; margin-top:5px;">Añade imágenes y selecciona a qué actividad corresponden. Se generará un reporte en Excel. (Max. 12 fotos)</p>
+    <p style="font-size:10pt; color:#666; margin-bottom:10px; margin-top:5px;">Añade imágenes y selecciona a qué actividad corresponden. Se generará un reporte en Excel. (Max. 12 fotos)</p>
+    <div style="margin-bottom:12px; display:flex; align-items:center; gap:10px;">
+      <label style="font-weight:bold; font-size:10pt; color:#333;">📅 Fecha del reporte:</label>
+      <input type="date" id="foto-fecha-reporte" style="padding:5px 10px; border:1px solid #ccc; border-radius:4px; font-size:10pt;"/>
+    </div>
     
     <div id="modal-foto-lista" style="flex:1; overflow-y:auto; padding-right:10px; margin-bottom:15px; border:1px solid #ddd; padding:10px; border-radius:4px; background:#fafafa; min-height:200px;">
       <!-- Las filas de fotos se inyectan dinámicamente -->
