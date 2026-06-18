@@ -170,9 +170,11 @@ async function generarExcelFotografico() {
        // Escribir Titulo con fecha en H3
        worksheet.getCell('H3').value = "REGISTRO FOTOGRÁFICO " + dd + "/" + mm + "/" + yyyy;
        
-       // Inyectar logos dinámicos con ext fijo para forzar la relación de aspecto y evitar distorsión
-       worksheet.addImage(idLogo1, { tl: { col: 2.99, row: 0.33 }, ext: { width: 140, height: 80 }, editAs: 'absolute' });
-       worksheet.addImage(idLogo2, { tl: { col: 38.99, row: 0.37 }, ext: { width: 140, height: 80 }, editAs: 'absolute' });
+       // Inyectar logos dinámicos con medidas exactas en pixeles calculadas a partir de centímetros (1cm = ~37.8px)
+       // Logo 1: 1.42cm x 2.09cm -> 54px x 79px. Celda B1 (col: 1)
+       worksheet.addImage(idLogo1, { tl: { col: 1.2, row: 0.2 }, ext: { width: 54, height: 79 }, editAs: 'absolute' });
+       // Logo 2: 1.99cm x 2.12cm -> 75px x 80px. Celda AL1 (col: 37)
+       worksheet.addImage(idLogo2, { tl: { col: 37.2, row: 0.2 }, ext: { width: 75, height: 80 }, editAs: 'absolute' });
        
        // Llenar 4 fotos en esta hoja
        for(let slotIdx = 0; slotIdx < 4; slotIdx++) {
