@@ -464,7 +464,7 @@ function calcularResumenObreroDesdeAsistencia(fecha){
   ];
 }
 
-function tieneConteoObreroValido(lista){
+gityfunction tieneConteoObreroValido(lista){
   if(!Array.isArray(lista) || !lista.length) return false;
   return lista.some(o => (parseInt(o && o.cant, 10) || 0) > 0);
 }
