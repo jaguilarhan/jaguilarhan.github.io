@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+<title>Control de Equipos</title>
+
+<!-- External libs -->
+<script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+<script src="js/exceljs.min.js"></script>
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyC20KbwElcjYmTauZXKha5k6h1_wHwQr24",
+    authDomain: "proyect3082.firebaseapp.com",
+    databaseURL: "https://proyect3082-default-rtdb.firebaseio.com",
+    projectId: "proyect3082",
+    storageBucket: "proyect3082.firebasestorage.app",
+    messagingSenderId: "788964461190",
+    appId: "1:788964461190:web:cc40ec843d14f6f6769f07"
+  };
+  if(!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
+  const fbDB = firebase.database();
+  const FB_ROOT = 'obra_data';
+
+  function fbLoad(key, defVal) {
+    return fbDB.ref(FB_ROOT + '/' + key).once('value').then(snap => {
+      const value = snap.val();
+      return value != null ? value : defVal;
+    }).catch(() => defVal);
+  }
+</script>
+
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #f2f4f8;
+    color: #1f2937;
+  }
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: linear-gradient(135deg, #e65100, #ff9800);
+    color: #fff;
+    padding: 10px 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+  .toolbar h1 {
+    margin: 0;
+    font-size: 1.1rem;
+    margin-right: auto;
+  }
+  .btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    background: #fff;
+    color: #333;
+  }
+  .btn:hover { background: #eee; }
+  .btn-primary { background: #1565c0; color: #fff; }
+  .btn-primary:hover { background: #0d47a1; }
+  .btn-success { background: #2e7d32; color: #fff; }
+  .btn-success:hover { background: #1b5e20; }
+  .btn-danger { background: #c62828; color: #fff; }
+  .btn-danger:hover { background: #b71c1c; }
+
+  .container {
+    padding: 15px;
+    overflow-x: auto;
+  }
+  .meta-info {
+    background: #fff;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    display: flex;
+    gap: 15px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  .meta-info label {
+    font-size: 0.85rem;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .meta-info input, .meta-info select {
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.9rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    font-size: 0.85rem;
+  }
+  th, td {
+    border: 1px solid #ccc;
+    padding: 6px;
+    text-align: center;
+    vertical-align: middle;
+  }
+  th {
+    background: #e0e0e0;
+    font-weight: bold;
+  }
+  .desc-cell {
+    text-align: left;
+    min-width: 250px;
+  }
+  input[type="text"], input[type="date"], input[type="time"], textarea {
+    width: 100%;
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-family: inherit;
+  }
+  textarea {
+    resize: vertical;
+    min-height: 40px;
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <h1>🚜 Control de Equipos</h1>
+  <button class="btn btn-primary" id="btn-add-row" onclick="agregarFila()">➕ Añadir Fila</button>
+  <button class="btn btn-primary" id="btn-extract-all" onclick="extraerActividades()">🔄 Extraer Actividades</button>
+  <button class="btn btn-success" id="btn-generate-excel" onclick="generarExcel()">⬇️ Generar Excel</button>
+</div>
+
+<div class="container">
+  <div class="meta-info">
+    <label>Mes:
+      <select id="mes-reporte">
+        <option value="Enero">Enero</option>
+        <option value="Febrero">Febrero</option>
+        <option value="Marzo">Marzo</option>
+        <option value="Abril">Abril</option>
+        <option value="Mayo">Mayo</option>
+        <option value="Junio">Junio</option>
+        <option value="Julio">Julio</option>
+        <option value="Agosto">Agosto</option>
+        <option value="Septiembre">Septiembre</option>
+        <option value="Octubre">Octubre</option>
+        <option value="Noviembre">Noviembre</option>
+        <option value="Diciembre">Diciembre</option>
+      </select>
+    </label>
+    <label>Año:
+      <input type="number" id="anio-reporte" value="2026" style="width: 80px;" />
+    </label>
+    <label>Equipo:
+      <input type="text" id="nombre-equipo" value="ALQUILER DE EQUIPOS DE TOPOGRAFIA DIVERSOS - ESTACION TOTAL" style="width: 400px;" />
+    </label>
+    <label>O/S N°:
+      <input type="text" id="os-equipo" value="0000948" style="width: 100px;" />
+    </label>
+  </div>
+
+  <table id="table-equipos">
+    <thead>
+      <tr>
+        <th rowspan="2" style="width: 40px;">N°</th>
+        <th rowspan="2" style="width: 80px;">Mes</th>
+        <th rowspan="2" style="width: 120px;">Fecha</th>
+        <th rowspan="2" style="width: 100px;">Día</th>
+        <th colspan="3">MAÑANA</th>
+        <th colspan="3">TARDE</th>
+        <th rowspan="2" style="width: 80px;">Total Horas Maquina</th>
+        <th rowspan="2" style="width: 80px;">Combustible</th>
+        <th rowspan="2">Descripción de Actividades</th>
+        <th rowspan="2" style="width: 40px;">X</th>
+      </tr>
+      <tr>
+        <th style="width: 80px;">Inicio</th>
+        <th style="width: 80px;">Fin</th>
+        <th style="width: 80px;">Cantidad</th>
+        <th style="width: 80px;">Inicio</th>
+        <th style="width: 80px;">Fin</th>
+        <th style="width: 80px;">Cantidad</th>
+      </tr>
+    </thead>
+    <tbody id="tbody-equipos">
+      <!-- Rows will be injected here -->
+    </tbody>
+    <tfoot>
+      <tr style="background: #f5f5f5; font-weight: bold;">
+        <td colspan="4" style="text-align: right;">TOTAL HORAS MAÑANA</td>
+        <td colspan="3"><input type="text" id="tot-manana" style="font-weight:bold;text-align:center" /></td>
+        <td colspan="2" style="text-align: right;">TOTAL HORAS TARDE</td>
+        <td><input type="text" id="tot-tarde" style="font-weight:bold;text-align:center" /></td>
+        <td colspan="3"></td>
+      </tr>
+      <tr style="background: #e0e0e0; font-weight: bold;">
+        <td colspan="9" style="text-align: right;">TOTAL HORAS</td>
+        <td><input type="text" id="tot-general" style="font-weight:bold;text-align:center" /></td>
+        <td><input type="text" id="tot-combustible" style="font-weight:bold;text-align:center" /> GAL</td>
+        <td colspan="2"></td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+
+<script src="js/equipos.js"></script>
+</body>
+</html>
