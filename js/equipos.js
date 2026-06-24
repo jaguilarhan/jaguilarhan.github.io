@@ -2,6 +2,14 @@
 
 let globalActividades = [];
 
+// Opciones de tiempo para selects
+const optManana = ['', '07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00'];
+const optTarde = ['', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00'];
+
+function buildOptions(arr, selectedValue = '') {
+  return arr.map(v => `<option value="${v}" ${v === selectedValue ? 'selected' : ''}>${v}</option>`).join('');
+}
+
 // Load Firebase Data on start
 document.addEventListener('DOMContentLoaded', () => {
   fbLoad('actividades', []).then(data => {
@@ -56,28 +64,43 @@ function calcGlobales() {
   document.getElementById('tot-combustible').value = tComb > 0 ? tComb.toFixed(2) : '';
 }
 
-function agregarFila() {
+function agregarFila(data = null) {
   const tbody = document.getElementById('tbody-equipos');
   const idx = tbody.children.length + 1;
   const tr = document.createElement('tr');
   
+  // Extraer valores si viene data (para la carga de Firebase)
+  const mes = data && data.mes ? data.mes : '';
+  const fecha = data && data.fecha ? data.fecha : '';
+  const dia = data && data.dia ? data.dia : '';
+  const mIni = data && data.mIni ? data.mIni : '';
+  const mFin = data && data.mFin ? data.mFin : '';
+  const mCant = data && data.mCant ? data.mCant : '';
+  const tIni = data && data.tIni ? data.tIni : '';
+  const tFin = data && data.tFin ? data.tFin : '';
+  const tCant = data && data.tCant ? data.tCant : '';
+  const tot = data && data.tot ? data.tot : '';
+  const comb = data && data.comb ? data.comb : '';
+  const desc = data && data.desc ? data.desc : '';
+
   tr.innerHTML = `
     <td>${idx}</td>
-    <td><input type="text" class="inp-mes" /></td>
-    <td><input type="date" class="inp-fecha" onchange="actualizarDia(this)" /></td>
-    <td><input type="text" class="inp-dia" readonly /></td>
-    <td><input type="time" class="inp-m-ini" min="07:00" max="12:00" step="1800" onchange="calcRow(this)" /></td>
-    <td><input type="time" class="inp-m-fin" min="07:00" max="12:00" step="1800" onchange="calcRow(this)" /></td>
-    <td><input type="text" class="inp-m-cant" readonly placeholder="0.00" /></td>
-    <td><input type="time" class="inp-t-ini" min="12:00" max="18:00" step="1800" onchange="calcRow(this)" /></td>
-    <td><input type="time" class="inp-t-fin" min="12:00" max="18:00" step="1800" onchange="calcRow(this)" /></td>
-    <td><input type="text" class="inp-t-cant" readonly placeholder="0.00" /></td>
-    <td><input type="text" class="inp-tot" readonly placeholder="0.00" /></td>
-    <td><input type="number" class="inp-comb" step="0.01" onchange="calcGlobales()" /></td>
-    <td><textarea class="inp-desc"></textarea></td>
+    <td><input type="text" class="inp-mes" value="${mes}" /></td>
+    <td><input type="date" class="inp-fecha" value="${fecha}" onchange="actualizarDia(this)" /></td>
+    <td><input type="text" class="inp-dia" value="${dia}" readonly /></td>
+    <td><select class="inp-m-ini" onchange="calcRow(this)">${buildOptions(optManana, mIni)}</select></td>
+    <td><select class="inp-m-fin" onchange="calcRow(this)">${buildOptions(optManana, mFin)}</select></td>
+    <td><input type="text" class="inp-m-cant" value="${mCant}" readonly placeholder="0.00" /></td>
+    <td><select class="inp-t-ini" onchange="calcRow(this)">${buildOptions(optTarde, tIni)}</select></td>
+    <td><select class="inp-t-fin" onchange="calcRow(this)">${buildOptions(optTarde, tFin)}</select></td>
+    <td><input type="text" class="inp-t-cant" value="${tCant}" readonly placeholder="0.00" /></td>
+    <td><input type="text" class="inp-tot" value="${tot}" readonly placeholder="0.00" /></td>
+    <td><input type="number" class="inp-comb" value="${comb}" step="0.01" onchange="calcGlobales()" /></td>
+    <td><textarea class="inp-desc">${desc}</textarea></td>
     <td><button class="btn btn-danger" onclick="this.closest('tr').remove(); calcGlobales();">X</button></td>
   `;
   tbody.appendChild(tr);
+  calcGlobales(); // Actualizar totales por si es una carga masiva
 }
 
 function actualizarDia(inputFecha) {
@@ -127,6 +150,77 @@ function extraerActividades() {
   }
 }
 
+// ============== GUARDAR Y CARGAR DESDE FIREBASE ==============
+
+function getDbKey() {
+  const mes = document.getElementById('mes-reporte').value;
+  const anio = document.getElementById('anio-reporte').value;
+  return `equipos_data/TOPOGRAFIA_${mes}_${anio}`;
+}
+
+function guardarControl() {
+  const rows = document.querySelectorAll('#tbody-equipos tr');
+  const dataToSave = [];
+  
+  rows.forEach(tr => {
+    dataToSave.push({
+      mes: tr.querySelector('.inp-mes').value,
+      fecha: tr.querySelector('.inp-fecha').value,
+      dia: tr.querySelector('.inp-dia').value,
+      mIni: tr.querySelector('.inp-m-ini').value,
+      mFin: tr.querySelector('.inp-m-fin').value,
+      mCant: tr.querySelector('.inp-m-cant').value,
+      tIni: tr.querySelector('.inp-t-ini').value,
+      tFin: tr.querySelector('.inp-t-fin').value,
+      tCant: tr.querySelector('.inp-t-cant').value,
+      tot: tr.querySelector('.inp-tot').value,
+      comb: tr.querySelector('.inp-comb').value,
+      desc: tr.querySelector('.inp-desc').value,
+    });
+  });
+
+  const metadata = {
+    nombre_equipo: document.getElementById('nombre-equipo').value,
+    os_equipo: document.getElementById('os-equipo').value
+  };
+
+  const payload = { rows: dataToSave, meta: metadata };
+
+  if (typeof fbSave === 'function') {
+    fbSave(getDbKey(), payload).then(() => {
+      Swal.fire('Guardado', 'El control de este mes se guardó correctamente en la nube.', 'success');
+    }).catch(e => {
+      console.error(e);
+      Swal.fire('Error', 'Hubo un problema al guardar', 'error');
+    });
+  } else {
+    Swal.fire('Atención', 'No se ha cargado la base de datos', 'warning');
+  }
+}
+
+function cargarControl() {
+  if (typeof fbLoad === 'function') {
+    fbLoad(getDbKey(), null).then(data => {
+      if (data) {
+        document.getElementById('tbody-equipos').innerHTML = ''; // Limpiar filas actuales
+        if(data.meta) {
+          document.getElementById('nombre-equipo').value = data.meta.nombre_equipo || '';
+          document.getElementById('os-equipo').value = data.meta.os_equipo || '';
+        }
+        if(data.rows && Array.isArray(data.rows)) {
+          data.rows.forEach(r => agregarFila(r));
+        }
+        calcGlobales();
+        Swal.fire('Cargado', 'Se cargaron los datos guardados para este mes.', 'success');
+      } else {
+        Swal.fire('Aviso', 'No hay datos guardados para este mes y año.', 'info');
+      }
+    });
+  }
+}
+
+// ============== GENERACION EXCEL ==============
+
 async function generarExcel() {
   const ExcelJSLib = (typeof ExcelJS !== 'undefined') ? ExcelJS : window.ExcelJS;
   if (!ExcelJSLib) {
@@ -137,24 +231,27 @@ async function generarExcel() {
   const workbook = new ExcelJSLib.Workbook();
   const worksheet = workbook.addWorksheet('Control Equipos');
   
-  // Fuente base
+  // Fuente base (todo el documento)
   const fontGlobal = { name: 'Swis721 Cn BT', size: 11 };
+  const fontTabla = { name: 'Swis721 Cn BT', size: 9 };
+  const fontTablaBold = { name: 'Swis721 Cn BT', size: 9, bold: true };
   
   // ================= CONFIGURAR ANCHOS DE COLUMNAS =================
+  // Desde B hasta L ancho 8, A ancho 5, M ancho 80
   worksheet.columns = [
     { width: 5 },   // A - Parte N°
-    { width: 12 },  // B - Mes
-    { width: 12 },  // C - Fecha
-    { width: 12 },  // D - Dia
-    { width: 10 },  // E - M Inicio
-    { width: 10 },  // F - M Fin
-    { width: 10 },  // G - M Cantidad
-    { width: 10 },  // H - T Inicio
-    { width: 10 },  // I - T Fin
-    { width: 10 },  // J - T Cantidad
-    { width: 12 },  // K - Total Horas
-    { width: 15 },  // L - Combustible
-    { width: 50 },  // M - Descripcion
+    { width: 8 },   // B - Mes
+    { width: 8 },   // C - Fecha
+    { width: 8 },   // D - Dia
+    { width: 8 },   // E - M Inicio
+    { width: 8 },   // F - M Fin
+    { width: 8 },   // G - M Cantidad
+    { width: 8 },   // H - T Inicio
+    { width: 8 },   // I - T Fin
+    { width: 8 },   // J - T Cantidad
+    { width: 8 },   // K - Total Horas
+    { width: 8 },   // L - Combustible
+    { width: 80 },  // M - Descripcion
   ];
   
   // ================= INSERTAR LOGOS =================
@@ -172,7 +269,7 @@ async function generarExcel() {
       // Logo1 en B1
       worksheet.addImage(idLogo1, { tl: { col: 1, row: 0 }, ext: { width: 54, height: 79 }, editAs: 'absolute' });
       
-      // Logo2 en K1 (approx)
+      // Logo2 en K1 (aprox, como L es mas chica, probamos K/L)
       worksheet.addImage(idLogo2, { tl: { col: 10, row: 0 }, ext: { width: 75, height: 80 }, editAs: 'absolute' });
     }
   } catch (e) {
@@ -233,7 +330,7 @@ async function generarExcel() {
   
   // ================= CABECERAS DE TABLA =================
   const headerStyle = {
-    font: { name: 'Swis721 Cn BT', size: 11, bold: true },
+    font: fontTablaBold,
     alignment: { horizontal: 'center', vertical: 'middle', wrapText: true },
     border: {
       top: {style:'thin'}, left: {style:'thin'}, bottom: {style:'thin'}, right: {style:'thin'}
@@ -268,7 +365,7 @@ async function generarExcel() {
   let currentRow = 13;
   
   const cellStyle = {
-    font: fontGlobal,
+    font: fontTabla,
     alignment: { horizontal: 'center', vertical: 'middle', wrapText: true },
     border: { top: {style:'thin'}, left: {style:'thin'}, bottom: {style:'thin'}, right: {style:'thin'} }
   };
@@ -294,14 +391,19 @@ async function generarExcel() {
     worksheet.getCell(`J${currentRow}`).value = tr.querySelector('.inp-t-cant').value;
     worksheet.getCell(`K${currentRow}`).value = tr.querySelector('.inp-tot').value;
     worksheet.getCell(`L${currentRow}`).value = tr.querySelector('.inp-comb').value;
-    worksheet.getCell(`M${currentRow}`).value = tr.querySelector('.inp-desc').value;
+    
+    let descText = tr.querySelector('.inp-desc').value;
+    worksheet.getCell(`M${currentRow}`).value = descText;
     
     for(let c=1; c<=12; c++) {
       Object.assign(worksheet.getCell(`${worksheet.getColumn(c).letter}${currentRow}`), cellStyle);
     }
     Object.assign(worksheet.getCell(`M${currentRow}`), leftStyle);
     
-    worksheet.getRow(currentRow).height = 45; // Mayor altura para descripciones largas
+    // Calculo manual de altura de fila para acomodar las viñetas (15 pt por linea aprox + 10 margen)
+    let lineCount = (descText.match(/\n/g) || []).length + 1;
+    let autoHeight = Math.max(30, (lineCount * 15) + 10);
+    worksheet.getRow(currentRow).height = autoHeight; 
     
     currentRow++;
   });
