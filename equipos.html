@@ -36,6 +36,10 @@
       return value != null ? value : defVal;
     }).catch(() => defVal);
   }
+
+  function fbSave(key, data) {
+    return fbDB.ref(FB_ROOT + '/' + key).set(data);
+  }
 </script>
 
 <style>
