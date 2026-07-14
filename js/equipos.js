@@ -270,11 +270,11 @@ function extraerActividades() {
       const coincideConExclusiones = exclusionesRegex.test(elem);
       
       if (tipo === 'MIXER') {
-        // Mixer solo incluye las exclusiones de Mezcladora/Vibradora
+        // Mixer solo incluye columnas/placas/losas/escaleras
         return tieneVaciado && coincideConExclusiones;
       } else {
-        // Mezcladora y Vibradora excluyen columnas/placas/losas/escaleras
-        return tieneVaciado && !coincideConExclusiones;
+        // Mezcladora y Vibradora incluyen TODOS los vaciados sin excepciones
+        return tieneVaciado;
       }
     });
     
