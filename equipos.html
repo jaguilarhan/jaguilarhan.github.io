@@ -159,8 +159,15 @@
 
 <div class="container">
   <div class="meta-info">
+    <label>Tipo de Equipo:
+      <select id="tipo-equipo" onchange="cambiarTipoEquipo()">
+        <option value="TOPOGRAFIA">Topografía</option>
+        <option value="MEZCLADORA">Mezcladora</option>
+        <option value="VIBRADORA">Vibradora</option>
+      </select>
+    </label>
     <label>Mes:
-      <select id="mes-reporte">
+      <select id="mes-reporte" onchange="cargarControl()">
         <option value="Enero">Enero</option>
         <option value="Febrero">Febrero</option>
         <option value="Marzo">Marzo</option>
@@ -176,10 +183,10 @@
       </select>
     </label>
     <label>Año:
-      <input type="number" id="anio-reporte" value="2026" style="width: 80px;" />
+      <input type="number" id="anio-reporte" value="2026" style="width: 80px;" onchange="cargarControl()" />
     </label>
-    <label>Equipo:
-      <input type="text" id="nombre-equipo" value="ALQUILER DE EQUIPOS DE TOPOGRAFIA DIVERSOS - ESTACION TOTAL" style="width: 400px;" />
+    <label>Nombre a mostrar en Reporte:
+      <input type="text" id="nombre-equipo" value="ALQUILER DE EQUIPOS DE TOPOGRAFIA DIVERSOS - ESTACION TOTAL" style="width: 300px;" />
     </label>
     <label>O/S N°:
       <input type="text" id="os-equipo" value="0000948" style="width: 100px;" />

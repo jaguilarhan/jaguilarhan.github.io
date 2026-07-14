@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
   fbLoad('actividades', []).then(data => {
     globalActividades = Array.isArray(data) ? data : Object.values(data || {});
   });
+  
+  // Cargar datos por defecto al iniciar (Topografia)
+  setTimeout(() => cargarControl(), 500);
 });
 
 function timeDiff(start, end) {
@@ -70,9 +73,17 @@ function agregarFila(data = null) {
   const tr = document.createElement('tr');
   
   // Extraer valores si viene data (para la carga de Firebase)
-  const mes = data && data.mes ? data.mes : '';
+  const mes = data && data.mes ? data.mes : document.getElementById('mes-reporte').value;
   const fecha = data && data.fecha ? data.fecha : '';
-  const dia = data && data.dia ? data.dia : '';
+  
+  let diaStr = '';
+  if (fecha) {
+    const d = new Date(fecha + 'T00:00:00');
+    const dias = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+    diaStr = dias[d.getDay()];
+  }
+  
+  const dia = data && data.dia ? data.dia : diaStr;
   const mIni = data && data.mIni ? data.mIni : '';
   const mFin = data && data.mFin ? data.mFin : '';
   const mCant = data && data.mCant ? data.mCant : '';
@@ -84,7 +95,7 @@ function agregarFila(data = null) {
   const desc = data && data.desc ? data.desc : '';
 
   tr.innerHTML = `
-    <td>${idx}</td>
+    <td><span class="row-idx">${idx}</span></td>
     <td><input type="text" class="inp-mes" value="${mes}" /></td>
     <td><input type="date" class="inp-fecha" value="${fecha}" onchange="actualizarDia(this)" /></td>
     <td><input type="text" class="inp-dia" value="${dia}" readonly /></td>
@@ -97,10 +108,24 @@ function agregarFila(data = null) {
     <td><input type="text" class="inp-tot" value="${tot}" readonly placeholder="0.00" /></td>
     <td><input type="number" class="inp-comb" value="${comb}" step="0.01" onchange="calcGlobales()" /></td>
     <td><textarea class="inp-desc">${desc}</textarea></td>
-    <td><button class="btn btn-danger" onclick="this.closest('tr').remove(); calcGlobales();">X</button></td>
+    <td><button class="btn btn-danger" onclick="removerFila(this)">X</button></td>
   `;
   tbody.appendChild(tr);
-  calcGlobales(); // Actualizar totales por si es una carga masiva
+  calcGlobales(); // Actualizar totales
+  return tr;
+}
+
+function removerFila(btn) {
+  const tr = btn.closest('tr');
+  tr.remove();
+  
+  // Re-enumerar
+  const rows = document.querySelectorAll('#tbody-equipos tr');
+  rows.forEach((row, i) => {
+    row.querySelector('.row-idx').textContent = i + 1;
+  });
+  
+  calcGlobales();
 }
 
 function actualizarDia(inputFecha) {
@@ -113,49 +138,171 @@ function actualizarDia(inputFecha) {
   tr.querySelector('.inp-dia').value = dias[d.getDay()];
 }
 
+function cambiarTipoEquipo() {
+  const tipo = document.getElementById('tipo-equipo').value;
+  const nombreInput = document.getElementById('nombre-equipo');
+  
+  if (tipo === 'TOPOGRAFIA') {
+    nombreInput.value = "ALQUILER DE EQUIPOS DE TOPOGRAFIA DIVERSOS - ESTACION TOTAL";
+  } else if (tipo === 'MEZCLADORA') {
+    nombreInput.value = "ALQUILER DE MEZCLADORA";
+  } else if (tipo === 'VIBRADORA') {
+    nombreInput.value = "ALQUILER DE VIBRADORA";
+  }
+  
+  // Limpiar tabla e intentar cargar datos
+  document.getElementById('tbody-equipos').innerHTML = '';
+  calcGlobales();
+  cargarControl();
+}
+
+function parseMonth(mesStr) {
+  const map = {
+    'enero': 1, 'febrero': 2, 'marzo': 3, 'abril': 4, 'mayo': 5, 'junio': 6,
+    'julio': 7, 'agosto': 8, 'septiembre': 9, 'octubre': 10, 'noviembre': 11, 'diciembre': 12
+  };
+  return map[mesStr.toLowerCase()] || 0;
+}
+
 function extraerActividades() {
-  const tbody = document.getElementById('tbody-equipos');
-  const rows = tbody.querySelectorAll('tr');
+  const tipo = document.getElementById('tipo-equipo').value;
+  const mesReporte = document.getElementById('mes-reporte').value;
+  const anioReporte = document.getElementById('anio-reporte').value;
+  const mesNum = parseMonth(mesReporte);
   
   let extracciones = 0;
+  const tbody = document.getElementById('tbody-equipos');
   
-  rows.forEach(tr => {
-    const fecha = tr.querySelector('.inp-fecha').value;
-    if (fecha) {
-      const vinculadas = globalActividades.filter(a => a.fecha === fecha && a.partida && a.partida.codigo === '11.01.01');
-      
-      if (vinculadas.length > 0) {
-        const lineas = vinculadas.map(a => {
-          let elem = a.elemento ? a.elemento.trim() : '';
-          let conector = " PARA ";
-          if (elem.match(/^(PARA|DEL|AL|A LA|DE|EN)\b/i)) {
-            conector = " ";
-          }
-          let ejeStr = (a.ejes && a.ejes.trim() !== '' && a.ejes.toUpperCase() !== 'NO HAY EJE') ? ` EN LOS EJES ${a.ejes}` : '';
-          let nivelStr = a.nivel ? ` EN EL ${a.nivel}` : '';
-          
-          return `• ${a.descripcion}${elem ? conector + elem : ''}${ejeStr}${nivelStr}`;
-        });
+  if (tipo === 'TOPOGRAFIA') {
+    // Lógica antigua: Extrae solo para las filas ya creadas manualmente
+    const rows = tbody.querySelectorAll('tr');
+    rows.forEach(tr => {
+      const fecha = tr.querySelector('.inp-fecha').value;
+      if (fecha) {
+        const vinculadas = globalActividades.filter(a => a.fecha === fecha && a.partida && a.partida.codigo === '11.01.01');
         
-        tr.querySelector('.inp-desc').value = lineas.join('\n');
-        extracciones++;
+        if (vinculadas.length > 0) {
+          const lineas = vinculadas.map(a => formatearActividad(a));
+          tr.querySelector('.inp-desc').value = lineas.join('\n');
+          extracciones++;
+        }
       }
+    });
+    
+    if (extracciones > 0) {
+      Swal.fire('Éxito', `Se extrajeron actividades topográficas para ${extracciones} filas.`, 'success');
+    } else {
+      Swal.fire('Aviso', 'No se encontraron actividades topográficas para las fechas ingresadas.', 'info');
     }
+    
+  } else {
+    // Lógica para MEZCLADORA / VIBRADORA
+    // Escanear todas las actividades del mes y generar filas si hubo "VACIADO" (sin placas/columnas)
+    
+    // Filtrar actividades del mes/año
+    const actsMes = globalActividades.filter(a => {
+      if (!a.fecha) return false;
+      let [y, m, d] = a.fecha.split('-');
+      return (parseInt(y) === parseInt(anioReporte) && parseInt(m) === mesNum);
+    });
+    
+    // Filtrar por VACIADO excluyendo COLUMNA/PLACA
+    const actsFiltradas = actsMes.filter(a => {
+      const desc = (a.descripcion || '').toLowerCase();
+      const pNombre = (a.partida && a.partida.nombre) ? a.partida.nombre.toLowerCase() : '';
+      const elem = (a.elemento || '').toLowerCase();
+      
+      const tieneVaciado = desc.includes('vaciado') || pNombre.includes('vaciado');
+      const esColumnaOPlaca = elem.includes('columna') || elem.includes('placa');
+      
+      return tieneVaciado && !esColumnaOPlaca;
+    });
+    
+    if (actsFiltradas.length === 0) {
+      Swal.fire('Aviso', `No se encontraron actividades de vaciado (excluyendo columnas/placas) en ${mesReporte} ${anioReporte}.`, 'info');
+      return;
+    }
+    
+    // Agrupar por fecha
+    const porFecha = {};
+    actsFiltradas.forEach(a => {
+      if(!porFecha[a.fecha]) porFecha[a.fecha] = [];
+      porFecha[a.fecha].push(a);
+    });
+    
+    // Ordenar fechas
+    const fechasSorted = Object.keys(porFecha).sort();
+    
+    fechasSorted.forEach(fecha => {
+      // Buscar si ya existe la fila con esta fecha
+      let trExistente = null;
+      const rows = tbody.querySelectorAll('tr');
+      rows.forEach(tr => {
+        if (tr.querySelector('.inp-fecha').value === fecha) {
+          trExistente = tr;
+        }
+      });
+      
+      const lineas = porFecha[fecha].map(a => formatearActividad(a));
+      const descFinal = lineas.join('\n');
+      
+      if (trExistente) {
+        // Solo actualizamos la descripción
+        trExistente.querySelector('.inp-desc').value = descFinal;
+      } else {
+        // Creamos fila nueva respetando el orden
+        const tr = agregarFila({ fecha: fecha });
+        tr.querySelector('.inp-desc').value = descFinal;
+      }
+      extracciones++;
+    });
+    
+    // Ordenar filas de la tabla por fecha
+    ordenarFilasPorFecha();
+    
+    Swal.fire('Éxito', `Se extrajeron actividades y se actualizaron/crearon ${extracciones} fechas en la tabla.`, 'success');
+  }
+}
+
+function ordenarFilasPorFecha() {
+  const tbody = document.getElementById('tbody-equipos');
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+  
+  rows.sort((a, b) => {
+    const fA = a.querySelector('.inp-fecha').value;
+    const fB = b.querySelector('.inp-fecha').value;
+    if (!fA && fB) return 1;
+    if (fA && !fB) return -1;
+    if (fA < fB) return -1;
+    if (fA > fB) return 1;
+    return 0;
   });
   
-  if (extracciones > 0) {
-    Swal.fire('Éxito', `Se extrajeron actividades para ${extracciones} filas.`, 'success');
-  } else {
-    Swal.fire('Aviso', 'No se encontraron actividades topográficas para las fechas ingresadas.', 'info');
+  rows.forEach((tr, i) => {
+    tr.querySelector('.row-idx').textContent = i + 1;
+    tbody.appendChild(tr);
+  });
+}
+
+function formatearActividad(a) {
+  let elem = a.elemento ? a.elemento.trim() : '';
+  let conector = " PARA ";
+  if (elem.match(/^(PARA|DEL|AL|A LA|DE|EN)\b/i)) {
+    conector = " ";
   }
+  let ejeStr = (a.ejes && a.ejes.trim() !== '' && a.ejes.toUpperCase() !== 'NO HAY EJE') ? ` EN LOS EJES ${a.ejes}` : '';
+  let nivelStr = a.nivel ? ` EN EL ${a.nivel}` : '';
+  
+  return `• ${a.descripcion}${elem ? conector + elem : ''}${ejeStr}${nivelStr}`;
 }
 
 // ============== GUARDAR Y CARGAR DESDE FIREBASE ==============
 
 function getDbKey() {
+  const tipo = document.getElementById('tipo-equipo').value; // TOPOGRAFIA, MEZCLADORA, VIBRADORA
   const mes = document.getElementById('mes-reporte').value;
   const anio = document.getElementById('anio-reporte').value;
-  return `equipos_data/TOPOGRAFIA_${mes}_${anio}`;
+  return `equipos_data/${tipo}_${mes}_${anio}`;
 }
 
 function guardarControl() {
@@ -188,7 +335,7 @@ function guardarControl() {
 
   if (typeof fbSave === 'function') {
     fbSave(getDbKey(), payload).then(() => {
-      Swal.fire('Guardado', 'El control de este mes se guardó correctamente en la nube.', 'success');
+      Swal.fire('Guardado', 'El control de este equipo y mes se guardó correctamente en la nube.', 'success');
     }).catch(e => {
       console.error(e);
       Swal.fire('Error', 'Hubo un problema al guardar', 'error');
@@ -201,8 +348,8 @@ function guardarControl() {
 function cargarControl() {
   if (typeof fbLoad === 'function') {
     fbLoad(getDbKey(), null).then(data => {
+      document.getElementById('tbody-equipos').innerHTML = ''; // Limpiar filas actuales
       if (data) {
-        document.getElementById('tbody-equipos').innerHTML = ''; // Limpiar filas actuales
         if(data.meta) {
           document.getElementById('nombre-equipo').value = data.meta.nombre_equipo || '';
           document.getElementById('os-equipo').value = data.meta.os_equipo || '';
@@ -211,9 +358,6 @@ function cargarControl() {
           data.rows.forEach(r => agregarFila(r));
         }
         calcGlobales();
-        Swal.fire('Cargado', 'Se cargaron los datos guardados para este mes.', 'success');
-      } else {
-        Swal.fire('Aviso', 'No hay datos guardados para este mes y año.', 'info');
       }
     });
   }
@@ -269,7 +413,7 @@ async function generarExcel() {
       // Logo1 en B1
       worksheet.addImage(idLogo1, { tl: { col: 1, row: 0 }, ext: { width: 54, height: 79 }, editAs: 'absolute' });
       
-      // Logo2 en K1 (aprox, como L es mas chica, probamos K/L)
+      // Logo2 en K1 (aprox)
       worksheet.addImage(idLogo2, { tl: { col: 10, row: 0 }, ext: { width: 75, height: 80 }, editAs: 'absolute' });
     }
   } catch (e) {
@@ -277,6 +421,7 @@ async function generarExcel() {
   }
   
   // ================= ENCABEZADO PRINCIPAL =================
+  const tipoEquipo = document.getElementById('tipo-equipo').value;
   const mesReporte = document.getElementById('mes-reporte').value;
   const anioReporte = document.getElementById('anio-reporte').value;
   const equipoNombre = document.getElementById('nombre-equipo').value;
@@ -443,5 +588,5 @@ async function generarExcel() {
   // Guardar Archivo
   const buffer = await workbook.xlsx.writeBuffer();
   const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-  saveAs(blob, `Control_Equipos_${mesReporte}_${anioReporte}.xlsx`);
+  saveAs(blob, `Control_Equipos_${tipoEquipo}_${mesReporte}_${anioReporte}.xlsx`);
 }
