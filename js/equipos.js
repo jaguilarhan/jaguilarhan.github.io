@@ -1,6 +1,7 @@
 // js/equipos.js
 
 let globalActividades = [];
+let globalActividadesManuales = {};
 
 // Opciones de tiempo para selects
 const optManana = ['', '07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00'];
@@ -14,6 +15,10 @@ function buildOptions(arr, selectedValue = '') {
 document.addEventListener('DOMContentLoaded', () => {
   fbLoad('actividades', []).then(data => {
     globalActividades = Array.isArray(data) ? data : Object.values(data || {});
+  });
+  
+  fbLoad('actividades_manuales', {}).then(data => {
+    globalActividadesManuales = data || {};
   });
   
   // Cargar datos por defecto al iniciar (Topografia)
@@ -148,6 +153,10 @@ function cambiarTipoEquipo() {
     nombreInput.value = "ALQUILER DE MEZCLADORA";
   } else if (tipo === 'VIBRADORA') {
     nombreInput.value = "ALQUILER DE VIBRADORA";
+  } else if (tipo === 'APISONADOR') {
+    nombreInput.value = "ALQUILER DE APISONADOR";
+  } else if (tipo === 'MIXER') {
+    nombreInput.value = "ALQUILER DE MIXER";
   }
   
   // Limpiar tabla e intentar cargar datos
@@ -195,46 +204,94 @@ function extraerActividades() {
       Swal.fire('Aviso', 'No se encontraron actividades topográficas para las fechas ingresadas.', 'info');
     }
     
-  } else {
-    // Lógica para MEZCLADORA / VIBRADORA
-    // Escanear todas las actividades del mes y generar filas si hubo "VACIADO" (sin placas/columnas)
+  } else if (tipo === 'APISONADOR') {
+    // Lógica Apisonador (usando actividades_manuales de cuaderno)
+    const porFecha = {};
+    for (const fecha in globalActividadesManuales) {
+      let [y, m, d] = fecha.split('-');
+      if (parseInt(y) === parseInt(anioReporte) && parseInt(m) === mesNum) {
+        const actividadesDelDia = globalActividadesManuales[fecha] || [];
+        const filtradas = actividadesDelDia.filter(actTexto => {
+          const txt = actTexto.toLowerCase();
+          return txt.includes('compactacion') || txt.includes('compactación') || txt.includes('compactado');
+        });
+        if (filtradas.length > 0) {
+          porFecha[fecha] = filtradas;
+        }
+      }
+    }
     
-    // Filtrar actividades del mes/año
+    const fechasSorted = Object.keys(porFecha).sort();
+    if (fechasSorted.length === 0) {
+      Swal.fire('Aviso', `No se encontraron actividades de compactación en el Cuaderno para ${mesReporte} ${anioReporte}.`, 'info');
+      return;
+    }
+    
+    fechasSorted.forEach(fecha => {
+      let trExistente = null;
+      const rows = tbody.querySelectorAll('tr');
+      rows.forEach(tr => {
+        if (tr.querySelector('.inp-fecha').value === fecha) {
+          trExistente = tr;
+        }
+      });
+      
+      const lineas = porFecha[fecha].map(texto => `• ${texto}`);
+      const descFinal = lineas.join('\n');
+      
+      if (trExistente) {
+        trExistente.querySelector('.inp-desc').value = descFinal;
+      } else {
+        const tr = agregarFila({ fecha: fecha });
+        tr.querySelector('.inp-desc').value = descFinal;
+      }
+      extracciones++;
+    });
+    
+    ordenarFilasPorFecha();
+    Swal.fire('Éxito', `Se extrajeron ${extracciones} días con compactación desde el cuaderno.`, 'success');
+    
+  } else {
+    // Lógica para MEZCLADORA / VIBRADORA / MIXER
     const actsMes = globalActividades.filter(a => {
       if (!a.fecha) return false;
       let [y, m, d] = a.fecha.split('-');
       return (parseInt(y) === parseInt(anioReporte) && parseInt(m) === mesNum);
     });
     
-    // Filtrar por VACIADO excluyendo COLUMNA/PLACA
+    const exclusionesRegex = /(columna|placa|losa|macisa|maciza|escalera)/i;
+    
     const actsFiltradas = actsMes.filter(a => {
       const desc = (a.descripcion || '').toLowerCase();
       const pNombre = (a.partida && a.partida.nombre) ? a.partida.nombre.toLowerCase() : '';
-      const elem = (a.elemento || '').toLowerCase();
+      const elem = (a.elemento || '');
       
       const tieneVaciado = desc.includes('vaciado') || pNombre.includes('vaciado');
-      const esColumnaOPlaca = elem.includes('columna') || elem.includes('placa');
+      const coincideConExclusiones = exclusionesRegex.test(elem);
       
-      return tieneVaciado && !esColumnaOPlaca;
+      if (tipo === 'MIXER') {
+        // Mixer solo incluye las exclusiones de Mezcladora/Vibradora
+        return tieneVaciado && coincideConExclusiones;
+      } else {
+        // Mezcladora y Vibradora excluyen columnas/placas/losas/escaleras
+        return tieneVaciado && !coincideConExclusiones;
+      }
     });
     
     if (actsFiltradas.length === 0) {
-      Swal.fire('Aviso', `No se encontraron actividades de vaciado (excluyendo columnas/placas) en ${mesReporte} ${anioReporte}.`, 'info');
+      Swal.fire('Aviso', `No se encontraron actividades de vaciado acordes al filtro en ${mesReporte} ${anioReporte}.`, 'info');
       return;
     }
     
-    // Agrupar por fecha
     const porFecha = {};
     actsFiltradas.forEach(a => {
       if(!porFecha[a.fecha]) porFecha[a.fecha] = [];
       porFecha[a.fecha].push(a);
     });
     
-    // Ordenar fechas
     const fechasSorted = Object.keys(porFecha).sort();
     
     fechasSorted.forEach(fecha => {
-      // Buscar si ya existe la fila con esta fecha
       let trExistente = null;
       const rows = tbody.querySelectorAll('tr');
       rows.forEach(tr => {
@@ -247,19 +304,15 @@ function extraerActividades() {
       const descFinal = lineas.join('\n');
       
       if (trExistente) {
-        // Solo actualizamos la descripción
         trExistente.querySelector('.inp-desc').value = descFinal;
       } else {
-        // Creamos fila nueva respetando el orden
         const tr = agregarFila({ fecha: fecha });
         tr.querySelector('.inp-desc').value = descFinal;
       }
       extracciones++;
     });
     
-    // Ordenar filas de la tabla por fecha
     ordenarFilasPorFecha();
-    
     Swal.fire('Éxito', `Se extrajeron actividades y se actualizaron/crearon ${extracciones} fechas en la tabla.`, 'success');
   }
 }
@@ -299,7 +352,7 @@ function formatearActividad(a) {
 // ============== GUARDAR Y CARGAR DESDE FIREBASE ==============
 
 function getDbKey() {
-  const tipo = document.getElementById('tipo-equipo').value; // TOPOGRAFIA, MEZCLADORA, VIBRADORA
+  const tipo = document.getElementById('tipo-equipo').value; 
   const mes = document.getElementById('mes-reporte').value;
   const anio = document.getElementById('anio-reporte').value;
   return `equipos_data/${tipo}_${mes}_${anio}`;
@@ -410,10 +463,7 @@ async function generarExcel() {
       const idLogo1 = workbook.addImage({ buffer: buf1, extension: 'png' });
       const idLogo2 = workbook.addImage({ buffer: buf2, extension: 'png' });
       
-      // Logo1 en B1
       worksheet.addImage(idLogo1, { tl: { col: 1, row: 0 }, ext: { width: 54, height: 79 }, editAs: 'absolute' });
-      
-      // Logo2 en K1 (aprox)
       worksheet.addImage(idLogo2, { tl: { col: 10, row: 0 }, ext: { width: 75, height: 80 }, editAs: 'absolute' });
     }
   } catch (e) {
@@ -477,9 +527,7 @@ async function generarExcel() {
   const headerStyle = {
     font: fontTablaBold,
     alignment: { horizontal: 'center', vertical: 'middle', wrapText: true },
-    border: {
-      top: {style:'thin'}, left: {style:'thin'}, bottom: {style:'thin'}, right: {style:'thin'}
-    },
+    border: { top: {style:'thin'}, left: {style:'thin'}, bottom: {style:'thin'}, right: {style:'thin'} },
     fill: { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFEEEEEE' } }
   };
   
@@ -520,7 +568,6 @@ async function generarExcel() {
     worksheet.getCell(`A${currentRow}`).value = (index + 1).toString().padStart(2, '0');
     worksheet.getCell(`B${currentRow}`).value = tr.querySelector('.inp-mes').value;
     
-    // Fecha formato dd/mm/yyyy
     let rawFecha = tr.querySelector('.inp-fecha').value;
     if(rawFecha) {
       let [y,m,d] = rawFecha.split('-');
@@ -545,7 +592,6 @@ async function generarExcel() {
     }
     Object.assign(worksheet.getCell(`M${currentRow}`), leftStyle);
     
-    // Calculo manual de altura de fila para acomodar las viñetas (15 pt por linea aprox + 10 margen)
     let lineCount = (descText.match(/\n/g) || []).length + 1;
     let autoHeight = Math.max(30, (lineCount * 15) + 10);
     worksheet.getRow(currentRow).height = autoHeight; 
