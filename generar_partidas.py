@@ -162,107 +162,82 @@ for item in items_raw:
 # Ordenar por código
 partidas.sort(key=lambda p: [int(x) for x in p["codigo"].split(".")])
 
-# ── Leer PARTIDAS NUEVAS del Excel adicional ────────────────────
-EXCEL_NUEVAS = os.path.join(BASE, "DATA PARTIDAS", "PRESUPUESTO - PARTIDAS NUEVAS -W2026-v2.xlsx")
+# ── Leer PARTIDAS NUEVAS del Excel definitivo ────────────────────
+EXCEL_NUEVAS = os.path.join(BASE, "DATA_EXPEDIENTE", "PPTO - PARTIDAS NUEVAS -16M.xlsx")
+if not os.path.exists(EXCEL_NUEVAS):
+    EXCEL_NUEVAS = os.path.join(BASE, "DATA PARTIDAS", "PPTO - PARTIDAS NUEVAS -16M.xlsx")
+
 if os.path.exists(EXCEL_NUEVAS):
-    print("Leyendo partidas nuevas...")
+    print("Leyendo partidas nuevas del presupuesto definitivo...")
     wb2 = openpyxl.load_workbook(EXCEL_NUEVAS, data_only=True)
-    ws2 = wb2['JUSTIFICACION'] if 'JUSTIFICACION' in wb2.sheetnames else None
+    ws2 = wb2['PRESUPUESTO']
 
-    # Si no existe JUSTIFICACION (nuevo formato), usar la hoja que contenga filas tipo "Partida".
-    if ws2 is None:
-        for ws_tmp in wb2.worksheets:
-            if any(str(ws_tmp.cell(r, 1).value).strip().lower() == "partida" for r in range(1, min(ws_tmp.max_row, 500) + 1)):
-                ws2 = ws_tmp
-                break
-        if ws2 is None:
-            ws2 = wb2.active
+    items_nuevas_raw = []
+    for row in range(12, ws2.max_row + 1):
+        c1 = str(ws2.cell(row, 1).value or '').strip()
+        c2 = str(ws2.cell(row, 2).value or '').strip()
+        c4 = str(ws2.cell(row, 4).value or '').strip()
+        c5 = ws2.cell(row, 5).value
 
-    items_nuevas = []
-    nombres_nuevas = {}
-
-    if ws2.title == 'JUSTIFICACION':
-        # Formato antiguo: A=Item, B=Descripcion, F=Metrado
-        for row in range(13, ws2.max_row + 1):
-            cod_raw = ws2.cell(row, 1).value
-            nom_raw = ws2.cell(row, 2).value
-            metrado = ws2.cell(row, 6).value
-
-            if not cod_raw or not nom_raw:
-                continue
-            codigo = str(cod_raw).strip()
-            nombre = str(nom_raw).strip()
-            if not codigo or not nombre or nombre == 'None':
-                continue
-
-            nombres_nuevas[codigo] = nombre
-            items_nuevas.append({
-                "codigo": codigo,
-                "nombre": nombre,
-                "metrado": metrado,
-                "fila": row,
+        if c1 and any(c1.startswith(p) for p in ['11', '12', '13', '14', '15']):
+            items_nuevas_raw.append({
+                'codigo': c1,
+                'nombre': c2,
+                'unidad': c4,
+                'metrado': float(c5) if c5 is not None else None,
+                'is_leaf': bool(c4)
             })
-    else:
-        # Formato nuevo (SP2): A="Partida", B=Código, D=Descripción
-        for row in range(1, ws2.max_row + 1):
-            if str(ws2.cell(row, 1).value).strip().lower() != "partida":
-                continue
 
-            cod_raw = ws2.cell(row, 2).value
-            nom_raw = ws2.cell(row, 4).value
-            metrado = ws2.cell(row, 6).value
-
-            if not cod_raw or not nom_raw:
-                continue
-            codigo = str(cod_raw).strip()
-            nombre = str(nom_raw).strip()
-            if not codigo or not nombre or nombre == 'None':
-                continue
-
-            nombres_nuevas[codigo] = nombre
-            items_nuevas.append({
-                "codigo": codigo,
-                "nombre": nombre,
-                "metrado": metrado,
-                "fila": row,
-            })
+    titles_nuevas = {it['codigo']: it['nombre'] for it in items_nuevas_raw}
 
     def obtener_ruta_nuevas(codigo):
         parts = codigo.split(".")
         ruta = []
         for i in range(1, len(parts)):
             parent_cod = ".".join(parts[:i])
-            if parent_cod in nombres_nuevas:
-                ruta.append(nombres_nuevas[parent_cod])
+            if parent_cod in titles_nuevas:
+                ruta.append(titles_nuevas[parent_cod])
         return ruta
 
     count_nuevas = 0
-    for item in items_nuevas:
+    for item in items_nuevas_raw:
+        if not item['is_leaf']:
+            continue
         codigo = item["codigo"]
         nombre = item["nombre"]
-        previo = partidas_previas.get(codigo, {})
+        metrado = item["metrado"] or 0.0
 
-        metrado = item["metrado"]
-        if metrado in (None, '', 0):
-            metrado = previo.get("metrado")
-        if metrado in (None, '', 0):
-            # Fallback para que no se pierda la partida si el Excel no trae metrado explícito.
-            metrado = 1.0
+        if codigo.startswith('11.01.03'):
+            cat = 'MOVIMIENTO_TIERRAS'
+        elif codigo.startswith('11.03.01'):
+            cat = 'SEGURIDAD'
+        elif codigo.startswith('11.'):
+            cat = 'OTROS'
+        elif codigo.startswith('12.01.01'):
+            cat = 'CIMIENTOS'
+        elif codigo.startswith('12.'):
+            cat = 'CONCRETO_SIMPLE'
+        elif codigo.startswith('13.01'):
+            cat = 'ZAPATAS'
+        elif codigo.startswith('13.02'):
+            cat = 'PLACAS'
+        elif codigo.startswith('14.'):
+            cat = 'SEGURIDAD'
+        else:
+            cat = 'OTROS'
 
-        cat = previo.get("categoria") or clasificar(codigo, nombre)
         ruta = obtener_ruta_nuevas(codigo)
-        if not ruta and previo.get("ruta"):
-            ruta = previo.get("ruta")
-        esp_nombre = ruta[0] if ruta else (previo.get("especialidad") or "PARTIDAS NUEVAS")
+        esp_cod = codigo.split(".")[0]
+        esp_nombre = titles_nuevas.get(esp_cod, ruta[0] if ruta else "PARTIDAS NUEVAS")
 
         partidas.append({
             "codigo": codigo,
             "nombre": nombre,
             "categoria": cat,
             "color": COLORES.get(cat, "#90A4AE"),
-            "metrado": float(metrado) if metrado else 0,
+            "metrado": round(float(metrado), 2),
             "especialidad": esp_nombre,
-            "especialidad_cod": codigo.split(".")[0],
+            "especialidad_cod": esp_cod,
             "ruta": ruta,
             "nueva": True,
         })
@@ -276,7 +251,7 @@ else:
 # Re-ordenar incluyendo las nuevas
 partidas.sort(key=lambda p: [int(x) for x in p["codigo"].split(".")])
 
-# ── Guardar ──
+# ── Guardar src/partidas.json ──
 with open(OUT, "w", encoding="utf-8") as f:
     json.dump(partidas, f, ensure_ascii=False, indent=2)
 
@@ -298,12 +273,15 @@ print("Por categoria:")
 for cat, cnt in cat_count.most_common():
     print(f"  {cnt:4d}  {cat}")
 
-# ── Generar partidas_data.js ────────────────────────────────────
-OUT_JS = os.path.join(BASE, "src", "partidas_data.js")
-with open(OUT_JS, "w", encoding="utf-8") as f:
-    f.write(f"// Auto-generado: {len(partidas)} partidas\n")
-    f.write("const PARTIDAS = ")
-    json.dump(partidas, f, ensure_ascii=False)
-    f.write(";\n")
-print(f"JS generado: partidas_data.js ({len(partidas)} partidas)")
+# ── Generar partidas_data.js en src, root y docs ───────────────────
+js_content = f"// Auto-generado: {len(partidas)} partidas\nconst PARTIDAS = " + json.dumps(partidas, ensure_ascii=False) + ";\n"
+
+for pth in [
+    os.path.join(BASE, "src", "partidas_data.js"),
+    os.path.join(BASE, "partidas_data.js"),
+    os.path.join(BASE, "docs", "partidas_data.js")
+]:
+    with open(pth, "w", encoding="utf-8") as f:
+        f.write(js_content)
+print(f"JS generado en src, root y docs ({len(partidas)} partidas)")
 

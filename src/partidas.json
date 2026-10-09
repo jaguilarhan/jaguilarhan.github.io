@@ -7121,7 +7121,7 @@
     "nombre": "CONTROL TOPOGRAFICO DURANTE LA EJECUCION DE OBRA",
     "categoria": "OTROS",
     "color": "#90A4AE",
-    "metrado": 210.0,
+    "metrado": 14.0,
     "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
     "especialidad_cod": "11",
     "ruta": [
@@ -7132,10 +7132,10 @@
   },
   {
     "codigo": "11.01.02",
-    "nombre": "TRASLADO DE MATERIALES, HERRAMIENTAS Y EQUIPOS (D prom: 1 km)",
+    "nombre": "TRASLADO DE MATERIALES, HERRAMIENTAS Y EQUIPOS",
     "categoria": "OTROS",
     "color": "#90A4AE",
-    "metrado": 300.0,
+    "metrado": 240.0,
     "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
     "especialidad_cod": "11",
     "ruta": [
@@ -7147,9 +7147,9 @@
   {
     "codigo": "11.01.03",
     "nombre": "EXCAVACION MASIVA PARA ZAPATAS EN TERRENO ROCOSO",
-    "categoria": "ZAPATAS",
-    "color": "#E74C3C",
-    "metrado": 16.0,
+    "categoria": "MOVIMIENTO_TIERRAS",
+    "color": "#A1887F",
+    "metrado": 89.24,
     "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
     "especialidad_cod": "11",
     "ruta": [
@@ -7160,10 +7160,10 @@
   },
   {
     "codigo": "11.01.04",
-    "nombre": "GUARDIANIA EN OBRA REG. CONSTRUCCION CIVIL",
+    "nombre": "VIGILANCIA PERMANTENTE EN OBRA",
     "categoria": "OTROS",
     "color": "#90A4AE",
-    "metrado": 300.0,
+    "metrado": 480.0,
     "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
     "especialidad_cod": "11",
     "ruta": [
@@ -7177,7 +7177,7 @@
     "nombre": "DEMOLICION DE ESTRUCTURAS DE CONCRETO ARMADO",
     "categoria": "OTROS",
     "color": "#90A4AE",
-    "metrado": 60.0,
+    "metrado": 109.35,
     "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
     "especialidad_cod": "11",
     "ruta": [
@@ -7191,7 +7191,7 @@
     "nombre": "DEMOLICION DE ESTRUCTURAS DE CONCRETO SIMPLE",
     "categoria": "OTROS",
     "color": "#90A4AE",
-    "metrado": 60.0,
+    "metrado": 9.83,
     "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
     "especialidad_cod": "11",
     "ruta": [
@@ -7205,7 +7205,7 @@
     "nombre": "DEMOLICION DE ESTRUCTURAS DE ALBAÑILERIA",
     "categoria": "OTROS",
     "color": "#90A4AE",
-    "metrado": 62.0,
+    "metrado": 16.78,
     "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
     "especialidad_cod": "11",
     "ruta": [
@@ -7233,7 +7233,7 @@
     "nombre": "ACARREO DE MATERIAL PROCEDENTE DE DEMOLICION (D.prom=30 M)",
     "categoria": "OTROS",
     "color": "#90A4AE",
-    "metrado": 4.0,
+    "metrado": 169.97,
     "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
     "especialidad_cod": "11",
     "ruta": [
@@ -7247,7 +7247,7 @@
     "nombre": "ELIMINACION DE MATERIAL EXCEDENTE C/MAQUINARIA DM=16.84 km",
     "categoria": "OTROS",
     "color": "#90A4AE",
-    "metrado": 4.0,
+    "metrado": 169.97,
     "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
     "especialidad_cod": "11",
     "ruta": [
@@ -7257,11 +7257,67 @@
     "nueva": true
   },
   {
+    "codigo": "11.03.01",
+    "nombre": "COLOCACIÓN DE SOPORTE PERIMETRAL PARA TRABAJOS EN ALTURA",
+    "categoria": "SEGURIDAD",
+    "color": "#EF5350",
+    "metrado": 1.0,
+    "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+    "especialidad_cod": "11",
+    "ruta": [
+      "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+      "SISTEMAS DE ACCESOS Y TRABAJOS EN ALTURA"
+    ],
+    "nueva": true
+  },
+  {
+    "codigo": "11.03.02",
+    "nombre": "ESCALERA PROVISIONAL DE MADERA PARA OBRA",
+    "categoria": "OTROS",
+    "color": "#90A4AE",
+    "metrado": 1.0,
+    "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+    "especialidad_cod": "11",
+    "ruta": [
+      "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+      "SISTEMAS DE ACCESOS Y TRABAJOS EN ALTURA"
+    ],
+    "nueva": true
+  },
+  {
     "codigo": "12.01.01",
     "nombre": "ENCOFRADO Y DESENCOFRADO EN CIMIENTOS CORRIDOS",
     "categoria": "CIMIENTOS",
     "color": "#E67E22",
-    "metrado": 10.0,
+    "metrado": 70.04,
+    "especialidad": "OBRAS DE CONCRETO SIMPLE",
+    "especialidad_cod": "12",
+    "ruta": [
+      "OBRAS DE CONCRETO SIMPLE",
+      "CIMIENTOS CORRIDOS"
+    ],
+    "nueva": true
+  },
+  {
+    "codigo": "12.01.02",
+    "nombre": "MURO: CONCRETO CICLOPEO F'C=100 KG/CM2, 1:10 (CEMENTO TIPO I:HORMIGON) + 30% P.G. MAX. 8\"",
+    "categoria": "CONCRETO_SIMPLE",
+    "color": "#FF7043",
+    "metrado": 15.76,
+    "especialidad": "OBRAS DE CONCRETO SIMPLE",
+    "especialidad_cod": "12",
+    "ruta": [
+      "OBRAS DE CONCRETO SIMPLE",
+      "CIMIENTOS CORRIDOS"
+    ],
+    "nueva": true
+  },
+  {
+    "codigo": "12.01.03",
+    "nombre": "RELLENO CON MATERIAL SUELO-CEMENTO F'C MIN= 20 KG/CM2, C/CEMENTO TIPO IP",
+    "categoria": "CONCRETO_SIMPLE",
+    "color": "#FF7043",
+    "metrado": 27.01,
     "especialidad": "OBRAS DE CONCRETO SIMPLE",
     "especialidad_cod": "12",
     "ruta": [
@@ -7275,7 +7331,7 @@
     "nombre": "ENCOFRADO Y DESENCOFRADO EN ZAPATAS",
     "categoria": "ZAPATAS",
     "color": "#E74C3C",
-    "metrado": 5.0,
+    "metrado": 96.67,
     "especialidad": "OBRAS DE CONCRETO ARMADO",
     "especialidad_cod": "13",
     "ruta": [
@@ -7289,7 +7345,7 @@
     "nombre": "CURADO DE CONCRETO EN ZAPATAS",
     "categoria": "ZAPATAS",
     "color": "#E74C3C",
-    "metrado": 5.0,
+    "metrado": 287.37,
     "especialidad": "OBRAS DE CONCRETO ARMADO",
     "especialidad_cod": "13",
     "ruta": [
@@ -7303,10 +7359,13 @@
     "nombre": "CONCRETO EN PLACAS NO PORTANTES F'C= 175 KG/CM2, C/CEMENTO TIPO IP",
     "categoria": "PLACAS",
     "color": "#1ABC9C",
-    "metrado": 1.0,
-    "especialidad": "PARTIDAS NUEVAS",
+    "metrado": 15.28,
+    "especialidad": "OBRAS DE CONCRETO ARMADO",
     "especialidad_cod": "13",
-    "ruta": [],
+    "ruta": [
+      "OBRAS DE CONCRETO ARMADO",
+      "PLACAS NO PORTANTES"
+    ],
     "nueva": true
   },
   {
@@ -7314,10 +7373,13 @@
     "nombre": "ACERO EN PLACAS NO PORTANTES Fy=4200 kg/cm2 GRADO 60",
     "categoria": "PLACAS",
     "color": "#1ABC9C",
-    "metrado": 1.0,
-    "especialidad": "PARTIDAS NUEVAS",
+    "metrado": 1609.68,
+    "especialidad": "OBRAS DE CONCRETO ARMADO",
     "especialidad_cod": "13",
-    "ruta": [],
+    "ruta": [
+      "OBRAS DE CONCRETO ARMADO",
+      "PLACAS NO PORTANTES"
+    ],
     "nueva": true
   },
   {
@@ -7325,10 +7387,13 @@
     "nombre": "ENCOFRADO Y DESENCOFRADO EN PLACAS NO PORTANTES",
     "categoria": "PLACAS",
     "color": "#1ABC9C",
-    "metrado": 1.0,
-    "especialidad": "PARTIDAS NUEVAS",
+    "metrado": 243.91,
+    "especialidad": "OBRAS DE CONCRETO ARMADO",
     "especialidad_cod": "13",
-    "ruta": [],
+    "ruta": [
+      "OBRAS DE CONCRETO ARMADO",
+      "PLACAS NO PORTANTES"
+    ],
     "nueva": true
   },
   {
@@ -7336,18 +7401,21 @@
     "nombre": "CURADO DE CONCRETO EN PLACAS NO PORTANTES",
     "categoria": "PLACAS",
     "color": "#1ABC9C",
-    "metrado": 1.0,
-    "especialidad": "PARTIDAS NUEVAS",
+    "metrado": 243.91,
+    "especialidad": "OBRAS DE CONCRETO ARMADO",
     "especialidad_cod": "13",
-    "ruta": [],
+    "ruta": [
+      "OBRAS DE CONCRETO ARMADO",
+      "PLACAS NO PORTANTES"
+    ],
     "nueva": true
   },
   {
     "codigo": "14.01.01.01",
     "nombre": "EQUIPOS DE PROTECCION CORPORAL",
-    "categoria": "OTROS",
-    "color": "#90A4AE",
-    "metrado": 210.0,
+    "categoria": "SEGURIDAD",
+    "color": "#EF5350",
+    "metrado": 1.0,
     "especialidad": "SEGURIDAD Y SALUD EN EL TRABAJO",
     "especialidad_cod": "14",
     "ruta": [
@@ -7360,9 +7428,9 @@
   {
     "codigo": "14.01.01.02",
     "nombre": "EQUIPOS DE PROTECCION PERSONAL - PIERNAS Y PIES",
-    "categoria": "OTROS",
-    "color": "#90A4AE",
-    "metrado": 210.0,
+    "categoria": "SEGURIDAD",
+    "color": "#EF5350",
+    "metrado": 1.0,
     "especialidad": "SEGURIDAD Y SALUD EN EL TRABAJO",
     "especialidad_cod": "14",
     "ruta": [
@@ -7375,9 +7443,9 @@
   {
     "codigo": "14.01.01.03",
     "nombre": "EQUIPOS DE PROTECCION PERSONAL - BRAZOS Y MANOS",
-    "categoria": "OTROS",
-    "color": "#90A4AE",
-    "metrado": 210.0,
+    "categoria": "SEGURIDAD",
+    "color": "#EF5350",
+    "metrado": 1.0,
     "especialidad": "SEGURIDAD Y SALUD EN EL TRABAJO",
     "especialidad_cod": "14",
     "ruta": [
@@ -7390,9 +7458,9 @@
   {
     "codigo": "14.01.01.04",
     "nombre": "EQUIPOS DE PROTECCION AUDITIVA",
-    "categoria": "OTROS",
-    "color": "#90A4AE",
-    "metrado": 210.0,
+    "categoria": "SEGURIDAD",
+    "color": "#EF5350",
+    "metrado": 1.0,
     "especialidad": "SEGURIDAD Y SALUD EN EL TRABAJO",
     "especialidad_cod": "14",
     "ruta": [
@@ -7405,9 +7473,9 @@
   {
     "codigo": "14.01.01.05",
     "nombre": "EQUIPOS DE PROTECCION DE ROSTRO",
-    "categoria": "OTROS",
-    "color": "#90A4AE",
-    "metrado": 210.0,
+    "categoria": "SEGURIDAD",
+    "color": "#EF5350",
+    "metrado": 1.0,
     "especialidad": "SEGURIDAD Y SALUD EN EL TRABAJO",
     "especialidad_cod": "14",
     "ruta": [
@@ -7420,9 +7488,9 @@
   {
     "codigo": "14.01.01.06",
     "nombre": "EQUIPOS DE PROTECCION ANTICAIDA",
-    "categoria": "OTROS",
-    "color": "#90A4AE",
-    "metrado": 210.0,
+    "categoria": "SEGURIDAD",
+    "color": "#EF5350",
+    "metrado": 1.0,
     "especialidad": "SEGURIDAD Y SALUD EN EL TRABAJO",
     "especialidad_cod": "14",
     "ruta": [
@@ -7435,9 +7503,9 @@
   {
     "codigo": "14.01.02.01",
     "nombre": "EQUIPOS DE RESPUESTA A EMERGENCIAS",
-    "categoria": "OTROS",
-    "color": "#90A4AE",
-    "metrado": 210.0,
+    "categoria": "SEGURIDAD",
+    "color": "#EF5350",
+    "metrado": 1.0,
     "especialidad": "SEGURIDAD Y SALUD EN EL TRABAJO",
     "especialidad_cod": "14",
     "ruta": [
@@ -7449,10 +7517,10 @@
   },
   {
     "codigo": "14.01.03.01",
-    "nombre": "MONITOREO DE SALUD OCUPACIONAL EN OBRA",
-    "categoria": "OTROS",
-    "color": "#90A4AE",
-    "metrado": 150.0,
+    "nombre": "SUMINISTRO MEDICO PARA EJECUCION DEL PLAN DE SALUD",
+    "categoria": "SEGURIDAD",
+    "color": "#EF5350",
+    "metrado": 1.0,
     "especialidad": "SEGURIDAD Y SALUD EN EL TRABAJO",
     "especialidad_cod": "14",
     "ruta": [
@@ -7464,46 +7532,16 @@
   },
   {
     "codigo": "14.01.03.02",
-    "nombre": "SUMINISTRO MEDICO PARA EJECUCION DEL PLAN DE SALUD",
-    "categoria": "OTROS",
-    "color": "#90A4AE",
-    "metrado": 150.0,
-    "especialidad": "SEGURIDAD Y SALUD EN EL TRABAJO",
-    "especialidad_cod": "14",
-    "ruta": [
-      "SEGURIDAD Y SALUD EN EL TRABAJO",
-      "PLAN DE SEGURIDAD Y SALUD EN EL TRABAJO",
-      "SALUD OCUPACIONAL"
-    ],
-    "nueva": true
-  },
-  {
-    "codigo": "14.01.03.03",
     "nombre": "AGUA DE MESA PARA CONSUMO HUMANO",
-    "categoria": "OTROS",
-    "color": "#90A4AE",
-    "metrado": 300.0,
+    "categoria": "SEGURIDAD",
+    "color": "#EF5350",
+    "metrado": 350.0,
     "especialidad": "SEGURIDAD Y SALUD EN EL TRABAJO",
     "especialidad_cod": "14",
     "ruta": [
       "SEGURIDAD Y SALUD EN EL TRABAJO",
       "PLAN DE SEGURIDAD Y SALUD EN EL TRABAJO",
       "SALUD OCUPACIONAL"
-    ],
-    "nueva": true
-  },
-  {
-    "codigo": "14.01.04.01",
-    "nombre": "CONTROL DE SEGURIDAD EN OBRA",
-    "categoria": "OTROS",
-    "color": "#90A4AE",
-    "metrado": 300.0,
-    "especialidad": "SEGURIDAD Y SALUD EN EL TRABAJO",
-    "especialidad_cod": "14",
-    "ruta": [
-      "SEGURIDAD Y SALUD EN EL TRABAJO",
-      "PLAN DE SEGURIDAD Y SALUD EN EL TRABAJO",
-      "IMPLEMENTACION Y ADMINISTRACION DE PLAN DE SEGURIDAD Y SALUD EN EL TRABAJO"
     ],
     "nueva": true
   },
@@ -7512,7 +7550,7 @@
     "nombre": "DENSIDADES DE CAMPO",
     "categoria": "OTROS",
     "color": "#90A4AE",
-    "metrado": 150.0,
+    "metrado": 110.0,
     "especialidad": "OTROS",
     "especialidad_cod": "15",
     "ruta": [
@@ -7526,7 +7564,7 @@
     "nombre": "ENSAYO PROCTOR MODIFICADO (COMPACTACION DEL SUELO)",
     "categoria": "OTROS",
     "color": "#90A4AE",
-    "metrado": 150.0,
+    "metrado": 4.0,
     "especialidad": "OTROS",
     "especialidad_cod": "15",
     "ruta": [
@@ -7540,7 +7578,7 @@
     "nombre": "EQUIPAMIENTO PARA CONTROL DE CALIDAD",
     "categoria": "OTROS",
     "color": "#90A4AE",
-    "metrado": 150.0,
+    "metrado": 1.0,
     "especialidad": "OTROS",
     "especialidad_cod": "15",
     "ruta": [
@@ -7554,68 +7592,12 @@
     "nombre": "APLICACION DE ADITIVOS EN ELEMENTOS ESTRUCTURALES",
     "categoria": "OTROS",
     "color": "#90A4AE",
-    "metrado": 150.0,
+    "metrado": 140.37,
     "especialidad": "OTROS",
     "especialidad_cod": "15",
     "ruta": [
       "OTROS",
       "CONTROL DE CALIDAD EN OBRA"
-    ],
-    "nueva": true
-  },
-  {
-    "codigo": "15.02.01",
-    "nombre": "SUMINISTRO DE GASOLINA",
-    "categoria": "OTROS",
-    "color": "#90A4AE",
-    "metrado": 345.0,
-    "especialidad": "OTROS",
-    "especialidad_cod": "15",
-    "ruta": [
-      "OTROS",
-      "ABASTECIMIENTO DE COMBUSTIBLE5"
-    ],
-    "nueva": true
-  },
-  {
-    "codigo": "15.02.02",
-    "nombre": "SUMINISTRO DE PETROLEO",
-    "categoria": "OTROS",
-    "color": "#90A4AE",
-    "metrado": 345.0,
-    "especialidad": "OTROS",
-    "especialidad_cod": "15",
-    "ruta": [
-      "OTROS",
-      "ABASTECIMIENTO DE COMBUSTIBLE5"
-    ],
-    "nueva": true
-  },
-  {
-    "codigo": "15.03.01",
-    "nombre": "CONSULTORIA EN TEMAS MECANICOS - ELECTRICOS",
-    "categoria": "OTROS",
-    "color": "#90A4AE",
-    "metrado": 120.0,
-    "especialidad": "OTROS",
-    "especialidad_cod": "15",
-    "ruta": [
-      "OTROS",
-      "CONSULTORIA Y ASESORAMIENTO TECNICO"
-    ],
-    "nueva": true
-  },
-  {
-    "codigo": "15.03.02",
-    "nombre": "CONSULTORIA EN TEMAS ESTRUCTURALES",
-    "categoria": "OTROS",
-    "color": "#90A4AE",
-    "metrado": 120.0,
-    "especialidad": "OTROS",
-    "especialidad_cod": "15",
-    "ruta": [
-      "OTROS",
-      "CONSULTORIA Y ASESORAMIENTO TECNICO"
     ],
     "nueva": true
   }
