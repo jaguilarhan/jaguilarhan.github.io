@@ -2,14 +2,111 @@
 let currentFotoFecha = null;
 let currentActividades = [];
 
+function obtenerTextoCharlaSeguridad(fecha) {
+  const obsList = [];
+  if (typeof observacionesManuales !== 'undefined' && observacionesManuales && Array.isArray(observacionesManuales[fecha])) {
+    obsList.push(...observacionesManuales[fecha]);
+  }
+  if (typeof observacionesData !== 'undefined' && observacionesData && observacionesData[fecha]) {
+    obsList.push(observacionesData[fecha]);
+  }
+
+  let nombre = '';
+  let tema = '';
+
+  for (const obs of obsList) {
+    if (!obs || typeof obs !== 'string') continue;
+    const text = obs.trim();
+    if (!text) continue;
+    const tLower = text.toLowerCase();
+
+    if (tLower.includes('charla') || tLower.includes('capacitaci') || tLower.includes('seguridad') || tLower.includes('ssoma')) {
+      const mN = text.match(/a cargo de(?:l|\s+la)?\s+((?:(?:Ing|Lic|Tec|Arq|Dr|Dra)\.\s+)?[A-ZÁÉÍÓÚa-záéíóú\s]+?)(?:,|con\s+el\s+tema|dando\b|recalcando\b|enfocad|brindad|dirigid|\bcon\s+la\b|\.|$)/i);
+      if (mN) {
+        nombre = mN[1].trim();
+      }
+
+      const mT = text.match(/(?:con el tema|tema)\s+[:\"“]?\s*[\"“]([^\"”\n]+)[\"”]/i);
+      if (mT) {
+        tema = mT[1].trim();
+      } else {
+        const mT2 = text.match(/con el tema\s*(?::|de)?\s+([^,\.\n]+?)(?:,|dirigid|donde\b|\.|$)/i);
+        if (mT2) {
+          tema = mT2[1].trim();
+        } else if (tLower.includes('dando recomendaciones generales de seguridad')) {
+          tema = 'Recomendaciones generales de seguridad';
+        } else if (tLower.includes('recalcando la identificación constante de peligros')) {
+          tema = 'Identificación constante de peligros y cumplimiento de procedimientos';
+        } else {
+          const mS = text.match(/(?:sobre|acerca de)\s+([^,\.\n]+?)(?:,|dirigid|donde\b|\.|$)/i);
+          if (mS) {
+            tema = mS[1].trim();
+          }
+        }
+      }
+      break;
+    }
+  }
+
+  tema = (tema || 'Seguridad y Salud en el Trabajo').replace(/["'“”]/g, '').trim();
+
+  let res = `Se realizo la charla de seguridad a cargo del area SSOMA con el tema : ${tema}`;
+  if (nombre) {
+    let nombreClean = nombre.replace(/^(del|la|el)\s+/i, '').trim();
+    const conector = /^(Lic|Inga|Sra|Srta)\b/i.test(nombreClean) ? 'de la ' : 'del ';
+    res += ` a cargo ${conector}${nombreClean}`;
+  }
+  return res;
+}
+
+function obtenerListaActividadesDia(fecha) {
+  const lista = [];
+
+  // 1. Charla de seguridad (siempre al inicio de la jornada)
+  const charla = obtenerTextoCharlaSeguridad(fecha);
+  if (charla) {
+    lista.push(charla);
+  }
+
+  // 2. Actividades de las tarjetas (respetando si fueron editadas en el cuaderno)
+  if (typeof actividades !== 'undefined' && Array.isArray(actividades)) {
+    const actsDiaRaw = actividades.filter(a => a.fecha === fecha);
+    const actsOrdenadas = (typeof ordenarPorSecuencia === 'function') ? ordenarPorSecuencia(actsDiaRaw) : actsDiaRaw;
+    const actsAgrupadas = (typeof agruparActividadesPorEjes === 'function') ? agruparActividadesPorEjes(actsOrdenadas) : actsOrdenadas;
+
+    actsAgrupadas.forEach(a => {
+      let txt = '';
+      if (typeof parrafosEditados !== 'undefined' && parrafosEditados && parrafosEditados[a.id]) {
+        txt = parrafosEditados[a.id].trim();
+      } else if (typeof generarParrafo === 'function') {
+        txt = generarParrafo(a).trim();
+      } else {
+        txt = ((a.descripcion || '') + (a.elemento && a.elemento !== '—' ? ' de ' + a.elemento : '')).trim();
+      }
+      if (txt && !lista.includes(txt)) {
+        lista.push(txt);
+      }
+    });
+  }
+
+  // 3. Actividades manuales del cuaderno de obra
+  if (typeof actividadesManuales !== 'undefined' && actividadesManuales && Array.isArray(actividadesManuales[fecha])) {
+    actividadesManuales[fecha].forEach(txt => {
+      const limpio = (txt || '').trim();
+      if (limpio && !lista.includes(limpio)) {
+        lista.push(limpio);
+      }
+    });
+  }
+
+  return lista;
+}
+
 function abrirModalFoto(fecha) {
   currentFotoFecha = fecha;
   
-  // Extraemos actividades de ese día
-  currentActividades = [];
-  if (typeof actividades !== 'undefined' && Array.isArray(actividades)) {
-    currentActividades = actividades.filter(a => a.fecha === fecha);
-  }
+  // Extraemos actividades completas de ese día (tarjetas editadas, manuales y charla)
+  currentActividades = obtenerListaActividadesDia(fecha);
 
   document.getElementById('modal-foto-lista').innerHTML = '';
   // Inicializamos con 4 slots por defecto
@@ -28,6 +125,16 @@ function cerrarModalFoto() {
   document.getElementById('modal-foto').classList.remove('active');
 }
 
+function seleccionarActividadFoto(sel) {
+  const row = sel.closest('.foto-row');
+  if (!row) return;
+  const custom = row.querySelector('.inp-custom-comment');
+  if (custom && sel.value) {
+    custom.value = sel.value;
+  }
+  sel.title = sel.value || '';
+}
+
 function agregarFilaFoto() {
   const ctn = document.getElementById('modal-foto-lista');
   const idx = ctn.children.length;
@@ -39,16 +146,12 @@ function agregarFilaFoto() {
   
   const div = document.createElement('div');
   div.className = 'foto-row';
-  div.style.cssText = 'background:#fff; border:1px solid #ccc; padding:10px; margin-bottom:10px; border-radius:4px; display:flex; gap:10px; align-items:center;';
+  div.style.cssText = 'background:#fff; border:1px solid #ccc; padding:10px; margin-bottom:10px; border-radius:4px; display:flex; gap:10px; align-items:center; min-width:0; width:100%; box-sizing:border-box;';
   
   // Dropdown de actividades
-  let selectHtml = `<select class="sel-actividad" style="flex:1; padding:6px; font-size:9pt; border-radius:4px; border:1px solid #ccc;"><option value="">-- Escribir un comentario personalizado abajo --</option>`;
-  currentActividades.forEach((a, i) => {
-    let descCorta = (a.descripcion || 'Sin descripción') + (a.elemento && a.elemento!=='—' ? ' - ' + a.elemento : '');
-    // Usamos la descripción completa (párrafo generado)
-    let valStr = typeof generarParrafo === 'function' ? generarParrafo(a) : descCorta;
-    
-    selectHtml += `<option value="${esc(valStr)}">${esc(valStr)}</option>`;
+  let selectHtml = `<select class="sel-actividad" onchange="seleccionarActividadFoto(this)" style="width:100%; max-width:100%; min-width:0; box-sizing:border-box; padding:6px; font-size:9pt; border-radius:4px; border:1px solid #ccc; text-align:left; text-align-last:left; direction:ltr; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"><option value="" style="text-align:left; direction:ltr;">-- Seleccionar actividad o escribir abajo --</option>`;
+  currentActividades.forEach(valStr => {
+    selectHtml += `<option value="${esc(valStr)}" style="text-align:left; direction:ltr;">${esc(valStr)}</option>`;
   });
   selectHtml += `</select>`;
 
@@ -58,10 +161,10 @@ function agregarFilaFoto() {
        <img src="" style="width:100%; height:100%; object-fit:contain; position:absolute; top:0; left:0; display:none;" class="img-preview" />
        <input type="file" accept="image/*" class="inp-file-foto" style="display:none;" onchange="previewFoto(this)">
     </label>
-    <div style="flex:1; display:flex; flex-direction:column; gap:8px;">
-       <label style="font-size:9pt; font-weight:bold;">Selecciona Actividad (opcional):</label>
+    <div style="flex:1; display:flex; flex-direction:column; gap:8px; min-width:0; width:100%; overflow:hidden;">
+       <label style="font-size:9pt; font-weight:bold; text-align:left;">Selecciona Actividad (opcional):</label>
        ${selectHtml}
-       <textarea class="inp-custom-comment" placeholder="Comentario personalizado / descripción a mostrar debajo de la foto..." style="padding:6px; font-size:9pt; border-radius:4px; border:1px solid #ccc; resize:vertical; min-height:40px;"></textarea>
+       <textarea class="inp-custom-comment" placeholder="Comentario personalizado / descripción a mostrar debajo de la foto..." style="width:100%; max-width:100%; box-sizing:border-box; padding:6px; font-size:9pt; border-radius:4px; border:1px solid #ccc; resize:vertical; min-height:46px; font-family:inherit; text-align:left;"></textarea>
     </div>
     <button class="btn-modal-remove" style="align-self:flex-start; padding:2px 6px; cursor:pointer;" onclick="this.parentElement.remove()">✕</button>
   `;
