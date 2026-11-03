@@ -1441,6 +1441,7 @@ async function generarCuadernoWord(desde,hasta,residente,inspector,actsRango){
     actsDia.forEach(a=>{
       const txt = parrafosEditados[a.id] || generarParrafo(a);
       ch.push(new Paragraph({
+        alignment: AlignmentType.JUSTIFIED,
         spacing:{after:100},
         bullet:{level:0},
         children:[new TextRun({text:txt,size:20,font:"Calibri"})]
@@ -1452,6 +1453,7 @@ async function generarCuadernoWord(desde,hasta,residente,inspector,actsRango){
     actsManualesDiaWord.forEach(txt=>{
       if(txt && txt.trim()){
         ch.push(new Paragraph({
+          alignment: AlignmentType.JUSTIFIED,
           spacing:{after:100},
           bullet:{level:0},
           children:[new TextRun({text:txt.trim(),size:20,font:"Calibri"})]
@@ -1499,9 +1501,11 @@ async function generarCuadernoWord(desde,hasta,residente,inspector,actsRango){
       const sRows=[];
       for(let i=0;i<maxRowsSal;i++){
         const lCant = colIzqSal[i] && colIzqSal[i].cant && colIzqSal[i].cant !== '!' ? `${colIzqSal[i].cant}  ` : '';
-        const lTxt = colIzqSal[i] ? `•  ${lCant}${colIzqSal[i].detalle}` : '';
+        const lBase = colIzqSal[i] ? `${lCant}${colIzqSal[i].detalle}`.toLowerCase() : '';
+        const lTxt = lBase ? `•  ${lBase}` : '';
         const rCant = colDerSal[i] && colDerSal[i].cant && colDerSal[i].cant !== '!' ? `${colDerSal[i].cant}  ` : '';
-        const rTxt = colDerSal[i] ? `•  ${rCant}${colDerSal[i].detalle}` : '';
+        const rBase = colDerSal[i] ? `${rCant}${colDerSal[i].detalle}`.toLowerCase() : '';
+        const rTxt = rBase ? `•  ${rBase}` : '';
         sRows.push(new TableRow({children:[
           new TableCell({width:{size:50,type:WidthType.PERCENTAGE},borders:na,children:[new Paragraph({indent:{left:convertInchesToTwip(0.15)},children:[new TextRun({text:lTxt,size:19,font:"Calibri"})]})]}),
           new TableCell({width:{size:50,type:WidthType.PERCENTAGE},borders:na,children:[new Paragraph({indent:{left:convertInchesToTwip(0.15)},children:[new TextRun({text:rTxt,size:19,font:"Calibri"})]})]})
@@ -1531,9 +1535,11 @@ async function generarCuadernoWord(desde,hasta,residente,inspector,actsRango){
       const iRows=[];
       for(let i=0;i<maxRowsIng;i++){
         const lCant = colIzqIng[i] && colIzqIng[i].cant && colIzqIng[i].cant !== '!' ? `${colIzqIng[i].cant}  ` : '';
-        const lTxt = colIzqIng[i] ? `•  ${lCant}${colIzqIng[i].detalle}` : '';
+        const lBase = colIzqIng[i] ? `${lCant}${colIzqIng[i].detalle}`.toLowerCase() : '';
+        const lTxt = lBase ? `•  ${lBase}` : '';
         const rCant = colDerIng[i] && colDerIng[i].cant && colDerIng[i].cant !== '!' ? `${colDerIng[i].cant}  ` : '';
-        const rTxt = colDerIng[i] ? `•  ${rCant}${colDerIng[i].detalle}` : '';
+        const rBase = colDerIng[i] ? `${rCant}${colDerIng[i].detalle}`.toLowerCase() : '';
+        const rTxt = rBase ? `•  ${rBase}` : '';
         iRows.push(new TableRow({children:[
           new TableCell({width:{size:50,type:WidthType.PERCENTAGE},borders:na,children:[new Paragraph({indent:{left:convertInchesToTwip(0.15)},children:[new TextRun({text:lTxt,size:19,font:"Calibri"})]})]}),
           new TableCell({width:{size:50,type:WidthType.PERCENTAGE},borders:na,children:[new Paragraph({indent:{left:convertInchesToTwip(0.15)},children:[new TextRun({text:rTxt,size:19,font:"Calibri"})]})]})
@@ -1556,6 +1562,7 @@ async function generarCuadernoWord(desde,hasta,residente,inspector,actsRango){
     obsManualesDiaWord.forEach(txt=>{
       if(txt && txt.trim()){
         ch.push(new Paragraph({
+          alignment: AlignmentType.JUSTIFIED,
           spacing:{after:60},
           bullet:{level:0},
           children:[new TextRun({text:txt.trim(),size:20,font:"Calibri"})]
