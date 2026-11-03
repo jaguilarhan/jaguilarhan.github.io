@@ -147,6 +147,19 @@
     font-weight: 700; min-width: 18px; text-align: right; margin-right: 2px;
   }
 
+  .btn-almacen-ocurrencias {
+    background: #eef3fb; border: 1px solid #b0c4de;
+    color: #0d47a1; font-size: 8pt; font-weight: 600;
+    padding: 2px 9px; border-radius: 12px; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 4px;
+    transition: all .15s ease;
+  }
+  .btn-almacen-ocurrencias:hover { background: #0d47a1; color: #fff; border-color: #0d47a1; }
+  .btn-almacen-ocurrencias.con-datos { background: #fff3e0; border-color: #ffb74d; color: #e65100; font-weight: 700; }
+  .btn-almacen-ocurrencias.con-datos:hover { background: #e65100; color: #fff; border-color: #e65100; }
+  .badge-dot { color: #e65100; font-size: 9pt; line-height: 1; }
+  .btn-almacen-ocurrencias.con-datos:hover .badge-dot { color: #fff; }
+
   .subtitulo-actividades {
     color: #0d47a1; font-size: 11pt; font-weight: 700;
     margin-bottom: 8px; border-bottom: 1px solid #0d47a1; padding-bottom: 2px;
@@ -294,7 +307,7 @@
     .pages-container { padding: 0; gap: 0; }
     .word-page { box-shadow: none; margin: 0; width: 100%; page-break-after: always; }
     body { background: #fff; }
-    .dia-titulo .btn-editar-dia, .dia-titulo .btn-descargar-dia, .dia-titulo .btn-foto-dia { display: none !important; }
+    .dia-titulo .btn-editar-dia, .dia-titulo .btn-descargar-dia, .dia-titulo .btn-foto-dia, .btn-almacen-ocurrencias { display: none !important; }
   }
   @media (max-width: 840px) {
     .word-page { width: 97vw; min-height: auto; padding: 24px; }
@@ -339,6 +352,22 @@
     </div>
   </div>
 </div>
+<!-- MODAL OCURRENCIAS ALMACÉN -->
+<div class="modal-overlay" id="modal-ocurrencias-almacen">
+  <div class="modal-content" style="max-width: 600px; padding: 20px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #e0e0e0; padding-bottom:8px;">
+      <h3 style="margin:0; color:#0d47a1; display:flex; align-items:center; gap:8px; font-size:1.05rem;">
+        📓 Ocurrencias de Almacén — <span id="modal-ocurrencias-fecha" style="font-weight:normal; font-size:.9rem; color:#444;"></span>
+      </h3>
+      <span class="modal-close" onclick="cerrarModalOcurrencias()" style="cursor:pointer; font-size:1.2rem; line-height:1;">✕</span>
+    </div>
+    <div id="modal-ocurrencias-cuerpo" style="white-space:pre-wrap; line-height:1.5; font-size:.88rem; background:#f9f9f9; padding:12px 14px; border-radius:6px; border:1px solid #e0e0e0; max-height:350px; overflow-y:auto; color:#222; font-family:inherit;">
+    </div>
+    <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:14px;">
+      <button type="button" class="btn" style="background:#0d47a1; color:white; padding:6px 16px; border-radius:4px; font-size:.85rem; border:none; cursor:pointer;" onclick="cerrarModalOcurrencias()">Cerrar</button>
+    </div>
+  </div>
+</div>
 <div class="modal-overlay" id="modal-dia">
   <div class="modal-content">
     <h2>✏️ Editar datos del día: <span id="modal-fecha-label"></span></h2>
@@ -363,11 +392,23 @@
       <h3>📦 IV. MOVIMIENTOS DE ALMACEN</h3>
       <div style="margin-bottom: 12px; background: #f8f9fa; padding: 10px; border-radius: 6px; border: 1px dashed #ccc;">
         <label style="font-size:.75rem; font-weight:600; color:#555; display:block; margin-bottom:4px;">Pegar reporte de WhatsApp:</label>
-        <textarea id="whatsapp-almacen" rows="3" style="width:100%; border:1px solid #ccc; border-radius:4px; font-size:.75rem; padding:6px; font-family:inherit; resize:vertical;" placeholder="Ej: • 11 UND MAMELUCO DESCARTABLE..."></textarea>
-        <button class="btn-modal-add" onclick="procesarWhatsappAlmacen()" style="margin-top:6px; background:#e8f5e9; border-color:#81c784; color:#2e7d32;">✨ Procesar WhatsApp</button>
+        <textarea id="whatsapp-almacen" rows="3" style="width:100%; border:1px solid #ccc; border-radius:4px; font-size:.75rem; padding:6px; font-family:inherit; resize:vertical;" placeholder="Pegar reporte diario de WhatsApp completo (Salidas, Ingresos, Ocurrencias)..."></textarea>
+        <div style="display:flex; gap:8px; align-items:center; margin-top:6px; flex-wrap:wrap;">
+          <button type="button" class="btn-modal-add" onclick="procesarWhatsappAlmacen()" style="background:#e8f5e9; border-color:#81c784; color:#2e7d32;">✨ Procesar WhatsApp</button>
+          <span id="almacen-proc-msg" style="font-size:.75rem;"></span>
+        </div>
       </div>
-      <div id="modal-almacen"></div>
-      <button class="btn-modal-add" onclick="agregarAlmacenModal()" style="margin-top:6px;">+ Agregar movimiento manual</button>
+      
+      <h4 style="font-size:.82rem; color:#0d47a1; margin:10px 0 4px; font-weight:700;">a) Salidas de Materiales</h4>
+      <div id="modal-almacen-salidas"></div>
+      <button type="button" class="btn-modal-add" onclick="agregarAlmacenFila('salidas')" style="margin-top:4px;">+ Agregar salida manual</button>
+
+      <h4 style="font-size:.82rem; color:#0d47a1; margin:14px 0 4px; font-weight:700;">b) Ingresos de Materiales</h4>
+      <div id="modal-almacen-ingresos"></div>
+      <button type="button" class="btn-modal-add" onclick="agregarAlmacenFila('ingresos')" style="margin-top:4px;">+ Agregar ingreso manual</button>
+
+      <h4 style="font-size:.82rem; color:#e65100; margin:14px 0 4px; font-weight:700;">📝 Ocurrencias / Notas de Almacén (No van al Word)</h4>
+      <textarea id="modal-almacen-ocurrencias" rows="2" style="width:100%; border:1px solid #ccc; border-radius:4px; font-size:.75rem; padding:6px; font-family:inherit; resize:vertical;" placeholder="Ocurrencias, préstamos o notas registradas..."></textarea>
     </div>
 
     <div class="modal-btns">
@@ -556,8 +597,16 @@ function getObservacionesDia(fecha){
   return observacionesData[fecha]||'';
 }
 function getMovimientosAlmacenDia(fecha){
-  if(!Array.isArray(movimientosAlmacenData[fecha])) return [];
-  return movimientosAlmacenData[fecha];
+  const raw = movimientosAlmacenData[fecha];
+  if(!raw) return { salidas: [], ingresos: [], ocurrencias: '' };
+  if(Array.isArray(raw)) {
+    return { salidas: raw, ingresos: [], ocurrencias: '' };
+  }
+  return {
+    salidas: Array.isArray(raw.salidas) ? raw.salidas : [],
+    ingresos: Array.isArray(raw.ingresos) ? raw.ingresos : [],
+    ocurrencias: raw.ocurrencias || ''
+  };
 }
 
 // ================================================================
@@ -667,127 +716,193 @@ function eliminarEquipoModal(idx){
   if(row) row.remove();
 }
 
-function renderAlmacenModal(lista){
-  let h='';
-  lista.forEach((mov,i)=>{
-    h+=`<div class="modal-row" data-alm-idx="${i}">
-      <input type="text" value="${esc(mov.detalle||'')}" data-alm-detalle="${i}" placeholder="Detalle"/>
-      <input type="text" value="${esc(mov.cant||'')}" data-alm-cant="${i}" placeholder="Cant/UM" style="width:110px"/>
-      <button class="btn-modal-remove" onclick="this.parentElement.remove()">✕</button>
-    </div>`;
-  });
-  document.getElementById('modal-almacen').innerHTML=h;
+function renderAlmacenFila(tipo, item, idx){
+  const esAlerta = item.cant === '!' || !item.cant;
+  const cantVal = item.cant || '!';
+  return `<div class="modal-row modal-row-alm" data-alm-tipo="${tipo}" data-alm-idx="${idx}" style="display:flex; gap:6px; align-items:center; margin-bottom:4px;">
+    <input type="text" value="${esc(item.detalle||'')}" data-alm-detalle placeholder="Detalle (Nombre completo)" style="flex:1; font-size:.78rem; padding:4px 6px;"/>
+    <input type="text" value="${esc(cantVal)}" data-alm-cant placeholder="Cant/UM" style="width:105px; font-size:.78rem; padding:4px 6px; ${esAlerta ? 'border-color:#e53935; background:#ffebee; font-weight:bold; color:#c62828;' : ''}" title="${esAlerta ? '⚠️ Revisa o completa la cantidad/unidad' : 'Cantidad y unidad'}"/>
+    <button type="button" class="btn-modal-remove" onclick="this.parentElement.remove()" style="padding:2px 8px; font-size:.8rem;">✕</button>
+  </div>`;
 }
 
-function agregarAlmacenModal(){
-  const ctn=document.getElementById('modal-almacen');
-  const rows=ctn.querySelectorAll('.modal-row');
-  const idx=rows.length;
-  const div=document.createElement('div');
-  div.className='modal-row';
-  div.dataset.almIdx=idx;
-  div.innerHTML=`<input type="text" value="" data-alm-detalle="${idx}" placeholder="Detalle"/>
-    <input type="text" value="" data-alm-cant="${idx}" placeholder="Cant/UM" style="width:110px"/>
-    <button class="btn-modal-remove" onclick="this.parentElement.remove()">✕</button>`;
-  ctn.appendChild(div);
+function renderAlmacenModal(almDia){
+  const ctnSalidas = document.getElementById('modal-almacen-salidas');
+  const ctnIngresos = document.getElementById('modal-almacen-ingresos');
+  const txtOcu = document.getElementById('modal-almacen-ocurrencias');
+
+  let hSal = '';
+  (almDia.salidas || []).forEach((item, idx) => {
+    hSal += renderAlmacenFila('salidas', item, idx);
+  });
+  ctnSalidas.innerHTML = hSal;
+
+  let hIng = '';
+  (almDia.ingresos || []).forEach((item, idx) => {
+    hIng += renderAlmacenFila('ingresos', item, idx);
+  });
+  ctnIngresos.innerHTML = hIng;
+
+  txtOcu.value = almDia.ocurrencias || '';
+  document.getElementById('whatsapp-almacen').value = '';
+  const msgEl = document.getElementById('almacen-proc-msg');
+  if(msgEl) msgEl.textContent = '';
+}
+
+function agregarAlmacenFila(tipo){
+  const ctn = document.getElementById(tipo === 'salidas' ? 'modal-almacen-salidas' : 'modal-almacen-ingresos');
+  const idx = ctn.querySelectorAll('.modal-row-alm').length;
+  const div = document.createElement('div');
+  div.innerHTML = renderAlmacenFila(tipo, { detalle: '', cant: '' }, idx);
+  ctn.appendChild(div.firstElementChild);
 }
 
 function procesarWhatsappAlmacen() {
-  const text = document.getElementById('whatsapp-almacen').value;
-  if (!text.trim()) return;
+  const text = (document.getElementById('whatsapp-almacen').value || '').trim();
+  if (!text) return;
 
-  const parts = text.split(/ocurrencias\s*:|salida[sd]?\s+de\s+materiales\s+de\s+adelanto/i);
-  let mainText = parts[0];
+  const lines = text.split(/\r?\n/);
+  let seccionActual = 'HEADER';
+  const salidas = [];
+  const ingresos = [];
+  const ocurrenciasList = [];
 
-  const items = {};
-  
-  mainText = mainText.replace(/REPORTE DE ALMACEN/ig, '');
-  mainText = mainText.replace(/SALIDAS DEL[^\n]*/ig, '');
+  const reSalidaHeader = /^\s*[\-\*•]?\s*SALIDAS?\b(?:\s+DE\s+MATERIAL(?:ES)?|\s+DEL\b.*)?[:;]?\s*$/i;
+  const reIngresoHeader = /^\s*[\-\*•]?\s*INGRESOS?\b(?:\s+DE\s+MATERIAL(?:ES)?|\s+DEL\b.*|\s+DE\s+MATERIAL\s+OBRA)?[:;]?\s*$/i;
+  const reOcurrenciaHeader = /^\s*[\-\*•]?\s*(?:OCURRENCIAS?|NOTAS?|OBSERVACIONES?)\s*[:;]?/i;
+  const reHeaderMeta = /^\s*(?:REPORTE\s+DE\s+ALMACEN|OBRA\s*:|FECHA\s*:)/i;
 
-  const lines = mainText.split('\n');
-  const regexCantUnidad = /(?:^|\s|-|•|\*)(\d+(?:\.\d+)?)\s*(UND|UNID|UNIDADES|U|PAR|PARES|M|M2|M3|L|LITROS|GLN|GALONES|BLS|BOLSAS|PAQ|ROLLO|VAR|KG)?\s+(.*)/i;
+  const regexCantUnidad = /^\s*[\-\*•]?\s*(\d+(?:[.,]\d+)?)\s*(UND|UNID|UNIDADES|U|PAR|PARES|M|M2|M3|ML|L|LT|LTS|LITROS|GLN|GLNS|GAL|GALON|GALONES|BLS|BOLSA|BOLSAS|PAQ|PAQUETE|PAQUETES|ROLLO|ROLLOS|VAR|VARILLA|VARILLAS|KG|KGS|KILOS|KILOGRAMOS|PZA|PZAS|PIEZA|PIEZAS|SACO|SACOS|LATA|LATAS|CAJA|CAJAS|PLN|PLANCHA|PLANCHAS|JGO|JUEGO|JUEGOS)?\s*(?:DE\s+)?(.*)/i;
 
-  lines.forEach(line => {
-    line = line.trim();
+  lines.forEach(rawLine => {
+    let line = rawLine.trim();
     if (!line) return;
 
-    let segmentos = [line];
-    if (line.includes(',') || line.includes('. ')) {
-       if (!/^[\•\-\*]/.test(line)) {
-           // Dividimos por coma o punto seguido de espacio, para no romper decimales como "1.79"
-           segmentos = line.split(/,|\.\s+/);
-       }
+    const cleanHeaderLine = line.replace(/^[\-\*•\s]+/, '');
+
+    if (reSalidaHeader.test(cleanHeaderLine)) {
+      seccionActual = 'salidas';
+      return;
+    }
+    if (reIngresoHeader.test(cleanHeaderLine)) {
+      seccionActual = 'ingresos';
+      return;
+    }
+    if (reOcurrenciaHeader.test(cleanHeaderLine)) {
+      seccionActual = 'ocurrencias';
+      const restoOcu = cleanHeaderLine.replace(/^\s*(?:OCURRENCIAS?|NOTAS?|OBSERVACIONES?)\s*[:;]?\s*/i, '').trim();
+      if (restoOcu) {
+        ocurrenciasList.push(restoOcu);
+      }
+      return;
     }
 
-    segmentos.forEach(seg => {
-        seg = seg.trim();
-        if (!seg) return;
-        
-        let match = seg.match(regexCantUnidad);
-        if (match) {
-            let cant = parseFloat(match[1]);
-            let unidad = (match[2] || 'UND').toUpperCase();
-            if (['UNIDADES', 'UNID', 'U'].includes(unidad)) unidad = 'UND';
-            if (unidad === 'PARES') unidad = 'PAR';
-            if (unidad === 'BOLSAS') unidad = 'BLS';
-            if (unidad === 'LITROS') unidad = 'L';
-            if (unidad === 'GALONES') unidad = 'GLN';
+    if (seccionActual === 'HEADER') {
+      if (reHeaderMeta.test(cleanHeaderLine)) {
+        return;
+      }
+      if (regexCantUnidad.test(cleanHeaderLine)) {
+        seccionActual = 'salidas';
+      } else {
+        return;
+      }
+    }
 
-            let resto = match[3].trim().toUpperCase();
-            resto = resto.replace(/^PARA\s+[A-Z]+\s*/i, '');
-            resto = resto.replace(/PARA\s+.*$/i, '').trim();
-            resto = resto.replace(/VACIADO\s+.*$/i, '').trim();
+    if (seccionActual === 'ocurrencias') {
+      ocurrenciasList.push(line);
+      return;
+    }
 
-            let materialKey = resto;
-            let materialName = resto;
-            
-            if (/\bCEMENTO\b/.test(resto)) {
-                materialKey = 'CEMENTO';
-                materialName = 'CEMENTO';
-            } else if (/\bAGREGADO[S]?\b/.test(resto)) {
-                materialKey = 'AGREGADOS';
-                materialName = 'AGREGADOS';
-            } else if (/\b(ACERO|FIERRO)\b/.test(resto) && (resto.startsWith('ACERO') || resto.startsWith('FIERRO'))) {
-                materialKey = 'ACERO';
-                materialName = 'ACERO';
-            } else {
-                materialKey = resto.replace(/\s+/g, ' ');
-            }
+    if (seccionActual === 'salidas' || seccionActual === 'ingresos') {
+      const match = line.match(regexCantUnidad);
+      let cantStr = '';
+      let detalleStr = '';
 
-            if (!items[materialKey]) {
-                items[materialKey] = { material: materialName, cant: 0, unidad: unidad };
-            }
-            items[materialKey].cant += cant;
-            
-        } else {
-            let upper = seg.toUpperCase();
-            if (/\b(ACERO|FIERRO)\b/.test(upper)) {
-                if (upper.includes('REPORTARA') || upper.startsWith('ACERO') || upper.startsWith('FIERRO')) {
-                    if (!items['ACERO']) items['ACERO'] = { material: 'ACERO', cant: '', unidad: '' };
-                }
-            } else if (/\bAGREGADO[S]?\b/.test(upper)) {
-                if (!items['AGREGADOS']) items['AGREGADOS'] = { material: 'AGREGADOS', cant: '', unidad: '' };
-            }
+      if (match) {
+        const cantNum = match[1];
+        let unidad = (match[2] || 'UND').toUpperCase();
+        if (['UNIDADES', 'UNID', 'U'].includes(unidad)) unidad = 'UND';
+        else if (unidad === 'PARES') unidad = 'PAR';
+        else if (['BOLSAS', 'BOLSA'].includes(unidad)) unidad = 'BLS';
+        else if (['LITROS', 'LT', 'LTS'].includes(unidad)) unidad = 'L';
+        else if (['GALONES', 'GALON', 'GLNS'].includes(unidad)) unidad = 'GLN';
+        else if (['KGS', 'KILOS', 'KILOGRAMOS'].includes(unidad)) unidad = 'KG';
+        else if (unidad === 'ROLLOS') unidad = 'ROLLO';
+        else if (['VARILLAS', 'VARILLA'].includes(unidad)) unidad = 'VAR';
+        else if (['PIEZAS', 'PIEZA', 'PZAS'].includes(unidad)) unidad = 'PZA';
+        else if (['SACOS', 'SACO'].includes(unidad)) unidad = 'SACO';
+        else if (['LATAS', 'LATA'].includes(unidad)) unidad = 'LATA';
+        else if (['CAJAS', 'CAJA'].includes(unidad)) unidad = 'CAJA';
+        else if (['PLANCHAS', 'PLANCHA'].includes(unidad)) unidad = 'PLN';
+        else if (['JUEGOS', 'JUEGO'].includes(unidad)) unidad = 'JGO';
+
+        cantStr = cantNum + ' ' + unidad;
+        detalleStr = match[3].trim();
+
+        if (!detalleStr) {
+          detalleStr = line;
+          cantStr = '!';
         }
-    });
+      } else {
+        cantStr = '!';
+        detalleStr = line.replace(/^[\-\*•\s]+/, '').trim();
+      }
+
+      const item = { cant: cantStr, detalle: detalleStr };
+      if (seccionActual === 'salidas') {
+        salidas.push(item);
+      } else {
+        ingresos.push(item);
+      }
+    }
   });
 
-  const ctn = document.getElementById('modal-almacen');
-  Object.values(items).forEach(item => {
-     const idx = ctn.querySelectorAll('.modal-row').length;
-     const div = document.createElement('div');
-     div.className = 'modal-row';
-     div.dataset.almIdx = idx;
-     
-     let cantStr = item.cant ? item.cant + ' ' + item.unidad : '';
-     
-     div.innerHTML = '<input type="text" value="' + esc(item.material) + '" data-alm-detalle="' + idx + '" placeholder="Detalle"/>' +
-        '<input type="text" value="' + esc(cantStr) + '" data-alm-cant="' + idx + '" placeholder="Cant/UM" style="width:110px; margin-left:8px;"/>' +
-        '<button class="btn-modal-remove" style="margin-left:8px;" onclick="this.parentElement.remove()">✕</button>';
-     ctn.appendChild(div);
-  });
+  const ctnSalidas = document.getElementById('modal-almacen-salidas');
+  const ctnIngresos = document.getElementById('modal-almacen-ingresos');
+  const txtOcurrencias = document.getElementById('modal-almacen-ocurrencias');
 
-  document.getElementById('whatsapp-almacen').value = '';
+  let hSal = '';
+  salidas.forEach((item, idx) => {
+    hSal += renderAlmacenFila('salidas', item, idx);
+  });
+  ctnSalidas.innerHTML = hSal;
+
+  let hIng = '';
+  ingresos.forEach((item, idx) => {
+    hIng += renderAlmacenFila('ingresos', item, idx);
+  });
+  ctnIngresos.innerHTML = hIng;
+
+  if (ocurrenciasList.length > 0) {
+    txtOcurrencias.value = ocurrenciasList.join('\n');
+  }
+
+  const msgEl = document.getElementById('almacen-proc-msg');
+  if (msgEl) {
+    const ocuMsg = ocurrenciasList.length ? `, ${ocurrenciasList.length} nota(s)/ocurrencia(s)` : '';
+    msgEl.innerHTML = `<span style="color:#2e7d32; font-weight:600;">✓ Procesado: ${salidas.length} salidas, ${ingresos.length} ingresos${ocuMsg}</span>`;
+  }
+}
+
+function verOcurrenciasAlmacen(fecha){
+  const alm = getMovimientosAlmacenDia(fecha);
+  const texto = (alm.ocurrencias || '').trim();
+  document.getElementById('modal-ocurrencias-fecha').textContent = fmtFecha(fecha);
+  const cuerpo = document.getElementById('modal-ocurrencias-cuerpo');
+  if(texto){
+    cuerpo.textContent = texto;
+    cuerpo.style.fontStyle = 'normal';
+    cuerpo.style.color = '#222';
+  } else {
+    cuerpo.textContent = 'No se registraron ocurrencias ni notas adicionales para este día.';
+    cuerpo.style.fontStyle = 'italic';
+    cuerpo.style.color = '#888';
+  }
+  document.getElementById('modal-ocurrencias-almacen').classList.add('active');
+}
+
+function cerrarModalOcurrencias(){
+  document.getElementById('modal-ocurrencias-almacen').classList.remove('active');
 }
 
 function cerrarModal(){
@@ -838,20 +953,39 @@ async function guardarModal(){
   });
   equiposData[fecha]=equipos;
 
-  // Leer movimientos de almacen
-  const almRows=document.querySelectorAll('#modal-almacen .modal-row');
-  const movimientos=[];
-  almRows.forEach(row=>{
-    const detalleInp=row.querySelector('input[data-alm-detalle]');
-    const cantInp=row.querySelector('input[data-alm-cant]');
+  // Leer movimientos de almacen (salidas, ingresos y ocurrencias)
+  const salRows = document.querySelectorAll('#modal-almacen-salidas .modal-row-alm');
+  const salidas = [];
+  salRows.forEach(row => {
+    const detalleInp = row.querySelector('input[data-alm-detalle]');
+    const cantInp = row.querySelector('input[data-alm-cant]');
     if(detalleInp){
-      const detalle=detalleInp.value.trim();
-      const cant=cantInp ? cantInp.value.trim() : '';
-      if(detalle) movimientos.push({detalle,cant});
+      const detalle = detalleInp.value.trim();
+      const cant = cantInp ? cantInp.value.trim() : '';
+      if(detalle) salidas.push({ detalle, cant });
     }
   });
-  if(movimientos.length) movimientosAlmacenData[fecha]=movimientos;
-  else delete movimientosAlmacenData[fecha];
+
+  const ingRows = document.querySelectorAll('#modal-almacen-ingresos .modal-row-alm');
+  const ingresos = [];
+  ingRows.forEach(row => {
+    const detalleInp = row.querySelector('input[data-alm-detalle]');
+    const cantInp = row.querySelector('input[data-alm-cant]');
+    if(detalleInp){
+      const detalle = detalleInp.value.trim();
+      const cant = cantInp ? cantInp.value.trim() : '';
+      if(detalle) ingresos.push({ detalle, cant });
+    }
+  });
+
+  const ocuInp = document.getElementById('modal-almacen-ocurrencias');
+  const ocurrencias = ocuInp ? ocuInp.value.trim() : '';
+
+  if(salidas.length || ingresos.length || ocurrencias){
+    movimientosAlmacenData[fecha] = { salidas, ingresos, ocurrencias };
+  } else {
+    delete movimientosAlmacenData[fecha];
+  }
 
   cambiosPendientes=true;
   document.getElementById('btn-guardar').style.display='inline-block';
@@ -1118,17 +1252,43 @@ function renderDocumento(){
     }
 
     // -- IV. MOVIMIENTOS DE ALMACEN --
-    h+='<div class="seccion-titulo">IV. MOVIMIENTOS DE ALMACEN</div>';
-    if(almDia.length){
-      h+='<ul class="lista-almacen">';
-      almDia.forEach(mov=>{
-        const cantTxt = mov.cant ? `<span class="cant">${esc(mov.cant)}</span>` : '';
-        h+=`<li>${cantTxt} ${esc(mov.detalle)}</li>`;
+    const tieneOcurrencias = !!(almDia.ocurrencias && almDia.ocurrencias.trim());
+    h += `<div class="seccion-titulo" style="display:flex; justify-content:space-between; align-items:center;">
+      <span>IV. MOVIMIENTOS DE ALMACEN</span>
+      <button type="button" class="btn-almacen-ocurrencias ${tieneOcurrencias ? 'con-datos' : ''}" onclick="verOcurrenciasAlmacen('${fecha}')" title="${tieneOcurrencias ? 'Ver ocurrencias de almacén' : 'Sin ocurrencias registradas'}">
+        📓 Ocurrencias ${tieneOcurrencias ? '<span class="badge-dot">●</span>' : ''}
+      </button>
+    </div>`;
+
+    h += '<div style="margin-left:6px; margin-bottom:8px;">';
+
+    // a) Salida de Materiales
+    h += '<div style="font-weight:700; font-size:9.5pt; color:#0d47a1; margin:4px 0 2px;">a) Salida de Materiales</div>';
+    if(almDia.salidas && almDia.salidas.length){
+      h += '<ul class="lista-almacen">';
+      almDia.salidas.forEach(mov => {
+        const cantTxt = (mov.cant && mov.cant !== '!') ? `<span class="cant">${esc(mov.cant)}</span>` : (mov.cant === '!' ? '<span class="cant" style="color:#d32f2f;">!</span>' : '');
+        h += `<li>${cantTxt} ${esc(mov.detalle)}</li>`;
       });
-      h+='</ul>';
+      h += '</ul>';
     } else {
-      h+='<p style="font-size:9pt;color:#999;margin-left:12px;margin-bottom:6px;font-style:italic;">Sin datos - use el boton "Editar datos del dia"</p>';
+      h += '<p style="font-size:8.5pt; color:#777; margin-left:14px; margin-bottom:4px; font-style:italic;">- No se registraron salidas de materiales</p>';
     }
+
+    // b) Ingreso de Materiales
+    h += '<div style="font-weight:700; font-size:9.5pt; color:#0d47a1; margin:6px 0 2px;">b) Ingreso de Materiales</div>';
+    if(almDia.ingresos && almDia.ingresos.length){
+      h += '<ul class="lista-almacen">';
+      almDia.ingresos.forEach(mov => {
+        const cantTxt = (mov.cant && mov.cant !== '!') ? `<span class="cant">${esc(mov.cant)}</span>` : (mov.cant === '!' ? '<span class="cant" style="color:#d32f2f;">!</span>' : '');
+        h += `<li>${cantTxt} ${esc(mov.detalle)}</li>`;
+      });
+      h += '</ul>';
+    } else {
+      h += '<p style="font-size:8.5pt; color:#777; margin-left:14px; margin-bottom:4px; font-style:italic;">- No se registraron ingresos de materiales</p>';
+    }
+
+    h += '</div>';
 
     // -- V. OBSERVACIONES --
     h+='<div class="seccion-titulo">V. OBSERVACIONES</div>';
@@ -1323,23 +1483,69 @@ async function generarCuadernoWord(desde,hasta,residente,inspector,actsRango){
 
     // -- IV. MOVIMIENTOS DE ALMACEN --
     ch.push(new Paragraph({spacing:{before:120,after:60},children:[new TextRun({text:"IV. MOVIMIENTOS DE ALMACEN",bold:true,size:22,color:"0D47A1",font:"Calibri",underline:{}})]}));
-    if(almDia.length){
-      const mitadAlm=Math.ceil(almDia.length/2);
-      const colIzqAlm=almDia.slice(0,mitadAlm);
-      const colDerAlm=almDia.slice(mitadAlm);
-      const maxRowsAlm=Math.max(colIzqAlm.length,colDerAlm.length);
-      const aRows=[];
-      for(let i=0;i<maxRowsAlm;i++){
-        const lTxt=colIzqAlm[i]?`•  ${colIzqAlm[i].cant?`${colIzqAlm[i].cant}  `:''}${colIzqAlm[i].detalle}`:'';
-        const rTxt=colDerAlm[i]?`•  ${colDerAlm[i].cant?`${colDerAlm[i].cant}  `:''}${colDerAlm[i].detalle}`:'';
-        aRows.push(new TableRow({children:[
+
+    // a) Salida de Materiales
+    ch.push(new Paragraph({
+      spacing:{before:60,after:40},
+      indent:{left:convertInchesToTwip(0.2)},
+      children:[new TextRun({text:"a) Salida de Materiales",bold:true,size:20,font:"Calibri"})]
+    }));
+
+    if(almDia.salidas && almDia.salidas.length){
+      const mitadSal=Math.ceil(almDia.salidas.length/2);
+      const colIzqSal=almDia.salidas.slice(0,mitadSal);
+      const colDerSal=almDia.salidas.slice(mitadSal);
+      const maxRowsSal=Math.max(colIzqSal.length,colDerSal.length);
+      const sRows=[];
+      for(let i=0;i<maxRowsSal;i++){
+        const lCant = colIzqSal[i] && colIzqSal[i].cant && colIzqSal[i].cant !== '!' ? `${colIzqSal[i].cant}  ` : '';
+        const lTxt = colIzqSal[i] ? `•  ${lCant}${colIzqSal[i].detalle}` : '';
+        const rCant = colDerSal[i] && colDerSal[i].cant && colDerSal[i].cant !== '!' ? `${colDerSal[i].cant}  ` : '';
+        const rTxt = colDerSal[i] ? `•  ${rCant}${colDerSal[i].detalle}` : '';
+        sRows.push(new TableRow({children:[
           new TableCell({width:{size:50,type:WidthType.PERCENTAGE},borders:na,children:[new Paragraph({indent:{left:convertInchesToTwip(0.15)},children:[new TextRun({text:lTxt,size:19,font:"Calibri"})]})]}),
           new TableCell({width:{size:50,type:WidthType.PERCENTAGE},borders:na,children:[new Paragraph({indent:{left:convertInchesToTwip(0.15)},children:[new TextRun({text:rTxt,size:19,font:"Calibri"})]})]})
         ]}));
       }
-      ch.push(new Table({width:{size:95,type:WidthType.PERCENTAGE},indent:{size:convertInchesToTwip(0.2),type:WidthType.DXA},borders:{top:nb,bottom:nb,left:nb,right:nb,insideHorizontal:nb,insideVertical:nb},rows:aRows}));
+      ch.push(new Table({width:{size:95,type:WidthType.PERCENTAGE},indent:{size:convertInchesToTwip(0.2),type:WidthType.DXA},borders:{top:nb,bottom:nb,left:nb,right:nb,insideHorizontal:nb,insideVertical:nb},rows:sRows}));
     } else {
-      ch.push(new Paragraph({spacing:{after:40},indent:{left:convertInchesToTwip(0.3)},children:[new TextRun({text:"Sin datos registrados.",size:18,italics:true,color:"999999",font:"Calibri"})]}));
+      ch.push(new Paragraph({
+        spacing:{after:40},
+        indent:{left:convertInchesToTwip(0.3)},
+        children:[new TextRun({text:"- No se registraron salidas de materiales",size:19,font:"Calibri"})]
+      }));
+    }
+
+    // b) Ingreso de Materiales
+    ch.push(new Paragraph({
+      spacing:{before:80,after:40},
+      indent:{left:convertInchesToTwip(0.2)},
+      children:[new TextRun({text:"b) Ingreso de Materiales",bold:true,size:20,font:"Calibri"})]
+    }));
+
+    if(almDia.ingresos && almDia.ingresos.length){
+      const mitadIng=Math.ceil(almDia.ingresos.length/2);
+      const colIzqIng=almDia.ingresos.slice(0,mitadIng);
+      const colDerIng=almDia.ingresos.slice(mitadIng);
+      const maxRowsIng=Math.max(colIzqIng.length,colDerIng.length);
+      const iRows=[];
+      for(let i=0;i<maxRowsIng;i++){
+        const lCant = colIzqIng[i] && colIzqIng[i].cant && colIzqIng[i].cant !== '!' ? `${colIzqIng[i].cant}  ` : '';
+        const lTxt = colIzqIng[i] ? `•  ${lCant}${colIzqIng[i].detalle}` : '';
+        const rCant = colDerIng[i] && colDerIng[i].cant && colDerIng[i].cant !== '!' ? `${colDerIng[i].cant}  ` : '';
+        const rTxt = colDerIng[i] ? `•  ${rCant}${colDerIng[i].detalle}` : '';
+        iRows.push(new TableRow({children:[
+          new TableCell({width:{size:50,type:WidthType.PERCENTAGE},borders:na,children:[new Paragraph({indent:{left:convertInchesToTwip(0.15)},children:[new TextRun({text:lTxt,size:19,font:"Calibri"})]})]}),
+          new TableCell({width:{size:50,type:WidthType.PERCENTAGE},borders:na,children:[new Paragraph({indent:{left:convertInchesToTwip(0.15)},children:[new TextRun({text:rTxt,size:19,font:"Calibri"})]})]})
+        ]}));
+      }
+      ch.push(new Table({width:{size:95,type:WidthType.PERCENTAGE},indent:{size:convertInchesToTwip(0.2),type:WidthType.DXA},borders:{top:nb,bottom:nb,left:nb,right:nb,insideHorizontal:nb,insideVertical:nb},rows:iRows}));
+    } else {
+      ch.push(new Paragraph({
+        spacing:{after:40},
+        indent:{left:convertInchesToTwip(0.3)},
+        children:[new TextRun({text:"- No se registraron ingresos de materiales",size:19,font:"Calibri"})]
+      }));
     }
 
     // -- V. OBSERVACIONES --
