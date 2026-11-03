@@ -151,7 +151,11 @@ function agregarFilaFoto() {
   // Dropdown de actividades
   let selectHtml = `<select class="sel-actividad" onchange="seleccionarActividadFoto(this)" style="width:100%; max-width:100%; min-width:0; box-sizing:border-box; padding:6px; font-size:9pt; border-radius:4px; border:1px solid #ccc; text-align:left; text-align-last:left; direction:ltr; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"><option value="" style="text-align:left; direction:ltr;">-- Seleccionar actividad o escribir abajo --</option>`;
   currentActividades.forEach(valStr => {
-    selectHtml += `<option value="${esc(valStr)}" style="text-align:left; direction:ltr;">${esc(valStr)}</option>`;
+    let optLabel = (valStr || '').trim();
+    if (optLabel.length > 80) {
+      optLabel = optLabel.slice(0, 80).trim() + '...';
+    }
+    selectHtml += `<option value="${esc(valStr)}" title="${esc(valStr)}" style="text-align:left; direction:ltr;">${esc(optLabel)}</option>`;
   });
   selectHtml += `</select>`;
 
