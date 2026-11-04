@@ -7,14 +7,11 @@
 
 <!-- SweetAlert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<!-- Firebase App & Database -->
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 
 <style id="page-rule">
   @page {
     size: A4 landscape;
-    margin: 5mm;
+    margin: 6mm 6mm;
   }
 </style>
 
@@ -27,7 +24,7 @@
   body {
     margin: 0;
     padding: 0;
-    background: #525659;
+    background: #475569;
     font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
     color: #000;
   }
@@ -37,17 +34,17 @@
     position: sticky;
     top: 0;
     z-index: 999;
-    background: #1e293b;
+    background: #0f172a;
     color: #fff;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
   }
   .toolbar-main {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     align-items: center;
-    padding: 8px 14px;
-    border-bottom: 1px solid #334155;
+    padding: 8px 16px;
+    border-bottom: 1px solid #1e293b;
   }
   .toolbar-title {
     display: flex;
@@ -65,7 +62,7 @@
     font-weight: 600;
   }
   .btn {
-    padding: 5px 11px;
+    padding: 5px 12px;
     font-size: 0.76rem;
     font-weight: 600;
     border-radius: 5px;
@@ -81,39 +78,23 @@
   .btn-primary { background: #2563eb; color: #fff; }
   .btn-success { background: #16a34a; color: #fff; }
   .btn-warning { background: #d97706; color: #fff; }
-  .btn-secondary { background: #475569; color: #fff; }
+  .btn-secondary { background: #334155; color: #fff; }
   .btn-accent { background: #7c3aed; color: #fff; }
-  .btn-outline { background: transparent; border: 1px solid #94a3b8; color: #f1f5f9; }
+  .btn-outline { background: transparent; border: 1px solid #64748b; color: #f1f5f9; }
 
   .toolbar-sub {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 12px;
-    padding: 6px 14px;
-    background: #0f172a;
+    gap: 14px;
+    padding: 6px 16px;
+    background: #020617;
     font-size: 0.74rem;
     color: #cbd5e1;
   }
-  .toolbar-sub label {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    cursor: pointer;
-  }
-  .toolbar-sub input[type="number"] {
-    width: 48px;
-    padding: 2px 4px;
-    border-radius: 3px;
-    border: 1px solid #475569;
-    background: #1e293b;
-    color: #fff;
-    font-size: 0.74rem;
-    text-align: center;
-  }
   .toolbar-sub select {
-    padding: 2px 6px;
-    border-radius: 3px;
+    padding: 3px 8px;
+    border-radius: 4px;
     border: 1px solid #475569;
     background: #1e293b;
     color: #fff;
@@ -129,32 +110,32 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
-    padding: 15px 10px 40px;
+    gap: 20px;
+    padding: 16px 10px 50px;
   }
 
   /* HOJA A4 BASE */
   .hoja-a4 {
     background: #fff;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    box-shadow: 0 6px 25px rgba(0,0,0,0.35);
     position: relative;
     box-sizing: border-box;
   }
 
-  /* MODO DOS: 2 Partes por hoja A4 Horizontal */
+  /* MODO DOS: 1 Hoja A4 Horizontal por día (Izquierda: ORIGINAL | Derecha: CARGO) */
   .hoja-a4.modo-dos {
     width: 297mm;
-    height: 209mm;
-    max-height: 209mm;
-    padding: 4mm 6mm;
+    height: 208mm;
+    max-height: 208mm;
+    padding: 5mm 6mm;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    column-gap: 5mm;
+    column-gap: 6mm;
     page-break-after: always;
     overflow: hidden;
   }
 
-  /* MODO UNA: 1 Parte por hoja A4 Vertical */
+  /* MODO UNA: 1 Parte individual por Hoja Vertical */
   .hoja-a4.modo-una {
     width: 210mm;
     height: 296mm;
@@ -167,12 +148,12 @@
   /* LÍNEA DE CORTE EN MODO DOS */
   .cut-divider {
     position: absolute;
-    top: 3mm;
-    bottom: 3mm;
+    top: 4mm;
+    bottom: 4mm;
     left: 50%;
     transform: translateX(-50%);
     width: 1px;
-    border-left: 1px dashed #777;
+    border-left: 1px dashed #64748b;
     pointer-events: none;
     z-index: 10;
   }
@@ -182,9 +163,9 @@
     left: 50%;
     transform: translate(-50%, -50%);
     background: #fff;
-    padding: 2px;
+    padding: 2px 4px;
     font-size: 9pt;
-    color: #555;
+    color: #475569;
     line-height: 1;
   }
 
@@ -194,66 +175,50 @@
     flex-direction: column;
     height: 100%;
     border: 1px solid #111;
-    padding: 2.5mm 3.5mm;
+    padding: 3mm 4mm;
     background: #fff;
     position: relative;
     box-sizing: border-box;
     overflow: hidden;
   }
 
-  /* BARRA SUPERIOR DE ACCIONES POR PARTE (OCULTA AL IMPRIMIR) */
-  .card-quick-actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #f1f5f9;
-    border: 1px solid #cbd5e1;
-    border-radius: 4px;
-    padding: 2px 6px;
-    margin-bottom: 2mm;
-    font-size: 6.8pt;
-  }
-  .card-quick-actions span {
-    font-weight: 700;
-    color: #1e293b;
-  }
-  .card-quick-actions .btn-mini {
-    padding: 1px 5px;
-    font-size: 6.2pt;
-    border-radius: 3px;
-    cursor: pointer;
-    border: 1px solid #94a3b8;
-    background: #fff;
-    color: #334155;
-  }
-  .card-quick-actions .btn-mini:hover {
-    background: #e2e8f0;
-  }
-
   /* TÍTULO / PASTILLA OFICIAL */
   .pf-title-wrap {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    margin-bottom: 1.5mm;
+    justify-content: space-between;
+    margin-bottom: 2mm;
   }
   .pf-title-badge {
     display: inline-block;
     border: 1.5px solid #000;
     border-radius: 5px;
-    padding: 1.5px 12px;
+    padding: 2px 14px;
     box-shadow: 2px 2px 0px rgba(0,0,0,0.6);
     font-weight: 900;
-    font-size: 8.5pt;
+    font-size: 8.8pt;
     letter-spacing: 0.8px;
     background: #fff;
     text-transform: uppercase;
   }
+  .pf-copia-tag {
+    font-size: 7.2pt;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    border: 1px solid #000;
+    border-radius: 3px;
+    padding: 1px 7px;
+    background: #f8fafc;
+  }
+  .pf-copia-tag.cargo {
+    background: #fef3c7;
+    border-color: #b45309;
+    color: #92400e;
+  }
   .pf-num-indicator {
-    margin-left: auto;
-    font-size: 7pt;
+    font-size: 7.5pt;
     font-weight: 700;
-    color: #333;
+    color: #111;
   }
 
   /* INPUTS EDITABLES EN EL DOCUMENTO */
@@ -265,13 +230,13 @@
     font-size: inherit;
     font-weight: inherit;
     color: #000;
-    padding: 0.5px 2px;
+    padding: 1px 3px;
     outline: none;
     transition: all 0.15s ease;
   }
   .doc-inp:hover {
     border-color: #3b82f6;
-    background: rgba(239, 246, 255, 0.6);
+    background: rgba(239, 246, 255, 0.7);
   }
   .doc-inp:focus {
     border-color: #2563eb;
@@ -283,16 +248,16 @@
   /* SECCIÓN CABECERA */
   .pf-header-box {
     border: 1px solid #000;
-    padding: 2px 4px;
-    margin-bottom: 1.5mm;
-    font-size: 6.8pt;
-    line-height: 1.35;
+    padding: 3px 5px;
+    margin-bottom: 2mm;
+    font-size: 7pt;
+    line-height: 1.45;
   }
   .pf-header-row {
     display: flex;
     align-items: center;
-    gap: 4px;
-    margin-bottom: 1px;
+    gap: 5px;
+    margin-bottom: 2px;
   }
   .pf-header-row:last-child {
     margin-bottom: 0;
@@ -307,17 +272,17 @@
   table.pf-tbl {
     width: 100%;
     border-collapse: collapse;
-    font-size: 6.5pt;
-    margin-bottom: 1.5mm;
+    font-size: 6.8pt;
+    margin-bottom: 2mm;
   }
   table.pf-tbl th, table.pf-tbl td {
     border: 1px solid #000;
-    padding: 1.2px 2px;
+    padding: 2.2px 3px;
     text-align: center;
     vertical-align: middle;
   }
   table.pf-tbl th {
-    background: #e5e5e5;
+    background: #e8e8e8;
     font-weight: 700;
     text-transform: uppercase;
   }
@@ -327,7 +292,7 @@
     background: transparent;
     text-align: center;
     font-family: inherit;
-    font-size: 6.5pt;
+    font-size: 6.8pt;
     font-weight: inherit;
     padding: 0;
     margin: 0;
@@ -343,93 +308,82 @@
 
   /* SECCIÓN OBRA (3 LÍNEAS REGLAMENTARIAS) */
   .pf-obra-wrap {
-    margin-bottom: 1.5mm;
+    margin-bottom: 2mm;
   }
   .pf-obra-title {
     text-align: center;
     font-weight: 700;
-    font-size: 7pt;
+    font-size: 7.2pt;
     letter-spacing: 0.5px;
-    margin-bottom: 1px;
+    margin-bottom: 1.5px;
     text-transform: uppercase;
   }
   .pf-obra-lines {
     border: 1px solid #000;
-    padding: 2px 4px;
+    padding: 2.5px 5px;
     display: flex;
     flex-direction: column;
-    gap: 1.5px;
+    gap: 2px;
   }
   .pf-obra-line {
-    font-size: 6.2pt;
+    font-size: 6.5pt;
     font-weight: 600;
     color: #111;
   }
 
-  /* TABLA ITEM / TRABAJOS REALIZADOS (COMPACTA Y ELEVADA) */
+  /* TABLA TRABAJOS REALIZADOS (SIN COLUMNA ITEM, SOLO TRABAJOS) */
   .pf-trabajos-wrap {
     border: 1px solid #000;
-    margin-bottom: 2mm;
+    margin-bottom: 2.5mm;
     background: #fff;
   }
   .pf-trabajos-tbl {
     width: 100%;
     border-collapse: collapse;
-    font-size: 6.3pt;
   }
   .pf-trabajos-tbl th {
     border-bottom: 1px solid #000;
-    background: #e5e5e5;
+    background: #e8e8e8;
     font-weight: 700;
-    padding: 1.5px 3px;
+    padding: 2px 4px;
+    font-size: 7pt;
     text-transform: uppercase;
-  }
-  .pf-trabajos-tbl th.th-item {
-    width: 38px;
-    border-right: 1px solid #000;
     text-align: center;
-  }
-  .pf-trabajos-tbl th.th-desc {
-    text-align: center;
+    letter-spacing: 0.5px;
   }
   .pf-trabajos-tbl td {
-    border-bottom: 1px solid #000;
-    padding: 1.5px 3px;
+    padding: 3.5px 5px;
     vertical-align: top;
   }
-  .pf-trabajos-tbl tr:last-child td {
-    border-bottom: none;
-  }
-  .pf-trabajos-tbl td.td-item {
-    border-right: 1px solid #000;
-    text-align: center;
-    font-weight: 700;
-    vertical-align: middle;
-  }
-  .pf-trabajos-tbl td.td-desc {
-    text-align: left;
-    line-height: 1.25;
-  }
-  .pf-asiento-badge {
-    font-weight: 700;
-    color: #0b3954;
-    display: inline;
-  }
-  .pf-trabajos-tbl td [contenteditable="true"] {
+  .pf-trabajos-content {
+    font-size: 6.6pt;
+    line-height: 1.35;
+    text-align: justify;
     outline: none;
-    min-height: 12px;
+    min-height: 28mm;
+    white-space: pre-wrap;
   }
-  .pf-trabajos-tbl td [contenteditable="true"]:hover {
+  .pf-trabajos-content:hover {
     background: #eff6ff;
   }
-  .pf-trabajos-tbl td [contenteditable="true"]:focus {
+  .pf-trabajos-content:focus {
     background: #dbeafe;
   }
+  .pf-asiento-header {
+    font-weight: 700;
+    color: #0b3954;
+    display: block;
+    margin-top: 3px;
+    margin-bottom: 1px;
+  }
+  .pf-asiento-header:first-child {
+    margin-top: 0;
+  }
 
-  /* SECCIÓN FIRMAS (CON ESPACIO AMPLIO PARA SELLO Y FIRMA) */
+  /* SECCIÓN FIRMAS (CON ESPACIO AMPLIO) */
   .pf-firmas-box {
     margin-top: auto;
-    padding-top: 5mm;
+    padding-top: 4mm;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 6mm;
@@ -442,21 +396,21 @@
     justify-content: flex-end;
   }
   .pf-firma-space {
-    height: 16mm; /* Espacio limpio para estampas y firmas */
+    height: 18mm; /* Espacio limpio para sellos y firmas físicas */
     position: relative;
   }
   .pf-firma-linea {
     border-top: 1px dotted #000;
-    margin-bottom: 1.5px;
+    margin-bottom: 2px;
   }
   .pf-firma-cargo {
     font-weight: 700;
-    font-size: 6.4pt;
+    font-size: 6.8pt;
     text-transform: uppercase;
     letter-spacing: 0.3px;
   }
   .pf-firma-nombre {
-    font-size: 5.6pt;
+    font-size: 6pt;
     color: #333;
     white-space: nowrap;
     overflow: hidden;
@@ -465,7 +419,7 @@
 
   /* ESTILOS DE IMPRESIÓN */
   @media print {
-    .no-print, .card-quick-actions {
+    .no-print {
       display: none !important;
     }
     body {
@@ -501,7 +455,7 @@
       background: transparent !important;
       box-shadow: none !important;
     }
-    .pf-trabajos-tbl td [contenteditable="true"] {
+    .pf-trabajos-content {
       background: transparent !important;
     }
   }
@@ -514,13 +468,13 @@
   <div class="toolbar-main">
     <div class="toolbar-title">
       📄 <span>WORKEA - Partes Diarios de Trabajo</span>
-      <span class="badge" id="lblBadgePartes">14 Partes Listos</span>
+      <span class="badge" id="lblBadgePartes">14 Partes Listos (Original + Cargo)</span>
     </div>
 
     <button class="btn btn-accent" onclick="abrirModalOperadorGlobal()">👷 Asignar Operador a Todos</button>
     <button class="btn btn-warning" onclick="restablecerOriginales()">⚡ Restablecer 14 Partes (60 HM)</button>
     <button class="btn btn-primary" onclick="guardarCambiosLocal(true)">💾 Guardar Cambios</button>
-    <button class="btn btn-success" onclick="imprimirModo('dos')">🖨️ Imprimir 2 por Hoja (A4 Apaisado)</button>
+    <button class="btn btn-success" onclick="imprimirModo('dos')">🖨️ Imprimir Todo (Original + Cargo por Hoja)</button>
     <button class="btn btn-secondary" onclick="imprimirModo('una')">📄 Imprimir 1 por Hoja (A4 Vertical)</button>
     <a href="index.html" class="btn btn-outline">🏠 Inicio</a>
     <a href="cuaderno.html" class="btn btn-outline">📋 Cuaderno</a>
@@ -530,19 +484,9 @@
   <div class="toolbar-sub">
     <span>Modo de Vista:</span>
     <select id="selModoVista" onchange="cambiarModoVista(this.value)">
-      <option value="dos" selected>2 Partes por Hoja A4 (Económico - 7 Hojas)</option>
-      <option value="una">1 Parte por Hoja A4 (Página Completa - 14 Hojas)</option>
+      <option value="dos" selected>2 por Hoja A4 Horizontal (Original a la izquierda + Cargo a la derecha)</option>
+      <option value="una">1 por Hoja A4 Vertical (Página completa)</option>
     </select>
-
-    <label>
-      Espacio Corte:
-      <input type="number" id="inpCorte" value="5" min="0" max="25" onchange="actualizarEspaciado()"> mm
-    </label>
-
-    <label>
-      Margen Hoja:
-      <input type="number" id="inpMargen" value="4" min="0" max="20" onchange="actualizarEspaciado()"> mm
-    </label>
 
     <div style="margin-left: auto;">
       <span class="stat-highlight">Total Acumulado:</span>
@@ -552,9 +496,9 @@
   </div>
 </div>
 
-<!-- DATALIST GLOBAL DE OPERADORES (DEL CATÁLOGO DE ASISTENCIA) -->
+<!-- DATALIST GLOBAL DE OPERADORES (57 OBREROS DE ASISTENCIA) -->
 <datalist id="dl-operadores">
-  <!-- Inyectado dinámicamente con los 57 obreros de asistencia -->
+  <!-- Inyectado con JS -->
 </datalist>
 
 <!-- CONTENEDOR PRINCIPAL DONDE SE GENERAN LAS HOJAS -->
@@ -941,23 +885,7 @@ const DEFAULT_PARTES = [
     "t_fin": "15:00",
     "t_hrs": "1.00",
     "total_hm": "4.00",
-    "items": [
-      {
-        "item": "01",
-        "asiento": "Asiento N° 467 (Residencia)",
-        "texto": "Vaciado de cimiento corrido CC-1' (2.06 m³) en muro cortina ejes 2-3/A, CC-1 (0.64 m³) y CC-3 (1.38 m³) en SS.HH. mixto en 1er nivel."
-      },
-      {
-        "item": "02",
-        "asiento": "Asiento N° 467 (Residencia)",
-        "texto": "Vaciado de columnetas CA-2 (0.31 m³) en guardianía ejes 2/C-D. Total concreto vaciado: 4.39 m³. Consolidación mecánica con vibradora."
-      },
-      {
-        "item": "03",
-        "asiento": "Asiento N° 466 (Inspectoría)",
-        "texto": "Verificación, autorización y conformidad de vaciado de cimientos corridos y columnetas en 1° piso."
-      }
-    ]
+    "trabajos_texto": "Asiento N° 467 (Residencia):\nVaciado de cimiento corrido CC-1' (2.06 m³) en muro cortina ejes 2-3/A, CC-1 (0.64 m³) y CC-3 (1.38 m³) en SS.HH. mixto en 1er nivel.\nVaciado de columnetas CA-2 (0.31 m³) en guardianía ejes 2/C-D. Total concreto vaciado: 4.39 m³. Consolidación mecánica con vibradora.\n\nAsiento N° 466 (Inspectoría):\nVerificación, autorización y conformidad de vaciado de cimientos corridos y columnetas en 1° piso."
   },
   {
     "num": "02",
@@ -988,23 +916,7 @@ const DEFAULT_PARTES = [
     "t_fin": "",
     "t_hrs": "0.00",
     "total_hm": "3.00",
-    "items": [
-      {
-        "item": "01",
-        "asiento": "Asiento N° 470 (Residencia)",
-        "texto": "Vaciado de concreto f'c=210 kg/cm² en sobrecimiento CC-1 en ejes 1-2/A (cuarto eléctrico tramo puerta 0.21 m³ y muro 0.18 m³, total 0.39 m³)."
-      },
-      {
-        "item": "02",
-        "asiento": "Asiento N° 470 (Residencia)",
-        "texto": "Control de calidad en estado fresco: ensayo de asentamiento (Slump) de 4\" y moldeo de 03 probetas cilíndricas normativas."
-      },
-      {
-        "item": "03",
-        "asiento": "Asiento N° 468 (Inspectoría)",
-        "texto": "Constatación de vaciado de concreto en sobrecimientos con toma de muestras cilíndricas y verificación de slump conforme."
-      }
-    ]
+    "trabajos_texto": "Asiento N° 470 (Residencia):\nVaciado de concreto f'c=210 kg/cm² en sobrecimiento CC-1 en ejes 1-2/A (cuarto eléctrico tramo puerta 0.21 m³ y muro 0.18 m³, total 0.39 m³).\nControl de calidad en estado fresco: ensayo de asentamiento (Slump) de 4\" y moldeo de 03 probetas cilíndricas normativas.\n\nAsiento N° 468 (Inspectoría):\nConstatación de vaciado de concreto en sobrecimientos con toma de muestras cilíndricas y verificación de slump conforme."
   },
   {
     "num": "03",
@@ -1035,23 +947,7 @@ const DEFAULT_PARTES = [
     "t_fin": "15:00",
     "t_hrs": "1.00",
     "total_hm": "4.00",
-    "items": [
-      {
-        "item": "01",
-        "asiento": "Asiento N° 478 (Residencia)",
-        "texto": "Vaciado de sobrecimientos reforzados f'c=210 kg/cm² CC-1'' en muro cortina (0.17 m³ y 0.21 m³), CC-1 en SS.HH. mixto (0.49 m³) y CC-3 eje 2/A-B (0.45 m³)."
-      },
-      {
-        "item": "02",
-        "asiento": "Asiento N° 478 (Residencia)",
-        "texto": "Total concreto colocado: 1.32 m³. Abastecimiento con 1 GLN Gasohol de almacén de obra para vibrado y mezclado."
-      },
-      {
-        "item": "03",
-        "asiento": "Asiento N° 480 (Inspectoría)",
-        "texto": "Verificación y control de campo en vaciado de concreto en sobrecimientos y columnetas en 1° piso."
-      }
-    ]
+    "trabajos_texto": "Asiento N° 478 (Residencia):\nVaciado de sobrecimientos reforzados f'c=210 kg/cm² CC-1'' en muro cortina (0.17 m³ y 0.21 m³), CC-1 en SS.HH. mixto (0.49 m³) y CC-3 eje 2/A-B (0.45 m³).\nTotal concreto colocado: 1.32 m³. Abastecimiento con 1 GLN Gasohol de almacén de obra para vibrado y mezclado.\n\nAsiento N° 480 (Inspectoría):\nVerificación y control de campo en vaciado de concreto en sobrecimientos y columnetas en 1° piso."
   },
   {
     "num": "04",
@@ -1082,23 +978,7 @@ const DEFAULT_PARTES = [
     "t_fin": "15:00",
     "t_hrs": "1.00",
     "total_hm": "4.00",
-    "items": [
-      {
-        "item": "01",
-        "asiento": "Asiento N° 486 (Residencia)",
-        "texto": "Vaciado de concreto f'c=175 kg/cm² en vigueta VA-2 eje 1-2/A (0.04 m³), vigueta VA-1 eje 1-2/B (0.09 m³) y columnetas CA-2 eje 1-2/A (0.26 m³)."
-      },
-      {
-        "item": "02",
-        "asiento": "Asiento N° 486 (Residencia)",
-        "texto": "Vaciado de columnetas CA-2 y CA-4 eje 2/A-B (0.48 m³). Total concreto: 0.87 m³. Vibradora registrada en equipos del asiento."
-      },
-      {
-        "item": "03",
-        "asiento": "Asiento N° 487 (Inspectoría)",
-        "texto": "Verificación y supervisión de colocación de concreto en columnetas y viguetas de amarre en 1° piso."
-      }
-    ]
+    "trabajos_texto": "Asiento N° 486 (Residencia):\nVaciado de concreto f'c=175 kg/cm² en vigueta VA-2 eje 1-2/A (0.04 m³), vigueta VA-1 eje 1-2/B (0.09 m³) y columnetas CA-2 eje 1-2/A (0.26 m³).\nVaciado de columnetas CA-2 y CA-4 eje 2/A-B (0.48 m³). Total concreto: 0.87 m³. Vibradora registrada en equipos del asiento.\n\nAsiento N° 487 (Inspectoría):\nVerificación y supervisión de colocación de concreto en columnetas y viguetas de amarre en 1° piso."
   },
   {
     "num": "05",
@@ -1129,23 +1009,7 @@ const DEFAULT_PARTES = [
     "t_fin": "14:30",
     "t_hrs": "0.50",
     "total_hm": "3.50",
-    "items": [
-      {
-        "item": "01",
-        "asiento": "Asiento N° 488 (Residencia)",
-        "texto": "Vaciado de columnetas CA-2 (0.26 m³) y CA-1 (0.20 m³) en SS.HH., vigueta VA-1 (0.06 m³) y sobrecimiento CC-3 eje 2-3/A-B en 1er nivel."
-      },
-      {
-        "item": "02",
-        "asiento": "Asiento N° 488 (Residencia)",
-        "texto": "Total concreto colocado: 0.52 m³. Salida de almacén de 1 GAL Gasohol para operatividad del equipo vibrador."
-      },
-      {
-        "item": "03",
-        "asiento": "Asiento N° 489 (Inspectoría)",
-        "texto": "Vaciado de concreto para columnetas y viguetas en 1er piso con control de prueba slump y toma de probetas."
-      }
-    ]
+    "trabajos_texto": "Asiento N° 488 (Residencia):\nVaciado de columnetas CA-2 (0.26 m³) y CA-1 (0.20 m³) en SS.HH., vigueta VA-1 (0.06 m³) y sobrecimiento CC-3 eje 2-3/A-B en 1er nivel.\nTotal concreto colocado: 0.52 m³. Salida de almacén de 1 GAL Gasohol para operatividad del equipo vibrador.\n\nAsiento N° 489 (Inspectoría):\nVaciado de concreto para columnetas y viguetas en 1er piso con control de prueba slump y toma de probetas."
   },
   {
     "num": "06",
@@ -1176,23 +1040,7 @@ const DEFAULT_PARTES = [
     "t_fin": "14:30",
     "t_hrs": "0.50",
     "total_hm": "3.50",
-    "items": [
-      {
-        "item": "01",
-        "asiento": "Asiento N° 492 (Residencia)",
-        "texto": "Culminación de vaciado y consolidación de columnetas CA-1 y CA-2 y sobrecimiento CC-3 en área de SS.HH. mixtos."
-      },
-      {
-        "item": "02",
-        "asiento": "Asiento N° 492 (Residencia)",
-        "texto": "Control de alineamiento y plomos. Salida de almacén de 2 GAL Gasohol para trompo mezclador y equipo vibrador."
-      },
-      {
-        "item": "03",
-        "asiento": "Asiento N° 490 (Inspectoría)",
-        "texto": "Verificación de vaciado de concreto para columnetas en 1° piso con prueba slump conforme."
-      }
-    ]
+    "trabajos_texto": "Asiento N° 492 (Residencia):\nCulminación de vaciado y consolidación de columnetas CA-1 y CA-2 y sobrecimiento CC-3 en área de SS.HH. mixtos.\nControl de alineamiento y plomos. Salida de almacén de 2 GAL Gasohol para trompo mezclador y equipo vibrador.\n\nAsiento N° 490 (Inspectoría):\nVerificación de vaciado de concreto para columnetas en 1° piso con prueba slump conforme."
   },
   {
     "num": "07",
@@ -1223,23 +1071,7 @@ const DEFAULT_PARTES = [
     "t_fin": "",
     "t_hrs": "0.00",
     "total_hm": "3.00",
-    "items": [
-      {
-        "item": "01",
-        "asiento": "Asiento N° 493 (Residencia)",
-        "texto": "Vaciado de 03 viguetas de amarre VA-1 f'c=175 kg/cm² en SS.HH. mixto (0.08 m³), cuarto eléctrico (0.11 m³) y proyección vacío (0.09 m³)."
-      },
-      {
-        "item": "02",
-        "asiento": "Asiento N° 493 (Residencia)",
-        "texto": "Total concreto colocado: 0.28 m³. Vibradora registrada en equipos del asiento del cuaderno de obra."
-      },
-      {
-        "item": "03",
-        "asiento": "Asiento N° 491 (Inspectoría)",
-        "texto": "Verificación y aprobación de trabajos de colocación de concreto en viguetas de amarre en 1° piso."
-      }
-    ]
+    "trabajos_texto": "Asiento N° 493 (Residencia):\nVaciado de 03 viguetas de amarre VA-1 f'c=175 kg/cm² en SS.HH. mixto (0.08 m³), cuarto eléctrico (0.11 m³) y proyección vacío (0.09 m³).\nTotal concreto colocado: 0.28 m³. Vibradora registrada en equipos del asiento del cuaderno de obra.\n\nAsiento N° 491 (Inspectoría):\nVerificación y aprobación de trabajos de colocación de concreto en viguetas de amarre en 1° piso."
   },
   {
     "num": "08",
@@ -1270,23 +1102,7 @@ const DEFAULT_PARTES = [
     "t_fin": "15:00",
     "t_hrs": "1.00",
     "total_hm": "4.00",
-    "items": [
-      {
-        "item": "01",
-        "asiento": "Asiento N° 497 (Residencia)",
-        "texto": "Vaciado de losa superior de mesones de laboratorio M-503 y M-505 en 5to nivel (0.50 m³), mesón M-201 en 2do nivel (0.24 m³) y vigueta VA-1."
-      },
-      {
-        "item": "02",
-        "asiento": "Asiento N° 497 (Residencia)",
-        "texto": "Control de slump 5\" y moldeo de 03 probetas cilíndricas. Salida de almacén: 2 GAL Gasohol para operatividad de equipos."
-      },
-      {
-        "item": "03",
-        "asiento": "Asiento N° 494 (Inspectoría)",
-        "texto": "Inspección de vaciado de mesones de concreto y control de asentamiento de mezcla."
-      }
-    ]
+    "trabajos_texto": "Asiento N° 497 (Residencia):\nVaciado de losa superior de mesones de laboratorio M-503 y M-505 en 5to nivel (0.50 m³), mesón M-201 en 2do nivel (0.24 m³) y vigueta VA-1.\nControl de slump 5\" y moldeo de 03 probetas cilíndricas. Salida de almacén: 2 GAL Gasohol para operatividad de equipos.\n\nAsiento N° 494 (Inspectoría):\nInspección de vaciado de mesones de concreto y control de asentamiento de mezcla."
   },
   {
     "num": "09",
@@ -1317,23 +1133,7 @@ const DEFAULT_PARTES = [
     "t_fin": "15:00",
     "t_hrs": "1.00",
     "total_hm": "4.00",
-    "items": [
-      {
-        "item": "01",
-        "asiento": "Asiento N° 498 (Residencia)",
-        "texto": "Vaciado y consolidación de mesones complementarios y viguetas de cerramiento en edificación. Curado húmedo y vibrado normativo."
-      },
-      {
-        "item": "02",
-        "asiento": "Asiento N° 498 (Residencia)",
-        "texto": "Preparativos e instalaciones previas para vaciado de contrapisos. Salida de almacén de 2 GAL Gasohol."
-      },
-      {
-        "item": "03",
-        "asiento": "Asiento N° 495 (Inspectoría)",
-        "texto": "Inspección de mesones vaciados en 2° y 5° nivel e instalaciones sanitarias previas a contrapisos."
-      }
-    ]
+    "trabajos_texto": "Asiento N° 498 (Residencia):\nVaciado y consolidación de mesones complementarios y viguetas de cerramiento en edificación. Curado húmedo y vibrado normativo.\nPreparativos e instalaciones previas para vaciado de contrapisos. Salida de almacén de 2 GAL Gasohol.\n\nAsiento N° 495 (Inspectoría):\nInspección de mesones vaciados en 2° y 5° nivel e instalaciones sanitarias previas a contrapisos."
   },
   {
     "num": "10",
@@ -1364,23 +1164,7 @@ const DEFAULT_PARTES = [
     "t_fin": "15:00",
     "t_hrs": "1.00",
     "total_hm": "5.00",
-    "items": [
-      {
-        "item": "01",
-        "asiento": "Asiento N° 501 (Residencia)",
-        "texto": "Vaciado de mesón M-404 en 4to nivel (0.22 m³), viguetas VA-2 (0.19 m³), columnetas CA-1 y CA-5 (0.40 m³) y suelo cemento bajo escalera (1.08 m³)."
-      },
-      {
-        "item": "02",
-        "asiento": "Asiento N° 501 (Residencia)",
-        "texto": "Total concreto colocado: 1.89 m³. Ensayo de slump 4\" y 03 probetas. Salida almacén de 4 GAL Gasohol."
-      },
-      {
-        "item": "03",
-        "asiento": "Asiento N° 499 (Inspectoría)",
-        "texto": "Constatación de vaciado de columnetas y viguetas con slump 5\" y solicitud de celeridad al vaciado de contrapisos."
-      }
-    ]
+    "trabajos_texto": "Asiento N° 501 (Residencia):\nVaciado de mesón M-404 en 4to nivel (0.22 m³), viguetas VA-2 (0.19 m³), columnetas CA-1 y CA-5 (0.40 m³) y suelo cemento bajo escalera (1.08 m³).\nTotal concreto colocado: 1.89 m³. Ensayo de slump 4\" y 03 probetas. Salida almacén de 4 GAL Gasohol.\n\nAsiento N° 499 (Inspectoría):\nConstatación de vaciado de columnetas y viguetas con slump 5\" y solicitud de celeridad al vaciado de contrapisos."
   },
   {
     "num": "11",
@@ -1411,23 +1195,7 @@ const DEFAULT_PARTES = [
     "t_fin": "16:00",
     "t_hrs": "3.00",
     "total_hm": "7.00",
-    "items": [
-      {
-        "item": "01",
-        "asiento": "Asiento N° 502 (Residencia)",
-        "texto": "Gran vaciado de CONTRAPISO EN EL QUINTO NIVEL (área 88.23 m², e=7.5 cm, volumen 6.62 m³) con concreto f'c=175 kg/cm² y vigueta VA-1."
-      },
-      {
-        "item": "02",
-        "asiento": "Asiento N° 502 (Residencia)",
-        "texto": "Vibrado y reglado continuo. Slump 5\" y moldeo de 03 probetas. Salida almacén: 2 GAL Gasohol. Vibradora registrada en equipos."
-      },
-      {
-        "item": "03",
-        "asiento": "Asiento N° 500 (Inspectoría)",
-        "texto": "Verificación de pruebas hidrostáticas y supervisión de avance en gran vaciado de contrapisos en 5° nivel."
-      }
-    ]
+    "trabajos_texto": "Asiento N° 502 (Residencia):\nGran vaciado de CONTRAPISO EN EL QUINTO NIVEL (área 88.23 m², e=7.5 cm, volumen 6.62 m³) con concreto f'c=175 kg/cm² y vigueta VA-1.\nVibrado y reglado continuo. Slump 5\" y moldeo de 03 probetas. Salida almacén: 2 GAL Gasohol. Vibradora registrada en equipos.\n\nAsiento N° 500 (Inspectoría):\nVerificación de pruebas hidrostáticas y supervisión de avance en gran vaciado de contrapisos en 5° nivel."
   },
   {
     "num": "12",
@@ -1458,23 +1226,7 @@ const DEFAULT_PARTES = [
     "t_fin": "",
     "t_hrs": "0.00",
     "total_hm": "5.00",
-    "items": [
-      {
-        "item": "01",
-        "asiento": "Asiento N° 504 (Residencia)",
-        "texto": "Vaciado de contrapiso en SS.HH. 4to nivel (1.19 m³) y Falso Piso enmallado con acero de 1/4\" en Sala de Balanzas del 3er nivel (1.77 m³)."
-      },
-      {
-        "item": "02",
-        "asiento": "Asiento N° 504 (Residencia)",
-        "texto": "Total concreto colocado: 2.96 m³. Control de slump 4\" y 03 probetas. Salida almacén: 17 bolsas de cemento."
-      },
-      {
-        "item": "03",
-        "asiento": "Asiento N° 503 (Inspectoría)",
-        "texto": "Constatación expresa del vaciado de contrapisos en Sala de Balanzas de 3° nivel y contrapiso en SS.HH. de 5° nivel."
-      }
-    ]
+    "trabajos_texto": "Asiento N° 504 (Residencia):\nVaciado de contrapiso en SS.HH. 4to nivel (1.19 m³) y Falso Piso enmallado con acero de 1/4\" en Sala de Balanzas del 3er nivel (1.77 m³).\nTotal concreto colocado: 2.96 m³. Control de slump 4\" y 03 probetas. Salida almacén: 17 bolsas de cemento.\n\nAsiento N° 503 (Inspectoría):\nConstatación expresa del vaciado de contrapisos en Sala de Balanzas de 3° nivel y contrapiso en SS.HH. de 5° nivel."
   },
   {
     "num": "13",
@@ -1505,23 +1257,7 @@ const DEFAULT_PARTES = [
     "t_fin": "17:00",
     "t_hrs": "4.00",
     "total_hm": "8.00",
-    "items": [
-      {
-        "item": "01",
-        "asiento": "Asiento N° 505 (Residencia - App)",
-        "texto": "GRAN VACIADO DE CONTRAPISO EN 4TO NIVEL (área 108.05 m², espesor incrementado a e=7.5 cm por tuberías, volumen 8.10 m³)."
-      },
-      {
-        "item": "02",
-        "asiento": "Asiento N° 505 (Residencia - App)",
-        "texto": "Vaciado de Falso Piso enmallado en Sala de Aire 3er nivel (2.34 m³). Total vaciado: 10.44 m³. Slump 5.5\" y 03 probetas. Salida: 2 GAL Gasohol."
-      },
-      {
-        "item": "03",
-        "asiento": "Asiento N° 506 (Inspectoría)",
-        "texto": "Verificación y supervisión del gran vaciado de contrapisos y falsos pisos en 4° y 3° nivel."
-      }
-    ]
+    "trabajos_texto": "Asiento N° 505 (Residencia - App):\nGRAN VACIADO DE CONTRAPISO EN 4TO NIVEL (área 108.05 m², espesor incrementado a e=7.5 cm por tuberías, volumen 8.10 m³).\nVaciado de Falso Piso enmallado en Sala de Aire 3er nivel (2.34 m³). Total vaciado: 10.44 m³. Slump 5.5\" y 03 probetas. Salida: 2 GAL Gasohol.\n\nAsiento N° 506 (Inspectoría):\nVerificación y supervisión del gran vaciado de contrapisos y falsos pisos en 4° y 3° nivel."
   },
   {
     "num": "14",
@@ -1552,23 +1288,7 @@ const DEFAULT_PARTES = [
     "t_fin": "15:00",
     "t_hrs": "2.00",
     "total_hm": "6.00",
-    "items": [
-      {
-        "item": "01",
-        "asiento": "Asiento N° 507 (Residencia - App)",
-        "texto": "Vaciado de contrapiso con pendiente en Azotea (área 64.0 m², e=4 cm, volumen 2.56 m³) con aditivo impermeabilizante Sika-1."
-      },
-      {
-        "item": "02",
-        "asiento": "Asiento N° 507 (Residencia - App)",
-        "texto": "Vaciado de losa superior Mesón M-302 en 3er nivel (0.23 m³). Slump 4.5\" y 02 probetas. CUMPLIMIENTO EXACTO DE LAS 60.00 HM CONTRATADAS."
-      },
-      {
-        "item": "03",
-        "asiento": "Asiento N° 508 (Inspectoría)",
-        "texto": "Verificación de vaciados en azotea con aditivo impermeabilizante y cierre final de actividades del equipo por término de servicio."
-      }
-    ]
+    "trabajos_texto": "Asiento N° 507 (Residencia - App):\nVaciado de contrapiso con pendiente en Azotea (área 64.0 m², e=4 cm, volumen 2.56 m³) con aditivo impermeabilizante Sika-1.\nVaciado de losa superior Mesón M-302 en 3er nivel (0.23 m³). Slump 4.5\" y 02 probetas. CUMPLIMIENTO EXACTO DE LAS 60.00 HM CONTRATADAS.\n\nAsiento N° 508 (Inspectoría):\nVerificación de vaciados en azotea con aditivo impermeabilizante y cierre final de actividades del equipo por término de servicio."
   }
 ];
 
@@ -1594,7 +1314,7 @@ function cargarDatalistOperadores() {
 
 // CARGAR PARTES (DE LOCALSTORAGE O DEFAULT)
 function cargarPartes() {
-  const guardado = localStorage.getItem('workea_partes_diarios_v3');
+  const guardado = localStorage.getItem('workea_partes_diarios_v4');
   if (guardado) {
     try {
       partes = JSON.parse(guardado);
@@ -1612,36 +1332,28 @@ function renderHojas() {
   const cont = document.getElementById('hojas-container');
   cont.innerHTML = '';
 
-  const margen = document.getElementById('inpMargen')?.value || 4;
-  const corte = document.getElementById('inpCorte')?.value || 5;
-
   if (modoActual === 'dos') {
-    // 2 partes por hoja
-    for (let i = 0; i < partes.length; i += 2) {
-      const p1 = partes[i];
-      const p2 = partes[i + 1] || null;
-
+    // Cada día tiene su propia hoja A4 horizontal:
+    // Izquierda: ORIGINAL | Derecha: CARGO (ambos con los mismos datos del día)
+    partes.forEach((p, idx) => {
       const hoja = document.createElement('div');
       hoja.className = 'hoja-a4 modo-dos';
-      hoja.style.padding = `${margen}mm 6mm`;
-      hoja.style.columnGap = `${corte}mm`;
 
       hoja.innerHTML = `
         <div class="cut-divider">
           <div class="cut-scissor">✂</div>
         </div>
-        ${renderParteHTML(p1, i)}
-        ${p2 ? renderParteHTML(p2, i + 1) : '<div class="parte-box" style="border:1px dashed #ccc;display:flex;align-items:center;justify-content:center;color:#999;font-size:8pt;">Espacio Libre</div>'}
+        ${renderParteHTML(p, idx, 'ORIGINAL')}
+        ${renderParteHTML(p, idx, 'CARGO')}
       `;
       cont.appendChild(hoja);
-    }
+    });
   } else {
-    // 1 parte por hoja
+    // 1 parte por hoja A4 vertical
     partes.forEach((p, idx) => {
       const hoja = document.createElement('div');
       hoja.className = 'hoja-a4 modo-una';
-      hoja.style.padding = `${margen * 2}mm 12mm`;
-      hoja.innerHTML = renderParteHTML(p, idx);
+      hoja.innerHTML = renderParteHTML(p, idx, 'ORIGINAL');
       cont.appendChild(hoja);
     });
   }
@@ -1649,52 +1361,27 @@ function renderHojas() {
   actualizarTotales();
 }
 
-// GENERAR HTML DEL PARTE CON ESTRUCTURA FÍSICA EXACTA
-function renderParteHTML(p, idx) {
-  // Extraer nombre limpio del operador para firma al pie
+// GENERAR HTML DEL PARTE CON FORMATO FÍSICO EXACTO
+function renderParteHTML(p, idx, tipoCopia) {
+  const isCargo = tipoCopia === 'CARGO';
+  const tagClass = isCargo ? 'pf-copia-tag cargo' : 'pf-copia-tag';
+
+  // Nombre limpio del operador para firma al pie
   const opNombreLimpio = p.operador ? p.operador.split(' - ')[0] : 'PERSONAL OBRERO';
 
-  // Generar filas de trabajos
-  let filasTrabajos = '';
-  if (p.items && p.items.length) {
-    p.items.forEach((it, itIdx) => {
-      filasTrabajos += `
-        <tr>
-          <td class="td-item">
-            <input class="cell-inp" style="font-weight:700;" value="${it.item || (itIdx + 1).toString().padStart(2, '0')}" oninput="onItemNumChange(${idx}, ${itIdx}, this.value)">
-          </td>
-          <td class="td-desc">
-            <div contenteditable="true" onblur="onItemDescChange(${idx}, ${itIdx}, this.innerHTML)">
-              ${it.asiento ? `<strong class="pf-asiento-badge">${it.asiento}:</strong> ` : ''}${it.texto || ''}
-            </div>
-          </td>
-        </tr>
-      `;
-    });
-  } else {
-    filasTrabajos = `
-      <tr>
-        <td class="td-item">01</td>
-        <td class="td-desc"><div contenteditable="true" onblur="onItemDescChange(${idx}, 0, this.innerHTML)">Sin actividades registradas</div></td>
-      </tr>
-    `;
-  }
+  // Formatear texto de trabajos resaltando los títulos de asientos
+  const textoFormateado = (p.trabajos_texto || '')
+    .replace(/(Asiento N° \d+ \([^\)]+\):)/g, '<span class="pf-asiento-header">$1</span>');
 
   return `
-    <div class="parte-box" id="card-parte-${idx}">
-      <!-- ACCIONES RÁPIDAS (OCULTAS AL IMPRIMIR) -->
-      <div class="card-quick-actions no-print">
-        <span>PARTE N° ${p.num} &bull; ${p.fecha} (${p.total_hm} HM)</span>
-        <div style="display: flex; gap: 4px;">
-          <button class="btn-mini" onclick="agregarFilaTrabajo(${idx})" title="Añadir renglón de actividad">+ Fila</button>
-          <button class="btn-mini" onclick="seleccionarOperadorDialog(${idx})" title="Seleccionar operador de la lista">👥 Operador</button>
-        </div>
-      </div>
-
-      <!-- TÍTULO OFICIAL EN PASTILLA -->
+    <div class="parte-box" id="card-parte-${idx}-${tipoCopia}">
+      <!-- TÍTULO OFICIAL EN PASTILLA + ETIQUETA ORIGINAL / CARGO -->
       <div class="pf-title-wrap">
         <div class="pf-title-badge">PARTE DIARIO DE TRABAJO</div>
-        <div class="pf-num-indicator">N° ${p.num}</div>
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <span class="${tagClass}">${tipoCopia}</span>
+          <span class="pf-num-indicator">N° ${p.num}</span>
+        </div>
       </div>
 
       <!-- CABECERA (UNIDAD, PLACA, FECHA, OPERADOR, RESIDENTE) -->
@@ -1703,14 +1390,15 @@ function renderParteHTML(p, idx) {
           <span class="pf-lbl">UNIDAD:</span>
           <input class="doc-inp" style="flex: 1.5; font-weight: 700;" value="${p.unidad || ''}" oninput="onCampoChange(${idx}, 'unidad', this.value)">
           <span class="pf-lbl" style="margin-left: 6px;">PLACA:</span>
-          <input class="doc-inp" style="width: 48px; text-align: center;" value="${p.placa || 'S/P'}" oninput="onCampoChange(${idx}, 'placa', this.value)">
+          <input class="doc-inp" style="width: 50px; text-align: center;" value="${p.placa || 'S/P'}" oninput="onCampoChange(${idx}, 'placa', this.value)">
           <span class="pf-lbl" style="margin-left: 6px;">FECHA:</span>
-          <input class="doc-inp" style="width: 70px; text-align: center; font-weight: 700;" value="${p.fecha || ''}" oninput="onCampoChange(${idx}, 'fecha', this.value)">
+          <input class="doc-inp" style="width: 75px; text-align: center; font-weight: 700;" value="${p.fecha || ''}" oninput="onCampoChange(${idx}, 'fecha', this.value)">
         </div>
 
         <div class="pf-header-row">
           <span class="pf-lbl">OPERADOR:</span>
-          <input list="dl-operadores" class="doc-inp" id="inp-op-${idx}" style="flex: 1; font-weight: 600;" value="${p.operador || ''}" placeholder="Buscar obrero por nombre o cargo..." onchange="onOperadorSelectChange(${idx}, this.value)" oninput="onOperadorSelectChange(${idx}, this.value)">
+          <input list="dl-operadores" class="doc-inp inp-op-field-${idx}" style="flex: 1; font-weight: 600;" value="${p.operador || ''}" placeholder="Buscar obrero por nombre o cargo..." onchange="onOperadorSelectChange(${idx}, this.value)" oninput="onOperadorSelectChange(${idx}, this.value)">
+          <button class="btn btn-outline no-print" style="padding: 1px 6px; font-size: 6.5pt; color: #1e293b; border-color: #94a3b8;" onclick="seleccionarOperadorDialog(${idx})" title="Abrir catálogo de asistencia">👥 Buscar</button>
         </div>
 
         <div class="pf-header-row">
@@ -1732,15 +1420,15 @@ function renderParteHTML(p, idx) {
         <tbody>
           <tr>
             <td style="font-weight: 700;">HOROMETRO</td>
-            <td><input class="cell-inp" value="${p.h_ini || '-'}" oninput="onHorometroChange(${idx}, 'h_ini', this.value)"></td>
-            <td><input class="cell-inp" value="${p.h_fin || '-'}" oninput="onHorometroChange(${idx}, 'h_fin', this.value)"></td>
-            <td><input class="cell-inp" id="tot-hm-${idx}" style="font-weight:700;" value="${p.h_tot || p.total_hm}" oninput="onCampoChange(${idx}, 'h_tot', this.value)"></td>
+            <td><input class="cell-inp inp-hini-${idx}" value="${p.h_ini || '-'}" oninput="onHorometroChange(${idx}, 'h_ini', this.value)"></td>
+            <td><input class="cell-inp inp-hfin-${idx}" value="${p.h_fin || '-'}" oninput="onHorometroChange(${idx}, 'h_fin', this.value)"></td>
+            <td><input class="cell-inp inp-htot-${idx}" style="font-weight:700;" value="${p.h_tot || p.total_hm}" oninput="onCampoChange(${idx}, 'h_tot', this.value)"></td>
           </tr>
           <tr>
             <td style="font-weight: 700;">KILOMETRAJE</td>
-            <td><input class="cell-inp" value="${p.km_ini || '-'}" oninput="onCampoChange(${idx}, 'km_ini', this.value)"></td>
-            <td><input class="cell-inp" value="${p.km_fin || '-'}" oninput="onCampoChange(${idx}, 'km_fin', this.value)"></td>
-            <td><input class="cell-inp" value="${p.km_tot || '-'}" oninput="onCampoChange(${idx}, 'km_tot', this.value)"></td>
+            <td><input class="cell-inp inp-kmini-${idx}" value="${p.km_ini || '-'}" oninput="onCampoChange(${idx}, 'km_ini', this.value)"></td>
+            <td><input class="cell-inp inp-kmfin-${idx}" value="${p.km_fin || '-'}" oninput="onCampoChange(${idx}, 'km_fin', this.value)"></td>
+            <td><input class="cell-inp inp-kmtot-${idx}" value="${p.km_tot || '-'}" oninput="onCampoChange(${idx}, 'km_tot', this.value)"></td>
           </tr>
         </tbody>
       </table>
@@ -1749,9 +1437,9 @@ function renderParteHTML(p, idx) {
       <div class="pf-obra-wrap">
         <div class="pf-obra-title">OBRA</div>
         <div class="pf-obra-lines">
-          <input class="doc-inp pf-obra-line" value="${p.obra_line1 || 'MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS O MISIONALES'}" oninput="onCampoChange(${idx}, 'obra_line1', this.value)">
-          <input class="doc-inp pf-obra-line" value="${p.obra_line2 || 'INSTITUCIONALES EN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA'}" oninput="onCampoChange(${idx}, 'obra_line2', this.value)">
-          <input class="doc-inp pf-obra-line" value="${p.obra_line3 || 'DISTRITO DE TORATA - MARISCAL NIETO - MOQUEGUA (META 290)'}" oninput="onCampoChange(${idx}, 'obra_line3', this.value)">
+          <input class="doc-inp pf-obra-line inp-obra1-${idx}" value="${p.obra_line1 || 'MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS O MISIONALES'}" oninput="onCampoChange(${idx}, 'obra_line1', this.value)">
+          <input class="doc-inp pf-obra-line inp-obra2-${idx}" value="${p.obra_line2 || 'INSTITUCIONALES EN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA'}" oninput="onCampoChange(${idx}, 'obra_line2', this.value)">
+          <input class="doc-inp pf-obra-line inp-obra3-${idx}" value="${p.obra_line3 || 'DISTRITO DE TORATA - MARISCAL NIETO - MOQUEGUA (META 290)'}" oninput="onCampoChange(${idx}, 'obra_line3', this.value)">
         </div>
       </div>
 
@@ -1769,8 +1457,8 @@ function renderParteHTML(p, idx) {
           <tr>
             <td style="font-weight: 700;">GASOLINA</td>
             <td>Gls.</td>
-            <td><input class="cell-inp" style="font-weight:700;" value="${p.gasolina || '-'}" oninput="onGasolinaChange(${idx}, this.value)"></td>
-            <td><input class="cell-inp" value="${p.vale || '-'}" oninput="onCampoChange(${idx}, 'vale', this.value)"></td>
+            <td><input class="cell-inp inp-gas-${idx}" style="font-weight:700;" value="${p.gasolina || '-'}" oninput="onGasolinaChange(${idx}, this.value)"></td>
+            <td><input class="cell-inp inp-vale-${idx}" value="${p.vale || '-'}" oninput="onCampoChange(${idx}, 'vale', this.value)"></td>
           </tr>
           <tr>
             <td style="font-weight: 700;">PETROLEO</td>
@@ -1800,28 +1488,31 @@ function renderParteHTML(p, idx) {
         </thead>
         <tbody>
           <tr>
-            <td><input class="cell-inp" value="${p.m_ini || '-'}" oninput="onCampoChange(${idx}, 'm_ini', this.value)"></td>
-            <td><input class="cell-inp" value="${p.m_fin || '-'}" oninput="onCampoChange(${idx}, 'm_fin', this.value)"></td>
-            <td><input class="cell-inp" style="font-weight:600;" value="${p.m_hrs || '0.00'}" oninput="onHorasChange(${idx}, 'm_hrs', this.value)"></td>
-            <td><input class="cell-inp" value="${p.t_ini || '-'}" oninput="onCampoChange(${idx}, 't_ini', this.value)"></td>
-            <td><input class="cell-inp" value="${p.t_fin || '-'}" oninput="onCampoChange(${idx}, 't_fin', this.value)"></td>
-            <td><input class="cell-inp" style="font-weight:600;" value="${p.t_hrs || '0.00'}" oninput="onHorasChange(${idx}, 't_hrs', this.value)"></td>
-            <td style="background: #f8fafc; font-weight: 700;"><input class="cell-inp" id="tot-hrs-${idx}" style="font-weight:700;" value="${p.total_hm}" oninput="onTotalHmDirectChange(${idx}, this.value)"></td>
+            <td><input class="cell-inp inp-mini-${idx}" value="${p.m_ini || '-'}" oninput="onCampoChange(${idx}, 'm_ini', this.value)"></td>
+            <td><input class="cell-inp inp-mfin-${idx}" value="${p.m_fin || '-'}" oninput="onCampoChange(${idx}, 'm_fin', this.value)"></td>
+            <td><input class="cell-inp inp-mhrs-${idx}" style="font-weight:600;" value="${p.m_hrs || '0.00'}" oninput="onHorasChange(${idx}, 'm_hrs', this.value)"></td>
+            <td><input class="cell-inp inp-tini-${idx}" value="${p.t_ini || '-'}" oninput="onCampoChange(${idx}, 't_ini', this.value)"></td>
+            <td><input class="cell-inp inp-tfin-${idx}" value="${p.t_fin || '-'}" oninput="onCampoChange(${idx}, 't_fin', this.value)"></td>
+            <td><input class="cell-inp inp-thrs-${idx}" style="font-weight:600;" value="${p.t_hrs || '0.00'}" oninput="onHorasChange(${idx}, 't_hrs', this.value)"></td>
+            <td style="background: #f8fafc; font-weight: 700;"><input class="cell-inp inp-tothrs-${idx}" style="font-weight:700;" value="${p.total_hm}" oninput="onTotalHmDirectChange(${idx}, this.value)"></td>
           </tr>
         </tbody>
       </table>
 
-      <!-- TABLA ITEM / TRABAJOS REALIZADOS (COMPACTA) -->
+      <!-- TABLA TRABAJOS REALIZADOS (SOLO TRABAJOS, SIN ITEM) -->
       <div class="pf-trabajos-wrap">
         <table class="pf-trabajos-tbl">
           <thead>
             <tr>
-              <th class="th-item">ITEM</th>
-              <th class="th-desc">TRABAJOS REALIZADOS</th>
+              <th>TRABAJOS REALIZADOS</th>
             </tr>
           </thead>
-          <tbody id="tbody-trabajos-${idx}">
-            ${filasTrabajos}
+          <tbody>
+            <tr>
+              <td>
+                <div class="pf-trabajos-content inp-trabajos-${idx}" contenteditable="true" onblur="onTrabajosTextoChange(${idx}, this.innerText)">${textoFormateado}</div>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -1832,7 +1523,7 @@ function renderParteHTML(p, idx) {
           <div class="pf-firma-space"></div>
           <div class="pf-firma-linea"></div>
           <div class="pf-firma-cargo">OPERADOR</div>
-          <div class="pf-firma-nombre" id="lbl-firma-op-${idx}">${opNombreLimpio}</div>
+          <div class="pf-firma-nombre lbl-firma-op-${idx}">${opNombreLimpio}</div>
         </div>
 
         <div class="pf-firma-item">
@@ -1853,10 +1544,36 @@ function renderParteHTML(p, idx) {
   `;
 }
 
-// MANEJADORES DE EDICIÓN EN VIVO
+// MANEJADORES DE EDICIÓN EN VIVO (CON AUTO-SINCRONIZACIÓN ENTRE ORIGINAL Y CARGO)
 function onCampoChange(idx, campo, val) {
   if (!partes[idx]) return;
   partes[idx][campo] = val;
+
+  // Sincronizar inputs en la pantalla para ambas copias (Original y Cargo)
+  const classMap = {
+    'unidad': `.inp-unidad-${idx}`,
+    'placa': `.inp-placa-${idx}`,
+    'fecha': `.inp-fecha-${idx}`,
+    'residente': `.inp-residente-${idx}`,
+    'obra_line1': `.inp-obra1-${idx}`,
+    'obra_line2': `.inp-obra2-${idx}`,
+    'obra_line3': `.inp-obra3-${idx}`,
+    'vale': `.inp-vale-${idx}`,
+    'm_ini': `.inp-mini-${idx}`,
+    'm_fin': `.inp-mfin-${idx}`,
+    't_ini': `.inp-tini-${idx}`,
+    't_fin': `.inp-tfin-${idx}`,
+    'km_ini': `.inp-kmini-${idx}`,
+    'km_fin': `.inp-kmfin-${idx}`,
+    'km_tot': `.inp-kmtot-${idx}`
+  };
+
+  if (classMap[campo]) {
+    document.querySelectorAll(classMap[campo]).forEach(el => {
+      if (el !== document.activeElement) el.value = val;
+    });
+  }
+
   guardarCambiosLocal(false);
 }
 
@@ -1864,14 +1581,26 @@ function onOperadorSelectChange(idx, val) {
   if (!partes[idx]) return;
   partes[idx].operador = val;
   const opNombreLimpio = val ? val.split(' - ')[0] : 'PERSONAL OBRERO';
-  const lblFirma = document.getElementById(`lbl-firma-op-${idx}`);
-  if (lblFirma) lblFirma.innerText = opNombreLimpio;
+
+  // Sincronizar inputs de operador en ambas copias
+  document.querySelectorAll(`.inp-op-field-${idx}`).forEach(el => {
+    if (el !== document.activeElement) el.value = val;
+  });
+
+  // Sincronizar firmas en ambas copias
+  document.querySelectorAll(`.lbl-firma-op-${idx}`).forEach(el => {
+    el.innerText = opNombreLimpio;
+  });
+
   guardarCambiosLocal(false);
 }
 
 function onGasolinaChange(idx, val) {
   if (!partes[idx]) return;
   partes[idx].gasolina = val;
+  document.querySelectorAll(`.inp-gas-${idx}`).forEach(el => {
+    if (el !== document.activeElement) el.value = val;
+  });
   actualizarTotales();
   guardarCambiosLocal(false);
 }
@@ -1885,10 +1614,9 @@ function onHorasChange(idx, campo, val) {
   partes[idx].total_hm = tot;
   partes[idx].h_tot = tot;
 
-  const totInput = document.getElementById(`tot-hrs-${idx}`);
-  if (totInput) totInput.value = tot;
-  const totHm = document.getElementById(`tot-hm-${idx}`);
-  if (totHm) totHm.value = tot;
+  // Sincronizar campos de horas en ambas copias
+  document.querySelectorAll(`.inp-tothrs-${idx}`).forEach(el => el.value = tot);
+  document.querySelectorAll(`.inp-htot-${idx}`).forEach(el => el.value = tot);
 
   actualizarTotales();
   guardarCambiosLocal(false);
@@ -1898,6 +1626,12 @@ function onTotalHmDirectChange(idx, val) {
   if (!partes[idx]) return;
   partes[idx].total_hm = val;
   partes[idx].h_tot = val;
+  document.querySelectorAll(`.inp-tothrs-${idx}`).forEach(el => {
+    if (el !== document.activeElement) el.value = val;
+  });
+  document.querySelectorAll(`.inp-htot-${idx}`).forEach(el => {
+    if (el !== document.activeElement) el.value = val;
+  });
   actualizarTotales();
   guardarCambiosLocal(false);
 }
@@ -1911,43 +1645,20 @@ function onHorometroChange(idx, campo, val) {
     const diff = (fin - ini).toFixed(2);
     partes[idx].h_tot = diff;
     partes[idx].total_hm = diff;
-    const elTotHm = document.getElementById(`tot-hm-${idx}`);
-    if (elTotHm) elTotHm.value = diff;
-    const elTotHrs = document.getElementById(`tot-hrs-${idx}`);
-    if (elTotHrs) elTotHrs.value = diff;
+    document.querySelectorAll(`.inp-htot-${idx}`).forEach(el => el.value = diff);
+    document.querySelectorAll(`.inp-tothrs-${idx}`).forEach(el => el.value = diff);
     actualizarTotales();
   }
   guardarCambiosLocal(false);
 }
 
-function onItemNumChange(parteIdx, itemIdx, val) {
-  if (partes[parteIdx] && partes[parteIdx].items && partes[parteIdx].items[itemIdx]) {
-    partes[parteIdx].items[itemIdx].item = val;
-    guardarCambiosLocal(false);
-  }
-}
-
-function onItemDescChange(parteIdx, itemIdx, val) {
-  if (partes[parteIdx] && partes[parteIdx].items && partes[parteIdx].items[itemIdx]) {
-    partes[parteIdx].items[itemIdx].texto = val;
-    guardarCambiosLocal(false);
-  }
-}
-
-function agregarFilaTrabajo(parteIdx) {
-  if (!partes[parteIdx]) return;
-  if (!partes[parteIdx].items) partes[parteIdx].items = [];
-  const nextNum = (partes[parteIdx].items.length + 1).toString().padStart(2, '0');
-  partes[parteIdx].items.push({
-    item: nextNum,
-    asiento: '',
-    texto: 'Nueva actividad de vaciado / consolidación de concreto...'
-  });
-  renderHojas();
+function onTrabajosTextoChange(idx, textoPlano) {
+  if (!partes[idx]) return;
+  partes[idx].trabajos_texto = textoPlano;
   guardarCambiosLocal(false);
 }
 
-// MODAL PARA SELECCIONAR OPERADOR INDIVIDUAL
+// MODAL PARA SELECCIONAR OPERADOR INDIVIDUAL POR PARTE
 function seleccionarOperadorDialog(idx) {
   let optionsHtml = '';
   TRABAJADORES.forEach(t => {
@@ -1974,9 +1685,7 @@ function seleccionarOperadorDialog(idx) {
     didOpen: () => {
       const sel = document.getElementById('swal-sel-op');
       const inp = document.getElementById('swal-inp-op');
-      sel.addEventListener('change', () => {
-        inp.value = sel.value;
-      });
+      sel.addEventListener('change', () => { inp.value = sel.value; });
     },
     preConfirm: () => {
       const inp = document.getElementById('swal-inp-op');
@@ -1984,18 +1693,13 @@ function seleccionarOperadorDialog(idx) {
     }
   }).then(res => {
     if (res.isConfirmed && res.value) {
-      partes[idx].operador = res.value;
-      const inpOp = document.getElementById(`inp-op-${idx}`);
-      if (inpOp) inpOp.value = res.value;
-      const opNombreLimpio = res.value.split(' - ')[0];
-      const lblFirma = document.getElementById(`lbl-firma-op-${idx}`);
-      if (lblFirma) lblFirma.innerText = opNombreLimpio;
+      onOperadorSelectChange(idx, res.value);
       guardarCambiosLocal(true);
     }
   });
 }
 
-// MODAL PARA ASIGNAR OPERADOR GLOBALMENTE A TODOS LOS 14 PARTES
+// MODAL PARA ASIGNAR OPERADOR GLOBALMENTE (OPCIONAL)
 function abrirModalOperadorGlobal() {
   let optionsHtml = '';
   TRABAJADORES.forEach(t => {
@@ -2006,7 +1710,7 @@ function abrirModalOperadorGlobal() {
     title: '👷 Asignar Operador a Todos los Partes',
     html: `
       <div style="text-align: left; font-size: 0.85rem;">
-        <p style="color:#555;margin-bottom:8px;">Selecciona el obrero de la lista de asistencia que operó el equipo para asignarlo a los <strong>14 partes diarios</strong> de forma instantánea:</p>
+        <p style="color:#555;margin-bottom:8px;">Selecciona el obrero de la lista de asistencia para asignarlo a los <strong>14 partes diarios</strong> simultáneamente:</p>
         <select id="swal-global-op" style="width:100%;padding:8px;font-size:0.85rem;border:1px solid #ccc;border-radius:4px;">
           ${optionsHtml}
         </select>
@@ -2065,13 +1769,13 @@ function actualizarTotales() {
   const elGas = document.getElementById('lblStatGasolina');
   if (elGas) elGas.innerText = `${sumGas.toFixed(2)} Gls Gasolina`;
   const elBadge = document.getElementById('lblBadgePartes');
-  if (elBadge) elBadge.innerText = `${partes.length} Partes Listos`;
+  if (elBadge) elBadge.innerText = `${partes.length} Partes Listos (Original + Cargo)`;
 }
 
 // GUARDAR CAMBIOS
 function guardarCambiosLocal(conAlerta = false) {
   try {
-    localStorage.setItem('workea_partes_diarios_v3', JSON.stringify(partes));
+    localStorage.setItem('workea_partes_diarios_v4', JSON.stringify(partes));
     if (conAlerta) {
       Swal.fire({
         icon: 'success',
@@ -2100,7 +1804,7 @@ function restablecerOriginales() {
   }).then(res => {
     if (res.isConfirmed) {
       partes = JSON.parse(JSON.stringify(DEFAULT_PARTES));
-      localStorage.removeItem('workea_partes_diarios_v3');
+      localStorage.removeItem('workea_partes_diarios_v4');
       renderHojas();
       Swal.fire({
         icon: 'success',
@@ -2113,19 +1817,14 @@ function restablecerOriginales() {
   });
 }
 
-// AJUSTES DE MARGEN Y ESPACIADO
-function actualizarEspaciado() {
-  renderHojas();
-}
-
 // CAMBIAR MODO DE VISTA
 function cambiarModoVista(modo) {
   modoActual = modo;
   const pageRule = document.getElementById('page-rule');
   if (modo === 'dos') {
-    pageRule.innerText = '@page { size: A4 landscape; margin: 5mm; }';
+    pageRule.innerText = '@page { size: A4 landscape; margin: 6mm 6mm; }';
   } else {
-    pageRule.innerText = '@page { size: A4 portrait; margin: 8mm; }';
+    pageRule.innerText = '@page { size: A4 portrait; margin: 8mm 10mm; }';
   }
   renderHojas();
 }
