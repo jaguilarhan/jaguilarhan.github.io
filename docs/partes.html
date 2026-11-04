@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Generador e Impresión de Partes Diarios de Trabajo - WORKEA</title>
+
+<!-- Fonts & Libraries -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<style id="page-rule">
+  @page { size: A4 landscape; margin: 0mm; }
+</style>
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #2c3e50;
+    color: #222;
+  }
+
+  /* TOOLBAR / CONTROLES SUPERIORES (NO IMPRIMIBLES) */
+  .no-print {
+    background: #1a252f;
+    color: #fff;
+    padding: 10px 16px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  .toolbar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .toolbar-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .toolbar-title span.badge {
+    background: #e67e22;
+    color: #fff;
+    font-size: 0.72rem;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  .btn-group-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .btn {
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .btn-primary { background: #3498db; color: #fff; }
+  .btn-primary:hover { background: #2980b9; }
+  .btn-success { background: #27ae60; color: #fff; font-size: 0.85rem; padding: 7px 18px; }
+  .btn-success:hover { background: #219653; }
+  .btn-warning { background: #e67e22; color: #fff; }
+  .btn-warning:hover { background: #d35400; }
+  .btn-secondary { background: rgba(255,255,255,0.15); color: #fff; }
+  .btn-secondary:hover { background: rgba(255,255,255,0.25); }
+
+  .toolbar-config {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(0,0,0,0.3);
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-size: 0.78rem;
+    flex-wrap: wrap;
+  }
+  .toggle-group {
+    display: inline-flex;
+    background: rgba(255,255,255,0.12);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .toggle-btn {
+    padding: 4px 12px;
+    background: transparent;
+    color: #fff;
+    border: none;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .toggle-btn.active {
+    background: #fff;
+    color: #1a252f;
+  }
+  .config-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: rgba(255,255,255,0.9);
+  }
+  .config-item input[type="number"] {
+    width: 48px;
+    padding: 2px 4px;
+    border-radius: 3px;
+    border: 1px solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    text-align: center;
+  }
+
+  /* CONTENEDOR DE HOJAS IMPRIMIBLES */
+  #contenedorHojas {
+    padding: 20px 0 60px 0;
+  }
+
+  /* HOJA A4 (LANDSCAPE O PORTRAIT) */
+  .hoja-a4 {
+    width: 297mm;
+    height: 210mm;
+    margin: 15px auto;
+    background: #fff;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    position: relative;
+    page-break-after: always;
+    break-after: page;
+    padding: 0mm;
+  }
+
+  /* MODO 1 COPIA POR HOJA (PORTRAIT) */
+  .hoja-a4.modo-una {
+    width: 210mm;
+    height: 297mm;
+  }
+  .hoja-a4.modo-una .parte-contenedor:nth-child(2),
+  .hoja-a4.modo-una .linea-corte {
+    display: none !important;
+  }
+  .hoja-a4.modo-una .parte-contenedor {
+    width: 100%;
+    height: 100%;
+    padding: 8mm 12mm;
+  }
+
+  /* MODO 2 COPIAS POR HOJA (LANDSCAPE) */
+  .hoja-a4.modo-dos {
+    width: 297mm;
+    height: 210mm;
+  }
+  .hoja-a4.modo-dos .parte-contenedor {
+    width: 50%;
+    height: 100%;
+    padding: 4mm 6mm;
+  }
+
+  /* LÍNEA DE CORTE CENTRAL */
+  .linea-corte {
+    width: 0;
+    height: 100%;
+    border-left: 1px dashed #7f8c8d;
+    position: relative;
+  }
+  .linea-corte::before {
+    content: '✂';
+    position: absolute;
+    top: 5mm;
+    left: -6px;
+    font-size: 11px;
+    color: #7f8c8d;
+    background: #fff;
+    padding: 1px;
+  }
+
+  /* ETIQUETA COPIA (ORIGINAL / CARGO) */
+  .etiqueta-copia {
+    position: absolute;
+    top: 3mm;
+    right: 4mm;
+    font-size: 6.5pt;
+    font-weight: 700;
+    color: #7f8c8d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid #bdc3c7;
+    padding: 1px 4px;
+    border-radius: 2px;
+  }
+
+  /* CUERPO DEL PARTE DIARIO (DISEÑO FIEL AL FORMATO FÍSICO) */
+  .parte-form {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 7pt;
+    line-height: 1.15;
+    color: #000;
+    position: relative;
+  }
+
+  /* TÍTULO PRINCIPAL EN BADGE REDONDEADO */
+  .pf-header-title {
+    text-align: center;
+    margin-bottom: 2mm;
+  }
+  .pf-title-pill {
+    display: inline-block;
+    border: 1.5px solid #000;
+    border-radius: 5px;
+    padding: 2px 14px;
+    font-family: 'Roboto Condensed', 'Segoe UI', Arial, sans-serif;
+    font-size: 9.5pt;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+  }
+  .pf-parte-numero {
+    position: absolute;
+    top: 1mm;
+    left: 1mm;
+    font-size: 7pt;
+    font-weight: 700;
+  }
+
+  /* CABECERA: UNIDAD, PLACA, FECHA, OPERADOR, RESIDENTE */
+  .pf-box-datos {
+    border-bottom: 1px solid #000;
+    padding-bottom: 2px;
+    margin-bottom: 2mm;
+  }
+  .pf-row {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 2px;
+    font-size: 7pt;
+  }
+  .pf-row label {
+    font-weight: 700;
+    margin-right: 3px;
+    white-space: nowrap;
+  }
+  .pf-row span.val {
+    border-bottom: 1px dotted #555;
+    flex: 1;
+    padding-left: 2px;
+    color: #111;
+    font-weight: 600;
+  }
+  .pf-row-3col {
+    display: grid;
+    grid-template-columns: 2.2fr 1fr 1fr;
+    gap: 4px;
+  }
+
+  /* TABLAS GENERALES */
+  table.pf-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 6.8pt;
+    margin-bottom: 2mm;
+  }
+  table.pf-table th, table.pf-table td {
+    border: 1px solid #000;
+    padding: 2px 3px;
+    text-align: center;
+    vertical-align: middle;
+  }
+  table.pf-table th {
+    background: #f0f0f0;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 6.5pt;
+  }
+
+  /* SECCIÓN OBRA */
+  .pf-seccion-obra {
+    border: 1px solid #000;
+    margin-bottom: 2mm;
+    padding: 2px 4px;
+  }
+  .pf-seccion-obra-header {
+    text-align: center;
+    font-weight: 700;
+    font-size: 7pt;
+    text-transform: uppercase;
+    border-bottom: 1px solid #000;
+    margin: -2px -4px 2px -4px;
+    background: #f7f7f7;
+    padding: 1px 0;
+  }
+  .pf-obra-texto {
+    font-size: 6.5pt;
+    font-weight: 600;
+    text-align: center;
+    min-height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* TABLA HORAS DE LABOR */
+  table.pf-horas-table th.sub {
+    font-size: 6pt;
+    background: #fafafa;
+  }
+  table.pf-horas-table td.total-val {
+    font-weight: 700;
+    font-size: 7.5pt;
+    background: #f9f9f9;
+  }
+
+  /* TABLA TRABAJOS REALIZADOS */
+  .pf-trabajos-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2mm;
+    border: 1px solid #000;
+  }
+  .pf-trabajos-header {
+    display: grid;
+    grid-template-columns: 75px 1fr;
+    background: #f0f0f0;
+    border-bottom: 1px solid #000;
+    font-weight: 700;
+    font-size: 6.5pt;
+    text-align: center;
+    padding: 2px 0;
+  }
+  .pf-trabajos-body {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 75px 1fr;
+    min-height: 48mm;
+  }
+  .pf-meta-col {
+    border-right: 1px solid #000;
+    padding: 4px;
+    font-weight: 700;
+    text-align: center;
+    font-size: 7pt;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .pf-actividades-col {
+    padding: 3px 5px;
+    font-size: 6.5pt;
+    line-height: 1.25;
+    text-align: justify;
+    white-space: pre-line;
+  }
+  .pf-asiento-tag {
+    font-weight: 700;
+    color: #0b3954;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  /* FIRMAS AL PIE */
+  .pf-firmas-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    padding-top: 10px;
+    margin-top: auto;
+  }
+  .pf-firma-item {
+    text-align: center;
+    font-size: 6.5pt;
+  }
+  .pf-firma-linea {
+    border-top: 1px dotted #000;
+    margin: 0 4px 2px 4px;
+  }
+  .pf-firma-item p.cargo {
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 6.5pt;
+  }
+  .pf-firma-item p.nom {
+    font-size: 5.8pt;
+    color: #444;
+  }
+
+  /* MODAL DE EDICIÓN / REVISIÓN */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+    display: none; align-items: center; justify-content: center; z-index: 2000;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal-card {
+    background: #fff; border-radius: 8px; width: 95%; max-width: 800px; max-height: 90vh;
+    display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  }
+  .modal-header {
+    background: #1a252f; color: #fff; padding: 10px 16px; border-radius: 8px 8px 0 0;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .modal-body {
+    padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px;
+  }
+  .form-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  }
+  .form-grid label {
+    font-size: 0.8rem; font-weight: 600; display: flex; flex-direction: column; gap: 4px;
+  }
+  .form-grid input, .form-grid textarea, .form-grid select {
+    padding: 6px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit; font-size: 0.85rem;
+  }
+  .form-grid textarea { resize: vertical; min-height: 60px; grid-column: span 2; }
+  .modal-footer {
+    padding: 10px 16px; background: #f5f5f5; border-top: 1px solid #ddd;
+    display: flex; justify-content: flex-end; gap: 8px;
+  }
+
+  /* ESTILOS DE IMPRESIÓN */
+  @media print {
+    .no-print, .modal-overlay { display: none !important; }
+    body { background: #fff !important; margin: 0 !important; }
+    #contenedorHojas { padding: 0 !important; }
+    .hoja-a4 {
+      margin: 0 !important;
+      box-shadow: none !important;
+      border: none !important;
+    }
+    .hoja-a4.modo-dos {
+      width: 100vw !important;
+      height: 100vh !important;
+    }
+    .hoja-a4.modo-una {
+      width: 100vw !important;
+      height: 100vh !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOOLBAR DE CONTROL -->
+<div class="no-print">
+  <div class="toolbar-header">
+    <div class="toolbar-title">
+      📄 <span>WORKEA - Generador de Partes Diarios</span>
+      <span class="badge" id="badgeTotalPartes">14 Partes Listos</span>
+    </div>
+
+    <div class="btn-group-actions">
+      <button class="btn btn-warning" onclick="cargarPartesVibradora()">⚡ Auto-Cargar Vibradora (60 HM)</button>
+      <button class="btn btn-primary" onclick="abrirModalEditor()">✏️ Ver / Editar Datos</button>
+      <button class="btn btn-secondary" onclick="window.location.href='index.html'">🏠 Inicio</button>
+      <button class="btn btn-secondary" onclick="window.location.href='cuaderno.html'">📋 Cuaderno</button>
+      <button class="btn btn-secondary" onclick="window.location.href='equipos.html'">🚜 Control Equipos</button>
+      <button class="btn btn-success" onclick="imprimirPartes()">🖨️ Imprimir / Guardar PDF</button>
+    </div>
+  </div>
+
+  <div class="toolbar-config">
+    <div class="config-item">
+      <span>Modo de Impresión:</span>
+      <div class="toggle-group">
+        <button class="toggle-btn active" id="btnModoDos" onclick="cambiarModo('dos')">2 Copias en 1 Hoja (A4 Apaisado)</button>
+        <button class="toggle-btn" id="btnModoUna" onclick="cambiarModo('una')">1 Copia por Hoja (A4 Vertical)</button>
+      </div>
+    </div>
+
+    <div class="config-item">
+      <label>Separación Corte:</label>
+      <input type="number" id="inpSeparacion" value="0" min="0" max="25" onchange="actualizarAjustes()">
+      <span>mm</span>
+    </div>
+
+    <div class="config-item">
+      <label>Margen Hoja:</label>
+      <input type="number" id="inpMargen" value="0" min="0" max="25" onchange="actualizarAjustes()">
+      <span>mm</span>
+    </div>
+
+    <div class="config-item">
+      <label style="cursor: pointer;">
+        <input type="checkbox" id="chkEtiquetas" checked onchange="actualizarAjustes()">
+        Etiquetas Original/Cargo
+      </label>
+    </div>
+
+    <div class="config-item" style="margin-left: auto;">
+      <span style="color: #f39c12; font-weight: 600;">Total Acumulado: <strong id="lblTotalHoras">60.00 HM</strong> | <strong id="lblTotalGasolina">14.50 Gls Gasolina</strong></span>
+    </div>
+  </div>
+</div>
+
+<!-- CONTENEDOR PRINCIPAL DONDE SE GENERAN LAS HOJAS A4 -->
+<div id="contenedorHojas">
+  <!-- Se inyecta dinámicamente con JavaScript -->
+</div>
+
+<!-- MODAL PARA REVISAR O EDITAR CUALQUIER PARTE -->
+<div class="modal-overlay" id="modalEditor">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3 style="margin: 0; font-size: 1rem;">Editar Parte Diario</h3>
+      <button style="background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer;" onclick="cerrarModalEditor()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 6px;">
+        <label style="font-weight: 700; font-size: 0.85rem;">Seleccionar Parte:</label>
+        <select id="selParteEditar" onchange="cargarParteAlForm(this.value)" style="padding: 4px 8px; font-weight: 600;">
+          <!-- Opciones dinámicas -->
+        </select>
+      </div>
+
+      <div class="form-grid">
+        <label>Número de Parte:
+          <input type="text" id="m_num_parte">
+        </label>
+        <label>Fecha (DD/MM/YYYY):
+          <input type="text" id="m_fecha">
+        </label>
+        <label>Unidad / Equipo:
+          <input type="text" id="m_unidad">
+        </label>
+        <label>Placa:
+          <input type="text" id="m_placa">
+        </label>
+        <label>Operador:
+          <input type="text" id="m_operador">
+        </label>
+        <label>Residente:
+          <input type="text" id="m_residente">
+        </label>
+        <label>Mañana Entrada:
+          <input type="time" id="m_m_ini" onchange="calcModalHours()">
+        </label>
+        <label>Mañana Salida:
+          <input type="time" id="m_m_fin" onchange="calcModalHours()">
+        </label>
+        <label>Tarde Entrada:
+          <input type="time" id="m_t_ini" onchange="calcModalHours()">
+        </label>
+        <label>Tarde Salida:
+          <input type="time" id="m_t_fin" onchange="calcModalHours()">
+        </label>
+        <label>Total Horas:
+          <input type="number" step="0.5" id="m_tot_horas" readonly style="background: #eee; font-weight: 700;">
+        </label>
+        <label>Gasolina (Galones):
+          <input type="number" step="0.25" id="m_gasolina">
+        </label>
+        <label>Nro. de Vale:
+          <input type="text" id="m_vale">
+        </label>
+        <label>Nro. de Meta:
+          <input type="text" id="m_meta">
+        </label>
+        <label style="grid-column: span 2;">Asientos de Referencia:
+          <input type="text" id="m_asientos">
+        </label>
+        <label style="grid-column: span 2;">Trabajos Realizados (Descripción Detallada):
+          <textarea id="m_trabajos" rows="4"></textarea>
+        </label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="cerrarModalEditor()">Cancelar</button>
+      <button class="btn btn-success" onclick="guardarEdicionParte()">Guardar Cambios</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// DATOS MAESTROS DE LOS 14 PARTES DIARIOS (VIBRADORA DE CONCRETO)
+const DEFAULT_PARTES = [
+  {
+    num: "01",
+    fecha: "08/10/2026",
+    dia: "Jueves",
+    unidad: "VIBRADOR DE CONCRETO A GASOLINA 4 HP",
+    placa: "S/P",
+    operador: "Personal Obrero de Obra",
+    residente: "Arq. Luis Javier Huanca Barrantes",
+    inspector: "Arq. Marco Antonio Ramirez Luque",
+    obra: "MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS O MISIONALES INSTITUCIONALES EN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA",
+    meta: "Meta 290",
+    gasolina: 1.00,
+    vale: "Vale Almacén Obra N° 108",
+    m_ini: "08:30", m_fin: "11:30", m_hrs: 3.0,
+    t_ini: "14:00", t_fin: "15:00", t_hrs: 1.0,
+    total_hm: 4.0,
+    asientos: "Asiento N° 467 (Residencia) / Asiento N° 466 (Inspectoría)",
+    trabajos: "• Vaciado del CIMIENTO CORRIDO CC-1' en el 1er Nivel en los ejes 2-3/A (MURO CORTINA), mezcla C:H 1:10 + 30% P.G. Metrado: 2.06 m³.\n• Vaciado del CIMIENTO CORRIDO CC-1 en el 1er Nivel en los ejes 2-3/A (S.H. MIXTO). Metrado: 0.64 m³.\n• Vaciado del CIMIENTO CORRIDO CC-3 en el 1er Nivel en los ejes 2-3/A-B (S.H. MIXTO). Metrado: 1.38 m³.\n• Vaciado de COLUMNETAS CA-2 en el 1er Nivel en los ejes 2/C-D (GUARDIANÍA), f'c=175 kg/cm². Metrado: 0.31 m³.\n• Total volumen de concreto colocado: 4.39 m³. Consolidación y vibrado mecánico continuo."
+  },
+  {
+    num: "02",
+    fecha: "09/10/2026",
+    dia: "Viernes",
+    unidad: "VIBRADOR DE CONCRETO A GASOLINA 4 HP",
+    placa: "S/P",
+    operador: "Personal Obrero de Obra",
+    residente: "Arq. Luis Javier Huanca Barrantes",
+    inspector: "Arq. Marco Antonio Ramirez Luque",
+    obra: "MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS O MISIONALES INSTITUCIONALES EN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA",
+    meta: "Meta 290",
+    gasolina: 0.75,
+    vale: "Vale Almacén Obra N° 112",
+    m_ini: "09:00", m_fin: "12:00", m_hrs: 3.0,
+    t_ini: "", t_fin: "", t_hrs: 0.0,
+    total_hm: 3.0,
+    asientos: "Asiento N° 470 (Residencia) / Asiento N° 468 (Inspectoría)",
+    trabajos: "• Vaciado del SOBRECIMIENTO en cimiento corrido CC-1 en el 1er Nivel en los ejes 1-2/A (Cuarto Eléctrico - Puerta de Ingreso e=0.24m). Concreto premezclado f'c=210 kg/cm². Metrado: 0.21 m³.\n• Vaciado del SOBRECIMIENTO en cimiento corrido CC-1 en ejes 1-2/A (Cuarto Eléctrico - Muro de Albañilería). Metrado: 0.18 m³.\n• Control de calidad en estado fresco: ensayo de asentamiento (Slump) de 4 pulgadas y moldeo de 03 probetas cilíndricas normativas."
+  },
+  {
+    num: "03",
+    fecha: "16/10/2026",
+    dia: "Viernes",
+    unidad: "VIBRADOR DE CONCRETO A GASOLINA 4 HP",
+    placa: "S/P",
+    operador: "Personal Obrero de Obra",
+    residente: "Arq. Luis Javier Huanca Barrantes",
+    inspector: "Arq. Marco Antonio Ramirez Luque",
+    obra: "MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS O MISIONALES INSTITUCIONALES EN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA",
+    meta: "Meta 290",
+    gasolina: 1.00,
+    vale: "Vale Salida 16/10 (1 GLN Gasohol)",
+    m_ini: "08:30", m_fin: "11:30", m_hrs: 3.0,
+    t_ini: "14:00", t_fin: "15:00", t_hrs: 1.0,
+    total_hm: 4.0,
+    asientos: "Asiento N° 478 (Residencia) / Asiento N° 480 (Inspectoría)",
+    trabajos: "• Vaciado de SOBRECIMIENTO en cimiento corrido CC-1'' en el 1er Nivel ejes 2-3/A (Puerta Abatible y Muro Cortina). Concreto f'c=210 kg/cm². Metrado: 0.38 m³.\n• Vaciado de SOBRECIMIENTO en cimiento corrido CC-1 en el 1er Nivel ejes 2-3/A-B (S.H. Mixto). Metrado: 0.49 m³.\n• Vaciado de SOBRECIMIENTO en cimiento corrido CC-3 en el 1er Nivel ejes 2/A-B. Metrado: 0.45 m³.\n• Total concreto consolidado: 1.32 m³. Abastecimiento con Gasohol de almacén de obra."
+  },
+  {
+    num: "04",
+    fecha: "21/10/2026",
+    dia: "Miércoles",
+    unidad: "VIBRADOR DE CONCRETO A GASOLINA 4 HP",
+    placa: "S/P",
+    operador: "Personal Obrero de Obra",
+    residente: "Arq. Luis Javier Huanca Barrantes",
+    inspector: "Arq. Marco Antonio Ramirez Luque",
+    obra: "MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS O MISIONALES INSTITUCIONALES EN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA",
+    meta: "Meta 290",
+    gasolina: 1.00,
+    vale: "Vale Salida 20/10 (2 GAL Gasohol)",
+    m_ini: "08:30", m_fin: "11:30", m_hrs: 3.0,
+    t_ini: "14:00", t_fin: "15:00", t_hrs: 1.0,
+    total_hm: 4.0,
+    asientos: "Asiento N° 486 (Residencia) / Asiento N° 487 (Inspectoría)",
+    trabajos: "• Vaciado de VIGUETA VA-2 en el 1er Nivel en ejes 1-2/A, f'c=175 kg/cm². Metrado: 0.04 m³.\n• Vaciado de VIGUETA VA-1 en el 1er Nivel en ejes 1-2/B, f'c=175 kg/cm². Metrado: 0.09 m³.\n• Vaciado de COLUMNETAS CA-2 (02 und) en ejes 1-2/A, f'c=175 kg/cm². Metrado: 0.26 m³.\n• Vaciado de COLUMNETAS CA-2 (02 und) y CA-4 (01 und) en ejes 2/A-B, f'c=175 kg/cm². Metrado: 0.48 m³.\n• Vibrado y compactación de elementos estructurales verticales y horizontales de confinamiento."
+  },
+  {
+    num: "05",
+    fecha: "22/10/2026",
+    dia: "Jueves",
+    unidad: "VIBRADOR DE CONCRETO A GASOLINA 4 HP",
+    placa: "S/P",
+    operador: "Personal Obrero de Obra",
+    residente: "Arq. Luis Javier Huanca Barrantes",
+    inspector: "Arq. Marco Antonio Ramirez Luque",
+    obra: "MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS O MISIONALES INSTITUCIONALES EN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA",
+    meta: "Meta 290",
+    gasolina: 0.75,
+    vale: "Vale Salida 22/10 (1 GAL Gasohol)",
+    m_ini: "08:30", m_fin: "11:30", m_hrs: 3.0,
+    t_ini: "14:00", t_fin: "14:30", t_hrs: 0.5,
+    total_hm: 3.5,
+    asientos: "Asiento N° 488 (Residencia) / Asiento N° 489 (Inspectoría)",
+    trabajos: "• Vaciado de COLUMNETA CA-2 (02 und) en el 1er Nivel ejes 2-3/A (S.H. Mixto). Metrado: 0.26 m³.\n• Vaciado de COLUMNETA CA-1 (02 und) en ejes 2-3/A (sobre cimiento CC-3). Metrado: 0.20 m³.\n• Vaciado de VIGUETA VA-1 (01 und) en ejes 2-3/A. Metrado: 0.06 m³.\n• Vaciado del SOBRECIMIENTO en cimiento corrido CC-3 en ejes 2-3/A-B.\n• Control de consistencia slump en rango permisible y toma de muestras cilíndricas para laboratorio."
+  },
+  {
+    num: "06",
+    fecha: "23/10/2026",
+    dia: "Viernes",
+    unidad: "VIBRADOR DE CONCRETO A GASOLINA 4 HP",
+    placa: "S/P",
+    operador: "Personal Obrero de Obra",
+    residente: "Arq. Luis Javier Huanca Barrantes",
+    inspector: "Arq. Marco Antonio Ramirez Luque",
+    obra: "MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS O MISIONALES INSTITUCIONALES EN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA",
+    meta: "Meta 290",
+    gasolina: 0.75,
+    vale: "Vale Salida 23/10 (2 GAL Gasohol)",
+    m_ini: "08:30", m_fin: "11:30", m_hrs: 3.0,
+    t_ini: "14:00", t_fin: "14:30", t_hrs: 0.5,
+    total_hm: 3.5,
+    asientos: "Asiento N° 492 (Residencia) / Asiento N° 490 (Inspectoría)",
+    trabajos: "• Culminación de vaciados y vibrado de concreto en columnetas CA-1 y CA-2 de servicios higiénicos mixtos.\n• Vaciado de sobrecimiento de confinamiento CC-3 en área de servicios higiénicos.\n• Verificación topográfica de aplomado y cotas de vanos de puertas y ventanas post-vaciado."
+  },
+  {
+    num: "07",
+    fecha: "26/10/2026",
+    dia: "Lunes",
+    unidad: "VIBRADOR DE CONCRETO A GASOLINA 4 HP",
+    placa: "S/P",
+    operador: "Personal Obrero de Obra",
+    residente: "Arq. Luis Javier Huanca Barrantes",
+    inspector: "Arq. Marco Antonio Ramirez Luque",
+    obra: "MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS O MISIONALES INSTITUCIONALES EN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA",
+    meta: "Meta 290",
+    gasolina: 0.75,
+    vale: "Vale Salida 26/10 (2 GAL Gasohol)",
+    m_ini: "09:00", m_fin: "12:00", m_hrs: 3.0,
+    t_ini: "", t_fin: "", t_hrs: 0.0,
+    total_hm: 3.0,
+    asientos: "Asiento N° 493 (Residencia) / Asiento N° 491 (Inspectoría)",
+    trabajos: "• Vaciado de VIGUETA VA-1 en el 1er Nivel en ejes 2-3/A-B (S.H. Mixto), f'c=175 kg/cm². Metrado: 0.08 m³.\n• Vaciado de VIGUETA VA-1 en ejes 2/A-B (Cuarto Eléctrico). Metrado: 0.11 m³.\n• Vaciado de VIGUETA VA-1 en ejes 2-3/C-D (Proyección del Vacío). Metrado: 0.09 m³.\n• Total concreto: 0.28 m³. Vibrado y enrasado superior de viguetas."
+  },
+  {
+    num: "08",
+    fecha: "27/10/2026",
+    dia: "Martes",
+    unidad: "VIBRADOR DE CONCRETO A GASOLINA 4 HP",
+    placa: "S/P",
+    operador: "Personal Obrero de Obra",
+    residente: "Arq. Luis Javier Huanca Barrantes",
+    inspector: "Arq. Marco Antonio Ramirez Luque",
+    obra: "MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS O MISIONALES INSTITUCIONALES EN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA",
+    meta: "Meta 290",
+    gasolina: 1.00,
+    vale: "Vale Salida 27/10 (2 GAL Gasohol)",
+    m_ini: "08:30", m_fin: "11:30", m_hrs: 3.0,
+    t_ini: "14:00", t_fin: "15:00", t_hrs: 1.0,
+    total_hm: 4.0,
+    asientos: "Asiento N° 497 (Residencia) / Asiento N° 494 (Inspectoría)",
+    trabajos: "• Vaciado de LOSA SUPERIOR MESONES M503 Y M505 en el 5to Nivel en ejes 3/A-B-C (áreas de muestras parasitológicas e hidrobiológicas), f'c=175 kg/cm². Metrado: 0.50 m³.\n• Vaciado de LOSA SUPERIOR MESÓN M201 en el 2do Nivel en ejes 1/A-B (reactivos fiscalizados). Metrado: 0.24 m³.\n• Vaciado de VIGUETA VA-1 en el 1er Nivel en ejes 2-3/A-B.\n• Control slump de 5 pulgadas y moldeo de 03 probetas cilíndricas para compresión a 7, 14 y 28 días."
+  },
+  {
+    num: "09",
+    fecha: "28/10/2026",
+    dia: "Miércoles",
+    unidad: "VIBRADOR DE CONCRETO A GASOLINA 4 HP",
+    placa: "S/P",
+    operador: "Personal Obrero de Obra",
+    residente: "Arq. Luis Javier Huanca Barrantes",
+    inspector: "Arq. Marco Antonio Ramirez Luque",
+    obra: "MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS O MISIONALES INSTITUCIONALES EN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA",
+    meta: "Meta 290",
+    gasolina: 0.75,
+    vale: "Vale Salida 28/10 (2 GAL Gasohol)",
+    m_ini: "09:00", m_fin: "12:00", m_hrs: 3.0,
+    t_ini: "14:00", t_fin: "14:30", t_hrs: 0.5,
+    total_hm: 3.5,
+    asientos: "Asiento N° 498 (Residencia) / Asiento N° 495 (Inspectoría)",
+    trabajos: "• Vaciado y consolidación de mesones de laboratorio complementarios y viguetas de cerramiento en edificación.\n• Curado húmedo de paños vaciados y preparación de encofrados para frentes de contrapiso.\n• Inspección y verificación conjunta con la Supervisión de obra."
+  },
+  {
+    num: "10",
+    fecha: "29/10/2026",
+    dia: "Jueves",
+    unidad: "VIBRADOR DE CONCRETO A GASOLINA 4 HP",
+    placa: "S/P",
+    operador: "Personal Obrero de Obra",
+    residente: "Arq. Luis Javier Huanca Barrantes",
+    inspector: "Arq. Marco Antonio Ramirez Luque",
+    obra: "MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS O MISIONALES INSTITUCIONALES EN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA",
+    meta: "Meta 290",
+    gasolina: 1.25,
+    vale: "Vale Salida 29/10 (4 GAL Gasohol)",
+    m_ini: "08:00", m_fin: "11:30", m_hrs: 3.5,
+    t_ini: "14:00", t_fin: "15:30", t_hrs: 1.5,
+    total_hm: 5.0,
+    asientos: "Asiento N° 501 (Residencia) / Asiento N° 499 (Inspectoría)",
+    trabajos: "• Vaciado de LOSA SUPERIOR MESÓN M404 en el 4to Nivel en ejes 3/E-F, f'c=175 kg/cm². Metrado: 0.22 m³.\n• Vaciado de VIGUETAS VA-2 en el 3er Nivel en ejes 1/F y 3/F (Muro de Cerramiento). Metrado: 0.19 m³.\n• Vaciado de COLUMNETAS CA-1 Y CA-5 en el 1er Nivel en ejes 2-3/C-D. Metrado: 0.40 m³.\n• Vaciado de SUELO CEMENTO en el 1er Nivel en ejes 1-2/B-C (debajo de escalera). Metrado: 1.08 m³.\n• Control slump de 4 pulgadas y moldeo de 03 probetas cilíndricas normativas."
+  },
+  {
+    num: "11",
+    fecha: "30/10/2026",
+    dia: "Viernes",
+    unidad: "VIBRADOR DE CONCRETO A GASOLINA 4 HP",
+    placa: "S/P",
+    operador: "Personal Obrero de Obra",
+    residente: "Arq. Luis Javier Huanca Barrantes",
+    inspector: "Arq. Marco Antonio Ramirez Luque",
+    obra: "MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS O MISIONALES INSTITUCIONALES EN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA",
+    meta: "Meta 290",
+    gasolina: 1.50,
+    vale: "Vale Salida 30/10 (2 GAL Gasohol)",
+    m_ini: "08:00", m_fin: "12:00", m_hrs: 4.0,
+    t_ini: "13:30", t_fin: "15:30", t_hrs: 2.0,
+    total_hm: 6.0,
+    asientos: "Asiento N° 502 (Residencia) / Asiento N° 500 (Inspectoría)",
+    trabajos: "• GRAN VACIADO DE CONTRAPISO EN EL QUINTO NIVEL, cubriendo área de 88.23 m² con espesor controlado por topografía de e=7.5 cm para recubrimiento de tuberías. Volumen de concreto f'c=175 kg/cm²: 6.62 m³.\n• Vaciado de VIGUETA VA-1 en el 1er Nivel en ejes 2-3/A-B. Metrado: 1.07 m².\n• Control de calidad: ensayo de asentamiento (Slump) de 5 pulgadas y moldeo de 03 probetas cilíndricas para ensayo a compresión axial a 7, 14 y 28 días."
+  },
+  {
+    num: "12",
+    fecha: "31/10/2026",
+    dia: "Sábado",
+    unidad: "VIBRADOR DE CONCRETO A GASOLINA 4 HP",
+    placa: "S/P",
+    operador: "Personal Obrero de Obra",
+    residente: "Arq. Luis Javier Huanca Barrantes",
+    inspector: "Arq. Marco Antonio Ramirez Luque",
+    obra: "MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS O MISIONALES INSTITUCIONALES EN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA",
+    meta: "Meta 290",
+    gasolina: 1.00,
+    vale: "Vale Almacén Obra N° 145",
+    m_ini: "08:00", m_fin: "12:00", m_hrs: 4.0,
+    t_ini: "", t_fin: "", t_hrs: 0.0,
+    total_hm: 4.0,
+    asientos: "Asiento N° 504 (Residencia) / Asiento N° 503 (Inspectoría)",
+    trabajos: "• Vaciado de CONTRAPISO en el 4to Nivel en área de SS.HH. damas y varones (espesor e=7.5 cm). Metrado: 1.19 m³.\n• Vaciado de FALSO PISO ENMALLADO CON ACERO 1/4\" en Sala de Balanzas del 3er Nivel (ejes 1-2 y E-F). Metrado: 1.77 m³.\n• Total volumen colocado: 2.96 m³. Insumo de almacén: 722.50 kg cemento (17 bolsas). Slump 4\" y 03 probetas cilíndricas."
+  },
+  {
+    num: "13",
+    fecha: "02/11/2026",
+    dia: "Lunes",
+    unidad: "VIBRADOR DE CONCRETO A GASOLINA 4 HP",
+    placa: "S/P",
+    operador: "Personal Obrero de Obra",
+    residente: "Arq. Luis Javier Huanca Barrantes",
+    inspector: "Arq. Marco Antonio Ramirez Luque",
+    obra: "MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS O MISIONALES INSTITUCIONALES EN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA",
+    meta: "Meta 290",
+    gasolina: 1.50,
+    vale: "Vale Salida 02/11 (02 GAL Gasohol)",
+    m_ini: "08:00", m_fin: "12:00", m_hrs: 4.0,
+    t_ini: "13:00", t_fin: "15:30", t_hrs: 2.5,
+    total_hm: 6.5,
+    asientos: "Asiento N° 505 (Residencia - App) / Asiento N° 506 (Inspectoría)",
+    trabajos: "• GRAN VACIADO DE CONTRAPISO DEL CUARTO NIVEL cubriendo área de 108.05 m² con espesor e=7.5 cm debido al cruce de redes eléctricas y sanitarias. Volumen colocado f'c=175 kg/cm²: 8.10 m³.\n• Vaciado de FALSO PISO ENMALLADO CON ACERO 1/4\" en Sala de Análisis de Calidad de Aire en el 3er Nivel. Metrado: 2.34 m³.\n• Total concreto de la jornada: 10.44 m³. Insumos de almacén: 3,995 kg cemento (94 bolsas), 6.6 m³ arena, 6.1 m³ piedra chancada y 02 GAL Gasohol. Slump 5.5\" y 03 probetas."
+  },
+  {
+    num: "14",
+    fecha: "03/11/2026",
+    dia: "Martes",
+    unidad: "VIBRADOR DE CONCRETO A GASOLINA 4 HP",
+    placa: "S/P",
+    operador: "Personal Obrero de Obra",
+    residente: "Arq. Luis Javier Huanca Barrantes",
+    inspector: "Arq. Marco Antonio Ramirez Luque",
+    obra: "MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS O MISIONALES INSTITUCIONALES EN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA",
+    meta: "Meta 290",
+    gasolina: 1.50,
+    vale: "Vale Almacén Obra N° 152",
+    m_ini: "08:00", m_fin: "12:00", m_hrs: 4.0,
+    t_ini: "13:30", t_fin: "15:30", t_hrs: 2.0,
+    total_hm: 6.0,
+    asientos: "Asiento N° 507 (Residencia - App) / Asiento N° 508 (Inspectoría)",
+    trabajos: "• Vaciado de CONTRAPISO CON PENDIENTE EN AZOTEA (área 64.0 m², e=4 cm, volumen 2.56 m³) con aditivo impermeabilizante Sika-1 en el agua de mezclado para protección de tuberías eléctricas y estanqueidad.\n• Vaciado de LOSA SUPERIOR MESÓN M302 en el 3er Nivel, f'c=175 kg/cm². Metrado: 0.23 m³.\n• Insumos de almacén: 1,190 kg cemento (28 bolsas), 2 m³ arena, 2 m³ piedra. Slump 4.5\", 02 probetas de concreto y 02 de mortero.\n• CUMPLIMIENTO EXACTO DE LAS 60.00 HORAS MÁQUINA (HM) CONTRATADAS SEGÚN TDR Y CULMINACIÓN FORMAL DEL SERVICIO."
+  }
+];
+
+let globalPartes = JSON.parse(JSON.stringify(DEFAULT_PARTES));
+let modoActual = "dos"; // 'dos' o 'una'
+
+// RENDERIZAR TODAS LAS HOJAS
+function renderizarHojas() {
+  const container = document.getElementById('contenedorHojas');
+  container.innerHTML = '';
+
+  const sep = parseInt(document.getElementById('inpSeparacion').value) || 0;
+  const mar = parseInt(document.getElementById('inpMargen').value) || 0;
+  const verEtiq = document.getElementById('chkEtiquetas').checked;
+
+  let totHoras = 0;
+  let totGas = 0;
+
+  globalPartes.forEach((p, idx) => {
+    totHoras += parseFloat(p.total_hm) || 0;
+    totGas += parseFloat(p.gasolina) || 0;
+
+    const hoja = document.createElement('div');
+    hoja.className = `hoja-a4 modo-${modoActual}`;
+    hoja.style.gap = `${sep}mm`;
+    hoja.style.padding = `${mar}mm`;
+
+    // Renderizar Copia 1 (Original)
+    const c1 = document.createElement('div');
+    c1.className = 'parte-contenedor';
+    c1.innerHTML = generarHTMLParte(p, 'ORIGINAL', verEtiq);
+    hoja.appendChild(c1);
+
+    // Si es modo dos, renderizar línea de corte y Copia 2 (Cargo)
+    if (modoActual === 'dos') {
+      const corte = document.createElement('div');
+      corte.className = 'linea-corte';
+      hoja.appendChild(corte);
+
+      const c2 = document.createElement('div');
+      c2.className = 'parte-contenedor';
+      c2.innerHTML = generarHTMLParte(p, 'CARGO / ARCHIVO', verEtiq);
+      hoja.appendChild(c2);
+    }
+
+    container.appendChild(hoja);
+  });
+
+  document.getElementById('lblTotalHoras').textContent = totHoras.toFixed(2) + " HM";
+  document.getElementById('lblTotalGasolina').textContent = totGas.toFixed(2) + " Gls Gasolina";
+  document.getElementById('badgeTotalPartes').textContent = `${globalPartes.length} Partes Listos`;
+}
+
+// GENERAR EL HTML DE UN PARTE DIARIO (DISEÑO FIEL AL FORMATO FÍSICO)
+function generarHTMLParte(p, tipoCopia, verEtiq) {
+  const etiqHTML = verEtiq ? `<div class="etiqueta-copia">${tipoCopia}</div>` : '';
+  
+  return `
+    <div class="parte-form">
+      ${etiqHTML}
+      <div class="pf-parte-numero">PARTE N° <strong>${p.num}</strong></div>
+
+      <!-- TÍTULO -->
+      <div class="pf-header-title">
+        <div class="pf-title-pill">PARTE DIARIO DE TRABAJO</div>
+      </div>
+
+      <!-- DATOS DE CABECERA -->
+      <div class="pf-box-datos">
+        <div class="pf-row pf-row-3col">
+          <div class="pf-row"><label>UNIDAD:</label><span class="val">${p.unidad}</span></div>
+          <div class="pf-row"><label>PLACA:</label><span class="val">${p.placa}</span></div>
+          <div class="pf-row"><label>FECHA:</label><span class="val">${p.fecha}</span></div>
+        </div>
+        <div class="pf-row">
+          <label>OPERADOR:</label><span class="val">${p.operador}</span>
+        </div>
+        <div class="pf-row">
+          <label>RESIDENTE:</label><span class="val">${p.residente}</span>
+        </div>
+      </div>
+
+      <!-- CONTADOR (HOROMETRO / KILOMETRAJE) -->
+      <table class="pf-table">
+        <thead>
+          <tr>
+            <th style="width: 25%;">CONTADOR</th>
+            <th style="width: 25%;">COMIENZO</th>
+            <th style="width: 25%;">TERMINO</th>
+            <th style="width: 25%;">TOTAL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>HOROMETRO</strong></td>
+            <td>-</td><td>-</td><td><strong>-</strong></td>
+          </tr>
+          <tr>
+            <td><strong>KILOMETRAJE</strong></td>
+            <td>-</td><td>-</td><td><strong>-</strong></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- OBRA -->
+      <div class="pf-seccion-obra">
+        <div class="pf-seccion-obra-header">OBRA</div>
+        <div class="pf-obra-texto">${p.obra}</div>
+      </div>
+
+      <!-- COMBUSTIBLE -->
+      <table class="pf-table">
+        <thead>
+          <tr>
+            <th style="width: 30%;">COMBUSTIBLE</th>
+            <th style="width: 20%;">UNIDAD</th>
+            <th style="width: 25%;">CANTIDAD</th>
+            <th style="width: 25%;">Nro. DE VALE</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>GASOLINA</strong></td>
+            <td>Gls.</td>
+            <td><strong>${parseFloat(p.gasolina).toFixed(2)}</strong></td>
+            <td>${p.vale || 'Vale Almacén'}</td>
+          </tr>
+          <tr>
+            <td><strong>PETROLEO</strong></td>
+            <td>Gls.</td>
+            <td>-</td>
+            <td>-</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- HORAS DE LABOR -->
+      <table class="pf-table pf-horas-table">
+        <thead>
+          <tr>
+            <th colspan="3">MAÑANA</th>
+            <th colspan="3">TARDE</th>
+            <th rowspan="2" style="width: 18%;">TOTAL<br>HORAS</th>
+          </tr>
+          <tr>
+            <th class="sub">ENTRADA</th>
+            <th class="sub">SALIDA</th>
+            <th class="sub">HORAS</th>
+            <th class="sub">ENTRADA</th>
+            <th class="sub">SALIDA</th>
+            <th class="sub">HORAS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>${p.m_ini || '-'}</td>
+            <td>${p.m_fin || '-'}</td>
+            <td><strong>${p.m_hrs ? p.m_hrs.toFixed(2) : '0.00'}</strong></td>
+            <td>${p.t_ini || '-'}</td>
+            <td>${p.t_fin || '-'}</td>
+            <td><strong>${p.t_hrs ? p.t_hrs.toFixed(2) : '0.00'}</strong></td>
+            <td class="total-val">${parseFloat(p.total_hm).toFixed(2)}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- TRABAJOS REALIZADOS -->
+      <div class="pf-trabajos-wrapper">
+        <div class="pf-trabajos-header">
+          <div>Nro DE META</div>
+          <div>TRABAJOS REALIZADOS</div>
+        </div>
+        <div class="pf-trabajos-body">
+          <div class="pf-meta-col">
+            <span>${p.meta || 'Meta 290'}</span>
+            <span style="font-size: 5.5pt; color: #555; margin-top: 4px;">CUI: 2610803</span>
+          </div>
+          <div class="pf-actividades-col">
+            <span class="pf-asiento-tag">[${p.asientos}]</span>
+            ${p.trabajos}
+          </div>
+        </div>
+      </div>
+
+      <!-- FIRMAS -->
+      <div class="pf-firmas-box">
+        <div class="pf-firma-item">
+          <div class="pf-firma-linea"></div>
+          <p class="cargo">OPERADOR</p>
+          <p class="nom">${p.operador}</p>
+        </div>
+        <div class="pf-firma-item">
+          <div class="pf-firma-linea"></div>
+          <p class="cargo">RESIDENTE DE OBRA</p>
+          <p class="nom">${p.residente}</p>
+        </div>
+        <div class="pf-firma-item">
+          <div class="pf-firma-linea"></div>
+          <p class="cargo">INSPECTOR DE OBRA</p>
+          <p class="nom">${p.inspector || 'Supervisor / Inspector'}</p>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// CAMBIAR MODO DE IMPRESIÓN (2 COPIAS VS 1 COPIA)
+function cambiarModo(modo) {
+  modoActual = modo;
+  const pageRule = document.getElementById('page-rule');
+  if (modo === 'dos') {
+    document.getElementById('btnModoDos').classList.add('active');
+    document.getElementById('btnModoUna').classList.remove('active');
+    pageRule.innerHTML = '@page { size: A4 landscape; margin: 0mm; }';
+  } else {
+    document.getElementById('btnModoDos').classList.remove('active');
+    document.getElementById('btnModoUna').classList.add('active');
+    pageRule.innerHTML = '@page { size: A4 portrait; margin: 0mm; }';
+  }
+  renderizarHojas();
+}
+
+function actualizarAjustes() {
+  renderizarHojas();
+}
+
+function imprimirPartes() {
+  window.print();
+}
+
+function cargarPartesVibradora() {
+  globalPartes = JSON.parse(JSON.stringify(DEFAULT_PARTES));
+  renderizarHojas();
+  Swal.fire({
+    title: '¡Cargado con Éxito!',
+    text: 'Se han cargado los 14 partes diarios oficiales del Vibrador de Concreto completando las 60.00 Horas Máquina.',
+    icon: 'success',
+    timer: 2000,
+    showConfirmButton: false
+  });
+}
+
+// MODAL EDITOR
+function abrirModalEditor() {
+  const sel = document.getElementById('selParteEditar');
+  sel.innerHTML = '';
+  globalPartes.forEach((p, idx) => {
+    const opt = document.createElement('option');
+    opt.value = idx;
+    opt.textContent = `Parte N° ${p.num} - ${p.fecha} (${p.total_hm} HM)`;
+    sel.appendChild(opt);
+  });
+  cargarParteAlForm(0);
+  document.getElementById('modalEditor').classList.add('active');
+}
+
+function cerrarModalEditor() {
+  document.getElementById('modalEditor').classList.remove('active');
+}
+
+function cargarParteAlForm(idx) {
+  const p = globalPartes[idx];
+  if (!p) return;
+  document.getElementById('m_num_parte').value = p.num;
+  document.getElementById('m_fecha').value = p.fecha;
+  document.getElementById('m_unidad').value = p.unidad;
+  document.getElementById('m_placa').value = p.placa;
+  document.getElementById('m_operador').value = p.operador;
+  document.getElementById('m_residente').value = p.residente;
+  document.getElementById('m_m_ini').value = p.m_ini;
+  document.getElementById('m_m_fin').value = p.m_fin;
+  document.getElementById('m_t_ini').value = p.t_ini;
+  document.getElementById('m_t_fin').value = p.t_fin;
+  document.getElementById('m_tot_horas').value = p.total_hm;
+  document.getElementById('m_gasolina').value = p.gasolina;
+  document.getElementById('m_vale').value = p.vale;
+  document.getElementById('m_meta').value = p.meta;
+  document.getElementById('m_asientos').value = p.asientos;
+  document.getElementById('m_trabajos').value = p.trabajos;
+}
+
+function calcModalHours() {
+  const diffH = (ini, fin) => {
+    if (!ini || !fin) return 0;
+    const [h1, m1] = ini.split(':').map(Number);
+    const [h2, m2] = fin.split(':').map(Number);
+    return Math.max(0, (h2 * 60 + m2 - (h1 * 60 + m1)) / 60);
+  };
+  const mH = diffH(document.getElementById('m_m_ini').value, document.getElementById('m_m_fin').value);
+  const tH = diffH(document.getElementById('m_t_ini').value, document.getElementById('m_t_fin').value);
+  document.getElementById('m_tot_horas').value = (mH + tH).toFixed(2);
+}
+
+function guardarEdicionParte() {
+  const idx = document.getElementById('selParteEditar').value;
+  const p = globalPartes[idx];
+  if (!p) return;
+
+  p.num = document.getElementById('m_num_parte').value;
+  p.fecha = document.getElementById('m_fecha').value;
+  p.unidad = document.getElementById('m_unidad').value;
+  p.placa = document.getElementById('m_placa').value;
+  p.operador = document.getElementById('m_operador').value;
+  p.residente = document.getElementById('m_residente').value;
+  p.m_ini = document.getElementById('m_m_ini').value;
+  p.m_fin = document.getElementById('m_m_fin').value;
+  p.t_ini = document.getElementById('m_t_ini').value;
+  p.t_fin = document.getElementById('m_t_fin').value;
+
+  const diffH = (ini, fin) => {
+    if (!ini || !fin) return 0;
+    const [h1, m1] = ini.split(':').map(Number);
+    const [h2, m2] = fin.split(':').map(Number);
+    return Math.max(0, (h2 * 60 + m2 - (h1 * 60 + m1)) / 60);
+  };
+  p.m_hrs = diffH(p.m_ini, p.m_fin);
+  p.t_hrs = diffH(p.t_ini, p.t_fin);
+  p.total_hm = p.m_hrs + p.t_hrs;
+
+  p.gasolina = parseFloat(document.getElementById('m_gasolina').value) || 0;
+  p.vale = document.getElementById('m_vale').value;
+  p.meta = document.getElementById('m_meta').value;
+  p.asientos = document.getElementById('m_asientos').value;
+  p.trabajos = document.getElementById('m_trabajos').value;
+
+  renderizarHojas();
+  cerrarModalEditor();
+
+  Swal.fire({
+    title: 'Guardado',
+    text: `El Parte N° ${p.num} ha sido actualizado correctamente.`,
+    icon: 'success',
+    timer: 1500,
+    showConfirmButton: false
+  });
+}
+
+// INICIAR AL CARGAR
+document.addEventListener('DOMContentLoaded', () => {
+  renderizarHojas();
+});
+</script>
+
+</body>
+</html>

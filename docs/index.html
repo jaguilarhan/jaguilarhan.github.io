@@ -1,4 +1,4 @@
-﻿﻿﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!-- v2026.03.04.01 - Responsive móvil completo -->
 <html lang="es">
 <head>
@@ -517,6 +517,8 @@
     <button class="btn-word" id="btn-cuaderno-obra" style="background:#1565c0">📋 Cuaderno de Obra</button>
     <button class="btn-word" id="btn-informe-mensual" style="background:#6a1b9a">📊 Informe Mensual</button>
     <button class="btn-word" id="btn-asistencia" style="background:#00695c">🧑‍🔧 Asistencia</button>
+    <button class="btn-word" id="btn-control-equipos" style="background:#e65100">🚜 Control Equipos</button>
+    <button class="btn-word" id="btn-partes-diarios" style="background:#4f46e5">📋 Partes Diarios</button>
   </div>
 </header>
 
@@ -526,6 +528,8 @@
   <aside class="panel-left">
     <h2>➕ Registrar Actividad</h2>
     <div class="form-registro">
+      <button id="btn-open-wa" style="width:100%;margin-bottom:12px;padding:8px;background:#25D366;color:#fff;border:none;border-radius:6px;font-size:.85rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px">📱 Pegar Reporte WhatsApp</button>
+
       <label>Fecha</label>
       <input type="date" id="inp-fecha"/>
 
@@ -790,6 +794,21 @@
     <div class="modal-btns" style="margin-top:16px">
       <button class="btn-cancel" id="modal-edit-cancel">Cancelar</button>
       <button class="btn-confirm-save" id="modal-edit-save">💾 Guardar cambios</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL WHATSAPP CALIDAD -->
+<div class="modal-overlay" id="modal-wa">
+  <div class="modal">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <h3 style="margin:0;color:#1a237e">📱 Reporte de Calidad (WhatsApp)</h3>
+      <button class="btn-cancel" id="modal-wa-close" style="padding:4px 8px;border:none;background:transparent;font-size:1.2rem;cursor:pointer">✕</button>
+    </div>
+    <p style="font-size:.8rem;color:#555;margin-bottom:10px">Pega aquí el mensaje enviado por Calidad. El sistema extraerá ejes, niveles y asignará las partidas automáticamente (ignorando las líneas que no tengan ejes).</p>
+    <textarea id="inp-wa-texto" rows="12" style="width:100%;padding:10px;border:1px solid #ccc;border-radius:6px;font-size:.8rem;font-family:monospace;resize:vertical;margin-bottom:12px" placeholder="REPORTE DE CALIDAD..."></textarea>
+    <div class="modal-btns">
+      <button class="btn-confirm-save" id="btn-procesar-wa" style="width:100%;background:#1a237e">🚀 Procesar e Insertar Actividades</button>
     </div>
   </div>
 </div>
@@ -1557,6 +1576,229 @@ function irASemanaDeActividad(fechaStr) {
     off += (fecha > d) ? 1 : -1;
   }
 }
+
+// ================================================================
+// WHATSAPP PARSER CALIDAD
+// ================================================================
+document.getElementById('btn-open-wa').addEventListener('click', () => {
+  document.getElementById('modal-wa').classList.add('show');
+  document.getElementById('inp-wa-texto').value = '';
+  document.getElementById('inp-wa-texto').focus();
+});
+document.getElementById('modal-wa-close').addEventListener('click', () => {
+  document.getElementById('modal-wa').classList.remove('show');
+});
+
+document.getElementById('btn-procesar-wa').addEventListener('click', () => {
+  const texto = document.getElementById('inp-wa-texto').value.trim();
+  if (!texto) { alert('Ingresa el reporte'); return; }
+
+  let fechaBase = document.getElementById('inp-fecha').value;
+  if (!fechaBase) {
+    fechaBase = new Date().toISOString().split('T')[0];
+  }
+
+  const lineas = texto.split('\n');
+  let añadidas = 0;
+
+  for (let linea of lineas) {
+    linea = linea.trim();
+    if (!linea) continue;
+
+    // Limpiar viñetas ANTES de procesar
+    let limpia = linea.replace(/^[\u2022\-\*\.]\s*/, '').trim();
+    if (!limpia) continue;
+
+    const lower = limpia.toLowerCase();
+
+    // 1. Detección de rama (Topografía vs Calidad)
+    const esTopografia = lower.includes('se realizo') || lower.includes('se realizó') || lower.includes('topográfic') || lower.includes('nivelación') || lower.includes('verticalidad');
+
+    if (!esTopografia && !lower.includes('eje') && !lower.includes('ejes')) {
+      continue;
+    }
+
+    // --- VARIABLES BASE ---
+    let descripcionFinal = '—';
+    let elementoDetectado = '—';
+    let ejesDetectados = '—';
+    let nivelDetectado = '—';
+    let partidaMatch = null;
+
+    // Extraer NIVEL (Común para ambas ramas)
+    const nivelesRegex = /(?:primer|1er|segundo|2do|tercer|3er|cuarto|4to|quinto|5to|sexto|6to)\s+nivel|s[oó]tano|azotea/i;
+    const matchNivel = limpia.match(nivelesRegex);
+    if (matchNivel) {
+      const nLower = matchNivel[0].toLowerCase();
+      if (nLower.includes('sotano') || nLower.includes('sótano')) nivelDetectado = 'SÓTANO';
+      else if (nLower.includes('primer') || nLower.includes('1er')) nivelDetectado = '1ER NIVEL';
+      else if (nLower.includes('segundo') || nLower.includes('2do')) nivelDetectado = '2DO NIVEL';
+      else if (nLower.includes('tercer') || nLower.includes('3er')) nivelDetectado = '3ER NIVEL';
+      else if (nLower.includes('cuarto') || nLower.includes('4to')) nivelDetectado = '4TO NIVEL';
+      else if (nLower.includes('quinto') || nLower.includes('5to')) nivelDetectado = '5TO NIVEL';
+      else if (nLower.includes('sexto') || nLower.includes('6to')) nivelDetectado = '6TO NIVEL';
+      else if (nLower.includes('azotea')) nivelDetectado = 'AZOTEA';
+    }
+
+    if (esTopografia) {
+      // ==========================================
+      // RAMA TOPOGRAFÍA
+      // ==========================================
+
+      // 1. Extraer Descripción
+      const matchDesc = limpia.match(/^Se\s+realiz[oó]\s+(?:el|la)\s+(verificación\s+de\s+la\s+verticalidad|trazo\s+topográfico|trazo\s+de\s+la\s+verticalidad|nivelación\s+de\s+la\s+altura|nivelación\s+topográfica|verticalidad|trazo|nivelación)/i);
+      if (matchDesc) {
+        descripcionFinal = matchDesc[1].replace(/[\.,]/g, '').trim().toUpperCase();
+      } else {
+        descripcionFinal = 'TOPOGRAFÍA';
+      }
+
+      // 2. Extraer Ejes
+      const matchInterseccion = limpia.match(/ejes?\s+([\w\-\']+)\s+(?:con\s+intersección\s+con\s+el\s+eje|entre\s+el\s+eje)\s+([\w\-\']+)/i);
+      if (matchInterseccion) {
+        const p1 = matchInterseccion[1].toUpperCase();
+        const p2 = matchInterseccion[2].toUpperCase();
+        const cleanP1 = p1.replace(/^([A-Z0-9]+)-\1$/, '$1'); // A-A -> A
+        const cleanP2 = p2.replace(/^([A-Z0-9]+)-\1$/, '$1'); // 1-1 -> 1
+        
+        if (/^\d/.test(cleanP1)) ejesDetectados = `${cleanP1}/${cleanP2}`;
+        else ejesDetectados = `${cleanP2}/${cleanP1}`;
+      } else {
+        const matchEjeSimple = limpia.match(/ejes?\s+([\w\-\']+)/i);
+        if (matchEjeSimple) {
+          ejesDetectados = matchEjeSimple[1].toUpperCase().replace(/^([A-Z0-9]+)-\1$/, '$1');
+        }
+      }
+
+      // 3. Extraer Elemento Estructural
+      let elementoRaw = limpia;
+      if (matchDesc) elementoRaw = elementoRaw.replace(matchDesc[0], '');
+      elementoRaw = elementoRaw.replace(/^\s*(del|de acuerdo al|de la|de)\s+/i, '');
+      if (matchNivel) elementoRaw = elementoRaw.replace(matchNivel[0], '');
+      elementoRaw = elementoRaw.replace(/ubicado\s+.*?(?:eje|ejes).*?(?=\s+para|\s+longitud|\s*,|$)/i, '');
+      elementoRaw = elementoRaw.replace(/en\s+(?:el\s+)?eje.*?(?=\s+para|\s+longitud|\s*,|$)/i, '');
+      elementoRaw = elementoRaw.replace(/\s+(en|para)\s+(el|la|los|las)\s*$/i, '');
+      elementoRaw = elementoRaw.replace(/\s+(en|para|del)\s*$/i, '');
+      elementoDetectado = elementoRaw.replace(/[\.,]+$/, '').replace(/^[\s\,\-]+|[\s\,\-]+$/g, '').trim().toUpperCase();
+
+      // 4. Asignar Partida "11.01.01"
+      partidaMatch = PARTIDAS.find(p => p.nombre.includes('TRAZO, NIVELES Y REPLANTEO') || p.nombre.includes('TRAZO TOPOGRÁFICO') || p.codigo === '11.01.01') || PARTIDAS[0];
+
+    } else {
+      // ==========================================
+      // RAMA CALIDAD (Normal)
+      // ==========================================
+
+      // Extraer EJES
+      const matchEjes = limpia.match(/ejes?\s+([\w\-\']+)(?:\s+entre\s+([\w\-\']+))?/i);
+      if (matchEjes) {
+        if (matchEjes[2]) {
+          const p1 = matchEjes[1].toUpperCase();
+          const p2 = matchEjes[2].toUpperCase();
+          if (/^\d/.test(p1)) {
+            ejesDetectados = `${p1}/${p2}`;
+          } else {
+            ejesDetectados = `${p2}/${p1}`;
+          }
+        } else {
+          ejesDetectados = matchEjes[1].toUpperCase();
+        }
+        limpia = limpia.replace(matchEjes[0], '').trim();
+      }
+
+      if (matchNivel) {
+        limpia = limpia.replace(matchNivel[0], '').trim();
+      }
+
+      // Quitar comas y puntos finales y limpiar descripcion
+      descripcionFinal = limpia.replace(/[\.,]+$/, '').replace(/^[\s\,\-]+|[\s\,\-]+$/g, '').trim().toUpperCase();
+
+      // Extraer ELEMENTO
+      if (lower.includes('columneta')) elementoDetectado = 'COLUMNETAS';
+      else if (lower.includes('vigueta')) elementoDetectado = 'VIGUETAS';
+      else if (lower.includes('columna')) elementoDetectado = 'COLUMNAS';
+      else if (lower.includes('viga')) elementoDetectado = 'VIGAS';
+      else if (lower.includes('placa')) elementoDetectado = 'PLACAS';
+      else if (lower.includes('losa') && lower.includes('aligerada')) elementoDetectado = 'LOSA ALIGERADA';
+      else if (lower.includes('losa') && lower.includes('maciza')) elementoDetectado = 'LOSA MACIZA';
+      else if (lower.includes('escalera')) elementoDetectado = 'ESCALERAS';
+      else if (lower.includes('muro') || lower.includes('ladrillo') || lower.includes('tarrajeo')) {
+        elementoDetectado = 'MUROS INTERIORES'; 
+      }
+
+      // Deducir PARTIDA
+      let fallbackPartida = null;
+      for (const p of PARTIDAS) {
+        const pNombre = p.nombre.toUpperCase();
+        const pCat = (p.categoria || '').toUpperCase();
+        
+        if (lower.includes('curado')) {
+          if (pNombre.includes('CURADO') && (elementoDetectado !== '—' && pCat.includes(elementoDetectado.replace('S','')))) {
+            partidaMatch = p; break;
+          }
+        } else if (lower.includes('desencofrado') || lower.includes('encofrado')) {
+          if (pNombre.includes('ENCOFRADO Y DESENCOFRADO') && (elementoDetectado !== '—' && pCat.includes(elementoDetectado.replace('S','')))) {
+            partidaMatch = p; break;
+          }
+        } else if (lower.includes('armado') || lower.includes('acero')) {
+          if (pNombre.includes('ACERO EN') && (elementoDetectado !== '—' && pCat.includes(elementoDetectado.replace('S','')))) {
+            partidaMatch = p; break;
+          }
+        } else if (lower.includes('vaciado')) {
+          if (pNombre.includes('CONCRETO') && (elementoDetectado !== '—' && pCat.includes(elementoDetectado.replace('S','')))) {
+            partidaMatch = p; break;
+          }
+        } else if (lower.includes('tarrajeo')) {
+          if (pNombre.includes('TARRAJEO EN SUPERFICIES DE MUROS INTERIORES')) {
+            partidaMatch = p; break;
+          } else if (pNombre.includes('TARRAJEO')) {
+            fallbackPartida = p;
+          }
+        } else if (lower.includes('asentado') || lower.includes('ladrillo')) {
+          if (pNombre.includes('MURO DE LADRILLO K.K. TIPO V DE CABEZA')) {
+            partidaMatch = p; break;
+          } else if (pNombre.includes('MURO DE LADRILLO')) {
+            fallbackPartida = p;
+          }
+        }
+      }
+      
+      if (!partidaMatch && fallbackPartida) partidaMatch = fallbackPartida;
+
+      if (!partidaMatch) {
+         partidaMatch = PARTIDAS.find(p => p.nombre.includes('MURO DE LADRILLO')) || PARTIDAS[0];
+      }
+    }
+
+    // Agregar actividad
+    actividades.push({
+      id: Date.now() + añadidas,
+      fecha: fechaBase,
+      descripcion: descripcionFinal,
+      elemento: elementoDetectado,
+      ejes: ejesDetectados,
+      nivel: nivelDetectado,
+      pct: 100,
+      metrado: '',
+      partida: {...partidaMatch}
+    });
+
+    añadidas++;
+  }
+
+  if (añadidas > 0) {
+    guardar();
+    irASemanaDeActividad(fechaBase);
+    renderGrid();
+    renderResumen();
+    renderAvance();
+    document.getElementById('modal-wa').classList.remove('show');
+    // Actualizar también la fecha seleccionada en el form
+    document.getElementById('inp-fecha').value = fechaBase;
+  } else {
+    alert('No se detectaron actividades con "eje". Revisa el formato.');
+  }
+});
 
 // ================================================================
 // RENDER GRID SEMANAL (con soporte de lanes/pistas para alineación)
@@ -3182,6 +3424,14 @@ document.getElementById('btn-cuaderno-obra').addEventListener('click', () => {
 
 document.getElementById('btn-informe-mensual').addEventListener('click', () => {
   window.open('informe.html', '_blank');
+});
+
+document.getElementById('btn-control-equipos').addEventListener('click', () => {
+  window.open('equipos.html?v=6', '_blank');
+});
+
+document.getElementById('btn-partes-diarios').addEventListener('click', () => {
+  window.open('partes.html', '_blank');
 });
 
 document.getElementById('btn-asistencia').addEventListener('click', () => {
