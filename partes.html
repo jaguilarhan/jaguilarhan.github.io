@@ -11,7 +11,7 @@
 <style id="page-rule">
   @page {
     size: A4 landscape;
-    margin: 6mm 6mm;
+    margin: 5mm 6mm;
   }
 </style>
 
@@ -24,7 +24,7 @@
   body {
     margin: 0;
     padding: 0;
-    background: #475569;
+    background: #334155;
     font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
     color: #000;
   }
@@ -174,7 +174,7 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    border: 1px solid #111;
+    border: 1px solid #000;
     padding: 3mm 4mm;
     background: #fff;
     position: relative;
@@ -221,7 +221,7 @@
     color: #111;
   }
 
-  /* INPUTS EDITABLES EN EL DOCUMENTO */
+  /* INPUTS EDITABLES EN EL DOCUMENTO (FORZADOS A MAYÚSCULAS) */
   .doc-inp {
     border: 1px solid transparent;
     border-bottom: 1px dotted #888;
@@ -233,6 +233,7 @@
     padding: 1px 3px;
     outline: none;
     transition: all 0.15s ease;
+    text-transform: uppercase;
   }
   .doc-inp:hover {
     border-color: #3b82f6;
@@ -248,8 +249,8 @@
   /* SECCIÓN CABECERA */
   .pf-header-box {
     border: 1px solid #000;
-    padding: 3px 5px;
-    margin-bottom: 2mm;
+    padding: 3.5px 5px;
+    margin-bottom: 2.2mm;
     font-size: 7pt;
     line-height: 1.45;
   }
@@ -273,7 +274,7 @@
     width: 100%;
     border-collapse: collapse;
     font-size: 6.8pt;
-    margin-bottom: 2mm;
+    margin-bottom: 2.2mm;
   }
   table.pf-tbl th, table.pf-tbl td {
     border: 1px solid #000;
@@ -297,6 +298,7 @@
     padding: 0;
     margin: 0;
     outline: none;
+    text-transform: uppercase;
   }
   table.pf-tbl td input.cell-inp:hover {
     background: #eff6ff;
@@ -306,9 +308,9 @@
     font-weight: 700;
   }
 
-  /* SECCIÓN OBRA (3 LÍNEAS REGLAMENTARIAS) */
+  /* SECCIÓN OBRA (FIJA, NO EDITABLE, 3 LÍNEAS CENTRADAS) */
   .pf-obra-wrap {
-    margin-bottom: 2mm;
+    margin-bottom: 2.2mm;
   }
   .pf-obra-title {
     text-align: center;
@@ -318,20 +320,26 @@
     margin-bottom: 1.5px;
     text-transform: uppercase;
   }
-  .pf-obra-lines {
+  .pf-obra-box {
     border: 1px solid #000;
-    padding: 2.5px 5px;
+    padding: 3px 6px;
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5px;
+    background: #fff;
   }
   .pf-obra-line {
-    font-size: 6.5pt;
-    font-weight: 600;
-    color: #111;
+    font-size: 6.2pt;
+    font-weight: 700;
+    color: #000;
+    text-align: center;
+    line-height: 1.25;
+    letter-spacing: 0.2px;
   }
 
-  /* TABLA TRABAJOS REALIZADOS (SIN COLUMNA ITEM, SOLO TRABAJOS) */
+  /* TABLA TRABAJOS REALIZADOS (SOLO TRABAJOS, SIN ITEM) */
   .pf-trabajos-wrap {
     border: 1px solid #000;
     margin-bottom: 2.5mm;
@@ -411,7 +419,7 @@
   }
   .pf-firma-nombre {
     font-size: 6pt;
-    color: #333;
+    color: #222;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -496,7 +504,7 @@
   </div>
 </div>
 
-<!-- DATALIST GLOBAL DE OPERADORES (57 OBREROS DE ASISTENCIA) -->
+<!-- DATALIST GLOBAL DE OPERADORES (57 OBREROS DE ASISTENCIA EN MAYÚSCULAS) -->
 <datalist id="dl-operadores">
   <!-- Inyectado con JS -->
 </datalist>
@@ -862,14 +870,11 @@ const DEFAULT_PARTES = [
     "dia": "Jueves",
     "unidad": "VIBRADOR DE CONCRETO A GASOLINA 4 HP",
     "placa": "S/P",
-    "operador": "Personal Obrero de Obra",
-    "residente": "Arq. Luis Javier Huanca Barrantes",
-    "inspector": "Arq. Marco Antonio Ramirez Luque",
-    "obra_line1": "MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS O MISIONALES",
-    "obra_line2": "INSTITUCIONALES EN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA",
-    "obra_line3": "DISTRITO DE TORATA - MARISCAL NIETO - MOQUEGUA (META 290)",
+    "operador": "PERSONAL OBRERO DE OBRA",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "inspector": "ARQ. MARCO ANTONIO RAMIREZ LUQUE",
     "gasolina": "1.00",
-    "vale": "Vale Almacén N° 108",
+    "vale": "-",
     "petroleo": "-",
     "petroleo_vale": "-",
     "h_ini": "120.00",
@@ -893,14 +898,11 @@ const DEFAULT_PARTES = [
     "dia": "Viernes",
     "unidad": "VIBRADOR DE CONCRETO A GASOLINA 4 HP",
     "placa": "S/P",
-    "operador": "Personal Obrero de Obra",
-    "residente": "Arq. Luis Javier Huanca Barrantes",
-    "inspector": "Arq. Marco Antonio Ramirez Luque",
-    "obra_line1": "MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS O MISIONALES",
-    "obra_line2": "INSTITUCIONALES EN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA",
-    "obra_line3": "DISTRITO DE TORATA - MARISCAL NIETO - MOQUEGUA (META 290)",
+    "operador": "PERSONAL OBRERO DE OBRA",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "inspector": "ARQ. MARCO ANTONIO RAMIREZ LUQUE",
     "gasolina": "0.75",
-    "vale": "Vale Almacén N° 112",
+    "vale": "-",
     "petroleo": "-",
     "petroleo_vale": "-",
     "h_ini": "124.00",
@@ -924,14 +926,11 @@ const DEFAULT_PARTES = [
     "dia": "Viernes",
     "unidad": "VIBRADOR DE CONCRETO A GASOLINA 4 HP",
     "placa": "S/P",
-    "operador": "Personal Obrero de Obra",
-    "residente": "Arq. Luis Javier Huanca Barrantes",
-    "inspector": "Arq. Marco Antonio Ramirez Luque",
-    "obra_line1": "MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS O MISIONALES",
-    "obra_line2": "INSTITUCIONALES EN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA",
-    "obra_line3": "DISTRITO DE TORATA - MARISCAL NIETO - MOQUEGUA (META 290)",
+    "operador": "PERSONAL OBRERO DE OBRA",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "inspector": "ARQ. MARCO ANTONIO RAMIREZ LUQUE",
     "gasolina": "1.00",
-    "vale": "Vale Salida 16/10",
+    "vale": "-",
     "petroleo": "-",
     "petroleo_vale": "-",
     "h_ini": "127.00",
@@ -947,7 +946,7 @@ const DEFAULT_PARTES = [
     "t_fin": "15:00",
     "t_hrs": "1.00",
     "total_hm": "4.00",
-    "trabajos_texto": "Asiento N° 478 (Residencia):\nVaciado de sobrecimientos reforzados f'c=210 kg/cm² CC-1'' en muro cortina (0.17 m³ y 0.21 m³), CC-1 en SS.HH. mixto (0.49 m³) y CC-3 eje 2/A-B (0.45 m³).\nTotal concreto colocado: 1.32 m³. Abastecimiento con 1 GLN Gasohol de almacén de obra para vibrado y mezclado.\n\nAsiento N° 480 (Inspectoría):\nVerificación y control de campo en vaciado de concreto en sobrecimientos y columnetas en 1° piso."
+    "trabajos_texto": "Asiento N° 478 (Residencia):\nVaciado de sobrecimientos reforzados f'c=210 kg/cm² CC-1'' en muro cortina (0.17 m³ y 0.21 m³), CC-1 en SS.HH. mixto (0.49 m³) y CC-3 eje 2/A-B (0.45 m³).\nTotal concreto colocado: 1.32 m³. Abastecimiento con Gasohol de almacén de obra para vibrado y mezclado.\n\nAsiento N° 480 (Inspectoría):\nVerificación y control de campo en vaciado de concreto en sobrecimientos y columnetas en 1° piso."
   },
   {
     "num": "04",
@@ -955,14 +954,11 @@ const DEFAULT_PARTES = [
     "dia": "Miércoles",
     "unidad": "VIBRADOR DE CONCRETO A GASOLINA 4 HP",
     "placa": "S/P",
-    "operador": "Personal Obrero de Obra",
-    "residente": "Arq. Luis Javier Huanca Barrantes",
-    "inspector": "Arq. Marco Antonio Ramirez Luque",
-    "obra_line1": "MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS O MISIONALES",
-    "obra_line2": "INSTITUCIONALES EN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA",
-    "obra_line3": "DISTRITO DE TORATA - MARISCAL NIETO - MOQUEGUA (META 290)",
+    "operador": "PERSONAL OBRERO DE OBRA",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "inspector": "ARQ. MARCO ANTONIO RAMIREZ LUQUE",
     "gasolina": "1.00",
-    "vale": "Vale Almacén N° 124",
+    "vale": "-",
     "petroleo": "-",
     "petroleo_vale": "-",
     "h_ini": "131.00",
@@ -986,14 +982,11 @@ const DEFAULT_PARTES = [
     "dia": "Jueves",
     "unidad": "VIBRADOR DE CONCRETO A GASOLINA 4 HP",
     "placa": "S/P",
-    "operador": "Personal Obrero de Obra",
-    "residente": "Arq. Luis Javier Huanca Barrantes",
-    "inspector": "Arq. Marco Antonio Ramirez Luque",
-    "obra_line1": "MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS O MISIONALES",
-    "obra_line2": "INSTITUCIONALES EN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA",
-    "obra_line3": "DISTRITO DE TORATA - MARISCAL NIETO - MOQUEGUA (META 290)",
+    "operador": "PERSONAL OBRERO DE OBRA",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "inspector": "ARQ. MARCO ANTONIO RAMIREZ LUQUE",
     "gasolina": "1.00",
-    "vale": "Vale Almacén N° 126",
+    "vale": "-",
     "petroleo": "-",
     "petroleo_vale": "-",
     "h_ini": "135.00",
@@ -1009,7 +1002,7 @@ const DEFAULT_PARTES = [
     "t_fin": "14:30",
     "t_hrs": "0.50",
     "total_hm": "3.50",
-    "trabajos_texto": "Asiento N° 488 (Residencia):\nVaciado de columnetas CA-2 (0.26 m³) y CA-1 (0.20 m³) en SS.HH., vigueta VA-1 (0.06 m³) y sobrecimiento CC-3 eje 2-3/A-B en 1er nivel.\nTotal concreto colocado: 0.52 m³. Salida de almacén de 1 GAL Gasohol para operatividad del equipo vibrador.\n\nAsiento N° 489 (Inspectoría):\nVaciado de concreto para columnetas y viguetas en 1er piso con control de prueba slump y toma de probetas."
+    "trabajos_texto": "Asiento N° 488 (Residencia):\nVaciado de columnetas CA-2 (0.26 m³) y CA-1 (0.20 m³) en SS.HH., vigueta VA-1 (0.06 m³) y sobrecimiento CC-3 eje 2-3/A-B en 1er nivel.\nTotal concreto colocado: 0.52 m³. Abastecimiento con Gasohol para operatividad del equipo vibrador.\n\nAsiento N° 489 (Inspectoría):\nVaciado de concreto para columnetas y viguetas en 1er piso con control de prueba slump y toma de probetas."
   },
   {
     "num": "06",
@@ -1017,14 +1010,11 @@ const DEFAULT_PARTES = [
     "dia": "Viernes",
     "unidad": "VIBRADOR DE CONCRETO A GASOLINA 4 HP",
     "placa": "S/P",
-    "operador": "Personal Obrero de Obra",
-    "residente": "Arq. Luis Javier Huanca Barrantes",
-    "inspector": "Arq. Marco Antonio Ramirez Luque",
-    "obra_line1": "MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS O MISIONALES",
-    "obra_line2": "INSTITUCIONALES EN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA",
-    "obra_line3": "DISTRITO DE TORATA - MARISCAL NIETO - MOQUEGUA (META 290)",
+    "operador": "PERSONAL OBRERO DE OBRA",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "inspector": "ARQ. MARCO ANTONIO RAMIREZ LUQUE",
     "gasolina": "1.00",
-    "vale": "Vale Almacén N° 129",
+    "vale": "-",
     "petroleo": "-",
     "petroleo_vale": "-",
     "h_ini": "138.50",
@@ -1040,7 +1030,7 @@ const DEFAULT_PARTES = [
     "t_fin": "14:30",
     "t_hrs": "0.50",
     "total_hm": "3.50",
-    "trabajos_texto": "Asiento N° 492 (Residencia):\nCulminación de vaciado y consolidación de columnetas CA-1 y CA-2 y sobrecimiento CC-3 en área de SS.HH. mixtos.\nControl de alineamiento y plomos. Salida de almacén de 2 GAL Gasohol para trompo mezclador y equipo vibrador.\n\nAsiento N° 490 (Inspectoría):\nVerificación de vaciado de concreto para columnetas en 1° piso con prueba slump conforme."
+    "trabajos_texto": "Asiento N° 492 (Residencia):\nCulminación de vaciado y consolidación de columnetas CA-1 y CA-2 y sobrecimiento CC-3 en área de SS.HH. mixtos.\nControl de alineamiento y plomos. Salida de almacén de Gasohol para trompo mezclador y equipo vibrador.\n\nAsiento N° 490 (Inspectoría):\nVerificación de vaciado de concreto para columnetas en 1° piso con prueba slump conforme."
   },
   {
     "num": "07",
@@ -1048,14 +1038,11 @@ const DEFAULT_PARTES = [
     "dia": "Lunes",
     "unidad": "VIBRADOR DE CONCRETO A GASOLINA 4 HP",
     "placa": "S/P",
-    "operador": "Personal Obrero de Obra",
-    "residente": "Arq. Luis Javier Huanca Barrantes",
-    "inspector": "Arq. Marco Antonio Ramirez Luque",
-    "obra_line1": "MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS O MISIONALES",
-    "obra_line2": "INSTITUCIONALES EN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA",
-    "obra_line3": "DISTRITO DE TORATA - MARISCAL NIETO - MOQUEGUA (META 290)",
+    "operador": "PERSONAL OBRERO DE OBRA",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "inspector": "ARQ. MARCO ANTONIO RAMIREZ LUQUE",
     "gasolina": "0.75",
-    "vale": "Vale Almacén N° 131",
+    "vale": "-",
     "petroleo": "-",
     "petroleo_vale": "-",
     "h_ini": "142.00",
@@ -1079,14 +1066,11 @@ const DEFAULT_PARTES = [
     "dia": "Martes",
     "unidad": "VIBRADOR DE CONCRETO A GASOLINA 4 HP",
     "placa": "S/P",
-    "operador": "Personal Obrero de Obra",
-    "residente": "Arq. Luis Javier Huanca Barrantes",
-    "inspector": "Arq. Marco Antonio Ramirez Luque",
-    "obra_line1": "MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS O MISIONALES",
-    "obra_line2": "INSTITUCIONALES EN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA",
-    "obra_line3": "DISTRITO DE TORATA - MARISCAL NIETO - MOQUEGUA (META 290)",
+    "operador": "PERSONAL OBRERO DE OBRA",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "inspector": "ARQ. MARCO ANTONIO RAMIREZ LUQUE",
     "gasolina": "1.00",
-    "vale": "Vale Almacén N° 134",
+    "vale": "-",
     "petroleo": "-",
     "petroleo_vale": "-",
     "h_ini": "145.00",
@@ -1102,7 +1086,7 @@ const DEFAULT_PARTES = [
     "t_fin": "15:00",
     "t_hrs": "1.00",
     "total_hm": "4.00",
-    "trabajos_texto": "Asiento N° 497 (Residencia):\nVaciado de losa superior de mesones de laboratorio M-503 y M-505 en 5to nivel (0.50 m³), mesón M-201 en 2do nivel (0.24 m³) y vigueta VA-1.\nControl de slump 5\" y moldeo de 03 probetas cilíndricas. Salida de almacén: 2 GAL Gasohol para operatividad de equipos.\n\nAsiento N° 494 (Inspectoría):\nInspección de vaciado de mesones de concreto y control de asentamiento de mezcla."
+    "trabajos_texto": "Asiento N° 497 (Residencia):\nVaciado de losa superior de mesones de laboratorio M-503 y M-505 en 5to nivel (0.50 m³), mesón M-201 en 2do nivel (0.24 m³) y vigueta VA-1.\nControl de slump 5\" y moldeo de 03 probetas cilíndricas. Abastecimiento de Gasohol para operatividad de equipos.\n\nAsiento N° 494 (Inspectoría):\nInspección de vaciado de mesones de concreto y control de asentamiento de mezcla."
   },
   {
     "num": "09",
@@ -1110,14 +1094,11 @@ const DEFAULT_PARTES = [
     "dia": "Miércoles",
     "unidad": "VIBRADOR DE CONCRETO A GASOLINA 4 HP",
     "placa": "S/P",
-    "operador": "Personal Obrero de Obra",
-    "residente": "Arq. Luis Javier Huanca Barrantes",
-    "inspector": "Arq. Marco Antonio Ramirez Luque",
-    "obra_line1": "MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS O MISIONALES",
-    "obra_line2": "INSTITUCIONALES EN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA",
-    "obra_line3": "DISTRITO DE TORATA - MARISCAL NIETO - MOQUEGUA (META 290)",
+    "operador": "PERSONAL OBRERO DE OBRA",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "inspector": "ARQ. MARCO ANTONIO RAMIREZ LUQUE",
     "gasolina": "1.00",
-    "vale": "Vale Almacén N° 137",
+    "vale": "-",
     "petroleo": "-",
     "petroleo_vale": "-",
     "h_ini": "149.00",
@@ -1133,7 +1114,7 @@ const DEFAULT_PARTES = [
     "t_fin": "15:00",
     "t_hrs": "1.00",
     "total_hm": "4.00",
-    "trabajos_texto": "Asiento N° 498 (Residencia):\nVaciado y consolidación de mesones complementarios y viguetas de cerramiento en edificación. Curado húmedo y vibrado normativo.\nPreparativos e instalaciones previas para vaciado de contrapisos. Salida de almacén de 2 GAL Gasohol.\n\nAsiento N° 495 (Inspectoría):\nInspección de mesones vaciados en 2° y 5° nivel e instalaciones sanitarias previas a contrapisos."
+    "trabajos_texto": "Asiento N° 498 (Residencia):\nVaciado y consolidación de mesones complementarios y viguetas de cerramiento en edificación. Curado húmedo y vibrado normativo.\nPreparativos e instalaciones previas para vaciado de contrapisos. Salida de almacén de Gasohol.\n\nAsiento N° 495 (Inspectoría):\nInspección de mesones vaciados en 2° y 5° nivel e instalaciones sanitarias previas a contrapisos."
   },
   {
     "num": "10",
@@ -1141,14 +1122,11 @@ const DEFAULT_PARTES = [
     "dia": "Jueves",
     "unidad": "VIBRADOR DE CONCRETO A GASOLINA 4 HP",
     "placa": "S/P",
-    "operador": "Personal Obrero de Obra",
-    "residente": "Arq. Luis Javier Huanca Barrantes",
-    "inspector": "Arq. Marco Antonio Ramirez Luque",
-    "obra_line1": "MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS O MISIONALES",
-    "obra_line2": "INSTITUCIONALES EN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA",
-    "obra_line3": "DISTRITO DE TORATA - MARISCAL NIETO - MOQUEGUA (META 290)",
+    "operador": "PERSONAL OBRERO DE OBRA",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "inspector": "ARQ. MARCO ANTONIO RAMIREZ LUQUE",
     "gasolina": "1.50",
-    "vale": "Vale Almacén N° 140",
+    "vale": "-",
     "petroleo": "-",
     "petroleo_vale": "-",
     "h_ini": "153.00",
@@ -1164,7 +1142,7 @@ const DEFAULT_PARTES = [
     "t_fin": "15:00",
     "t_hrs": "1.00",
     "total_hm": "5.00",
-    "trabajos_texto": "Asiento N° 501 (Residencia):\nVaciado de mesón M-404 en 4to nivel (0.22 m³), viguetas VA-2 (0.19 m³), columnetas CA-1 y CA-5 (0.40 m³) y suelo cemento bajo escalera (1.08 m³).\nTotal concreto colocado: 1.89 m³. Ensayo de slump 4\" y 03 probetas. Salida almacén de 4 GAL Gasohol.\n\nAsiento N° 499 (Inspectoría):\nConstatación de vaciado de columnetas y viguetas con slump 5\" y solicitud de celeridad al vaciado de contrapisos."
+    "trabajos_texto": "Asiento N° 501 (Residencia):\nVaciado de mesón M-404 en 4to nivel (0.22 m³), viguetas VA-2 (0.19 m³), columnetas CA-1 y CA-5 (0.40 m³) y suelo cemento bajo escalera (1.08 m³).\nTotal concreto colocado: 1.89 m³. Ensayo de slump 4\" y 03 probetas. Salida almacén de Gasohol.\n\nAsiento N° 499 (Inspectoría):\nConstatación de vaciado de columnetas y viguetas con slump 5\" y solicitud de celeridad al vaciado de contrapisos."
   },
   {
     "num": "11",
@@ -1172,14 +1150,11 @@ const DEFAULT_PARTES = [
     "dia": "Viernes",
     "unidad": "VIBRADOR DE CONCRETO A GASOLINA 4 HP",
     "placa": "S/P",
-    "operador": "Personal Obrero de Obra",
-    "residente": "Arq. Luis Javier Huanca Barrantes",
-    "inspector": "Arq. Marco Antonio Ramirez Luque",
-    "obra_line1": "MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS O MISIONALES",
-    "obra_line2": "INSTITUCIONALES EN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA",
-    "obra_line3": "DISTRITO DE TORATA - MARISCAL NIETO - MOQUEGUA (META 290)",
+    "operador": "PERSONAL OBRERO DE OBRA",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "inspector": "ARQ. MARCO ANTONIO RAMIREZ LUQUE",
     "gasolina": "1.75",
-    "vale": "Vale Almacén N° 143",
+    "vale": "-",
     "petroleo": "-",
     "petroleo_vale": "-",
     "h_ini": "158.00",
@@ -1195,7 +1170,7 @@ const DEFAULT_PARTES = [
     "t_fin": "16:00",
     "t_hrs": "3.00",
     "total_hm": "7.00",
-    "trabajos_texto": "Asiento N° 502 (Residencia):\nGran vaciado de CONTRAPISO EN EL QUINTO NIVEL (área 88.23 m², e=7.5 cm, volumen 6.62 m³) con concreto f'c=175 kg/cm² y vigueta VA-1.\nVibrado y reglado continuo. Slump 5\" y moldeo de 03 probetas. Salida almacén: 2 GAL Gasohol. Vibradora registrada en equipos.\n\nAsiento N° 500 (Inspectoría):\nVerificación de pruebas hidrostáticas y supervisión de avance en gran vaciado de contrapisos en 5° nivel."
+    "trabajos_texto": "Asiento N° 502 (Residencia):\nGran vaciado de CONTRAPISO EN EL QUINTO NIVEL (área 88.23 m², e=7.5 cm, volumen 6.62 m³) con concreto f'c=175 kg/cm² y vigueta VA-1.\nVibrado y reglado continuo. Slump 5\" y moldeo de 03 probetas. Salida almacén: Gasohol. Vibradora registrada en equipos.\n\nAsiento N° 500 (Inspectoría):\nVerificación de pruebas hidrostáticas y supervisión de avance en gran vaciado de contrapisos en 5° nivel."
   },
   {
     "num": "12",
@@ -1203,14 +1178,11 @@ const DEFAULT_PARTES = [
     "dia": "Sábado",
     "unidad": "VIBRADOR DE CONCRETO A GASOLINA 4 HP",
     "placa": "S/P",
-    "operador": "Personal Obrero de Obra",
-    "residente": "Arq. Luis Javier Huanca Barrantes",
-    "inspector": "Arq. Marco Antonio Ramirez Luque",
-    "obra_line1": "MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS O MISIONALES",
-    "obra_line2": "INSTITUCIONALES EN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA",
-    "obra_line3": "DISTRITO DE TORATA - MARISCAL NIETO - MOQUEGUA (META 290)",
+    "operador": "PERSONAL OBRERO DE OBRA",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "inspector": "ARQ. MARCO ANTONIO RAMIREZ LUQUE",
     "gasolina": "1.25",
-    "vale": "Vale Almacén N° 145",
+    "vale": "-",
     "petroleo": "-",
     "petroleo_vale": "-",
     "h_ini": "165.00",
@@ -1226,7 +1198,7 @@ const DEFAULT_PARTES = [
     "t_fin": "",
     "t_hrs": "0.00",
     "total_hm": "5.00",
-    "trabajos_texto": "Asiento N° 504 (Residencia):\nVaciado de contrapiso en SS.HH. 4to nivel (1.19 m³) y Falso Piso enmallado con acero de 1/4\" en Sala de Balanzas del 3er nivel (1.77 m³).\nTotal concreto colocado: 2.96 m³. Control de slump 4\" y 03 probetas. Salida almacén: 17 bolsas de cemento.\n\nAsiento N° 503 (Inspectoría):\nConstatación expresa del vaciado de contrapisos en Sala de Balanzas de 3° nivel y contrapiso en SS.HH. de 5° nivel."
+    "trabajos_texto": "Asiento N° 504 (Residencia):\nVaciado de contrapiso en SS.HH. 4to nivel (1.19 m³) y Falso Piso enmallado con acero de 1/4\" en Sala de Balanzas del 3er nivel (1.77 m³).\nTotal concreto colocado: 2.96 m³. Control de slump 4\" y 03 probetas. Salida almacén: cemento y agregados.\n\nAsiento N° 503 (Inspectoría):\nConstatación expresa del vaciado de contrapisos en Sala de Balanzas de 3° nivel y contrapiso en SS.HH. de 5° nivel."
   },
   {
     "num": "13",
@@ -1234,14 +1206,11 @@ const DEFAULT_PARTES = [
     "dia": "Lunes",
     "unidad": "VIBRADOR DE CONCRETO A GASOLINA 4 HP",
     "placa": "S/P",
-    "operador": "Personal Obrero de Obra",
-    "residente": "Arq. Luis Javier Huanca Barrantes",
-    "inspector": "Arq. Marco Antonio Ramirez Luque",
-    "obra_line1": "MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS O MISIONALES",
-    "obra_line2": "INSTITUCIONALES EN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA",
-    "obra_line3": "DISTRITO DE TORATA - MARISCAL NIETO - MOQUEGUA (META 290)",
+    "operador": "PERSONAL OBRERO DE OBRA",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "inspector": "ARQ. MARCO ANTONIO RAMIREZ LUQUE",
     "gasolina": "2.00",
-    "vale": "Vale Almacén N° 148",
+    "vale": "-",
     "petroleo": "-",
     "petroleo_vale": "-",
     "h_ini": "170.00",
@@ -1257,7 +1226,7 @@ const DEFAULT_PARTES = [
     "t_fin": "17:00",
     "t_hrs": "4.00",
     "total_hm": "8.00",
-    "trabajos_texto": "Asiento N° 505 (Residencia - App):\nGRAN VACIADO DE CONTRAPISO EN 4TO NIVEL (área 108.05 m², espesor incrementado a e=7.5 cm por tuberías, volumen 8.10 m³).\nVaciado de Falso Piso enmallado en Sala de Aire 3er nivel (2.34 m³). Total vaciado: 10.44 m³. Slump 5.5\" y 03 probetas. Salida: 2 GAL Gasohol.\n\nAsiento N° 506 (Inspectoría):\nVerificación y supervisión del gran vaciado de contrapisos y falsos pisos en 4° y 3° nivel."
+    "trabajos_texto": "Asiento N° 505 (Residencia - App):\nGRAN VACIADO DE CONTRAPISO EN 4TO NIVEL (área 108.05 m², espesor incrementado a e=7.5 cm por tuberías, volumen 8.10 m³).\nVaciado de Falso Piso enmallado en Sala de Aire 3er nivel (2.34 m³). Total vaciado: 10.44 m³. Slump 5.5\" y 03 probetas. Salida: Gasohol.\n\nAsiento N° 506 (Inspectoría):\nVerificación y supervisión del gran vaciado de contrapisos y falsos pisos en 4° y 3° nivel."
   },
   {
     "num": "14",
@@ -1265,14 +1234,11 @@ const DEFAULT_PARTES = [
     "dia": "Martes",
     "unidad": "VIBRADOR DE CONCRETO A GASOLINA 4 HP",
     "placa": "S/P",
-    "operador": "Personal Obrero de Obra",
-    "residente": "Arq. Luis Javier Huanca Barrantes",
-    "inspector": "Arq. Marco Antonio Ramirez Luque",
-    "obra_line1": "MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS O MISIONALES",
-    "obra_line2": "INSTITUCIONALES EN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA",
-    "obra_line3": "DISTRITO DE TORATA - MARISCAL NIETO - MOQUEGUA (META 290)",
+    "operador": "PERSONAL OBRERO DE OBRA",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "inspector": "ARQ. MARCO ANTONIO RAMIREZ LUQUE",
     "gasolina": "1.50",
-    "vale": "Vale Almacén N° 150",
+    "vale": "-",
     "petroleo": "-",
     "petroleo_vale": "-",
     "h_ini": "178.00",
@@ -1295,6 +1261,17 @@ const DEFAULT_PARTES = [
 let partes = [];
 let modoActual = 'dos';
 
+// CONVERTIR A FORMATO TITLE CASE (SOLO LA PRIMERA LETRA DE CADA PALABRA EN MAYÚSCULA)
+function toTitleCase(texto) {
+  if (!texto) return '';
+  return texto
+    .toLowerCase()
+    .split(' ')
+    .filter(Boolean)
+    .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(' ');
+}
+
 // INICIALIZACIÓN
 document.addEventListener('DOMContentLoaded', () => {
   cargarDatalistOperadores();
@@ -1314,7 +1291,7 @@ function cargarDatalistOperadores() {
 
 // CARGAR PARTES (DE LOCALSTORAGE O DEFAULT)
 function cargarPartes() {
-  const guardado = localStorage.getItem('workea_partes_diarios_v4');
+  const guardado = localStorage.getItem('workea_partes_diarios_v5');
   if (guardado) {
     try {
       partes = JSON.parse(guardado);
@@ -1366,8 +1343,9 @@ function renderParteHTML(p, idx, tipoCopia) {
   const isCargo = tipoCopia === 'CARGO';
   const tagClass = isCargo ? 'pf-copia-tag cargo' : 'pf-copia-tag';
 
-  // Nombre limpio del operador para firma al pie
-  const opNombreLimpio = p.operador ? p.operador.split(' - ')[0] : 'PERSONAL OBRERO';
+  // Extraer nombre limpio del operador y convertir a Title Case para firma al pie
+  const opNombreCrudo = p.operador ? p.operador.split(' - ')[0].trim() : 'Personal Obrero de Obra';
+  const opNombreFirma = toTitleCase(opNombreCrudo);
 
   // Formatear texto de trabajos resaltando los títulos de asientos
   const textoFormateado = (p.trabajos_texto || '')
@@ -1384,30 +1362,30 @@ function renderParteHTML(p, idx, tipoCopia) {
         </div>
       </div>
 
-      <!-- CABECERA (UNIDAD, PLACA, FECHA, OPERADOR, RESIDENTE) -->
+      <!-- CABECERA (UNIDAD, PLACA, FECHA, OPERADOR, RESIDENTE) TODO EN MAYÚSCULAS -->
       <div class="pf-header-box">
         <div class="pf-header-row">
           <span class="pf-lbl">UNIDAD:</span>
-          <input class="doc-inp" style="flex: 1.5; font-weight: 700;" value="${p.unidad || ''}" oninput="onCampoChange(${idx}, 'unidad', this.value)">
+          <input class="doc-inp inp-unidad-${idx}" style="flex: 1.5; font-weight: 700;" value="${p.unidad || 'VIBRADOR DE CONCRETO A GASOLINA 4 HP'}" oninput="onCampoChange(${idx}, 'unidad', this.value.toUpperCase())">
           <span class="pf-lbl" style="margin-left: 6px;">PLACA:</span>
-          <input class="doc-inp" style="width: 50px; text-align: center;" value="${p.placa || 'S/P'}" oninput="onCampoChange(${idx}, 'placa', this.value)">
+          <input class="doc-inp inp-placa-${idx}" style="width: 50px; text-align: center;" value="${p.placa || 'S/P'}" oninput="onCampoChange(${idx}, 'placa', this.value.toUpperCase())">
           <span class="pf-lbl" style="margin-left: 6px;">FECHA:</span>
-          <input class="doc-inp" style="width: 75px; text-align: center; font-weight: 700;" value="${p.fecha || ''}" oninput="onCampoChange(${idx}, 'fecha', this.value)">
+          <input class="doc-inp inp-fecha-${idx}" style="width: 75px; text-align: center; font-weight: 700;" value="${p.fecha || ''}" oninput="onCampoChange(${idx}, 'fecha', this.value)">
         </div>
 
         <div class="pf-header-row">
           <span class="pf-lbl">OPERADOR:</span>
-          <input list="dl-operadores" class="doc-inp inp-op-field-${idx}" style="flex: 1; font-weight: 600;" value="${p.operador || ''}" placeholder="Buscar obrero por nombre o cargo..." onchange="onOperadorSelectChange(${idx}, this.value)" oninput="onOperadorSelectChange(${idx}, this.value)">
+          <input list="dl-operadores" class="doc-inp inp-op-field-${idx}" style="flex: 1; font-weight: 600;" value="${p.operador || 'PERSONAL OBRERO DE OBRA'}" placeholder="BUSCAR OBRERO..." onchange="onOperadorSelectChange(${idx}, this.value.toUpperCase())" oninput="onOperadorSelectChange(${idx}, this.value.toUpperCase())">
           <button class="btn btn-outline no-print" style="padding: 1px 6px; font-size: 6.5pt; color: #1e293b; border-color: #94a3b8;" onclick="seleccionarOperadorDialog(${idx})" title="Abrir catálogo de asistencia">👥 Buscar</button>
         </div>
 
         <div class="pf-header-row">
           <span class="pf-lbl">RESIDENTE:</span>
-          <input class="doc-inp" style="flex: 1;" value="${p.residente || 'Arq. Luis Javier Huanca Barrantes'}" oninput="onCampoChange(${idx}, 'residente', this.value)">
+          <input class="doc-inp inp-residente-${idx}" style="flex: 1; font-weight: 700;" value="${p.residente || 'ARQ. LUIS JAVIER HUANCA BARRANTES'}" oninput="onCampoChange(${idx}, 'residente', this.value.toUpperCase())">
         </div>
       </div>
 
-      <!-- CONTADOR (HOROMETRO / KILOMETRAJE) -->
+      <!-- CONTADOR (HOROMETRO / KILOMETRAJE CON GUIONES) -->
       <table class="pf-tbl">
         <thead>
           <tr>
@@ -1426,24 +1404,24 @@ function renderParteHTML(p, idx, tipoCopia) {
           </tr>
           <tr>
             <td style="font-weight: 700;">KILOMETRAJE</td>
-            <td><input class="cell-inp inp-kmini-${idx}" value="${p.km_ini || '-'}" oninput="onCampoChange(${idx}, 'km_ini', this.value)"></td>
-            <td><input class="cell-inp inp-kmfin-${idx}" value="${p.km_fin || '-'}" oninput="onCampoChange(${idx}, 'km_fin', this.value)"></td>
-            <td><input class="cell-inp inp-kmtot-${idx}" value="${p.km_tot || '-'}" oninput="onCampoChange(${idx}, 'km_tot', this.value)"></td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
           </tr>
         </tbody>
       </table>
 
-      <!-- SECCIÓN OBRA -->
+      <!-- SECCIÓN OBRA (FIJA, NO EDITABLE, BIEN BONITA EN 3 LÍNEAS CENTRADAS) -->
       <div class="pf-obra-wrap">
         <div class="pf-obra-title">OBRA</div>
-        <div class="pf-obra-lines">
-          <input class="doc-inp pf-obra-line inp-obra1-${idx}" value="${p.obra_line1 || 'MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS O MISIONALES'}" oninput="onCampoChange(${idx}, 'obra_line1', this.value)">
-          <input class="doc-inp pf-obra-line inp-obra2-${idx}" value="${p.obra_line2 || 'INSTITUCIONALES EN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA'}" oninput="onCampoChange(${idx}, 'obra_line2', this.value)">
-          <input class="doc-inp pf-obra-line inp-obra3-${idx}" value="${p.obra_line3 || 'DISTRITO DE TORATA - MARISCAL NIETO - MOQUEGUA (META 290)'}" oninput="onCampoChange(${idx}, 'obra_line3', this.value)">
+        <div class="pf-obra-box">
+          <div class="pf-obra-line">MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS O MISIONALES</div>
+          <div class="pf-obra-line">INSTITUCIONALES EN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA</div>
+          <div class="pf-obra-line">DISTRITO DE TORATA - MARISCAL NIETO - MOQUEGUA (META 290)</div>
         </div>
       </div>
 
-      <!-- SECCIÓN COMBUSTIBLE -->
+      <!-- SECCIÓN COMBUSTIBLE (VALE CON GUION '-') -->
       <table class="pf-tbl">
         <thead>
           <tr>
@@ -1463,8 +1441,8 @@ function renderParteHTML(p, idx, tipoCopia) {
           <tr>
             <td style="font-weight: 700;">PETROLEO</td>
             <td>Gls.</td>
-            <td><input class="cell-inp" value="${p.petroleo || '-'}" oninput="onCampoChange(${idx}, 'petroleo', this.value)"></td>
-            <td><input class="cell-inp" value="${p.petroleo_vale || '-'}" oninput="onCampoChange(${idx}, 'petroleo_vale', this.value)"></td>
+            <td>-</td>
+            <td>-</td>
           </tr>
         </tbody>
       </table>
@@ -1517,27 +1495,27 @@ function renderParteHTML(p, idx, tipoCopia) {
         </table>
       </div>
 
-      <!-- SECCIÓN FIRMAS (CON ESPACIO AMPLIO) -->
+      <!-- SECCIÓN FIRMAS (TITLE CASE: PRIMERA LETRA DE CADA PALABRA EN MAYÚSCULA) -->
       <div class="pf-firmas-box">
         <div class="pf-firma-item">
           <div class="pf-firma-space"></div>
           <div class="pf-firma-linea"></div>
           <div class="pf-firma-cargo">OPERADOR</div>
-          <div class="pf-firma-nombre lbl-firma-op-${idx}">${opNombreLimpio}</div>
+          <div class="pf-firma-nombre lbl-firma-op-${idx}">${opNombreFirma}</div>
         </div>
 
         <div class="pf-firma-item">
           <div class="pf-firma-space"></div>
           <div class="pf-firma-linea"></div>
           <div class="pf-firma-cargo">RESIDENTE DE OBRA</div>
-          <div class="pf-firma-nombre">${p.residente || 'Arq. Luis Javier Huanca Barrantes'}</div>
+          <div class="pf-firma-nombre">Arq. Luis Javier Huanca Barrantes</div>
         </div>
 
         <div class="pf-firma-item">
           <div class="pf-firma-space"></div>
           <div class="pf-firma-linea"></div>
           <div class="pf-firma-cargo">INSPECTOR DE OBRA</div>
-          <div class="pf-firma-nombre">${p.inspector || 'Arq. Marco Antonio Ramirez Luque'}</div>
+          <div class="pf-firma-nombre">Arq. Marco Antonio Ramirez Luque</div>
         </div>
       </div>
     </div>
@@ -1549,23 +1527,16 @@ function onCampoChange(idx, campo, val) {
   if (!partes[idx]) return;
   partes[idx][campo] = val;
 
-  // Sincronizar inputs en la pantalla para ambas copias (Original y Cargo)
   const classMap = {
     'unidad': `.inp-unidad-${idx}`,
     'placa': `.inp-placa-${idx}`,
     'fecha': `.inp-fecha-${idx}`,
     'residente': `.inp-residente-${idx}`,
-    'obra_line1': `.inp-obra1-${idx}`,
-    'obra_line2': `.inp-obra2-${idx}`,
-    'obra_line3': `.inp-obra3-${idx}`,
     'vale': `.inp-vale-${idx}`,
     'm_ini': `.inp-mini-${idx}`,
     'm_fin': `.inp-mfin-${idx}`,
     't_ini': `.inp-tini-${idx}`,
-    't_fin': `.inp-tfin-${idx}`,
-    'km_ini': `.inp-kmini-${idx}`,
-    'km_fin': `.inp-kmfin-${idx}`,
-    'km_tot': `.inp-kmtot-${idx}`
+    't_fin': `.inp-tfin-${idx}`
   };
 
   if (classMap[campo]) {
@@ -1580,16 +1551,15 @@ function onCampoChange(idx, campo, val) {
 function onOperadorSelectChange(idx, val) {
   if (!partes[idx]) return;
   partes[idx].operador = val;
-  const opNombreLimpio = val ? val.split(' - ')[0] : 'PERSONAL OBRERO';
+  const opNombreCrudo = val ? val.split(' - ')[0].trim() : 'Personal Obrero de Obra';
+  const opNombreFirma = toTitleCase(opNombreCrudo);
 
-  // Sincronizar inputs de operador en ambas copias
   document.querySelectorAll(`.inp-op-field-${idx}`).forEach(el => {
     if (el !== document.activeElement) el.value = val;
   });
 
-  // Sincronizar firmas en ambas copias
   document.querySelectorAll(`.lbl-firma-op-${idx}`).forEach(el => {
-    el.innerText = opNombreLimpio;
+    el.innerText = opNombreFirma;
   });
 
   guardarCambiosLocal(false);
@@ -1614,7 +1584,6 @@ function onHorasChange(idx, campo, val) {
   partes[idx].total_hm = tot;
   partes[idx].h_tot = tot;
 
-  // Sincronizar campos de horas en ambas copias
   document.querySelectorAll(`.inp-tothrs-${idx}`).forEach(el => el.value = tot);
   document.querySelectorAll(`.inp-htot-${idx}`).forEach(el => el.value = tot);
 
@@ -1670,12 +1639,12 @@ function seleccionarOperadorDialog(idx) {
     html: `
       <div style="text-align: left; font-size: 0.85rem;">
         <label style="font-weight:700;display:block;margin-bottom:6px;">Buscar Obrero de Asistencia:</label>
-        <select id="swal-sel-op" style="width:100%;padding:8px;font-size:0.85rem;border:1px solid #ccc;border-radius:4px;">
+        <select id="swal-sel-op" style="width:100%;padding:8px;font-size:0.85rem;border:1px solid #ccc;border-radius:4px;text-transform:uppercase;">
           ${optionsHtml}
         </select>
         <div style="margin-top:10px;">
           <label style="font-weight:700;display:block;margin-bottom:4px;">O escribir manual:</label>
-          <input type="text" id="swal-inp-op" placeholder="Ej: JUAN PEREZ - OFICIAL ALBAÑIL" style="width:100%;padding:6px;border:1px solid #ccc;border-radius:4px;" value="${partes[idx].operador || ''}">
+          <input type="text" id="swal-inp-op" placeholder="EJ: JUAN PEREZ - OFICIAL ALBAÑIL" style="width:100%;padding:6px;border:1px solid #ccc;border-radius:4px;text-transform:uppercase;" value="${partes[idx].operador || ''}">
         </div>
       </div>
     `,
@@ -1689,7 +1658,7 @@ function seleccionarOperadorDialog(idx) {
     },
     preConfirm: () => {
       const inp = document.getElementById('swal-inp-op');
-      return inp.value.trim();
+      return inp.value.trim().toUpperCase();
     }
   }).then(res => {
     if (res.isConfirmed && res.value) {
@@ -1711,12 +1680,12 @@ function abrirModalOperadorGlobal() {
     html: `
       <div style="text-align: left; font-size: 0.85rem;">
         <p style="color:#555;margin-bottom:8px;">Selecciona el obrero de la lista de asistencia para asignarlo a los <strong>14 partes diarios</strong> simultáneamente:</p>
-        <select id="swal-global-op" style="width:100%;padding:8px;font-size:0.85rem;border:1px solid #ccc;border-radius:4px;">
+        <select id="swal-global-op" style="width:100%;padding:8px;font-size:0.85rem;border:1px solid #ccc;border-radius:4px;text-transform:uppercase;">
           ${optionsHtml}
         </select>
         <div style="margin-top:10px;">
           <label style="font-weight:700;display:block;margin-bottom:4px;">O escribir nombre personalizado:</label>
-          <input type="text" id="swal-custom-op" placeholder="Ej: FLORENCIO MUSAJA PEREZ - OPERARIO ALBAÑIL" style="width:100%;padding:6px;border:1px solid #ccc;border-radius:4px;">
+          <input type="text" id="swal-custom-op" placeholder="EJ: FLORENCIO MUSAJA PEREZ - OPERARIO ALBAÑIL" style="width:100%;padding:6px;border:1px solid #ccc;border-radius:4px;text-transform:uppercase;">
         </div>
       </div>
     `,
@@ -1732,7 +1701,7 @@ function abrirModalOperadorGlobal() {
     },
     preConfirm: () => {
       const inp = document.getElementById('swal-custom-op');
-      return inp.value.trim();
+      return inp.value.trim().toUpperCase();
     }
   }).then(res => {
     if (res.isConfirmed && res.value) {
@@ -1775,7 +1744,7 @@ function actualizarTotales() {
 // GUARDAR CAMBIOS
 function guardarCambiosLocal(conAlerta = false) {
   try {
-    localStorage.setItem('workea_partes_diarios_v4', JSON.stringify(partes));
+    localStorage.setItem('workea_partes_diarios_v5', JSON.stringify(partes));
     if (conAlerta) {
       Swal.fire({
         icon: 'success',
@@ -1804,7 +1773,7 @@ function restablecerOriginales() {
   }).then(res => {
     if (res.isConfirmed) {
       partes = JSON.parse(JSON.stringify(DEFAULT_PARTES));
-      localStorage.removeItem('workea_partes_diarios_v4');
+      localStorage.removeItem('workea_partes_diarios_v5');
       renderHojas();
       Swal.fire({
         icon: 'success',
@@ -1822,7 +1791,7 @@ function cambiarModoVista(modo) {
   modoActual = modo;
   const pageRule = document.getElementById('page-rule');
   if (modo === 'dos') {
-    pageRule.innerText = '@page { size: A4 landscape; margin: 6mm 6mm; }';
+    pageRule.innerText = '@page { size: A4 landscape; margin: 5mm 6mm; }';
   } else {
     pageRule.innerText = '@page { size: A4 portrait; margin: 8mm 10mm; }';
   }
