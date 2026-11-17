@@ -1,0 +1,2276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Partes Diarios de Trabajo - WORKEA</title>
+
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<style id="page-rule">
+  @page {
+    size: A4 landscape;
+    margin: 5mm 6mm;
+  }
+</style>
+
+<style>
+  * {
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  body {
+    margin: 0;
+    padding: 0;
+    background: #334155;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    color: #000;
+  }
+
+  /* TOOLBAR NO PRINT */
+  .toolbar-wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background: #0f172a;
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+  }
+  .toolbar-main {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    padding: 8px 16px;
+    border-bottom: 1px solid #1e293b;
+  }
+  .toolbar-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-right: auto;
+  }
+  .toolbar-title .badge {
+    background: #4f46e5;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.72rem;
+    font-weight: 600;
+  }
+  .btn {
+    padding: 5px 12px;
+    font-size: 0.76rem;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.15s ease;
+    text-decoration: none;
+  }
+  .btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+  .btn-primary { background: #2563eb; color: #fff; }
+  .btn-success { background: #16a34a; color: #fff; }
+  .btn-warning { background: #d97706; color: #fff; }
+  .btn-secondary { background: #334155; color: #fff; }
+  .btn-accent { background: #7c3aed; color: #fff; }
+  .btn-outline { background: transparent; border: 1px solid #64748b; color: #f1f5f9; }
+
+  .toolbar-sub {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+    padding: 6px 16px;
+    background: #020617;
+    font-size: 0.74rem;
+    color: #cbd5e1;
+  }
+  .toolbar-sub select {
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px solid #475569;
+    background: #1e293b;
+    color: #fff;
+    font-size: 0.74rem;
+  }
+  .stat-highlight {
+    color: #facc15;
+    font-weight: 700;
+  }
+
+  /* CONTENEDOR DE HOJAS */
+  #hojas-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 16px 10px 50px;
+  }
+
+  /* HOJA A4 BASE */
+  .hoja-a4 {
+    background: #fff;
+    box-shadow: 0 6px 25px rgba(0,0,0,0.35);
+    position: relative;
+    box-sizing: border-box;
+  }
+
+  /* MODO DOS: 1 Hoja A4 Horizontal por día (Izquierda: ORIGINAL | Derecha: CARGO) */
+  .hoja-a4.modo-dos {
+    width: 297mm;
+    height: 208mm;
+    max-height: 208mm;
+    padding: 5mm 6mm;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 6mm;
+    page-break-after: always;
+    overflow: hidden;
+  }
+
+  /* MODO UNA: 1 Parte individual por Hoja Vertical */
+  .hoja-a4.modo-una {
+    width: 210mm;
+    height: 296mm;
+    max-height: 296mm;
+    padding: 10mm 12mm;
+    page-break-after: always;
+    overflow: hidden;
+  }
+
+  /* LÍNEA DE CORTE EN MODO DOS */
+  .cut-divider {
+    position: absolute;
+    top: 4mm;
+    bottom: 4mm;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    border-left: 1px dashed #64748b;
+    pointer-events: none;
+    z-index: 10;
+  }
+  .cut-scissor {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 2px 4px;
+    font-size: 9pt;
+    color: #475569;
+    line-height: 1;
+  }
+
+  /* FORMATO FÍSICO DEL PARTE */
+  .parte-box {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border: 1px solid #000;
+    padding: 3mm 4mm;
+    background: #fff;
+    position: relative;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  /* TÍTULO / PASTILLA OFICIAL */
+  .pf-title-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2mm;
+  }
+  .pf-title-badge {
+    display: inline-block;
+    border: 1.5px solid #000;
+    border-radius: 5px;
+    padding: 2px 14px;
+    box-shadow: 2px 2px 0px rgba(0,0,0,0.6);
+    font-weight: 900;
+    font-size: 8.8pt;
+    letter-spacing: 0.8px;
+    background: #fff;
+    text-transform: uppercase;
+  }
+  .pf-copia-tag {
+    font-size: 7.2pt;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    border: 1px solid #000;
+    border-radius: 3px;
+    padding: 1px 7px;
+    background: #f8fafc;
+  }
+  .pf-copia-tag.cargo {
+    background: #fef3c7;
+    border-color: #b45309;
+    color: #92400e;
+  }
+  .pf-num-indicator {
+    font-size: 7.5pt;
+    font-weight: 700;
+    color: #111;
+  }
+
+  /* INPUTS EDITABLES EN EL DOCUMENTO (FORZADOS A MAYÚSCULAS) */
+  .doc-inp {
+    border: 1px solid transparent;
+    border-bottom: 1px dotted #888;
+    background: transparent;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    color: #000;
+    padding: 1px 3px;
+    outline: none;
+    transition: all 0.15s ease;
+    text-transform: uppercase;
+  }
+  .doc-inp:hover {
+    border-color: #3b82f6;
+    background: rgba(239, 246, 255, 0.7);
+  }
+  .doc-inp:focus {
+    border-color: #2563eb;
+    background: #eff6ff;
+    border-bottom-style: solid;
+    box-shadow: 0 0 0 1px #2563eb;
+  }
+
+  /* SECCIÓN CABECERA */
+  .pf-header-box {
+    border: 1px solid #000;
+    padding: 3.5px 5px;
+    margin-bottom: 2.2mm;
+    font-size: 7pt;
+    line-height: 1.45;
+  }
+  .pf-header-row {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 2px;
+  }
+  .pf-header-row:last-child {
+    margin-bottom: 0;
+  }
+  .pf-lbl {
+    font-weight: 700;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+
+  /* TABLAS COMUNES */
+  table.pf-tbl {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 6.8pt;
+    margin-bottom: 2.2mm;
+  }
+  table.pf-tbl th, table.pf-tbl td {
+    border: 1px solid #000;
+    padding: 2.2px 3px;
+    text-align: center;
+    vertical-align: middle;
+  }
+  table.pf-tbl th {
+    background: #e8e8e8;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  table.pf-tbl td input.cell-inp {
+    width: 100%;
+    border: none;
+    background: transparent;
+    text-align: center;
+    font-family: inherit;
+    font-size: 6.8pt;
+    font-weight: inherit;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    text-transform: uppercase;
+  }
+  table.pf-tbl td input.cell-inp:hover {
+    background: #eff6ff;
+  }
+  table.pf-tbl td input.cell-inp:focus {
+    background: #dbeafe;
+    font-weight: 700;
+  }
+
+  /* SECCIÓN OBRA (FIJA, NO EDITABLE, 3 LÍNEAS CENTRADAS) */
+  .pf-obra-wrap {
+    margin-bottom: 2.2mm;
+  }
+  .pf-obra-title {
+    text-align: center;
+    font-weight: 700;
+    font-size: 7.2pt;
+    letter-spacing: 0.5px;
+    margin-bottom: 1.5px;
+    text-transform: uppercase;
+  }
+  .pf-obra-box {
+    border: 1px solid #000;
+    padding: 3px 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5px;
+    background: #fff;
+  }
+  .pf-obra-line {
+    font-size: 6.2pt;
+    font-weight: 700;
+    color: #000;
+    text-align: center;
+    line-height: 1.25;
+    letter-spacing: 0.2px;
+  }
+
+  /* TABLA TRABAJOS REALIZADOS (SOLO TRABAJOS, SIN ITEM) */
+  .pf-trabajos-wrap {
+    border: 1px solid #000;
+    margin-bottom: 2.5mm;
+    background: #fff;
+  }
+  .pf-trabajos-tbl {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .pf-trabajos-tbl th {
+    border-bottom: 1px solid #000;
+    background: #e8e8e8;
+    font-weight: 700;
+    padding: 2px 4px;
+    font-size: 7pt;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 0.5px;
+  }
+  .pf-trabajos-tbl td {
+    padding: 3.5px 5px;
+    vertical-align: top;
+  }
+  .pf-trabajos-content {
+    font-size: 6.6pt;
+    line-height: 1.35;
+    text-align: justify;
+    outline: none;
+    min-height: 28mm;
+    white-space: pre-wrap;
+  }
+  .pf-trabajos-content:hover {
+    background: #eff6ff;
+  }
+  .pf-trabajos-content:focus {
+    background: #dbeafe;
+  }
+  .pf-asiento-header {
+    font-weight: 700;
+    color: #0b3954;
+    display: block;
+    margin-top: 3px;
+    margin-bottom: 1px;
+  }
+  .pf-asiento-header:first-child {
+    margin-top: 0;
+  }
+
+  /* SECCIÓN FIRMAS (CON ESPACIO AMPLIO) */
+  .pf-firmas-box {
+    margin-top: auto;
+    padding-top: 4mm;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6mm;
+    align-items: flex-end;
+  }
+  .pf-firma-item {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .pf-firma-space {
+    height: 18mm; /* Espacio limpio para sellos y firmas físicas */
+    position: relative;
+  }
+  .pf-firma-linea {
+    border-top: 1px dotted #000;
+    margin-bottom: 2px;
+  }
+  .pf-firma-cargo {
+    font-weight: 700;
+    font-size: 6.8pt;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  .pf-firma-nombre {
+    font-size: 6pt;
+    color: #222;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ESTILOS DE IMPRESIÓN */
+  @media print {
+    .no-print {
+      display: none !important;
+    }
+    body {
+      background: #fff !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    #hojas-container {
+      padding: 0 !important;
+      gap: 0 !important;
+    }
+    .hoja-a4 {
+      box-shadow: none !important;
+      border: none !important;
+      margin: 0 !important;
+    }
+    .hoja-a4.modo-dos {
+      width: 100vw !important;
+      height: 100vh !important;
+      page-break-after: always !important;
+    }
+    .hoja-a4.modo-una {
+      width: 100vw !important;
+      height: 100vh !important;
+      page-break-after: always !important;
+    }
+    .doc-inp, table.pf-tbl td input.cell-inp {
+      border: none !important;
+      background: transparent !important;
+      box-shadow: none !important;
+    }
+    .doc-inp:focus, table.pf-tbl td input.cell-inp:focus {
+      background: transparent !important;
+      box-shadow: none !important;
+    }
+    .pf-trabajos-content {
+      background: transparent !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOOLBAR DE ACCIONES -->
+<div class="toolbar-wrapper no-print">
+  <div class="toolbar-main">
+    <div class="toolbar-title">
+      🚜 <span>WORKEA - Partes Diarios de Trabajo (Apisonador - O/S 1620)</span>
+      <span class="badge" id="lblBadgePartes">9 Partes Listos (Original + Cargo)</span>
+    </div>
+
+    <button class="btn btn-accent" onclick="abrirModalOperadorGlobal()">👷 Asignar Operador a Todos</button>
+    <button class="btn btn-warning" onclick="restablecerOriginales()">⚡ Restablecer Partes Originales</button>
+    <button class="btn btn-primary" onclick="guardarCambiosLocal(true)">💾 Guardar Cambios</button>
+    <button class="btn btn-success" onclick="imprimirModo('dos')">🖨️ Imprimir Todo (Original + Cargo por Hoja)</button>
+    <button class="btn btn-secondary" onclick="imprimirModo('una')">📄 Imprimir 1 por Hoja (A4 Vertical)</button>
+    <a href="partes.html" class="btn" style="background:#4f46e5;color:#fff;font-weight:600;">⚡ Ver Partes Vibrador (O/S 5600)</a>
+    <a href="index.html" class="btn btn-outline">🏠 Inicio</a>
+    <a href="cuaderno.html" class="btn btn-outline">📋 Cuaderno</a>
+    <a href="equipos.html" class="btn btn-outline">🚜 Equipos</a>
+  </div>
+
+  <div class="toolbar-sub">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span style="font-weight: 700; color: #facc15;">🚜 Equipo Activo:</span>
+      <span style="font-weight: 700; background: #0f172a; border: 1.5px solid #38bdf8; color: #38bdf8; padding: 4px 10px; border-radius: 4px;">
+        O/S 1620 - ALQUILER DE APISONADOR (9 Partes | 60.00 HM - Mar/Jun 2026)
+      </span>
+      <a href="partes.html" style="font-size: 0.85rem; color: #93c5fd; text-decoration: underline; margin-left: 6px;">Cambiar a Vibrador O/S 5600 &rarr;</a>
+    </div>
+
+    <span>Modo de Vista:</span>
+    <select id="selModoVista" onchange="cambiarModoVista(this.value)">
+      <option value="dos" selected>2 por Hoja A4 Horizontal (Original a la izquierda + Cargo a la derecha)</option>
+      <option value="una">1 por Hoja A4 Vertical (Página completa)</option>
+    </select>
+
+    <div style="margin-left: auto;">
+      <span class="stat-highlight">Total Acumulado:</span>
+      <span id="lblStatHoras" style="font-weight: 700; color: #38bdf8;">60.00 HM</span> |
+      <span id="lblStatGasolina" style="font-weight: 700; color: #4ade80;">8.50 Gls Gasolina</span>
+    </div>
+  </div>
+</div>
+
+<!-- DATALIST GLOBAL DE OPERADORES (57 OBREROS DE ASISTENCIA EN MAYÚSCULAS) -->
+<datalist id="dl-operadores">
+  <!-- Inyectado con JS -->
+</datalist>
+
+<!-- CONTENEDOR PRINCIPAL DONDE SE GENERAN LAS HOJAS -->
+<div id="hojas-container">
+  <!-- Renderizado con JS -->
+</div>
+
+<!-- SCRIPTS DE DATOS Y COMPORTAMIENTO -->
+<script>
+// CATÁLOGO COMPLETO DE PERSONAL DE ASISTENCIA (57 REGISTROS)
+const TRABAJADORES = [
+  {
+    "dni": "04438285",
+    "nombre": "PERCY JOSE OSNAYO MINAJA",
+    "cargo": "OPERARIO CAPATAZ",
+    "label": "PERCY JOSE OSNAYO MINAJA - OPERARIO CAPATAZ"
+  },
+  {
+    "dni": "04427469",
+    "nombre": "DUBERLY VICTOR SALAZAR JUAREZ",
+    "cargo": "OPERARIO CARPINTERO",
+    "label": "DUBERLY VICTOR SALAZAR JUAREZ - OPERARIO CARPINTERO"
+  },
+  {
+    "dni": "41890406",
+    "nombre": "GALO CESAR CAMA CURASI",
+    "cargo": "OPERARIO CARPINTERO",
+    "label": "GALO CESAR CAMA CURASI - OPERARIO CARPINTERO"
+  },
+  {
+    "dni": "41487259",
+    "nombre": "FLORENCIO MUSAJA PEREZ",
+    "cargo": "OPERARIO ALBAÑIL",
+    "label": "FLORENCIO MUSAJA PEREZ - OPERARIO ALBAÑIL"
+  },
+  {
+    "dni": "04426985",
+    "nombre": "DELFIN MAMANI CHECANI",
+    "cargo": "OFICIAL ALBAÑIL",
+    "label": "DELFIN MAMANI CHECANI - OFICIAL ALBAÑIL"
+  },
+  {
+    "dni": "46591524",
+    "nombre": "IVAN BARRERA RAMOS",
+    "cargo": "OPERARIO CARPINTERO",
+    "label": "IVAN BARRERA RAMOS - OPERARIO CARPINTERO"
+  },
+  {
+    "dni": "04404023",
+    "nombre": "TERESA JESUS SANTOS GUTIERREZ",
+    "cargo": "PEON",
+    "label": "TERESA JESUS SANTOS GUTIERREZ - PEON"
+  },
+  {
+    "dni": "40074829",
+    "nombre": "PEDRO CIRILO MARCA CATARE",
+    "cargo": "OPERARIO CARPINTERO",
+    "label": "PEDRO CIRILO MARCA CATARE - OPERARIO CARPINTERO"
+  },
+  {
+    "dni": "40208445",
+    "nombre": "ANIBAL MATEO MAMANI CORI",
+    "cargo": "OPERARIO FIERRERO",
+    "label": "ANIBAL MATEO MAMANI CORI - OPERARIO FIERRERO"
+  },
+  {
+    "dni": "40087835",
+    "nombre": "ALEJANDRO PONCE MAMANI",
+    "cargo": "OPERARIO ALBAÑIL",
+    "label": "ALEJANDRO PONCE MAMANI - OPERARIO ALBAÑIL"
+  },
+  {
+    "dni": "04426955",
+    "nombre": "EDUARDO FAUSTO RAMOS PAYE",
+    "cargo": "OPERARIO ALBAÑIL",
+    "label": "EDUARDO FAUSTO RAMOS PAYE - OPERARIO ALBAÑIL"
+  },
+  {
+    "dni": "42781545",
+    "nombre": "SANTIAGO CONDORI HUANACUNI",
+    "cargo": "OFICIAL CARPINTERO",
+    "label": "SANTIAGO CONDORI HUANACUNI - OFICIAL CARPINTERO"
+  },
+  {
+    "dni": "04745598",
+    "nombre": "ANGEL JUAN COLANA APAZA",
+    "cargo": "OFICIAL FIERRERO",
+    "label": "ANGEL JUAN COLANA APAZA - OFICIAL FIERRERO"
+  },
+  {
+    "dni": "75322968",
+    "nombre": "ABRAHAM QUISPE QUISO",
+    "cargo": "OFICIAL FIERRERO",
+    "label": "ABRAHAM QUISPE QUISO - OFICIAL FIERRERO"
+  },
+  {
+    "dni": "71029856",
+    "nombre": "CRISTIAN LUIS RAMOS CUTIPA",
+    "cargo": "PEON",
+    "label": "CRISTIAN LUIS RAMOS CUTIPA - PEON"
+  },
+  {
+    "dni": "04653500",
+    "nombre": "ROSALINY ARMINDA CASTRO MURRIEL",
+    "cargo": "OFICIAL AXILIAR DE ALMACEN",
+    "label": "ROSALINY ARMINDA CASTRO MURRIEL - OFICIAL AXILIAR DE ALMACEN"
+  },
+  {
+    "dni": "44754393",
+    "nombre": "JOHN NILTON ORTEGA CHURA",
+    "cargo": "OPERARIO ALBAÑIL",
+    "label": "JOHN NILTON ORTEGA CHURA - OPERARIO ALBAÑIL"
+  },
+  {
+    "dni": "72231284",
+    "nombre": "STHIF BRANDON OSNAYO FERNANDEZ",
+    "cargo": "OFICIAL GASFITERO",
+    "label": "STHIF BRANDON OSNAYO FERNANDEZ - OFICIAL GASFITERO"
+  },
+  {
+    "dni": "04411815",
+    "nombre": "JULIAN ERMINIO VIZCARRA TITO",
+    "cargo": "OPERARIO ALBAÑIL",
+    "label": "JULIAN ERMINIO VIZCARRA TITO - OPERARIO ALBAÑIL"
+  },
+  {
+    "dni": "42195924",
+    "nombre": "SANTOS WENCESLAO PARIPANCA PARE",
+    "cargo": "OFICIAL CARPINTERO",
+    "label": "SANTOS WENCESLAO PARIPANCA PARE - OFICIAL CARPINTERO"
+  },
+  {
+    "dni": "24680359",
+    "nombre": "MELCHOR LIMA CHAMPI",
+    "cargo": "OFICIAL ALBAÑIL",
+    "label": "MELCHOR LIMA CHAMPI - OFICIAL ALBAÑIL"
+  },
+  {
+    "dni": "04422073",
+    "nombre": "GERMAN FREDI ASCENCIO QUISPE",
+    "cargo": "PEON",
+    "label": "GERMAN FREDI ASCENCIO QUISPE - PEON"
+  },
+  {
+    "dni": "04430128",
+    "nombre": "FELICIANO CONTRERAS CCASO",
+    "cargo": "OPERARIO ALBAÑIL",
+    "label": "FELICIANO CONTRERAS CCASO - OPERARIO ALBAÑIL"
+  },
+  {
+    "dni": "44830919",
+    "nombre": "MARCIA GABINA MAMANCHURA QUISPE",
+    "cargo": "PEON",
+    "label": "MARCIA GABINA MAMANCHURA QUISPE - PEON"
+  },
+  {
+    "dni": "60063989",
+    "nombre": "BRAYAN OSCAR CRUZ FALCON",
+    "cargo": "PEON",
+    "label": "BRAYAN OSCAR CRUZ FALCON - PEON"
+  },
+  {
+    "dni": "44873812",
+    "nombre": "JULIO CESAR HUARACHE RIOS",
+    "cargo": "OFICIAL PREVENCIONISTA",
+    "label": "JULIO CESAR HUARACHE RIOS - OFICIAL PREVENCIONISTA"
+  },
+  {
+    "dni": "46926504",
+    "nombre": "EDSON JAVIER RAMOS QUISPE",
+    "cargo": "OFICIAL CARPINTERO",
+    "label": "EDSON JAVIER RAMOS QUISPE - OFICIAL CARPINTERO"
+  },
+  {
+    "dni": "01314118",
+    "nombre": "YOLANDA CALLISANA MAMANI",
+    "cargo": "PEON",
+    "label": "YOLANDA CALLISANA MAMANI - PEON"
+  },
+  {
+    "dni": "04745520",
+    "nombre": "ZACARIAS NICOMEDES MARCA LINARES",
+    "cargo": "PEON",
+    "label": "ZACARIAS NICOMEDES MARCA LINARES - PEON"
+  },
+  {
+    "dni": "72719771",
+    "nombre": "JEAMPIER NEPTALI ROMERO CACALLICA",
+    "cargo": "OPERARIO FIERRERO",
+    "label": "JEAMPIER NEPTALI ROMERO CACALLICA - OPERARIO FIERRERO"
+  },
+  {
+    "dni": "46242299",
+    "nombre": "RUSBEL JHON CUAYLA HUACHO",
+    "cargo": "OPERARIO CARPINTERO",
+    "label": "RUSBEL JHON CUAYLA HUACHO - OPERARIO CARPINTERO"
+  },
+  {
+    "dni": "44551286",
+    "nombre": "DOMINGO JAVIER RAMOS GOMEZ",
+    "cargo": "OPERARIO CARPINTERO",
+    "label": "DOMINGO JAVIER RAMOS GOMEZ - OPERARIO CARPINTERO"
+  },
+  {
+    "dni": "40590394",
+    "nombre": "FRANYO MAURICIO RIOS ALTAMIRANO",
+    "cargo": "OFICIAL ALBAÑIL",
+    "label": "FRANYO MAURICIO RIOS ALTAMIRANO - OFICIAL ALBAÑIL"
+  },
+  {
+    "dni": "43507814",
+    "nombre": "ERLI SAUL APAZA MARON",
+    "cargo": "OPERARIO FIERRERO",
+    "label": "ERLI SAUL APAZA MARON - OPERARIO FIERRERO"
+  },
+  {
+    "dni": "46488431",
+    "nombre": "ALAN SANTOS RAMOS GOMEZ",
+    "cargo": "OFICIAL CARPINTERO",
+    "label": "ALAN SANTOS RAMOS GOMEZ - OFICIAL CARPINTERO"
+  },
+  {
+    "dni": "04406810",
+    "nombre": "CALIXTO MARCIAL MAMANI CALLA",
+    "cargo": "OFICIAL ALBAÑIL",
+    "label": "CALIXTO MARCIAL MAMANI CALLA - OFICIAL ALBAÑIL"
+  },
+  {
+    "dni": "04437357",
+    "nombre": "RENE EDUARDO CAPA RAMOS",
+    "cargo": "OPERARIO FIERRERO",
+    "label": "RENE EDUARDO CAPA RAMOS - OPERARIO FIERRERO"
+  },
+  {
+    "dni": "42523690",
+    "nombre": "BETO ABMMER TICONA MAMANI",
+    "cargo": "OFICIAL FIERRERO",
+    "label": "BETO ABMMER TICONA MAMANI - OFICIAL FIERRERO"
+  },
+  {
+    "dni": "43246075",
+    "nombre": "NANCY MABEL MAMANCHURA MAMANCHURA",
+    "cargo": "OFICIAL GUARDIAN",
+    "label": "NANCY MABEL MAMANCHURA MAMANCHURA - OFICIAL GUARDIAN"
+  },
+  {
+    "dni": "04424929",
+    "nombre": "NARCISO DE LA CRUZ MELGAREJO",
+    "cargo": "OFICIAL GUARDIAN",
+    "label": "NARCISO DE LA CRUZ MELGAREJO - OFICIAL GUARDIAN"
+  },
+  {
+    "dni": "04427029",
+    "nombre": "PRESCILIANA RAMOS RAMOS",
+    "cargo": "OFICIAL GUARDIAN",
+    "label": "PRESCILIANA RAMOS RAMOS - OFICIAL GUARDIAN"
+  },
+  {
+    "dni": "77014387",
+    "nombre": "GABRIEL ESPINOZA CATACORA",
+    "cargo": "OPERARIO ELECTRICO",
+    "label": "GABRIEL ESPINOZA CATACORA - OPERARIO ELECTRICO"
+  },
+  {
+    "dni": "72719771",
+    "nombre": "JEAMPIER NEPTALI ROMERO CACALLICA",
+    "cargo": "OFICIAL",
+    "label": "JEAMPIER NEPTALI ROMERO CACALLICA - OFICIAL"
+  },
+  {
+    "dni": "04416678",
+    "nombre": "JUAN ANDRES MAMANI CHICALLA",
+    "cargo": "OPERARIO OFICIALES",
+    "label": "JUAN ANDRES MAMANI CHICALLA - OPERARIO OFICIALES"
+  },
+  {
+    "dni": "60899991",
+    "nombre": "LEONARDO ANDRE DAVILA PARIHUANA",
+    "cargo": "OFICIAL GUARDIAN",
+    "label": "LEONARDO ANDRE DAVILA PARIHUANA - OFICIAL GUARDIAN"
+  },
+  {
+    "dni": "74023187",
+    "nombre": "ISAMAR CASO BALDEON",
+    "cargo": "OFICIAL GUARDIAN",
+    "label": "ISAMAR CASO BALDEON - OFICIAL GUARDIAN"
+  },
+  {
+    "dni": "45206976",
+    "nombre": "ANALI BARRIOS FLORES",
+    "cargo": "OFICIAL GUARDIAN",
+    "label": "ANALI BARRIOS FLORES - OFICIAL GUARDIAN"
+  },
+  {
+    "dni": "40940966",
+    "nombre": "LAURA NELLY SAIRA MAITA",
+    "cargo": "OFICIAL GUARDIAN",
+    "label": "LAURA NELLY SAIRA MAITA - OFICIAL GUARDIAN"
+  },
+  {
+    "dni": "04416678",
+    "nombre": "JUAN ANDRES MAMANI CHICALLA",
+    "cargo": "PEON GUARDIAN",
+    "label": "JUAN ANDRES MAMANI CHICALLA - PEON GUARDIAN"
+  },
+  {
+    "dni": "22093849",
+    "nombre": "MANUEL SAUL ARANGOITIA CANTORAL",
+    "cargo": "OFICIAL GUARDIAN",
+    "label": "MANUEL SAUL ARANGOITIA CANTORAL - OFICIAL GUARDIAN"
+  },
+  {
+    "dni": "40476480",
+    "nombre": "MARGARITA IGNACIA FLORES BERMEJO",
+    "cargo": "OFICIAL GUARDIAN",
+    "label": "MARGARITA IGNACIA FLORES BERMEJO - OFICIAL GUARDIAN"
+  },
+  {
+    "dni": "40235704",
+    "nombre": "JULIA VILCA CHECALLA",
+    "cargo": "OFICIAL GUARDIAN",
+    "label": "JULIA VILCA CHECALLA - OFICIAL GUARDIAN"
+  },
+  {
+    "dni": "04429752",
+    "nombre": "ALEXIS YANET YAURI DEL CARPIO",
+    "cargo": "OPERARIO ELECTRICO",
+    "label": "ALEXIS YANET YAURI DEL CARPIO - OPERARIO ELECTRICO"
+  },
+  {
+    "dni": "04430448",
+    "nombre": "YON GODOFREDO CHAMBILLA FLORES",
+    "cargo": "OPERARIO GASFITERO",
+    "label": "YON GODOFREDO CHAMBILLA FLORES - OPERARIO GASFITERO"
+  },
+  {
+    "dni": "71238004",
+    "nombre": "SAMMIR JESUS TEO ORTEGA SOTO",
+    "cargo": "OFICIAL ELECTRICO",
+    "label": "SAMMIR JESUS TEO ORTEGA SOTO - OFICIAL ELECTRICO"
+  },
+  {
+    "dni": "72640698",
+    "nombre": "KELVIN JESUS SOSA CASTRO",
+    "cargo": "PEON AUXILIAR",
+    "label": "KELVIN JESUS SOSA CASTRO - PEON AUXILIAR"
+  },
+  {
+    "dni": "43262198",
+    "nombre": "SANTIAGO SIMON MAMANI VIZCARRA",
+    "cargo": "OPERARIO ELECTRICO",
+    "label": "SANTIAGO SIMON MAMANI VIZCARRA - OPERARIO ELECTRICO"
+  }
+];
+
+// DATOS MAESTROS DE LOS 14 PARTES DIARIOS
+const DEFAULT_PARTES_VIBRADORA = [
+  {
+    "id": 1,
+    "num": "01",
+    "fecha": "08/10/2026",
+    "equipo_nombre": "VIBRADOR DE CONCRETO 4 HP",
+    "equipo_codigo": "EQ-VIB-01",
+    "equipo_marca": "HONDA",
+    "equipo_modelo": "GX160",
+    "equipo_serie": "VIB-2026-01",
+    "operador": "MAMANI APAZA YONI JAVIER - OPERARIO",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "h_ini": "-",
+    "h_fin": "-",
+    "h_tot": "-",
+    "km_ini": "-",
+    "km_fin": "-",
+    "km_tot": "-",
+    "m_ini": "08:00",
+    "m_fin": "11:30",
+    "m_hrs": "3.50",
+    "t_ini": "14:00",
+    "t_fin": "15:00",
+    "t_hrs": "1.00",
+    "total_hm": "4.50",
+    "gasolina": "1.00",
+    "vale": "Stock inicial obra (Salidas 30/09 y 03/10)",
+    "comb_gl": "1.00",
+    "nro_vale": "Stock inicial obra (Salidas 30/09 y 03/10)",
+    "t_m_ini": "08:00",
+    "t_m_fin": "11:30",
+    "t_m_tot": "3.50",
+    "t_t_ini": "14:00",
+    "t_t_fin": "15:00",
+    "t_t_tot": "1.00",
+    "t_tot_hm": "4.50",
+    "trabajos_texto": "• Se realizó el Vaciado del CIMIENTO CORRIDO CC-1' en el 1er Nivel en los ejes 2-3/A (MURO CORTINA), correspondiente a la partida 01.01.02.01.02 CIMIENTOS CORRIDOS: MEZCLA C:H 1:10 CON 30% P.G., C/CEMENTO TIPO IP. Metrado ejecutado 2.06 M3.\n• Se realizó el Vaciado del CIMIENTO CORRIDO CC-1 en el 1er Nivel en los ejes 2-3/A (S.H. MIXTO), correspondiente a la partida 01.01.02.01.02 CIMIENTOS CORRIDOS: MEZCLA C:H 1:10 CON 30% P.G., C/CEMENTO TIPO IP. Metrado ejecutado 0.64 M3.\n• Se realizó el Vaciado del CIMIENTO CORRIDO CC-3 en el 1er Nivel en los ejes 2-3/A-B (S.H. MIXTO), correspondiente a la partida 01.01.02.01.02 CIMIENTOS CORRIDOS: MEZCLA C:H 1:10 CON 30% P.G., C/CEMENTO TIPO IP. Metrado ejecutado 1.38 M3.\n• Se realizó el Vaciado de las COLUMNETAS CA-2 en el 1er Nivel en los ejes 2/C-D (GUARDIANIA), correspondiente a la partida 01.01.03.07.01 CONCRETO EN COLUMNETAS F'C= 175 KG/CM2, C/CEMENTO TIPO IP. Metrado ejecutado 0.31 M3.\n• Consolidación y compactación mecánica de mezcla de concreto con equipo vibrador durante la colocación de cimientos y columnetas.\n• Abastecimiento de 1.00 gal de Gasohol a partir del stock operativo inicial en obra (salidas registradas en cuaderno 30/09 y 03/10). Saldo en custodia: 2.00 gal."
+  },
+  {
+    "id": 2,
+    "num": "02",
+    "fecha": "09/10/2026",
+    "equipo_nombre": "VIBRADOR DE CONCRETO 4 HP",
+    "equipo_codigo": "EQ-VIB-01",
+    "equipo_marca": "HONDA",
+    "equipo_modelo": "GX160",
+    "equipo_serie": "VIB-2026-01",
+    "operador": "MAMANI APAZA YONI JAVIER - OPERARIO",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "h_ini": "-",
+    "h_fin": "-",
+    "h_tot": "-",
+    "km_ini": "-",
+    "km_fin": "-",
+    "km_tot": "-",
+    "m_ini": "08:30",
+    "m_fin": "12:00",
+    "m_hrs": "3.50",
+    "t_ini": "---",
+    "t_fin": "---",
+    "t_hrs": "0.00",
+    "total_hm": "3.50",
+    "gasolina": "0.75",
+    "vale": "Saldo disponible en obra (del 08/10)",
+    "comb_gl": "0.75",
+    "nro_vale": "Saldo disponible en obra (del 08/10)",
+    "t_m_ini": "08:30",
+    "t_m_fin": "12:00",
+    "t_m_tot": "3.50",
+    "t_t_ini": "---",
+    "t_t_fin": "---",
+    "t_t_tot": "0.00",
+    "t_tot_hm": "3.50",
+    "trabajos_texto": "• Se realizó el Vaciado del SOBRECIMIENTO ( CIMIENTO CORRIDO CC-1 ) en el 1er Nivel en los ejes 1-2/A (CUARTO ELECTRICO - PUERTA DE INGRESO ), correspondiente a la partida 01.01.03.02.01 CONCRETO PREMEZCLADO EN SOBRECIMIENTO REFORZADO F'C= 210 KG/CM2 C/ CEMENTO TIPO IP. Metrado ejecutado 0.21 M3.\n• Se realizó el Vaciado del SOBRECIMIENTO ( CIMIENTO CORRIDO CC-1 ) en el 1er Nivel en los ejes 1-2/A (CUARTO ELECTRICO - MURO DE ALBAÑILERIA), correspondiente a la partida 01.01.03.02.01 CONCRETO PREMEZCLADO EN SOBRECIMIENTO REFORZADO F'C= 210 KG/CM2 C/ CEMENTO TIPO IP. Metrado ejecutado 0.18 M3.\n• Consolidación mecánica con equipo vibrador durante el vaciado de sobrecimientos reforzados para garantizar eliminación de vacíos.\n• Consumo de 0.75 gal de Gasohol tomado del saldo disponible de combustible en obra del día anterior (08/10). Saldo remanente en custodia: 1.25 gal."
+  },
+  {
+    "id": 3,
+    "num": "03",
+    "fecha": "16/10/2026",
+    "equipo_nombre": "VIBRADOR DE CONCRETO 4 HP",
+    "equipo_codigo": "EQ-VIB-01",
+    "equipo_marca": "HONDA",
+    "equipo_modelo": "GX160",
+    "equipo_serie": "VIB-2026-01",
+    "operador": "MAMANI APAZA YONI JAVIER - OPERARIO",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "h_ini": "-",
+    "h_fin": "-",
+    "h_tot": "-",
+    "km_ini": "-",
+    "km_fin": "-",
+    "km_tot": "-",
+    "m_ini": "08:00",
+    "m_fin": "11:30",
+    "m_hrs": "3.50",
+    "t_ini": "14:00",
+    "t_fin": "15:00",
+    "t_hrs": "1.00",
+    "total_hm": "4.50",
+    "gasolina": "1.00",
+    "vale": "Remanente en custodia en obra",
+    "comb_gl": "1.00",
+    "nro_vale": "Remanente en custodia en obra",
+    "t_m_ini": "08:00",
+    "t_m_fin": "11:30",
+    "t_m_tot": "3.50",
+    "t_t_ini": "14:00",
+    "t_t_fin": "15:00",
+    "t_t_tot": "1.00",
+    "t_tot_hm": "4.50",
+    "trabajos_texto": "• Se realizó el Vaciado del SOBRECIMIENTO EN CIMIENTO CORRIDO CC-1\" en el 1er Nivel en los ejes 2-3/A (PUERTA ABATIBLE), correspondiente a la partida 01.01.03.02.01 CONCRETO PREMEZCLADO EN SOBRECIMIENTO REFORZADO F'C= 210 KG/CM2 C/ CEMENTO TIPO IP. Metrado ejecutado 0.17 M3.\n• Se realizó el Vaciado del SOBRECIMIENTO EN CIMIENTO CORRIDO CC-1\" en el 1er Nivel en los ejes 2-3/A (MURO CORTINA), correspondiente a la partida 01.01.03.02.01 CONCRETO PREMEZCLADO EN SOBRECIMIENTO REFORZADO F'C= 210 KG/CM2 C/ CEMENTO TIPO IP. Metrado ejecutado 0.21 M3.\n• Se realizó el Vaciado del SOBRECIMIENTO EN CIMIENTO CORRIDO CC-1 en el 1er Nivel en los ejes 2-3/A-B (S.H. MIXTO), correspondiente a la partida 01.01.03.02.01 CONCRETO PREMEZCLADO EN SOBRECIMIENTO REFORZADO F'C= 210 KG/CM2 C/ CEMENTO TIPO IP. Metrado ejecutado 0.49 M3.\n• Se realizó el Vaciado del SOBRECIMIENTO EN CIMIENTO CORRIDO CC-3 en el 1er Nivel en los ejes 2/A-B, correspondiente a la partida 01.01.03.02.01 CONCRETO PREMEZCLADO EN SOBRECIMIENTO REFORZADO F'C= 210 KG/CM2 C/ CEMENTO TIPO IP. Metrado ejecutado 0.45 M3.\n• Consolidación y acomodo mecánico de mezcla mediante vibrador de concreto para garantizar homogeneidad en sobrecimientos reforzados.\n• Consumo de 1.00 gal de Gasohol utilizando el remanente de combustible en custodia en obra. Saldo en tanque/obra: 0.25 gal."
+  },
+  {
+    "id": 4,
+    "num": "04",
+    "fecha": "21/10/2026",
+    "equipo_nombre": "VIBRADOR DE CONCRETO 4 HP",
+    "equipo_codigo": "EQ-VIB-01",
+    "equipo_marca": "HONDA",
+    "equipo_modelo": "GX160",
+    "equipo_serie": "VIB-2026-01",
+    "operador": "MAMANI APAZA YONI JAVIER - OPERARIO",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "h_ini": "-",
+    "h_fin": "-",
+    "h_tot": "-",
+    "km_ini": "-",
+    "km_fin": "-",
+    "km_tot": "-",
+    "m_ini": "08:00",
+    "m_fin": "11:30",
+    "m_hrs": "3.50",
+    "t_ini": "14:00",
+    "t_fin": "15:00",
+    "t_hrs": "1.00",
+    "total_hm": "4.50",
+    "gasolina": "1.00",
+    "vale": "Salida 20/10 (2 gal cuaderno, 1 gal vibradora)",
+    "comb_gl": "1.00",
+    "nro_vale": "Salida 20/10 (2 gal cuaderno, 1 gal vibradora)",
+    "t_m_ini": "08:00",
+    "t_m_fin": "11:30",
+    "t_m_tot": "3.50",
+    "t_t_ini": "14:00",
+    "t_t_fin": "15:00",
+    "t_t_tot": "1.00",
+    "t_tot_hm": "4.50",
+    "trabajos_texto": "• Se realizó el Vaciado de la VIGUETA VA-2 (01 UND) en el 1er Nivel en los ejes 1-2/A, correspondiente a la partida 01.01.03.09.01 CONCRETO EN VIGUETAS F'C= 175 KG/CM2, C/CEMENTO TIPO IP. Metrado ejecutado 0.04 M3.\n• Se realizó el Vaciado de la VIGUETA VA-1 (01 UND) en el 1er Nivel en los ejes 1-2/B, correspondiente a la partida 01.01.03.09.01 CONCRETO EN VIGUETAS F'C= 175 KG/CM2, C/CEMENTO TIPO IP. Metrado ejecutado 0.09 M3.\n• Se realizó el Vaciado de las COLUMNETAS CA-2 (02 UND) en el 1er Nivel en los ejes 1-2/A, correspondiente a la partida 01.01.03.07.01 CONCRETO EN COLUMNETAS F'C= 175 KG/CM2, C/CEMENTO TIPO IP. Metrado ejecutado 0.26 M3.\n• Se realizó el Vaciado de la COLUMNETA CA-2 (02 UND) Y CA-4 (01 UND) en el 1er Nivel en los ejes 2/A-B, correspondiente a la partida 01.01.03.07.01 CONCRETO EN COLUMNETAS F'C= 175 KG/CM2, C/CEMENTO TIPO IP. Metrado ejecutado 0.48 M3.\n• Consolidación y compactación mecánica de concreto con equipo vibrador durante la colocación de mezcla en viguetas y columnetas.\n• Abastecimiento de 1.00 gal de Gasohol asignado de la salida de almacén del 20/10 (2.00 gal registrados en cuaderno para vibradora y trompo). Saldo remanente: 0.25 gal."
+  },
+  {
+    "id": 5,
+    "num": "05",
+    "fecha": "22/10/2026",
+    "equipo_nombre": "VIBRADOR DE CONCRETO 4 HP",
+    "equipo_codigo": "EQ-VIB-01",
+    "equipo_marca": "HONDA",
+    "equipo_modelo": "GX160",
+    "equipo_serie": "VIB-2026-01",
+    "operador": "MAMANI APAZA YONI JAVIER - OPERARIO",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "h_ini": "-",
+    "h_fin": "-",
+    "h_tot": "-",
+    "km_ini": "-",
+    "km_fin": "-",
+    "km_tot": "-",
+    "m_ini": "08:30",
+    "m_fin": "11:30",
+    "m_hrs": "3.00",
+    "t_ini": "14:00",
+    "t_fin": "15:00",
+    "t_hrs": "1.00",
+    "total_hm": "4.00",
+    "gasolina": "1.00",
+    "vale": "Salida 22/10 (1 gal en cuaderno)",
+    "comb_gl": "1.00",
+    "nro_vale": "Salida 22/10 (1 gal en cuaderno)",
+    "t_m_ini": "08:30",
+    "t_m_fin": "11:30",
+    "t_m_tot": "3.00",
+    "t_t_ini": "14:00",
+    "t_t_fin": "15:00",
+    "t_t_tot": "1.00",
+    "t_tot_hm": "4.00",
+    "trabajos_texto": "• Se realizó el Vaciado de la VIGUETA VA-1 (01 UND) en el 1er Nivel en los ejes 2-3/A, correspondiente a la partida 01.01.03.09.01 CONCRETO EN VIGUETAS F'C= 175 KG/CM2, C/CEMENTO TIPO IP. Metrado ejecutado 0.06 M3.\n• Se realizó el Vaciado de la COLUMNETA CA-2 (02 UND) en el 1er Nivel en los ejes 2-3/A (S.H. MIXTO), correspondiente a la partida 01.01.03.07.01 CONCRETO EN COLUMNETAS F'C= 175 KG/CM2, C/CEMENTO TIPO IP. Metrado ejecutado 0.26 M3.\n• Se realizó el Vaciado de la COLUMNETA CA-1 (02 UND) en el 1er Nivel en los ejes 2-3/A (CIMIENTO CORRIDO CC-3)), correspondiente a la partida 01.01.03.07.01 CONCRETO EN COLUMNETAS F'C= 175 KG/CM2, C/CEMENTO TIPO IP. Metrado ejecutado 0.20 M3.\n• Se realizó el Vaciado del SOBRECIMIENTO EN CIMIENTO CORRIDO CC-3 en el 1er Nivel en los ejes 2-3/A-B (S.H. MIXTO), correspondiente a la partida 01.01.03.02.01 CONCRETO PREMEZCLADO EN SOBRECIMIENTO REFORZADO F'C= 210 KG/CM2 C/ CEMENTO TIPO IP.\n• Consolidación y acomodo mecánico de concreto con equipo vibrador en sobrecimientos, columnetas y viguetas de amarre.\n• Abastecimiento de 1.00 gal de Gasohol correspondiente a la salida de almacén de obra de la fecha 22/10 (1.00 gal registrado en cuaderno). Saldo remanente: 0.25 gal."
+  },
+  {
+    "id": 6,
+    "num": "06",
+    "fecha": "26/10/2026",
+    "equipo_nombre": "VIBRADOR DE CONCRETO 4 HP",
+    "equipo_codigo": "EQ-VIB-01",
+    "equipo_marca": "HONDA",
+    "equipo_modelo": "GX160",
+    "equipo_serie": "VIB-2026-01",
+    "operador": "MAMANI APAZA YONI JAVIER - OPERARIO",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "h_ini": "-",
+    "h_fin": "-",
+    "h_tot": "-",
+    "km_ini": "-",
+    "km_fin": "-",
+    "km_tot": "-",
+    "m_ini": "08:30",
+    "m_fin": "12:00",
+    "m_hrs": "3.50",
+    "t_ini": "14:00",
+    "t_fin": "15:00",
+    "t_hrs": "1.00",
+    "total_hm": "4.50",
+    "gasolina": "1.00",
+    "vale": "Salida 26/10 (2 gal cuaderno, 1 gal vibradora)",
+    "comb_gl": "1.00",
+    "nro_vale": "Salida 26/10 (2 gal cuaderno, 1 gal vibradora)",
+    "t_m_ini": "08:30",
+    "t_m_fin": "12:00",
+    "t_m_tot": "3.50",
+    "t_t_ini": "14:00",
+    "t_t_fin": "15:00",
+    "t_t_tot": "1.00",
+    "t_tot_hm": "4.50",
+    "trabajos_texto": "• Se realizó el Vaciado de la VIGUETA VA-1 en el 1er Nivel en los ejes 2-3/A-B (S.H. MIXTO), correspondiente a la partida 01.01.03.09.01 CONCRETO EN VIGUETAS F'C= 175 KG/CM2, C/CEMENTO TIPO IP. Metrado ejecutado 0.08 M3.\n• Se realizó el Vaciado de la VIGUETA VA-1 en el 1er Nivel en los ejes 2/A-B (CUARTO ELECTRICO), correspondiente a la partida 01.01.03.09.01 CONCRETO EN VIGUETAS F'C= 175 KG/CM2, C/CEMENTO TIPO IP. Metrado ejecutado 0.11 M3.\n• Se realizó el Vaciado de la VIGUETA VA-1 en el 1er Nivel en los ejes 2-3/C-D (PROYECCION DEL VACIO), correspondiente a la partida 01.01.03.09.01 CONCRETO EN VIGUETAS F'C= 175 KG/CM2, C/CEMENTO TIPO IP. Metrado ejecutado 0.09 M3.\n• Consolidación y compactación mecánica de concreto con equipo vibrador durante la colocación de mezcla en viguetas de amarre.\n• Abastecimiento de 1.00 gal de Gasohol asignado de la salida de almacén del 26/10 (2.00 gal registrados en cuaderno para vibrado y mezclado). Saldo remanente: 0.25 gal."
+  },
+  {
+    "id": 7,
+    "num": "07",
+    "fecha": "27/10/2026",
+    "equipo_nombre": "VIBRADOR DE CONCRETO 4 HP",
+    "equipo_codigo": "EQ-VIB-01",
+    "equipo_marca": "HONDA",
+    "equipo_modelo": "GX160",
+    "equipo_serie": "VIB-2026-01",
+    "operador": "MAMANI APAZA YONI JAVIER - OPERARIO",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "h_ini": "-",
+    "h_fin": "-",
+    "h_tot": "-",
+    "km_ini": "-",
+    "km_fin": "-",
+    "km_tot": "-",
+    "m_ini": "08:00",
+    "m_fin": "11:30",
+    "m_hrs": "3.50",
+    "t_ini": "14:00",
+    "t_fin": "15:00",
+    "t_hrs": "1.00",
+    "total_hm": "4.50",
+    "gasolina": "1.00",
+    "vale": "Salida 27/10 (2 gal cuaderno, 1 gal vibradora)",
+    "comb_gl": "1.00",
+    "nro_vale": "Salida 27/10 (2 gal cuaderno, 1 gal vibradora)",
+    "t_m_ini": "08:00",
+    "t_m_fin": "11:30",
+    "t_m_tot": "3.50",
+    "t_t_ini": "14:00",
+    "t_t_fin": "15:00",
+    "t_t_tot": "1.00",
+    "t_tot_hm": "4.50",
+    "trabajos_texto": "• Se realizó el Vaciado de la LOSA SUPERIOR MESONES M503 Y M505 en el 5to Nivel en los ejes 3/A-B-C, correspondiente a la partida 01.01.03.12.01 CONCRETO EN MESONES F'C=175 KG/CM2,C/CEMENTO TIPO IP. Metrado ejecutado 0.50 M3.\n• Se realizó el Vaciado de la LOSA SUPERIOR MESON M201 en el 2do Nivel en los ejes 1/A-B, correspondiente a la partida 01.01.03.12.01 CONCRETO EN MESONES F'C=175 KG/CM2,C/CEMENTO TIPO IP. Metrado ejecutado 0.24 M3.\n• Se culmino el Vaciado de la VIGUETA VA-1 en el 1er Nivel en los ejes 2-3/A-B (S.H. MIXTO), correspondiente a la partida 01.01.03.09.01 CONCRETO EN VIGUETAS F'C= 175 KG/CM2, C/CEMENTO TIPO IP.\n• Consolidación mecánica con equipo vibrador durante el vaciado de losas de mesones y viguetas de amarre.\n• Abastecimiento de 1.00 gal de Gasohol asignado de la salida de almacén del 27/10 (2.00 gal registrados en cuaderno para vaciado de mesones). Saldo remanente: 0.25 gal."
+  },
+  {
+    "id": 8,
+    "num": "08",
+    "fecha": "29/10/2026",
+    "equipo_nombre": "VIBRADOR DE CONCRETO 4 HP",
+    "equipo_codigo": "EQ-VIB-01",
+    "equipo_marca": "HONDA",
+    "equipo_modelo": "GX160",
+    "equipo_serie": "VIB-2026-01",
+    "operador": "MAMANI APAZA YONI JAVIER - OPERARIO",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "h_ini": "-",
+    "h_fin": "-",
+    "h_tot": "-",
+    "km_ini": "-",
+    "km_fin": "-",
+    "km_tot": "-",
+    "m_ini": "08:00",
+    "m_fin": "11:30",
+    "m_hrs": "3.50",
+    "t_ini": "13:30",
+    "t_fin": "15:30",
+    "t_hrs": "2.00",
+    "total_hm": "5.50",
+    "gasolina": "1.50",
+    "vale": "Salida 29/10 (4 gal cuaderno, 1.5 gal vibradora)",
+    "comb_gl": "1.50",
+    "nro_vale": "Salida 29/10 (4 gal cuaderno, 1.5 gal vibradora)",
+    "t_m_ini": "08:00",
+    "t_m_fin": "11:30",
+    "t_m_tot": "3.50",
+    "t_t_ini": "13:30",
+    "t_t_fin": "15:30",
+    "t_t_tot": "2.00",
+    "t_tot_hm": "5.50",
+    "trabajos_texto": "• Se realizó el Vaciado de la LOSA SUPERIOR MESON M404 en el 4to Nivel en los ejes 3/E-F, correspondiente a la partida 01.01.03.12.01 CONCRETO EN MESONES F'C=175 KG/CM2,C/CEMENTO TIPO IP. Metrado ejecutado 0.22 M3.\n• Se realizó el Vaciado de las VIGUETAS VA-2 en el 3er Nivel en los ejes 1/F Y 3/F ENTRE LA EDIFICACION NUEVA Y LA EXISTENTE (MURO DE CERRAMIENTO), correspondiente a la partida 01.01.03.09.01 CONCRETO EN VIGUETAS F'C= 175 KG/CM2, C/CEMENTO TIPO IP. Metrado ejecutado 0.19 M3.\n• Se realizó el Vaciado de las COLUMNETAS CA-1 Y CA-5 en el 1er Nivel en los ejes 2-3/C-D, correspondiente a la partida 01.01.03.07.01 CONCRETO EN COLUMNETAS F'C= 175 KG/CM2, C/CEMENTO TIPO IP. Metrado ejecutado 0.40 M3.\n• Se realizó el Vaciado del SUELO CEMENTO en el 1er Nivel en los ejes 1-2/B-C (DEBAJO DE ESCALERA), correspondiente a la partida 12.01.03 RELLENO CON MATERIAL SUELO-CEMENTO F'C MIN= 20 KG/CM2, C/CEMENTO TIPO IP. Metrado ejecutado 1.08 M3.\n• Consolidación mecánica con equipo vibrador en vaciados de mesón, viguetas, columnetas y suelo-cemento.\n• Abastecimiento de 1.50 gal de Gasohol asignado de la salida mayor de almacén de obra (4.00 gal del 29/10 en cuaderno). Saldo remanente en obra: 0.75 gal."
+  },
+  {
+    "id": 9,
+    "num": "09",
+    "fecha": "30/10/2026",
+    "equipo_nombre": "VIBRADOR DE CONCRETO 4 HP",
+    "equipo_codigo": "EQ-VIB-01",
+    "equipo_marca": "HONDA",
+    "equipo_modelo": "GX160",
+    "equipo_serie": "VIB-2026-01",
+    "operador": "MAMANI APAZA YONI JAVIER - OPERARIO",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "h_ini": "-",
+    "h_fin": "-",
+    "h_tot": "-",
+    "km_ini": "-",
+    "km_fin": "-",
+    "km_tot": "-",
+    "m_ini": "08:00",
+    "m_fin": "12:00",
+    "m_hrs": "4.00",
+    "t_ini": "13:00",
+    "t_fin": "15:30",
+    "t_hrs": "2.50",
+    "total_hm": "6.50",
+    "gasolina": "1.50",
+    "vale": "Salida 30/10 (2 gal cuaderno, 1.5 gal vibradora)",
+    "comb_gl": "1.50",
+    "nro_vale": "Salida 30/10 (2 gal cuaderno, 1.5 gal vibradora)",
+    "t_m_ini": "08:00",
+    "t_m_fin": "12:00",
+    "t_m_tot": "4.00",
+    "t_t_ini": "13:00",
+    "t_t_fin": "15:30",
+    "t_t_tot": "2.50",
+    "t_tot_hm": "6.50",
+    "trabajos_texto": "• Se procedió con el izaje vertical y vaciado de concreto f'c = 175 kg/cm² para la conformación del contrapiso en el quinto nivel, cubriendo un área de 88.23 m² con un volumen colocado de 6.62 m³ y un espesor controlado por topografía de e = 0.075 m (7.5 cm).\n• Se realizó el Vaciado del CONTRAPISO (ESPESOR DE VACIADO 7.5CM) en el 5to Nivel en los ejes 1-2-3/A-B-C-D-E-E'-F, correspondiente a la partida 03.04.01.01 CONTRAPISO C:H 1:8, E=5CM. Metrado ejecutado 6.62 M3.\n• Consolidación mecánica intensiva con equipo vibrador durante la colocación continua de concreto en contrapisos para asegurar compacidad uniforme.\n• Abastecimiento de 1.50 gal de Gasohol asignado de la salida de almacén del 30/10 (2.00 gal en cuaderno) para el vaciado masivo de contrapiso. Saldo remanente en custodia: 0.75 gal."
+  },
+  {
+    "id": 10,
+    "num": "10",
+    "fecha": "31/10/2026",
+    "equipo_nombre": "VIBRADOR DE CONCRETO 4 HP",
+    "equipo_codigo": "EQ-VIB-01",
+    "equipo_marca": "HONDA",
+    "equipo_modelo": "GX160",
+    "equipo_serie": "VIB-2026-01",
+    "operador": "MAMANI APAZA YONI JAVIER - OPERARIO",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "h_ini": "-",
+    "h_fin": "-",
+    "h_tot": "-",
+    "km_ini": "-",
+    "km_fin": "-",
+    "km_tot": "-",
+    "m_ini": "08:00",
+    "m_fin": "12:00",
+    "m_hrs": "4.00",
+    "t_ini": "13:30",
+    "t_fin": "15:00",
+    "t_hrs": "1.50",
+    "total_hm": "5.50",
+    "gasolina": "1.50",
+    "vale": "Reserva y saldo en custodia (Salidas 29/10 y 30/10)",
+    "comb_gl": "1.50",
+    "nro_vale": "Reserva y saldo en custodia (Salidas 29/10 y 30/10)",
+    "t_m_ini": "08:00",
+    "t_m_fin": "12:00",
+    "t_m_tot": "4.00",
+    "t_t_ini": "13:30",
+    "t_t_fin": "15:00",
+    "t_t_tot": "1.50",
+    "t_tot_hm": "5.50",
+    "trabajos_texto": "• Se procedió con el izaje vertical y vaciado de concreto f'c = 175 kg/cm² para la conformación del contrapiso en el quinto nivel, con un volumen colocado de 6.80 m³ y un espesor de e = 0.075 m (7.5 cm).\n• Se realizó el Vaciado del CONTRAPISO (ESPESOR DE VACIADO 7.5CM) en el 5to Nivel en los ejes 1-2-3/A-B-C-D-E-E'-F (6.80 M3).\n• Se realizó el Vaciado del CONTRAPISO (7.5CM) en el 5to Nivel (1.19 M3) y 4to Nivel (1.19 M3) en SS.HH. varones y damas ejes 2-3/D-E.\n• Se realizó el Vaciado del FALSO PISO ENMALLADO CON ACERO 1/4\" en Sala de Balanzas 3er Nivel ejes 1-2/E-E'-F (1.77 M3).\n• Consolidación y acomodo mecánico de concreto con equipo vibrador en contrapisos y falsos pisos.\n• Consumo de 1.50 gal de Gasohol proveniente de la reserva y saldo en custodia de combustible en obra (salidas del 29/10 y 30/10). Saldo en obra: 0.00 gal."
+  },
+  {
+    "id": 11,
+    "num": "11",
+    "fecha": "02/11/2026",
+    "equipo_nombre": "VIBRADOR DE CONCRETO 4 HP",
+    "equipo_codigo": "EQ-VIB-01",
+    "equipo_marca": "HONDA",
+    "equipo_modelo": "GX160",
+    "equipo_serie": "VIB-2026-01",
+    "operador": "MAMANI APAZA YONI JAVIER - OPERARIO",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "h_ini": "-",
+    "h_fin": "-",
+    "h_tot": "-",
+    "km_ini": "-",
+    "km_fin": "-",
+    "km_tot": "-",
+    "m_ini": "08:00",
+    "m_fin": "12:00",
+    "m_hrs": "4.00",
+    "t_ini": "13:00",
+    "t_fin": "15:30",
+    "t_hrs": "2.50",
+    "total_hm": "6.50",
+    "gasolina": "1.75",
+    "vale": "Salida 02/11 (2 gal cuaderno, 1.75 gal vibradora)",
+    "comb_gl": "1.75",
+    "nro_vale": "Salida 02/11 (2 gal cuaderno, 1.75 gal vibradora)",
+    "t_m_ini": "08:00",
+    "t_m_fin": "12:00",
+    "t_m_tot": "4.00",
+    "t_t_ini": "13:00",
+    "t_t_fin": "15:30",
+    "t_t_tot": "2.50",
+    "t_tot_hm": "6.50",
+    "trabajos_texto": "• Se realizó el Vaciado del FALSO PISO ENMALLADO CON ACERO 1/4\"  (SALA DE BALANZAS) en el 3er Nivel en los ejes 2-3/E-E'-F, correspondiente a la partida 01.01.02.03.01 FALSO PISO MEZCLA C:H 1:8 E=10 cm, C/CEMENTO TIPO IP. Metrado ejecutado 2.34 M3.\n• Se realizó el Vaciado del CONTRAPISO (ESPESOR DE VACIADO 7.5CM) en el 4to Nivel en los ejes 1-2-3/A-B-C-D-E-E'-F, correspondiente a la partida 03.04.01.01 CONTRAPISO C:H 1:8, E=5CM. Metrado ejecutado 8.10 M3.\n• Consolidación mecánica continua con equipo vibrador de concreto en paños delimitados de contrapiso y falso piso para garantizar la compacidad de la mezcla.\n• Abastecimiento de 1.75 gal de Gasohol asignado de la salida de almacén del 02/11 (2.00 gal en cuaderno) para vaciado masivo de contrapiso y falso piso. Saldo remanente: 0.25 gal."
+  },
+  {
+    "id": 12,
+    "num": "12",
+    "fecha": "03/11/2026",
+    "equipo_nombre": "VIBRADOR DE CONCRETO 4 HP",
+    "equipo_codigo": "EQ-VIB-01",
+    "equipo_marca": "HONDA",
+    "equipo_modelo": "GX160",
+    "equipo_serie": "VIB-2026-01",
+    "operador": "MAMANI APAZA YONI JAVIER - OPERARIO",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "h_ini": "-",
+    "h_fin": "-",
+    "h_tot": "-",
+    "km_ini": "-",
+    "km_fin": "-",
+    "km_tot": "-",
+    "m_ini": "08:00",
+    "m_fin": "12:00",
+    "m_hrs": "4.00",
+    "t_ini": "13:30",
+    "t_fin": "15:30",
+    "t_hrs": "2.00",
+    "total_hm": "6.00",
+    "gasolina": "1.50",
+    "vale": "Saldo 02/11 (0.25 gal) + remanente obra (1.25 gal)",
+    "comb_gl": "1.50",
+    "nro_vale": "Saldo 02/11 (0.25 gal) + remanente obra (1.25 gal)",
+    "t_m_ini": "08:00",
+    "t_m_fin": "12:00",
+    "t_m_tot": "4.00",
+    "t_t_ini": "13:30",
+    "t_t_fin": "15:30",
+    "t_t_tot": "2.00",
+    "t_tot_hm": "6.00",
+    "trabajos_texto": "• Se realizó el Vaciado de la LOSA SUPERIOR MESON M302 en el 3er Nivel en los ejes 2-3/B, correspondiente a la partida 01.01.03.12.01 CONCRETO EN MESONES F'C=175 KG/CM2,C/CEMENTO TIPO IP. Metrado ejecutado 0.23 M3.\n• Se realizó el Vaciado del CONTRAPISO (ESPESOR DE VACIADO 4CM) en el Azotea en los ejes 1-2-3/B-C-D-E-E'-F, correspondiente a la partida 03.04.01.01 CONTRAPISO C:H 1:8, E=5CM. Metrado ejecutado 2.56 M3.\n• Se aplicó el aditivo impermeabilizante integral de fraguado normal Sika-1 en el agua de mezclado del mortero durante los trabajos de vaciado en la azotea, con el fin de reducir la permeabilidad y garantizar la estanqueidad de la losa de pendiente.\n• Consolidación mecánica con vibrador de concreto en mesón y losa de azotea, alcanzando el CUMPLIMIENTO EXACTO DE LAS 60.00 HM CONTRATADAS Y FIN DEL SERVICIO.\n• Consumo de 1.50 gal de Gasohol (0.25 gal saldo del 02/11 + 1.25 gal remanente acumulado de obra), completando la totalidad del combustible asignado (14.50 gal)."
+  }
+];
+
+
+const DEFAULT_PARTES_APISONADOR_1620 = [
+  {
+    "id": 1,
+    "num": "01",
+    "fecha": "19/03/2026",
+    "dia": "Jueves",
+    "unidad": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "placa": "S/P",
+    "equipo_nombre": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "equipo_codigo": "EQ-API-01",
+    "equipo_marca": "HONDA / MIKASA",
+    "equipo_modelo": "MTX-70",
+    "equipo_serie": "API-2026-01",
+    "operador": "FLORENCIO MUSAJA PEREZ - OPERARIO ALBAÑIL",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "inspector": "ARQ. MARCO ANTONIO RAMIREZ LUQUE",
+    "h_ini": "-",
+    "h_fin": "-",
+    "h_tot": "-",
+    "km_ini": "-",
+    "km_fin": "-",
+    "km_tot": "-",
+    "m_ini": "08:00",
+    "m_fin": "12:00",
+    "m_hrs": "4.00",
+    "t_ini": "---",
+    "t_fin": "---",
+    "t_hrs": "0.00",
+    "total_hm": "4.00",
+    "gasolina": "0.75",
+    "vale": "Vale Almacén N° 015",
+    "comb_gl": "0.75",
+    "nro_vale": "Vale Almacén N° 015",
+    "t_m_ini": "08:00",
+    "t_m_fin": "12:00",
+    "t_m_tot": "4.00",
+    "t_t_ini": "---",
+    "t_t_fin": "---",
+    "t_t_tot": "0.00",
+    "t_tot_hm": "4.00",
+    "trabajos_texto": "• Asiento de Cuaderno de Obra (19/03/2026 - Adelanto de Equipo): Culminación del relleno masivo y compactación mecánica de la calicata en el primer nivel.\n• Se ejecutaron labores de densificación de suelo con apisonador vibratorio tipo canguro en el área de calicata de exploración en ejes 2-3/B-C en 1er Nivel, alcanzando los niveles de cota de subrasante proyectada.\n• Preparación de plataforma de cimentación y verificación de niveles con apoyo topográfico.\n• Consumo de 0.75 gal de gasolina asignado mediante vale de almacén para operatividad en jornada matutina de 4.00 HM."
+  },
+  {
+    "id": 2,
+    "num": "02",
+    "fecha": "03/05/2026",
+    "dia": "Domingo",
+    "unidad": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "placa": "S/P",
+    "equipo_nombre": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "equipo_codigo": "EQ-API-01",
+    "equipo_marca": "HONDA / MIKASA",
+    "equipo_modelo": "MTX-70",
+    "equipo_serie": "API-2026-01",
+    "operador": "FLORENCIO MUSAJA PEREZ - OPERARIO ALBAÑIL",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "inspector": "ARQ. MARCO ANTONIO RAMIREZ LUQUE",
+    "h_ini": "-",
+    "h_fin": "-",
+    "h_tot": "-",
+    "km_ini": "-",
+    "km_fin": "-",
+    "km_tot": "-",
+    "m_ini": "08:00",
+    "m_fin": "12:00",
+    "m_hrs": "4.00",
+    "t_ini": "13:00",
+    "t_fin": "16:30",
+    "t_hrs": "3.50",
+    "total_hm": "7.50",
+    "gasolina": "1.00",
+    "vale": "Vale Almacén N° 048",
+    "comb_gl": "1.00",
+    "nro_vale": "Vale Almacén N° 048",
+    "t_m_ini": "08:00",
+    "t_m_fin": "12:00",
+    "t_m_tot": "4.00",
+    "t_t_ini": "13:00",
+    "t_t_fin": "16:30",
+    "t_t_tot": "3.50",
+    "t_tot_hm": "7.50",
+    "trabajos_texto": "• Asiento N° 211 (Residencia de Obra) / Cuaderno de Obra: Inicio de compactado en el eje D-E entre 1-2-3 en el segundo nivel.\n• Extendido, humectación homogénea y compactación mecánica de la primera capa de material granular seleccionado con apisonador vibratorio en el sector de transición del 2do nivel.\n• Verificación de niveles y control de deformaciones del terreno de fundación.\n• Consumo de 1.00 galón de gasolina conforme a requerimiento de operación continua en jornada completa (08:00-12:00 y 13:00-16:30)."
+  },
+  {
+    "id": 3,
+    "num": "03",
+    "fecha": "05/05/2026",
+    "dia": "Martes",
+    "unidad": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "placa": "S/P",
+    "equipo_nombre": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "equipo_codigo": "EQ-API-01",
+    "equipo_marca": "HONDA / MIKASA",
+    "equipo_modelo": "MTX-70",
+    "equipo_serie": "API-2026-01",
+    "operador": "FLORENCIO MUSAJA PEREZ - OPERARIO ALBAÑIL",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "inspector": "ARQ. MARCO ANTONIO RAMIREZ LUQUE",
+    "h_ini": "-",
+    "h_fin": "-",
+    "h_tot": "-",
+    "km_ini": "-",
+    "km_fin": "-",
+    "km_tot": "-",
+    "m_ini": "08:00",
+    "m_fin": "12:00",
+    "m_hrs": "4.00",
+    "t_ini": "13:00",
+    "t_fin": "16:00",
+    "t_hrs": "3.00",
+    "total_hm": "7.00",
+    "gasolina": "1.00",
+    "vale": "Vale Almacén N° 052",
+    "comb_gl": "1.00",
+    "nro_vale": "Vale Almacén N° 052",
+    "t_m_ini": "08:00",
+    "t_m_fin": "12:00",
+    "t_m_tot": "4.00",
+    "t_t_ini": "13:00",
+    "t_t_fin": "16:00",
+    "t_t_tot": "3.00",
+    "t_tot_hm": "7.00",
+    "trabajos_texto": "• Asiento N° 211 (Residencia de Obra): Continuación y consolidación de trabajos de compactado en el eje D-E entre 1-2-3 en el 2do nivel.\n• Densificación mecánica perimetral con apisonador de las capas de relleno estructural adyacentes a las columnetas y muros de albañilería.\n• Control de espesores de capa (e=20 cm) y uniformidad en la superficie compactada.\n• Asignación de 1.00 galón de gasolina según vale para cumplimiento del horario regular de 7.00 horas."
+  },
+  {
+    "id": 4,
+    "num": "04",
+    "fecha": "08/05/2026",
+    "dia": "Viernes",
+    "unidad": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "placa": "S/P",
+    "equipo_nombre": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "equipo_codigo": "EQ-API-01",
+    "equipo_marca": "HONDA / MIKASA",
+    "equipo_modelo": "MTX-70",
+    "equipo_serie": "API-2026-01",
+    "operador": "FLORENCIO MUSAJA PEREZ - OPERARIO ALBAÑIL",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "inspector": "ARQ. MARCO ANTONIO RAMIREZ LUQUE",
+    "h_ini": "-",
+    "h_fin": "-",
+    "h_tot": "-",
+    "km_ini": "-",
+    "km_fin": "-",
+    "km_tot": "-",
+    "m_ini": "08:00",
+    "m_fin": "12:00",
+    "m_hrs": "4.00",
+    "t_ini": "13:00",
+    "t_fin": "16:30",
+    "t_hrs": "3.50",
+    "total_hm": "7.50",
+    "gasolina": "1.00",
+    "vale": "Vale Almacén N° 057",
+    "comb_gl": "1.00",
+    "nro_vale": "Vale Almacén N° 057",
+    "t_m_ini": "08:00",
+    "t_m_fin": "12:00",
+    "t_m_tot": "4.00",
+    "t_t_ini": "13:00",
+    "t_t_fin": "16:30",
+    "t_t_tot": "3.50",
+    "t_tot_hm": "7.50",
+    "trabajos_texto": "• Asiento N° 218 (Residencia de Obra) / Cuaderno de Obra: Colocado de impermeabilizante RC en el muro MC-1 antes de la compactación (45 m²). Vaciado de suelo cemento (7.905 m³) en el tercer nivel entre el muro existente y el MC-1 en los ejes 1-2-3.\n• Labores previas de perfilado y compactación mecánica de terreno base con apisonador en zona confinada adyacente al muro MC-1.\n• Densificación perimetral de apoyo para garantizar adherencia y soporte estructural del relleno masivo.\n• Abastecimiento de 1.00 galón de combustible para operatividad del apisonador en jornada completa (7.50 HM)."
+  },
+  {
+    "id": 5,
+    "num": "05",
+    "fecha": "12/05/2026",
+    "dia": "Martes",
+    "unidad": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "placa": "S/P",
+    "equipo_nombre": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "equipo_codigo": "EQ-API-01",
+    "equipo_marca": "HONDA / MIKASA",
+    "equipo_modelo": "MTX-70",
+    "equipo_serie": "API-2026-01",
+    "operador": "FLORENCIO MUSAJA PEREZ - OPERARIO ALBAÑIL",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "inspector": "ARQ. MARCO ANTONIO RAMIREZ LUQUE",
+    "h_ini": "-",
+    "h_fin": "-",
+    "h_tot": "-",
+    "km_ini": "-",
+    "km_fin": "-",
+    "km_tot": "-",
+    "m_ini": "08:00",
+    "m_fin": "12:00",
+    "m_hrs": "4.00",
+    "t_ini": "13:00",
+    "t_fin": "16:00",
+    "t_hrs": "3.00",
+    "total_hm": "7.00",
+    "gasolina": "1.00",
+    "vale": "Vale Almacén N° 061",
+    "comb_gl": "1.00",
+    "nro_vale": "Vale Almacén N° 061",
+    "t_m_ini": "08:00",
+    "t_m_fin": "12:00",
+    "t_m_tot": "4.00",
+    "t_t_ini": "13:00",
+    "t_t_fin": "16:00",
+    "t_t_tot": "3.00",
+    "t_tot_hm": "7.00",
+    "trabajos_texto": "• Asiento N° 218 (Residencia de Obra): Registro oficial y verificación de compactación en zona del muro MC-1 en 2do y 3er nivel.\n• Nivelación y compactación mecánica de material de relleno estructural con equipo apisonador en sector comprendido entre la edificación nueva y muro existente.\n• Densificación rigurosa en esquinas y áreas de difícil acceso para evitar asentamientos diferenciales.\n• Abastecimiento de 1.00 galón de gasolina conforme al vale diario."
+  },
+  {
+    "id": 6,
+    "num": "06",
+    "fecha": "21/05/2026",
+    "dia": "Jueves",
+    "unidad": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "placa": "S/P",
+    "equipo_nombre": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "equipo_codigo": "EQ-API-01",
+    "equipo_marca": "HONDA / MIKASA",
+    "equipo_modelo": "MTX-70",
+    "equipo_serie": "API-2026-01",
+    "operador": "FLORENCIO MUSAJA PEREZ - OPERARIO ALBAÑIL",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "inspector": "ARQ. MARCO ANTONIO RAMIREZ LUQUE",
+    "h_ini": "-",
+    "h_fin": "-",
+    "h_tot": "-",
+    "km_ini": "-",
+    "km_fin": "-",
+    "km_tot": "-",
+    "m_ini": "08:00",
+    "m_fin": "12:00",
+    "m_hrs": "4.00",
+    "t_ini": "13:00",
+    "t_fin": "16:30",
+    "t_hrs": "3.50",
+    "total_hm": "7.50",
+    "gasolina": "1.00",
+    "vale": "Vale Almacén N° 068",
+    "comb_gl": "1.00",
+    "nro_vale": "Vale Almacén N° 068",
+    "t_m_ini": "08:00",
+    "t_m_fin": "12:00",
+    "t_m_tot": "4.00",
+    "t_t_ini": "13:00",
+    "t_t_fin": "16:30",
+    "t_t_tot": "3.50",
+    "t_tot_hm": "7.50",
+    "trabajos_texto": "• Asiento N° 235 (Inspectoría de Obra): Se solicita al Residente realizar trabajos de relleno y compactación en el primer piso para asegurar la estabilidad de la edificación nueva, puesto que se observa estructura de zapata expuesta.\n• En atención al requerimiento de la Inspectoría, se ejecutaron trabajos de perfilado de subrasante y compactación mecánica con apisonador en el 1er Nivel en torno a zapatas expuestas.\n• Densificación y confinamiento de suelo con pasadas controladas para proteger la base estructural.\n• Abastecimiento de 1.00 galón de gasolina según vale de almacén."
+  },
+  {
+    "id": 7,
+    "num": "07",
+    "fecha": "25/05/2026",
+    "dia": "Lunes",
+    "unidad": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "placa": "S/P",
+    "equipo_nombre": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "equipo_codigo": "EQ-API-01",
+    "equipo_marca": "HONDA / MIKASA",
+    "equipo_modelo": "MTX-70",
+    "equipo_serie": "API-2026-01",
+    "operador": "FLORENCIO MUSAJA PEREZ - OPERARIO ALBAÑIL",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "inspector": "ARQ. MARCO ANTONIO RAMIREZ LUQUE",
+    "h_ini": "-",
+    "h_fin": "-",
+    "h_tot": "-",
+    "km_ini": "-",
+    "km_fin": "-",
+    "km_tot": "-",
+    "m_ini": "08:00",
+    "m_fin": "12:00",
+    "m_hrs": "4.00",
+    "t_ini": "13:00",
+    "t_fin": "16:00",
+    "t_hrs": "3.00",
+    "total_hm": "7.00",
+    "gasolina": "1.00",
+    "vale": "Vale Almacén N° 073",
+    "comb_gl": "1.00",
+    "nro_vale": "Vale Almacén N° 073",
+    "t_m_ini": "08:00",
+    "t_m_fin": "12:00",
+    "t_m_tot": "4.00",
+    "t_t_ini": "13:00",
+    "t_t_fin": "16:00",
+    "t_t_tot": "3.00",
+    "t_tot_hm": "7.00",
+    "trabajos_texto": "• Asiento N° 240 (Inspectoría de Obra): Se reitera que en el primer piso de la edificación nueva se requiere relleno y compactado para estabilidad de la infraestructura nueva, solicitando acciones inmediatas.\n• Continuación intensiva de labores de tendido, nivelación y compactación mecánica con equipo apisonador en el 1er Nivel, conformando plataformas compactadas de suelo seleccionado.\n• Confinamiento mecánico en zanjas y zapatas conforme a las recomendaciones de la supervisión.\n• Consumo de 1.00 galón de combustible para operatividad en jornada diaria de 7.00 HM."
+  },
+  {
+    "id": 8,
+    "num": "08",
+    "fecha": "29/05/2026",
+    "dia": "Viernes",
+    "unidad": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "placa": "S/P",
+    "equipo_nombre": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "equipo_codigo": "EQ-API-01",
+    "equipo_marca": "HONDA / MIKASA",
+    "equipo_modelo": "MTX-70",
+    "equipo_serie": "API-2026-01",
+    "operador": "FLORENCIO MUSAJA PEREZ - OPERARIO ALBAÑIL",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "inspector": "ARQ. MARCO ANTONIO RAMIREZ LUQUE",
+    "h_ini": "-",
+    "h_fin": "-",
+    "h_tot": "-",
+    "km_ini": "-",
+    "km_fin": "-",
+    "km_tot": "-",
+    "m_ini": "08:00",
+    "m_fin": "12:00",
+    "m_hrs": "4.00",
+    "t_ini": "13:00",
+    "t_fin": "16:30",
+    "t_hrs": "3.50",
+    "total_hm": "7.50",
+    "gasolina": "1.00",
+    "vale": "Vale Almacén N° 079",
+    "comb_gl": "1.00",
+    "nro_vale": "Vale Almacén N° 079",
+    "t_m_ini": "08:00",
+    "t_m_fin": "12:00",
+    "t_m_tot": "4.00",
+    "t_t_ini": "13:00",
+    "t_t_fin": "16:30",
+    "t_t_tot": "3.50",
+    "t_tot_hm": "7.50",
+    "trabajos_texto": "• Asiento N° 252 (Inspectoría de Obra): Se deja constancia que se autorizó el empleo de material suelo cemento para relleno y compactación entre edificación nueva y edificación existente según planos y justificación técnica.\n• Trabajos de acondicionamiento, extendido y compactado mecánico con apisonador en la franja de transición entre ambas estructuras.\n• Densificación y perfilado uniforme para recepción del material estabilizado.\n• Abastecimiento de 1.00 galón de gasolina según vale correspondiente."
+  },
+  {
+    "id": 9,
+    "num": "09",
+    "fecha": "04/06/2026",
+    "dia": "Jueves",
+    "unidad": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "placa": "S/P",
+    "equipo_nombre": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "equipo_codigo": "EQ-API-01",
+    "equipo_marca": "HONDA / MIKASA",
+    "equipo_modelo": "MTX-70",
+    "equipo_serie": "API-2026-01",
+    "operador": "FLORENCIO MUSAJA PEREZ - OPERARIO ALBAÑIL",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "inspector": "ARQ. MARCO ANTONIO RAMIREZ LUQUE",
+    "h_ini": "-",
+    "h_fin": "-",
+    "h_tot": "-",
+    "km_ini": "-",
+    "km_fin": "-",
+    "km_tot": "-",
+    "m_ini": "08:30",
+    "m_fin": "12:00",
+    "m_hrs": "3.50",
+    "t_ini": "13:30",
+    "t_fin": "15:00",
+    "t_hrs": "1.50",
+    "total_hm": "5.00",
+    "gasolina": "0.75",
+    "vale": "Vale Almacén N° 085",
+    "comb_gl": "0.75",
+    "nro_vale": "Vale Almacén N° 085",
+    "t_m_ini": "08:30",
+    "t_m_fin": "12:00",
+    "t_m_tot": "3.50",
+    "t_t_ini": "13:30",
+    "t_t_fin": "15:00",
+    "t_t_tot": "1.50",
+    "t_tot_hm": "5.00",
+    "trabajos_texto": "• Asiento N° 259 (Inspectoría de Obra): Se constata que en el 2º piso y 3º piso se tienen espacios considerables para relleno y compactado, solicitando su ejecución inmediata para habilitar frentes de trabajo.\n• En cumplimiento a la instrucción de obra y en la fecha de cierre de la O/S N° 1620, se ejecutó la nivelación, perfilado y compactado mecánico con equipo apisonador en los frentes de 2º y 3º nivel.\n• Consolidación final del servicio de alquiler de apisonador, alcanzando el CUMPLIMIENTO EXACTO DE LAS 60.00 HM CONTRATADAS EN EL TDR Y FIN DEL SERVICIO.\n• Consumo de 0.75 galón de combustible según vale de almacén."
+  }
+];
+
+let ordenActiva = 'OS_1620';
+const IS_APISONADOR_PAGE = true;
+let partes = [];
+let modoActual = 'dos';
+
+// CONVERTIR A FORMATO TITLE CASE (SOLO LA PRIMERA LETRA DE CADA PALABRA EN MAYÚSCULA)
+function toTitleCase(texto) {
+  if (!texto) return '';
+  return texto
+    .toLowerCase()
+    .split(' ')
+    .filter(Boolean)
+    .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(' ');
+}
+
+// INICIALIZACIÓN
+document.addEventListener('DOMContentLoaded', () => {
+  cargarDatalistOperadores();
+  cargarPartes();
+});
+
+// POBLAR DATALIST
+function cargarDatalistOperadores() {
+  const dl = document.getElementById('dl-operadores');
+  dl.innerHTML = '';
+  TRABAJADORES.forEach(t => {
+    const opt = document.createElement('option');
+    opt.value = t.label;
+    dl.appendChild(opt);
+  });
+}
+
+// CARGAR PARTES (DE LOCALSTORAGE O DEFAULT)
+function cambiarOrdenServicio(nuevaOS) {
+  ordenActiva = nuevaOS;
+  localStorage.setItem('workea_partes_os_activa', nuevaOS);
+  const sel = document.getElementById('selOrdenServicio');
+  if (sel) sel.value = nuevaOS;
+  cargarPartes();
+}
+
+function getStorageKey() {
+  return 'workea_partes_diarios_apisonador_1620';
+}
+
+function getDefaultPartes() {
+  return DEFAULT_PARTES_APISONADOR_1620;
+}
+
+function cargarPartes() {
+  const osGuardada = localStorage.getItem('workea_partes_os_activa');
+  if (osGuardada) {
+    ordenActiva = osGuardada;
+    const sel = document.getElementById('selOrdenServicio');
+    if (sel) sel.value = osGuardada;
+  }
+
+  const sKey = getStorageKey();
+  const guardado = localStorage.getItem(sKey);
+  if (guardado) {
+    try {
+      partes = JSON.parse(guardado);
+      renderHojas();
+      return;
+    } catch (e) {}
+  }
+
+  const defaultArray = getDefaultPartes();
+  partes = JSON.parse(JSON.stringify(defaultArray));
+  localStorage.setItem(sKey, JSON.stringify(partes));
+  renderHojas();
+}
+
+// RENDERIZAR HOJAS
+function renderHojas() {
+  const cont = document.getElementById('hojas-container');
+  cont.innerHTML = '';
+
+  if (modoActual === 'dos') {
+    // Cada día tiene su propia hoja A4 horizontal:
+    // Izquierda: ORIGINAL | Derecha: CARGO (ambos con los mismos datos del día)
+    partes.forEach((p, idx) => {
+      const hoja = document.createElement('div');
+      hoja.className = 'hoja-a4 modo-dos';
+
+      hoja.innerHTML = `
+        <div class="cut-divider">
+          <div class="cut-scissor">✂</div>
+        </div>
+        ${renderParteHTML(p, idx, 'ORIGINAL')}
+        ${renderParteHTML(p, idx, 'CARGO')}
+      `;
+      cont.appendChild(hoja);
+    });
+  } else {
+    // 1 parte por hoja A4 vertical
+    partes.forEach((p, idx) => {
+      const hoja = document.createElement('div');
+      hoja.className = 'hoja-a4 modo-una';
+      hoja.innerHTML = renderParteHTML(p, idx, 'ORIGINAL');
+      cont.appendChild(hoja);
+    });
+  }
+
+  actualizarTotales();
+}
+
+// GENERAR HTML DEL PARTE CON FORMATO FÍSICO EXACTO
+function renderParteHTML(p, idx, tipoCopia) {
+  const isCargo = tipoCopia === 'CARGO';
+  const tagClass = isCargo ? 'pf-copia-tag cargo' : 'pf-copia-tag';
+
+  // Extraer nombre limpio del operador y convertir a Title Case para firma al pie
+  const opNombreCrudo = p.operador ? p.operador.split(' - ')[0].trim() : 'Personal Obrero de Obra';
+  const opNombreFirma = toTitleCase(opNombreCrudo);
+
+  // Formatear texto de trabajos resaltando los títulos de asientos
+  const textoFormateado = (p.trabajos_texto || '')
+    .replace(/(Asiento N° \d+ \([^\)]+\):)/g, '<span class="pf-asiento-header">$1</span>');
+
+  return `
+    <div class="parte-box" id="card-parte-${idx}-${tipoCopia}">
+      <!-- TÍTULO OFICIAL EN PASTILLA + ETIQUETA ORIGINAL / CARGO -->
+      <div class="pf-title-wrap">
+        <div class="pf-title-badge">PARTE DIARIO DE TRABAJO</div>
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <span class="${tagClass}">${tipoCopia}</span>
+          <span class="pf-num-indicator">N° ${p.num}</span>
+        </div>
+      </div>
+
+      <!-- CABECERA (UNIDAD, PLACA, FECHA, OPERADOR, RESIDENTE) TODO EN MAYÚSCULAS -->
+      <div class="pf-header-box">
+        <div class="pf-header-row">
+          <span class="pf-lbl">UNIDAD:</span>
+          <input class="doc-inp inp-unidad-${idx}" style="flex: 1.5; font-weight: 700;" value="${p.unidad || 'VIBRADOR DE CONCRETO A GASOLINA 4 HP'}" oninput="onCampoChange(${idx}, 'unidad', this.value.toUpperCase())">
+          <span class="pf-lbl" style="margin-left: 6px;">PLACA:</span>
+          <input class="doc-inp inp-placa-${idx}" style="width: 50px; text-align: center;" value="${p.placa || 'S/P'}" oninput="onCampoChange(${idx}, 'placa', this.value.toUpperCase())">
+          <span class="pf-lbl" style="margin-left: 6px;">FECHA:</span>
+          <input class="doc-inp inp-fecha-${idx}" style="width: 75px; text-align: center; font-weight: 700;" value="${p.fecha || ''}" oninput="onCampoChange(${idx}, 'fecha', this.value)">
+        </div>
+
+        <div class="pf-header-row">
+          <span class="pf-lbl">OPERADOR:</span>
+          <input list="dl-operadores" class="doc-inp inp-op-field-${idx}" style="flex: 1; font-weight: 600;" value="${p.operador || 'PERSONAL OBRERO DE OBRA'}" placeholder="BUSCAR OBRERO..." onchange="onOperadorSelectChange(${idx}, this.value.toUpperCase())" oninput="onOperadorSelectChange(${idx}, this.value.toUpperCase())">
+          <button class="btn btn-outline no-print" style="padding: 1px 6px; font-size: 6.5pt; color: #1e293b; border-color: #94a3b8;" onclick="seleccionarOperadorDialog(${idx})" title="Abrir catálogo de asistencia">👥 Buscar</button>
+        </div>
+
+        <div class="pf-header-row">
+          <span class="pf-lbl">RESIDENTE:</span>
+          <input class="doc-inp inp-residente-${idx}" style="flex: 1; font-weight: 700;" value="${p.residente || 'ARQ. LUIS JAVIER HUANCA BARRANTES'}" oninput="onCampoChange(${idx}, 'residente', this.value.toUpperCase())">
+        </div>
+      </div>
+
+      <!-- CONTADOR (HOROMETRO / KILOMETRAJE CON GUIONES) -->
+      <table class="pf-tbl">
+        <thead>
+          <tr>
+            <th style="width: 32%;">CONTADOR</th>
+            <th style="width: 22%;">COMIENZO</th>
+            <th style="width: 23%;">TERMINO</th>
+            <th style="width: 23%;">TOTAL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight: 700;">HOROMETRO</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td style="font-weight: 700;">KILOMETRAJE</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- SECCIÓN OBRA (FIJA, NO EDITABLE, BIEN BONITA EN 3 LÍNEAS CENTRADAS) -->
+      <div class="pf-obra-wrap">
+        <div class="pf-obra-title">OBRA</div>
+        <div class="pf-obra-box">
+          <div class="pf-obra-line">MEJORAMIENTO Y AMPLIACIÓN DE LOS SERVICIOS OPERATIVOS O MISIONALES</div>
+          <div class="pf-obra-line">INSTITUCIONALES EN LABORATORIO AMBIENTAL SAN AGUSTÍN DE TORATA</div>
+          <div class="pf-obra-line">DISTRITO DE TORATA - MARISCAL NIETO - MOQUEGUA (META 290)</div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN COMBUSTIBLE (VALE CON GUION '-') -->
+      <table class="pf-tbl">
+        <thead>
+          <tr>
+            <th style="width: 25%;">COMBUSTIBLE</th>
+            <th style="width: 15%;">UNIDAD</th>
+            <th style="width: 20%;">CANTIDAD</th>
+            <th style="width: 40%;">Nro. DE VALE</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight: 700;">GASOLINA</td>
+            <td>Gls.</td>
+            <td><input class="cell-inp inp-gas-${idx}" style="font-weight:700;" value="${p.gasolina || '-'}" oninput="onGasolinaChange(${idx}, this.value)"></td>
+            <td><input class="cell-inp inp-vale-${idx}" value="${p.vale || '-'}" oninput="onCampoChange(${idx}, 'vale', this.value)"></td>
+          </tr>
+          <tr>
+            <td style="font-weight: 700;">PETROLEO</td>
+            <td>Gls.</td>
+            <td>-</td>
+            <td>-</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- HORAS DE LABOR -->
+      <table class="pf-tbl">
+        <thead>
+          <tr>
+            <th colspan="3">MAÑANA</th>
+            <th colspan="3">TARDE</th>
+            <th rowspan="2" style="width: 15%;">TOTAL<br/>HORAS</th>
+          </tr>
+          <tr>
+            <th style="width: 14%;">ENTRADA</th>
+            <th style="width: 14%;">SALIDA</th>
+            <th style="width: 14%;">HORAS</th>
+            <th style="width: 14%;">ENTRADA</th>
+            <th style="width: 14%;">SALIDA</th>
+            <th style="width: 14%;">HORAS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><input class="cell-inp inp-mini-${idx}" value="${p.m_ini || '-'}" oninput="onCampoChange(${idx}, 'm_ini', this.value)"></td>
+            <td><input class="cell-inp inp-mfin-${idx}" value="${p.m_fin || '-'}" oninput="onCampoChange(${idx}, 'm_fin', this.value)"></td>
+            <td><input class="cell-inp inp-mhrs-${idx}" style="font-weight:600;" value="${p.m_hrs || '0.00'}" oninput="onHorasChange(${idx}, 'm_hrs', this.value)"></td>
+            <td><input class="cell-inp inp-tini-${idx}" value="${p.t_ini || '-'}" oninput="onCampoChange(${idx}, 't_ini', this.value)"></td>
+            <td><input class="cell-inp inp-tfin-${idx}" value="${p.t_fin || '-'}" oninput="onCampoChange(${idx}, 't_fin', this.value)"></td>
+            <td><input class="cell-inp inp-thrs-${idx}" style="font-weight:600;" value="${p.t_hrs || '0.00'}" oninput="onHorasChange(${idx}, 't_hrs', this.value)"></td>
+            <td style="background: #f8fafc; font-weight: 700;"><input class="cell-inp inp-tothrs-${idx}" style="font-weight:700;" value="${p.total_hm}" oninput="onTotalHmDirectChange(${idx}, this.value)"></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- TABLA TRABAJOS REALIZADOS (SOLO TRABAJOS, SIN ITEM) -->
+      <div class="pf-trabajos-wrap">
+        <table class="pf-trabajos-tbl">
+          <thead>
+            <tr>
+              <th>TRABAJOS REALIZADOS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="pf-trabajos-content inp-trabajos-${idx}" contenteditable="true" onblur="onTrabajosTextoChange(${idx}, this.innerText)">${textoFormateado}</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- SECCIÓN FIRMAS (TITLE CASE: PRIMERA LETRA DE CADA PALABRA EN MAYÚSCULA) -->
+      <div class="pf-firmas-box">
+        <div class="pf-firma-item">
+          <div class="pf-firma-space"></div>
+          <div class="pf-firma-linea"></div>
+          <div class="pf-firma-cargo">OPERADOR</div>
+          <div class="pf-firma-nombre lbl-firma-op-${idx}">${opNombreFirma}</div>
+        </div>
+
+        <div class="pf-firma-item">
+          <div class="pf-firma-space"></div>
+          <div class="pf-firma-linea"></div>
+          <div class="pf-firma-cargo">RESIDENTE DE OBRA</div>
+          <div class="pf-firma-nombre">Arq. Luis Javier Huanca Barrantes</div>
+        </div>
+
+        <div class="pf-firma-item">
+          <div class="pf-firma-space"></div>
+          <div class="pf-firma-linea"></div>
+          <div class="pf-firma-cargo">INSPECTOR DE OBRA</div>
+          <div class="pf-firma-nombre">Arq. Marco Antonio Ramirez Luque</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// MANEJADORES DE EDICIÓN EN VIVO (CON AUTO-SINCRONIZACIÓN ENTRE ORIGINAL Y CARGO)
+function onCampoChange(idx, campo, val) {
+  if (!partes[idx]) return;
+  partes[idx][campo] = val;
+
+  const classMap = {
+    'unidad': `.inp-unidad-${idx}`,
+    'placa': `.inp-placa-${idx}`,
+    'fecha': `.inp-fecha-${idx}`,
+    'residente': `.inp-residente-${idx}`,
+    'vale': `.inp-vale-${idx}`,
+    'm_ini': `.inp-mini-${idx}`,
+    'm_fin': `.inp-mfin-${idx}`,
+    't_ini': `.inp-tini-${idx}`,
+    't_fin': `.inp-tfin-${idx}`
+  };
+
+  if (classMap[campo]) {
+    document.querySelectorAll(classMap[campo]).forEach(el => {
+      if (el !== document.activeElement) el.value = val;
+    });
+  }
+
+  guardarCambiosLocal(false);
+}
+
+function onOperadorSelectChange(idx, val) {
+  if (!partes[idx]) return;
+  partes[idx].operador = val;
+  const opNombreCrudo = val ? val.split(' - ')[0].trim() : 'Personal Obrero de Obra';
+  const opNombreFirma = toTitleCase(opNombreCrudo);
+
+  document.querySelectorAll(`.inp-op-field-${idx}`).forEach(el => {
+    if (el !== document.activeElement) el.value = val;
+  });
+
+  document.querySelectorAll(`.lbl-firma-op-${idx}`).forEach(el => {
+    el.innerText = opNombreFirma;
+  });
+
+  guardarCambiosLocal(false);
+}
+
+function onGasolinaChange(idx, val) {
+  if (!partes[idx]) return;
+  partes[idx].gasolina = val;
+  document.querySelectorAll(`.inp-gas-${idx}`).forEach(el => {
+    if (el !== document.activeElement) el.value = val;
+  });
+  actualizarTotales();
+  guardarCambiosLocal(false);
+}
+
+function onHorasChange(idx, campo, val) {
+  if (!partes[idx]) return;
+  partes[idx][campo] = val;
+  const m = parseFloat(partes[idx].m_hrs) || 0;
+  const t = parseFloat(partes[idx].t_hrs) || 0;
+  const tot = (m + t).toFixed(2);
+  partes[idx].total_hm = tot;
+  partes[idx].h_tot = tot;
+
+  document.querySelectorAll(`.inp-tothrs-${idx}`).forEach(el => el.value = tot);
+  document.querySelectorAll(`.inp-htot-${idx}`).forEach(el => el.value = tot);
+
+  actualizarTotales();
+  guardarCambiosLocal(false);
+}
+
+function onTotalHmDirectChange(idx, val) {
+  if (!partes[idx]) return;
+  partes[idx].total_hm = val;
+  partes[idx].h_tot = val;
+  document.querySelectorAll(`.inp-tothrs-${idx}`).forEach(el => {
+    if (el !== document.activeElement) el.value = val;
+  });
+  document.querySelectorAll(`.inp-htot-${idx}`).forEach(el => {
+    if (el !== document.activeElement) el.value = val;
+  });
+  actualizarTotales();
+  guardarCambiosLocal(false);
+}
+
+function onHorometroChange(idx, campo, val) {
+  if (!partes[idx]) return;
+  partes[idx][campo] = val;
+  const ini = parseFloat(partes[idx].h_ini);
+  const fin = parseFloat(partes[idx].h_fin);
+  if (!isNaN(ini) && !isNaN(fin) && fin >= ini) {
+    const diff = (fin - ini).toFixed(2);
+    partes[idx].h_tot = diff;
+    partes[idx].total_hm = diff;
+    document.querySelectorAll(`.inp-htot-${idx}`).forEach(el => el.value = diff);
+    document.querySelectorAll(`.inp-tothrs-${idx}`).forEach(el => el.value = diff);
+    actualizarTotales();
+  }
+  guardarCambiosLocal(false);
+}
+
+function onTrabajosTextoChange(idx, textoPlano) {
+  if (!partes[idx]) return;
+  partes[idx].trabajos_texto = textoPlano;
+  guardarCambiosLocal(false);
+}
+
+// MODAL PARA SELECCIONAR OPERADOR INDIVIDUAL POR PARTE
+function seleccionarOperadorDialog(idx) {
+  let optionsHtml = '';
+  TRABAJADORES.forEach(t => {
+    optionsHtml += `<option value="${t.label}">${t.label}</option>`;
+  });
+
+  Swal.fire({
+    title: `Seleccionar Operador (Parte N° ${partes[idx].num})`,
+    html: `
+      <div style="text-align: left; font-size: 0.85rem;">
+        <label style="font-weight:700;display:block;margin-bottom:6px;">Buscar Obrero de Asistencia:</label>
+        <select id="swal-sel-op" style="width:100%;padding:8px;font-size:0.85rem;border:1px solid #ccc;border-radius:4px;text-transform:uppercase;">
+          ${optionsHtml}
+        </select>
+        <div style="margin-top:10px;">
+          <label style="font-weight:700;display:block;margin-bottom:4px;">O escribir manual:</label>
+          <input type="text" id="swal-inp-op" placeholder="EJ: JUAN PEREZ - OFICIAL ALBAÑIL" style="width:100%;padding:6px;border:1px solid #ccc;border-radius:4px;text-transform:uppercase;" value="${partes[idx].operador || ''}">
+        </div>
+      </div>
+    `,
+    showCancelButton: true,
+    confirmButtonText: 'Aplicar a este Parte',
+    cancelButtonText: 'Cancelar',
+    didOpen: () => {
+      const sel = document.getElementById('swal-sel-op');
+      const inp = document.getElementById('swal-inp-op');
+      sel.addEventListener('change', () => { inp.value = sel.value; });
+    },
+    preConfirm: () => {
+      const inp = document.getElementById('swal-inp-op');
+      return inp.value.trim().toUpperCase();
+    }
+  }).then(res => {
+    if (res.isConfirmed && res.value) {
+      onOperadorSelectChange(idx, res.value);
+      guardarCambiosLocal(true);
+    }
+  });
+}
+
+// MODAL PARA ASIGNAR OPERADOR GLOBALMENTE (OPCIONAL)
+function abrirModalOperadorGlobal() {
+  let optionsHtml = '';
+  TRABAJADORES.forEach(t => {
+    optionsHtml += `<option value="${t.label}">${t.label}</option>`;
+  });
+
+  Swal.fire({
+    title: '👷 Asignar Operador a Todos los Partes',
+    html: `
+      <div style="text-align: left; font-size: 0.85rem;">
+        <p style="color:#555;margin-bottom:8px;">Selecciona el obrero de la lista de asistencia para asignarlo a los <strong>14 partes diarios</strong> simultáneamente:</p>
+        <select id="swal-global-op" style="width:100%;padding:8px;font-size:0.85rem;border:1px solid #ccc;border-radius:4px;text-transform:uppercase;">
+          ${optionsHtml}
+        </select>
+        <div style="margin-top:10px;">
+          <label style="font-weight:700;display:block;margin-bottom:4px;">O escribir nombre personalizado:</label>
+          <input type="text" id="swal-custom-op" placeholder="EJ: FLORENCIO MUSAJA PEREZ - OPERARIO ALBAÑIL" style="width:100%;padding:6px;border:1px solid #ccc;border-radius:4px;text-transform:uppercase;">
+        </div>
+      </div>
+    `,
+    showCancelButton: true,
+    confirmButtonText: 'Aplicar a los 14 Partes',
+    confirmButtonColor: '#7c3aed',
+    cancelButtonText: 'Cancelar',
+    didOpen: () => {
+      const sel = document.getElementById('swal-global-op');
+      const inp = document.getElementById('swal-custom-op');
+      inp.value = sel.value;
+      sel.addEventListener('change', () => { inp.value = sel.value; });
+    },
+    preConfirm: () => {
+      const inp = document.getElementById('swal-custom-op');
+      return inp.value.trim().toUpperCase();
+    }
+  }).then(res => {
+    if (res.isConfirmed && res.value) {
+      partes.forEach(p => {
+        p.operador = res.value;
+      });
+      renderHojas();
+      guardarCambiosLocal(true);
+      Swal.fire({
+        icon: 'success',
+        title: 'Operador Asignado',
+        text: `Se actualizó el operador a "${res.value}" en los ${partes.length} partes diarios.`,
+        timer: 2000,
+        showConfirmButton: false
+      });
+    }
+  });
+}
+
+// ACTUALIZAR TOTALES Y ESTADÍSTICAS
+function actualizarTotales() {
+  let sumHm = 0;
+  let sumGas = 0;
+
+  partes.forEach(p => {
+    const hm = parseFloat(p.total_hm) || 0;
+    const gas = parseFloat(p.gasolina) || 0;
+    sumHm += hm;
+    sumGas += gas;
+  });
+
+  const elHm = document.getElementById('lblStatHoras');
+  if (elHm) elHm.innerText = `${sumHm.toFixed(2)} HM`;
+  const elGas = document.getElementById('lblStatGasolina');
+  if (elGas) elGas.innerText = `${sumGas.toFixed(2)} Gls Gasolina`;
+  const elBadge = document.getElementById('lblBadgePartes');
+  if (elBadge) elBadge.innerText = `${partes.length} Partes Listos (Original + Cargo)`;
+}
+
+// GUARDAR CAMBIOS
+function guardarCambiosLocal(conAlerta = false) {
+  try {
+    localStorage.setItem(getStorageKey(), JSON.stringify(partes));
+    if (conAlerta) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Cambios Guardados',
+        text: 'Los partes diarios se han guardado correctamente en tu navegador.',
+        timer: 1500,
+        showConfirmButton: false
+      });
+    }
+  } catch (e) {
+    console.error('Error guardando en localStorage:', e);
+  }
+}
+
+// RESTABLECER ORIGINALES
+function restablecerOriginales() {
+  const is1620 = true;
+  const nombreEquipo = is1620 ? 'Apisonador O/S 1620 (9 Partes, 60 HM)' : 'Vibradora O/S 5600 (14 Partes, 60 HM)';
+  Swal.fire({
+    title: `¿Restablecer Partes de ${is1620 ? 'O/S 1620' : 'O/S 5600'}?`,
+    text: `Se restablecerán los partes de ${nombreEquipo} a sus valores originales calculados.`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d97706',
+    cancelButtonColor: '#64748b',
+    confirmButtonText: 'Sí, restablecer',
+    cancelButtonText: 'Cancelar'
+  }).then(res => {
+    if (res.isConfirmed) {
+      const defaultArray = getDefaultPartes();
+      partes = JSON.parse(JSON.stringify(defaultArray));
+      localStorage.removeItem(getStorageKey());
+      renderHojas();
+      Swal.fire({
+        icon: 'success',
+        title: 'Restablecido',
+        text: `Se restablecieron los partes originales de ${is1620 ? 'O/S 1620' : 'O/S 5600'}.`,
+        timer: 1500,
+        showConfirmButton: false
+      });
+    }
+  });
+}
+
+// CAMBIAR MODO DE VISTA
+function cambiarModoVista(modo) {
+  modoActual = modo;
+  const pageRule = document.getElementById('page-rule');
+  if (modo === 'dos') {
+    pageRule.innerText = '@page { size: A4 landscape; margin: 5mm 6mm; }';
+  } else {
+    pageRule.innerText = '@page { size: A4 portrait; margin: 8mm 10mm; }';
+  }
+  renderHojas();
+}
+
+// IMPRESIÓN
+function imprimirModo(modo) {
+  document.getElementById('selModoVista').value = modo;
+  cambiarModoVista(modo);
+  setTimeout(() => {
+    window.print();
+  }, 250);
+}
+</script>
+</body>
+</html>

@@ -480,16 +480,25 @@
     </div>
 
     <button class="btn btn-accent" onclick="abrirModalOperadorGlobal()">👷 Asignar Operador a Todos</button>
-    <button class="btn btn-warning" onclick="restablecerOriginales()">⚡ Restablecer 14 Partes (60 HM)</button>
+    <button class="btn btn-warning" onclick="restablecerOriginales()">⚡ Restablecer Partes Originales</button>
     <button class="btn btn-primary" onclick="guardarCambiosLocal(true)">💾 Guardar Cambios</button>
     <button class="btn btn-success" onclick="imprimirModo('dos')">🖨️ Imprimir Todo (Original + Cargo por Hoja)</button>
     <button class="btn btn-secondary" onclick="imprimirModo('una')">📄 Imprimir 1 por Hoja (A4 Vertical)</button>
+    <a href="partes_apisonador.html" class="btn" style="background:#0284c7;color:#fff;font-weight:600;">🚜 Ver Partes Apisonador (O/S 1620)</a>
     <a href="index.html" class="btn btn-outline">🏠 Inicio</a>
     <a href="cuaderno.html" class="btn btn-outline">📋 Cuaderno</a>
     <a href="equipos.html" class="btn btn-outline">🚜 Equipos</a>
   </div>
 
   <div class="toolbar-sub">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span style="font-weight: 700; color: #facc15;">⚙️ Orden de Servicio / Equipo:</span>
+      <select id="selOrdenServicio" onchange="cambiarOrdenServicio(this.value)" style="font-weight: 700; background: #0f172a; border: 1.5px solid #38bdf8; color: #38bdf8; padding: 4px 10px; border-radius: 4px; cursor: pointer;">
+        <option value="OS_1620">O/S 1620 - ALQUILER DE APISONADOR (9 Partes | 60.00 HM - Mar/Jun 2026)</option>
+        <option value="OS_5600" selected>O/S 5600 - VIBRADOR DE CONCRETO 4 HP (14 Partes | 60.00 HM - Oct/Nov 2026)</option>
+      </select>
+    </div>
+
     <span>Modo de Vista:</span>
     <select id="selModoVista" onchange="cambiarModoVista(this.value)">
       <option value="dos" selected>2 por Hoja A4 Horizontal (Original a la izquierda + Cargo a la derecha)</option>
@@ -863,7 +872,7 @@ const TRABAJADORES = [
 ];
 
 // DATOS MAESTROS DE LOS 14 PARTES DIARIOS
-const DEFAULT_PARTES = [
+const DEFAULT_PARTES_VIBRADORA = [
   {
     "id": 1,
     "num": "01",
@@ -1310,6 +1319,380 @@ const DEFAULT_PARTES = [
   }
 ];
 
+
+const DEFAULT_PARTES_APISONADOR_1620 = [
+  {
+    "id": 1,
+    "num": "01",
+    "fecha": "19/03/2026",
+    "dia": "Jueves",
+    "unidad": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "placa": "S/P",
+    "equipo_nombre": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "equipo_codigo": "EQ-API-01",
+    "equipo_marca": "HONDA / MIKASA",
+    "equipo_modelo": "MTX-70",
+    "equipo_serie": "API-2026-01",
+    "operador": "FLORENCIO MUSAJA PEREZ - OPERARIO ALBAÑIL",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "inspector": "ARQ. MARCO ANTONIO RAMIREZ LUQUE",
+    "h_ini": "-",
+    "h_fin": "-",
+    "h_tot": "-",
+    "km_ini": "-",
+    "km_fin": "-",
+    "km_tot": "-",
+    "m_ini": "08:00",
+    "m_fin": "12:00",
+    "m_hrs": "4.00",
+    "t_ini": "---",
+    "t_fin": "---",
+    "t_hrs": "0.00",
+    "total_hm": "4.00",
+    "gasolina": "0.75",
+    "vale": "Vale Almacén N° 015",
+    "comb_gl": "0.75",
+    "nro_vale": "Vale Almacén N° 015",
+    "t_m_ini": "08:00",
+    "t_m_fin": "12:00",
+    "t_m_tot": "4.00",
+    "t_t_ini": "---",
+    "t_t_fin": "---",
+    "t_t_tot": "0.00",
+    "t_tot_hm": "4.00",
+    "trabajos_texto": "• Asiento de Cuaderno de Obra (19/03/2026 - Adelanto de Equipo): Culminación del relleno masivo y compactación mecánica de la calicata en el primer nivel.\n• Se ejecutaron labores de densificación de suelo con apisonador vibratorio tipo canguro en el área de calicata de exploración en ejes 2-3/B-C en 1er Nivel, alcanzando los niveles de cota de subrasante proyectada.\n• Preparación de plataforma de cimentación y verificación de niveles con apoyo topográfico.\n• Consumo de 0.75 gal de gasolina asignado mediante vale de almacén para operatividad en jornada matutina de 4.00 HM."
+  },
+  {
+    "id": 2,
+    "num": "02",
+    "fecha": "03/05/2026",
+    "dia": "Domingo",
+    "unidad": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "placa": "S/P",
+    "equipo_nombre": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "equipo_codigo": "EQ-API-01",
+    "equipo_marca": "HONDA / MIKASA",
+    "equipo_modelo": "MTX-70",
+    "equipo_serie": "API-2026-01",
+    "operador": "FLORENCIO MUSAJA PEREZ - OPERARIO ALBAÑIL",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "inspector": "ARQ. MARCO ANTONIO RAMIREZ LUQUE",
+    "h_ini": "-",
+    "h_fin": "-",
+    "h_tot": "-",
+    "km_ini": "-",
+    "km_fin": "-",
+    "km_tot": "-",
+    "m_ini": "08:00",
+    "m_fin": "12:00",
+    "m_hrs": "4.00",
+    "t_ini": "13:00",
+    "t_fin": "16:30",
+    "t_hrs": "3.50",
+    "total_hm": "7.50",
+    "gasolina": "1.00",
+    "vale": "Vale Almacén N° 048",
+    "comb_gl": "1.00",
+    "nro_vale": "Vale Almacén N° 048",
+    "t_m_ini": "08:00",
+    "t_m_fin": "12:00",
+    "t_m_tot": "4.00",
+    "t_t_ini": "13:00",
+    "t_t_fin": "16:30",
+    "t_t_tot": "3.50",
+    "t_tot_hm": "7.50",
+    "trabajos_texto": "• Asiento N° 211 (Residencia de Obra) / Cuaderno de Obra: Inicio de compactado en el eje D-E entre 1-2-3 en el segundo nivel.\n• Extendido, humectación homogénea y compactación mecánica de la primera capa de material granular seleccionado con apisonador vibratorio en el sector de transición del 2do nivel.\n• Verificación de niveles y control de deformaciones del terreno de fundación.\n• Consumo de 1.00 galón de gasolina conforme a requerimiento de operación continua en jornada completa (08:00-12:00 y 13:00-16:30)."
+  },
+  {
+    "id": 3,
+    "num": "03",
+    "fecha": "05/05/2026",
+    "dia": "Martes",
+    "unidad": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "placa": "S/P",
+    "equipo_nombre": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "equipo_codigo": "EQ-API-01",
+    "equipo_marca": "HONDA / MIKASA",
+    "equipo_modelo": "MTX-70",
+    "equipo_serie": "API-2026-01",
+    "operador": "FLORENCIO MUSAJA PEREZ - OPERARIO ALBAÑIL",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "inspector": "ARQ. MARCO ANTONIO RAMIREZ LUQUE",
+    "h_ini": "-",
+    "h_fin": "-",
+    "h_tot": "-",
+    "km_ini": "-",
+    "km_fin": "-",
+    "km_tot": "-",
+    "m_ini": "08:00",
+    "m_fin": "12:00",
+    "m_hrs": "4.00",
+    "t_ini": "13:00",
+    "t_fin": "16:00",
+    "t_hrs": "3.00",
+    "total_hm": "7.00",
+    "gasolina": "1.00",
+    "vale": "Vale Almacén N° 052",
+    "comb_gl": "1.00",
+    "nro_vale": "Vale Almacén N° 052",
+    "t_m_ini": "08:00",
+    "t_m_fin": "12:00",
+    "t_m_tot": "4.00",
+    "t_t_ini": "13:00",
+    "t_t_fin": "16:00",
+    "t_t_tot": "3.00",
+    "t_tot_hm": "7.00",
+    "trabajos_texto": "• Asiento N° 211 (Residencia de Obra): Continuación y consolidación de trabajos de compactado en el eje D-E entre 1-2-3 en el 2do nivel.\n• Densificación mecánica perimetral con apisonador de las capas de relleno estructural adyacentes a las columnetas y muros de albañilería.\n• Control de espesores de capa (e=20 cm) y uniformidad en la superficie compactada.\n• Asignación de 1.00 galón de gasolina según vale para cumplimiento del horario regular de 7.00 horas."
+  },
+  {
+    "id": 4,
+    "num": "04",
+    "fecha": "08/05/2026",
+    "dia": "Viernes",
+    "unidad": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "placa": "S/P",
+    "equipo_nombre": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "equipo_codigo": "EQ-API-01",
+    "equipo_marca": "HONDA / MIKASA",
+    "equipo_modelo": "MTX-70",
+    "equipo_serie": "API-2026-01",
+    "operador": "FLORENCIO MUSAJA PEREZ - OPERARIO ALBAÑIL",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "inspector": "ARQ. MARCO ANTONIO RAMIREZ LUQUE",
+    "h_ini": "-",
+    "h_fin": "-",
+    "h_tot": "-",
+    "km_ini": "-",
+    "km_fin": "-",
+    "km_tot": "-",
+    "m_ini": "08:00",
+    "m_fin": "12:00",
+    "m_hrs": "4.00",
+    "t_ini": "13:00",
+    "t_fin": "16:30",
+    "t_hrs": "3.50",
+    "total_hm": "7.50",
+    "gasolina": "1.00",
+    "vale": "Vale Almacén N° 057",
+    "comb_gl": "1.00",
+    "nro_vale": "Vale Almacén N° 057",
+    "t_m_ini": "08:00",
+    "t_m_fin": "12:00",
+    "t_m_tot": "4.00",
+    "t_t_ini": "13:00",
+    "t_t_fin": "16:30",
+    "t_t_tot": "3.50",
+    "t_tot_hm": "7.50",
+    "trabajos_texto": "• Asiento N° 218 (Residencia de Obra) / Cuaderno de Obra: Colocado de impermeabilizante RC en el muro MC-1 antes de la compactación (45 m²). Vaciado de suelo cemento (7.905 m³) en el tercer nivel entre el muro existente y el MC-1 en los ejes 1-2-3.\n• Labores previas de perfilado y compactación mecánica de terreno base con apisonador en zona confinada adyacente al muro MC-1.\n• Densificación perimetral de apoyo para garantizar adherencia y soporte estructural del relleno masivo.\n• Abastecimiento de 1.00 galón de combustible para operatividad del apisonador en jornada completa (7.50 HM)."
+  },
+  {
+    "id": 5,
+    "num": "05",
+    "fecha": "12/05/2026",
+    "dia": "Martes",
+    "unidad": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "placa": "S/P",
+    "equipo_nombre": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "equipo_codigo": "EQ-API-01",
+    "equipo_marca": "HONDA / MIKASA",
+    "equipo_modelo": "MTX-70",
+    "equipo_serie": "API-2026-01",
+    "operador": "FLORENCIO MUSAJA PEREZ - OPERARIO ALBAÑIL",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "inspector": "ARQ. MARCO ANTONIO RAMIREZ LUQUE",
+    "h_ini": "-",
+    "h_fin": "-",
+    "h_tot": "-",
+    "km_ini": "-",
+    "km_fin": "-",
+    "km_tot": "-",
+    "m_ini": "08:00",
+    "m_fin": "12:00",
+    "m_hrs": "4.00",
+    "t_ini": "13:00",
+    "t_fin": "16:00",
+    "t_hrs": "3.00",
+    "total_hm": "7.00",
+    "gasolina": "1.00",
+    "vale": "Vale Almacén N° 061",
+    "comb_gl": "1.00",
+    "nro_vale": "Vale Almacén N° 061",
+    "t_m_ini": "08:00",
+    "t_m_fin": "12:00",
+    "t_m_tot": "4.00",
+    "t_t_ini": "13:00",
+    "t_t_fin": "16:00",
+    "t_t_tot": "3.00",
+    "t_tot_hm": "7.00",
+    "trabajos_texto": "• Asiento N° 218 (Residencia de Obra): Registro oficial y verificación de compactación en zona del muro MC-1 en 2do y 3er nivel.\n• Nivelación y compactación mecánica de material de relleno estructural con equipo apisonador en sector comprendido entre la edificación nueva y muro existente.\n• Densificación rigurosa en esquinas y áreas de difícil acceso para evitar asentamientos diferenciales.\n• Abastecimiento de 1.00 galón de gasolina conforme al vale diario."
+  },
+  {
+    "id": 6,
+    "num": "06",
+    "fecha": "21/05/2026",
+    "dia": "Jueves",
+    "unidad": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "placa": "S/P",
+    "equipo_nombre": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "equipo_codigo": "EQ-API-01",
+    "equipo_marca": "HONDA / MIKASA",
+    "equipo_modelo": "MTX-70",
+    "equipo_serie": "API-2026-01",
+    "operador": "FLORENCIO MUSAJA PEREZ - OPERARIO ALBAÑIL",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "inspector": "ARQ. MARCO ANTONIO RAMIREZ LUQUE",
+    "h_ini": "-",
+    "h_fin": "-",
+    "h_tot": "-",
+    "km_ini": "-",
+    "km_fin": "-",
+    "km_tot": "-",
+    "m_ini": "08:00",
+    "m_fin": "12:00",
+    "m_hrs": "4.00",
+    "t_ini": "13:00",
+    "t_fin": "16:30",
+    "t_hrs": "3.50",
+    "total_hm": "7.50",
+    "gasolina": "1.00",
+    "vale": "Vale Almacén N° 068",
+    "comb_gl": "1.00",
+    "nro_vale": "Vale Almacén N° 068",
+    "t_m_ini": "08:00",
+    "t_m_fin": "12:00",
+    "t_m_tot": "4.00",
+    "t_t_ini": "13:00",
+    "t_t_fin": "16:30",
+    "t_t_tot": "3.50",
+    "t_tot_hm": "7.50",
+    "trabajos_texto": "• Asiento N° 235 (Inspectoría de Obra): Se solicita al Residente realizar trabajos de relleno y compactación en el primer piso para asegurar la estabilidad de la edificación nueva, puesto que se observa estructura de zapata expuesta.\n• En atención al requerimiento de la Inspectoría, se ejecutaron trabajos de perfilado de subrasante y compactación mecánica con apisonador en el 1er Nivel en torno a zapatas expuestas.\n• Densificación y confinamiento de suelo con pasadas controladas para proteger la base estructural.\n• Abastecimiento de 1.00 galón de gasolina según vale de almacén."
+  },
+  {
+    "id": 7,
+    "num": "07",
+    "fecha": "25/05/2026",
+    "dia": "Lunes",
+    "unidad": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "placa": "S/P",
+    "equipo_nombre": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "equipo_codigo": "EQ-API-01",
+    "equipo_marca": "HONDA / MIKASA",
+    "equipo_modelo": "MTX-70",
+    "equipo_serie": "API-2026-01",
+    "operador": "FLORENCIO MUSAJA PEREZ - OPERARIO ALBAÑIL",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "inspector": "ARQ. MARCO ANTONIO RAMIREZ LUQUE",
+    "h_ini": "-",
+    "h_fin": "-",
+    "h_tot": "-",
+    "km_ini": "-",
+    "km_fin": "-",
+    "km_tot": "-",
+    "m_ini": "08:00",
+    "m_fin": "12:00",
+    "m_hrs": "4.00",
+    "t_ini": "13:00",
+    "t_fin": "16:00",
+    "t_hrs": "3.00",
+    "total_hm": "7.00",
+    "gasolina": "1.00",
+    "vale": "Vale Almacén N° 073",
+    "comb_gl": "1.00",
+    "nro_vale": "Vale Almacén N° 073",
+    "t_m_ini": "08:00",
+    "t_m_fin": "12:00",
+    "t_m_tot": "4.00",
+    "t_t_ini": "13:00",
+    "t_t_fin": "16:00",
+    "t_t_tot": "3.00",
+    "t_tot_hm": "7.00",
+    "trabajos_texto": "• Asiento N° 240 (Inspectoría de Obra): Se reitera que en el primer piso de la edificación nueva se requiere relleno y compactado para estabilidad de la infraestructura nueva, solicitando acciones inmediatas.\n• Continuación intensiva de labores de tendido, nivelación y compactación mecánica con equipo apisonador en el 1er Nivel, conformando plataformas compactadas de suelo seleccionado.\n• Confinamiento mecánico en zanjas y zapatas conforme a las recomendaciones de la supervisión.\n• Consumo de 1.00 galón de combustible para operatividad en jornada diaria de 7.00 HM."
+  },
+  {
+    "id": 8,
+    "num": "08",
+    "fecha": "29/05/2026",
+    "dia": "Viernes",
+    "unidad": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "placa": "S/P",
+    "equipo_nombre": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "equipo_codigo": "EQ-API-01",
+    "equipo_marca": "HONDA / MIKASA",
+    "equipo_modelo": "MTX-70",
+    "equipo_serie": "API-2026-01",
+    "operador": "FLORENCIO MUSAJA PEREZ - OPERARIO ALBAÑIL",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "inspector": "ARQ. MARCO ANTONIO RAMIREZ LUQUE",
+    "h_ini": "-",
+    "h_fin": "-",
+    "h_tot": "-",
+    "km_ini": "-",
+    "km_fin": "-",
+    "km_tot": "-",
+    "m_ini": "08:00",
+    "m_fin": "12:00",
+    "m_hrs": "4.00",
+    "t_ini": "13:00",
+    "t_fin": "16:30",
+    "t_hrs": "3.50",
+    "total_hm": "7.50",
+    "gasolina": "1.00",
+    "vale": "Vale Almacén N° 079",
+    "comb_gl": "1.00",
+    "nro_vale": "Vale Almacén N° 079",
+    "t_m_ini": "08:00",
+    "t_m_fin": "12:00",
+    "t_m_tot": "4.00",
+    "t_t_ini": "13:00",
+    "t_t_fin": "16:30",
+    "t_t_tot": "3.50",
+    "t_tot_hm": "7.50",
+    "trabajos_texto": "• Asiento N° 252 (Inspectoría de Obra): Se deja constancia que se autorizó el empleo de material suelo cemento para relleno y compactación entre edificación nueva y edificación existente según planos y justificación técnica.\n• Trabajos de acondicionamiento, extendido y compactado mecánico con apisonador en la franja de transición entre ambas estructuras.\n• Densificación y perfilado uniforme para recepción del material estabilizado.\n• Abastecimiento de 1.00 galón de gasolina según vale correspondiente."
+  },
+  {
+    "id": 9,
+    "num": "09",
+    "fecha": "04/06/2026",
+    "dia": "Jueves",
+    "unidad": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "placa": "S/P",
+    "equipo_nombre": "APISONADOR VIBRATORIO 4.0 HP (TIPO CANGURO)",
+    "equipo_codigo": "EQ-API-01",
+    "equipo_marca": "HONDA / MIKASA",
+    "equipo_modelo": "MTX-70",
+    "equipo_serie": "API-2026-01",
+    "operador": "FLORENCIO MUSAJA PEREZ - OPERARIO ALBAÑIL",
+    "residente": "ARQ. LUIS JAVIER HUANCA BARRANTES",
+    "inspector": "ARQ. MARCO ANTONIO RAMIREZ LUQUE",
+    "h_ini": "-",
+    "h_fin": "-",
+    "h_tot": "-",
+    "km_ini": "-",
+    "km_fin": "-",
+    "km_tot": "-",
+    "m_ini": "08:30",
+    "m_fin": "12:00",
+    "m_hrs": "3.50",
+    "t_ini": "13:30",
+    "t_fin": "15:00",
+    "t_hrs": "1.50",
+    "total_hm": "5.00",
+    "gasolina": "0.75",
+    "vale": "Vale Almacén N° 085",
+    "comb_gl": "0.75",
+    "nro_vale": "Vale Almacén N° 085",
+    "t_m_ini": "08:30",
+    "t_m_fin": "12:00",
+    "t_m_tot": "3.50",
+    "t_t_ini": "13:30",
+    "t_t_fin": "15:00",
+    "t_t_tot": "1.50",
+    "t_tot_hm": "5.00",
+    "trabajos_texto": "• Asiento N° 259 (Inspectoría de Obra): Se constata que en el 2º piso y 3º piso se tienen espacios considerables para relleno y compactado, solicitando su ejecución inmediata para habilitar frentes de trabajo.\n• En cumplimiento a la instrucción de obra y en la fecha de cierre de la O/S N° 1620, se ejecutó la nivelación, perfilado y compactado mecánico con equipo apisonador en los frentes de 2º y 3º nivel.\n• Consolidación final del servicio de alquiler de apisonador, alcanzando el CUMPLIMIENTO EXACTO DE LAS 60.00 HM CONTRATADAS EN EL TDR Y FIN DEL SERVICIO.\n• Consumo de 0.75 galón de combustible según vale de almacén."
+  }
+];
+
+let ordenActiva = 'OS_5600';
 let partes = [];
 let modoActual = 'dos';
 
@@ -1342,8 +1725,32 @@ function cargarDatalistOperadores() {
 }
 
 // CARGAR PARTES (DE LOCALSTORAGE O DEFAULT)
+function cambiarOrdenServicio(nuevaOS) {
+  ordenActiva = nuevaOS;
+  localStorage.setItem('workea_partes_os_activa', nuevaOS);
+  const sel = document.getElementById('selOrdenServicio');
+  if (sel) sel.value = nuevaOS;
+  cargarPartes();
+}
+
+function getStorageKey() {
+  return ordenActiva === 'OS_1620' ? 'workea_partes_diarios_os1620_v2' : 'workea_partes_diarios_v12';
+}
+
+function getDefaultPartes() {
+  return ordenActiva === 'OS_1620' ? DEFAULT_PARTES_APISONADOR_1620 : DEFAULT_PARTES_VIBRADORA;
+}
+
 function cargarPartes() {
-  const guardado = localStorage.getItem('workea_partes_diarios_v12');
+  const osGuardada = localStorage.getItem('workea_partes_os_activa');
+  if (osGuardada) {
+    ordenActiva = osGuardada;
+    const sel = document.getElementById('selOrdenServicio');
+    if (sel) sel.value = osGuardada;
+  }
+
+  const sKey = getStorageKey();
+  const guardado = localStorage.getItem(sKey);
   if (guardado) {
     try {
       partes = JSON.parse(guardado);
@@ -1351,40 +1758,10 @@ function cargarPartes() {
       return;
     } catch (e) {}
   }
-  
-  // Migrar personalizaciones de operador y equipo si el usuario ya las editó en v11
-  let customOp = null;
-  let customEq = null;
-  let customMarca = null;
-  let customModelo = null;
-  let customSerie = null;
-  const prev11 = localStorage.getItem('workea_partes_diarios_v12');
-  if (prev11) {
-    try {
-      const p11 = JSON.parse(prev11);
-      if (p11 && p11.length > 0) {
-        if (p11[0].operador) customOp = p11[0].operador;
-        if (p11[0].equipo_nombre) customEq = p11[0].equipo_nombre;
-        if (p11[0].equipo_marca) customMarca = p11[0].equipo_marca;
-        if (p11[0].equipo_modelo) customModelo = p11[0].equipo_modelo;
-        if (p11[0].equipo_serie) customSerie = p11[0].equipo_serie;
-      }
-    } catch(e) {}
-  }
 
-  partes = JSON.parse(JSON.stringify(DEFAULT_PARTES));
-  if (customOp) {
-    partes.forEach(p => p.operador = customOp);
-  }
-  if (customEq) {
-    partes.forEach(p => {
-      p.equipo_nombre = customEq;
-      if (customMarca) p.equipo_marca = customMarca;
-      if (customModelo) p.equipo_modelo = customModelo;
-      if (customSerie) p.equipo_serie = customSerie;
-    });
-  }
-  localStorage.setItem('workea_partes_diarios_v12', JSON.stringify(partes));
+  const defaultArray = getDefaultPartes();
+  partes = JSON.parse(JSON.stringify(defaultArray));
+  localStorage.setItem(sKey, JSON.stringify(partes));
   renderHojas();
 }
 
@@ -1828,7 +2205,7 @@ function actualizarTotales() {
 // GUARDAR CAMBIOS
 function guardarCambiosLocal(conAlerta = false) {
   try {
-    localStorage.setItem('workea_partes_diarios_v12', JSON.stringify(partes));
+    localStorage.setItem(getStorageKey(), JSON.stringify(partes));
     if (conAlerta) {
       Swal.fire({
         icon: 'success',
@@ -1845,9 +2222,11 @@ function guardarCambiosLocal(conAlerta = false) {
 
 // RESTABLECER ORIGINALES
 function restablecerOriginales() {
+  const is1620 = ordenActiva === 'OS_1620';
+  const nombreEquipo = is1620 ? 'Apisonador O/S 1620 (9 Partes, 60 HM)' : 'Vibradora O/S 5600 (14 Partes, 60 HM)';
   Swal.fire({
-    title: '¿Restablecer 14 Partes Originales?',
-    text: 'Se restablecerán los 14 partes de la vibradora a sus valores calculados originales (60 HM y 14.50 galones).',
+    title: `¿Restablecer Partes de ${is1620 ? 'O/S 1620' : 'O/S 5600'}?`,
+    text: `Se restablecerán los partes de ${nombreEquipo} a sus valores originales calculados.`,
     icon: 'warning',
     showCancelButton: true,
     confirmButtonColor: '#d97706',
@@ -1856,13 +2235,14 @@ function restablecerOriginales() {
     cancelButtonText: 'Cancelar'
   }).then(res => {
     if (res.isConfirmed) {
-      partes = JSON.parse(JSON.stringify(DEFAULT_PARTES));
-      localStorage.removeItem('workea_partes_diarios_v12');
+      const defaultArray = getDefaultPartes();
+      partes = JSON.parse(JSON.stringify(defaultArray));
+      localStorage.removeItem(getStorageKey());
       renderHojas();
       Swal.fire({
         icon: 'success',
         title: 'Restablecido',
-        text: 'Se restablecieron los 14 partes originales.',
+        text: `Se restablecieron los partes originales de ${is1620 ? 'O/S 1620' : 'O/S 5600'}.`,
         timer: 1500,
         showConfirmButton: false
       });

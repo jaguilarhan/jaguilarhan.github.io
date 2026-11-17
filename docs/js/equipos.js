@@ -154,7 +154,13 @@ function cambiarTipoEquipo() {
   } else if (tipo === 'VIBRADORA') {
     nombreInput.value = "ALQUILER DE VIBRADORA";
   } else if (tipo === 'APISONADOR') {
-    nombreInput.value = "ALQUILER DE APISONADOR";
+    nombreInput.value = "SERVICIO DE ALQUILER DE APISONADOR";
+    const osInp = document.getElementById('os-equipo');
+    if (osInp) osInp.value = "0001620";
+  } else if (tipo === 'VIBRADORA') {
+    nombreInput.value = "SERVICIO DE ALQUILER DE VIBRADOR DE CONCRETO 4 HP";
+    const osInp = document.getElementById('os-equipo');
+    if (osInp) osInp.value = "0005600";
   } else if (tipo === 'MIXER') {
     nombreInput.value = "ALQUILER DE MIXER";
   }

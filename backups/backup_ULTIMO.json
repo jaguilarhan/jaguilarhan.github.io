@@ -47435,6 +47435,2326 @@
         ]
       },
       "pct": 50
+    },
+    {
+      "descripcion": "CONTROL TOPOGRAFICO DEL NIVEL",
+      "ejes": "1-2-3/A-B-C-D-E-E'-F",
+      "elemento": "VACIADO DE CONCRETO DEL CONTRAPISO, NO SE CONSIDERÓ EL VACIADO DE CONTRAPISO DE LOS SIGUIENTES AMBIENTES: SERVICIOS HIGIÉNICOS DE DAMAS Y VARONES. COMO TAMBIEN EN LAS ÁREAS DE LOS MESONES EJECUTADOS.",
+      "fecha": "2026-11-04",
+      "id": 1793846270963,
+      "metrado": "VOLUMEN DE CONCRETO: V=0.075M X 111M2 = 8.33M3",
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.01",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 14,
+        "nombre": "CONTROL TOPOGRAFICO DURANTE LA EJECUCION DE OBRA",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "REPLANTEO Y TRAZO TOPOGRÁFICO",
+      "ejes": "2-3/C-D",
+      "elemento": "DRYWALL DE LOS SERVICIOS DE DAMAS Y VARONES EN EL SEGUNDO NIVEL PARA LA UBICACIÓN DE LAS INSTALACIONES SANITARIAS.",
+      "fecha": "2026-11-04",
+      "id": 1793846270966,
+      "metrado": "SE UTILIZO EN NIVEL LASER TOPOGRÁFICO.",
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.01",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 14,
+        "nombre": "CONTROL TOPOGRAFICO DURANTE LA EJECUCION DE OBRA",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "1-2-3/A-B-C-D-E-E'-F",
+      "elemento": "CONTRAPISO (ESPESOR DE VACIADO 7.5CM)",
+      "fecha": "2026-11-04",
+      "id": 1793846445506,
+      "metrado": "88.27 M2",
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "ARQUITECTURA",
+        "codigo": "03.04.01.01",
+        "color": "#42A5F5",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 640.57,
+        "nombre": "CONTRAPISO C:H 1:8, E=5CM",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "PISOS Y PAVIMENTOS",
+          "CONTRAPISOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "1-2-3/A-B-C-D-E-E'-F",
+      "elemento": "CONTRAPISO (ESPESOR DE VACIADO 7.5CM)",
+      "fecha": "2026-11-04",
+      "id": 1793846452560,
+      "metrado": "108.05 M2",
+      "nivel": "4to Nivel",
+      "partida": {
+        "categoria": "ARQUITECTURA",
+        "codigo": "03.04.01.01",
+        "color": "#42A5F5",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 640.57,
+        "nombre": "CONTRAPISO C:H 1:8, E=5CM",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "PISOS Y PAVIMENTOS",
+          "CONTRAPISOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "1-2-3/B-C-D-E-E'-F",
+      "elemento": "CONTRAPISO (ESPESOR DE VACIADO 4CM)",
+      "fecha": "2026-11-04",
+      "id": 1793846466890,
+      "metrado": "64 M2",
+      "nivel": "Azotea",
+      "partida": {
+        "categoria": "ARQUITECTURA",
+        "codigo": "03.04.01.01",
+        "color": "#42A5F5",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 640.57,
+        "nombre": "CONTRAPISO C:H 1:8, E=5CM",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "PISOS Y PAVIMENTOS",
+          "CONTRAPISOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "1-2-3/E-E'-F",
+      "elemento": "FALSO PISO ENMALLADO CON ACERO 1/4\"  (SALA DE BALANZAS)",
+      "fecha": "2026-11-04",
+      "id": 1793846531075,
+      "metrado": "28.59 M2",
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "CONCRETO_SIMPLE",
+        "codigo": "01.01.02.03.01",
+        "color": "#FF7043",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 145.79,
+        "nombre": "FALSO PISO MEZCLA C:H 1:8 E=10 cm, C/CEMENTO TIPO IP",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO SIMPLE",
+          "FALSO PISO"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "2/A-B",
+      "elemento": "MUROS DE ALBAÑILERIA",
+      "fecha": "2026-11-04",
+      "id": 1793846657834,
+      "metrado": "2.60 M2",
+      "nivel": "1er Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "03.02.01",
+        "color": "#9B59B6",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 986.31,
+        "nombre": "TARRAJEO EN SUPERFICIES DE MUROS INTERIORES (ALBAÑILERIA,COLUMNETA Y VIGUETA) MEZCLA C:A 1:5, E=1.5 cm",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "REVOQUES Y REVESTIMIENTOS"
+        ]
+      },
+      "pct": 50
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "2-3/A-B (S.H. MIXTO)",
+      "elemento": "MUROS DE ALBAÑILERIA",
+      "fecha": "2026-11-04",
+      "id": 1793846662387,
+      "metrado": "3.15 M2",
+      "nivel": "1er Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "03.02.01",
+        "color": "#9B59B6",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 986.31,
+        "nombre": "TARRAJEO EN SUPERFICIES DE MUROS INTERIORES (ALBAÑILERIA,COLUMNETA Y VIGUETA) MEZCLA C:A 1:5, E=1.5 cm",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "REVOQUES Y REVESTIMIENTOS"
+        ]
+      },
+      "pct": 50
+    },
+    {
+      "descripcion": "VACIADO",
+      "ejes": "1-2-3/A-B-C-D-E-E'-F",
+      "elemento": "CONTRAPISO (ESPESOR DE VACIADO 7.5CM)",
+      "fecha": "2026-11-04",
+      "id": 1793846696027,
+      "metrado": "8.33 M3",
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "ARQUITECTURA",
+        "codigo": "03.04.01.01",
+        "color": "#42A5F5",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 640.57,
+        "nombre": "CONTRAPISO C:H 1:8, E=5CM",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "PISOS Y PAVIMENTOS",
+          "CONTRAPISOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "NIVELACIÓN Y TRAZO TOPOGRÁFICO",
+      "ejes": "1-2-3/C-D-E-E'-F",
+      "elemento": "NIVEL DE CONTROL DE VACIADO DEL CONTRAPISO",
+      "fecha": "2026-11-05",
+      "id": 1793931412600,
+      "metrado": "VOLUMEN DE CONCRETO: V=ALTURA:0.10M X 44.70M2 = 4.47M3",
+      "nivel": "6to Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.01",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 14,
+        "nombre": "CONTROL TOPOGRAFICO DURANTE LA EJECUCION DE OBRA",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "REPLANTEO Y TRAZO TOPOGRÁFICO",
+      "ejes": "1-2-3/C-D-E-E'-F",
+      "elemento": "BRUÑAS DEL PISO CEMENTO SEMIPULIDO A CADA 0.90M COMO INDICA EN LOS PLANOS DEL EXPEDIENTE TÉCNICO.",
+      "fecha": "2026-11-05",
+      "id": 1793931412601,
+      "metrado": "",
+      "nivel": "6to Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.01",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 14,
+        "nombre": "CONTROL TOPOGRAFICO DURANTE LA EJECUCION DE OBRA",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "REPLANTEO Y TRAZO TOPOGRÁFICO",
+      "ejes": "2-3/D-E (SS.HH. DAMAS Y VARONES), 2-3/B-C (ALMACEN DE MATERIALES DE MUESTREO), 2-3/A-B (PREPARACION DE MATERIAL DE MUESTREO), 1-2/A-B (ALMACEN DE REACTIVOS FISCALIZADOS)",
+      "elemento": "DRYWALL PARA LA UBICACIÓN DE LAS INSTALACIONES ELÉCTRICAS.",
+      "fecha": "2026-11-05",
+      "id": 1793931412602,
+      "metrado": "SE UTILIZO EN NIVEL LASER TOPOGRÁFICO.",
+      "nivel": "2do Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.01",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 14,
+        "nombre": "CONTROL TOPOGRAFICO DURANTE LA EJECUCION DE OBRA",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "VACIADO",
+      "ejes": "1-2-3/C-D-E-E'-F",
+      "elemento": "CONTRAPISO ACABADO DE PISO PULIDO COM BRUÑAS",
+      "fecha": "2026-11-05",
+      "id": 1793933942559,
+      "metrado": "4.47 M3",
+      "nivel": "6to Nivel",
+      "partida": {
+        "categoria": "ARQUITECTURA",
+        "codigo": "03.04.03.01",
+        "color": "#42A5F5",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 143.74,
+        "nombre": "PISOS: CONCRETO F'C=175 KG/CM2,E= 4\" (ACAB. CEMENTO SEMI PULIDO Y BRUÑADO)",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "PISOS Y PAVIMENTOS",
+          "PISOS DE CONCRETO"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "1-2-3/A-B-C-D-E-E'-F",
+      "elemento": "CONTRAPISO (ESPESOR DE VACIADO 7.5CM)",
+      "fecha": "2026-11-05",
+      "id": 1793934277656,
+      "metrado": "88.27 M2",
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "ARQUITECTURA",
+        "codigo": "03.04.01.01",
+        "color": "#42A5F5",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 640.57,
+        "nombre": "CONTRAPISO C:H 1:8, E=5CM",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "PISOS Y PAVIMENTOS",
+          "CONTRAPISOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "1-2-3/A-B-C-D-E-E'-F",
+      "elemento": "CONTRAPISO (ESPESOR DE VACIADO 7.5CM)",
+      "fecha": "2026-11-05",
+      "id": 1793934284125,
+      "metrado": "108.05 M2",
+      "nivel": "4to Nivel",
+      "partida": {
+        "categoria": "ARQUITECTURA",
+        "codigo": "03.04.01.01",
+        "color": "#42A5F5",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 640.57,
+        "nombre": "CONTRAPISO C:H 1:8, E=5CM",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "PISOS Y PAVIMENTOS",
+          "CONTRAPISOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "1-2-3/B-C-D-E-E'-F",
+      "elemento": "CONTRAPISO (ESPESOR DE VACIADO 4CM)",
+      "fecha": "2026-11-05",
+      "id": 1793934287874,
+      "metrado": "64 M2",
+      "nivel": "Azotea",
+      "partida": {
+        "categoria": "ARQUITECTURA",
+        "codigo": "03.04.01.01",
+        "color": "#42A5F5",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 640.57,
+        "nombre": "CONTRAPISO C:H 1:8, E=5CM",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "PISOS Y PAVIMENTOS",
+          "CONTRAPISOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "1-2-3/A-B-C-D-E-E'-F",
+      "elemento": "CONTRAPISO (ESPESOR DE VACIADO 7.5CM)",
+      "fecha": "2026-11-05",
+      "id": 1793934297396,
+      "metrado": "111 M2",
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "ARQUITECTURA",
+        "codigo": "03.04.01.01",
+        "color": "#42A5F5",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 640.57,
+        "nombre": "CONTRAPISO C:H 1:8, E=5CM",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "PISOS Y PAVIMENTOS",
+          "CONTRAPISOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CONTROL DEL NIVEL",
+      "ejes": "2-3/B-C",
+      "elemento": "DE VACIADO DE CONCRETO DEL CONTRAPISO DEL SEXTO NIVEL",
+      "fecha": "2026-11-06",
+      "id": 1794019945086,
+      "metrado": "VOLUMEN DE CONCRETO: V=ALTURA:0.10M X 23.92M2 = 1.87M3",
+      "nivel": "6to Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.01",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 14,
+        "nombre": "CONTROL TOPOGRAFICO DURANTE LA EJECUCION DE OBRA",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "VERIFICACIÓN DEL NIVEL DE COMPACTACIÓN",
+      "ejes": "2-3/A-D",
+      "elemento": "CAPA BASE DE LAS ÁREAS DE HALL DE MUESTRAS, S.H. MIXTO, RECEPCIÓN DE MUESTRAS, DEPÓSITO, HALL, PROYECCIÓN DEL VACÍO Y ÁREA DE COOLER",
+      "fecha": "2026-11-06",
+      "id": 1794019945088,
+      "metrado": "VOLUMEN DE RELLENO: V= 0.17M X 54.30M2 = 9.23 M3 Y VOLUMEN COMPACTADO: V=0.10 X 54.30M2 = 5.43M3",
+      "nivel": "1er Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.01",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 14,
+        "nombre": "CONTROL TOPOGRAFICO DURANTE LA EJECUCION DE OBRA",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "REPLANTEO Y TRAZO TOPOGRÁFICO",
+      "ejes": "1-2/A-B (CUARTO ELECTRICO)",
+      "elemento": "UBICACIÓN DE LOS EQUIPOS CORRESPONDIENTES AL TREN DE CELDAS, CELDA DE TRANSFORMACIÓN Y TABLERO DE BAJA TENSIÓN, ASÍ COMO DEL BUZÓN DE CONEXIÓN Y EL CANAL, DE ACUERDO CON LAS DIMENSIONES, ALINEAMIENTOS Y UBICACIONES ESTABLECIDAS EN LOS PLANOS DEL EXPEDIENTE TÉCNICO",
+      "fecha": "2026-11-06",
+      "id": 1794019945089,
+      "metrado": "SE UTILIZO EN NIVEL LASER TOPOGRÁFICO.",
+      "nivel": "1er Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.01",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 14,
+        "nombre": "CONTROL TOPOGRAFICO DURANTE LA EJECUCION DE OBRA",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "VACIADO",
+      "ejes": "2-3/B-C",
+      "elemento": "CONTRAPISO ACABADO DE PISO PULIDO COM BRUÑAS",
+      "fecha": "2026-11-06",
+      "id": 1794020094624,
+      "metrado": "1.87 M3",
+      "nivel": "6to Nivel",
+      "partida": {
+        "categoria": "ARQUITECTURA",
+        "codigo": "03.04.03.01",
+        "color": "#42A5F5",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 143.74,
+        "nombre": "PISOS: CONCRETO F'C=175 KG/CM2,E= 4\" (ACAB. CEMENTO SEMI PULIDO Y BRUÑADO)",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "PISOS Y PAVIMENTOS",
+          "PISOS DE CONCRETO"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "1-2-3/C-D-E-E'-F",
+      "elemento": "CONTRAPISO ACABADO DE PISO PULIDO COM BRUÑAS",
+      "fecha": "2026-11-06",
+      "id": 1794020167815,
+      "metrado": "44.70 M2",
+      "nivel": "6to Nivel",
+      "partida": {
+        "categoria": "ARQUITECTURA",
+        "codigo": "03.04.03.01",
+        "color": "#42A5F5",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 143.74,
+        "nombre": "PISOS: CONCRETO F'C=175 KG/CM2,E= 4\" (ACAB. CEMENTO SEMI PULIDO Y BRUÑADO)",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "PISOS Y PAVIMENTOS",
+          "PISOS DE CONCRETO"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "1-2-3/A-B-C-D-E-E'-F",
+      "elemento": "CONTRAPISO (ESPESOR DE VACIADO 7.5CM)",
+      "fecha": "2026-11-06",
+      "id": 1794020240950,
+      "metrado": "108.05 M2",
+      "nivel": "4to Nivel",
+      "partida": {
+        "categoria": "ARQUITECTURA",
+        "codigo": "03.04.01.01",
+        "color": "#42A5F5",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 640.57,
+        "nombre": "CONTRAPISO C:H 1:8, E=5CM",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "PISOS Y PAVIMENTOS",
+          "CONTRAPISOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "1-2-3/B-C-D-E-E'-F",
+      "elemento": "CONTRAPISO (ESPESOR DE VACIADO 4CM)",
+      "fecha": "2026-11-06",
+      "id": 1794020255973,
+      "metrado": "64 M2",
+      "nivel": "Azotea",
+      "partida": {
+        "categoria": "ARQUITECTURA",
+        "codigo": "03.04.01.01",
+        "color": "#42A5F5",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 640.57,
+        "nombre": "CONTRAPISO C:H 1:8, E=5CM",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "PISOS Y PAVIMENTOS",
+          "CONTRAPISOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "1-2-3/A-B-C-D-E-E'-F",
+      "elemento": "CONTRAPISO (ESPESOR DE VACIADO 7.5CM)",
+      "fecha": "2026-11-06",
+      "id": 1794020260196,
+      "metrado": "111 M2",
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "ARQUITECTURA",
+        "codigo": "03.04.01.01",
+        "color": "#42A5F5",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 640.57,
+        "nombre": "CONTRAPISO C:H 1:8, E=5CM",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "PISOS Y PAVIMENTOS",
+          "CONTRAPISOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "2-3/B",
+      "elemento": "LOSA SUPERIOR MESON M302",
+      "fecha": "2026-11-06",
+      "id": 1794020273484,
+      "metrado": "2.96 M2",
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "MESONES",
+        "codigo": "01.01.03.12.04",
+        "color": "#8D6E63",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 103.98,
+        "nombre": "CURADO DE CONCRETO EN MESONES",
+        "nueva": false,
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "MESON DE CONCRETO"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "2-3/B-C",
+      "elemento": "CONTRAPISO ACABADO DE PISO PULIDO COM BRUÑAS",
+      "fecha": "2026-11-07",
+      "id": 1794264950978,
+      "metrado": "23.92 M2",
+      "nivel": "6to Nivel",
+      "partida": {
+        "categoria": "ARQUITECTURA",
+        "codigo": "03.04.03.01",
+        "color": "#42A5F5",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 143.74,
+        "nombre": "PISOS: CONCRETO F'C=175 KG/CM2,E= 4\" (ACAB. CEMENTO SEMI PULIDO Y BRUÑADO)",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "PISOS Y PAVIMENTOS",
+          "PISOS DE CONCRETO"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "1-2-3/C-D-E-E'-F",
+      "elemento": "CONTRAPISO ACABADO DE PISO PULIDO COM BRUÑAS",
+      "fecha": "2026-11-07",
+      "id": 1794264966380,
+      "metrado": "44.70 M2",
+      "nivel": "6to Nivel",
+      "partida": {
+        "categoria": "ARQUITECTURA",
+        "codigo": "03.04.03.01",
+        "color": "#42A5F5",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 143.74,
+        "nombre": "PISOS: CONCRETO F'C=175 KG/CM2,E= 4\" (ACAB. CEMENTO SEMI PULIDO Y BRUÑADO)",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "PISOS Y PAVIMENTOS",
+          "PISOS DE CONCRETO"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "1-2-3/A-B-C-D-E-E'-F",
+      "elemento": "CONTRAPISO (ESPESOR DE VACIADO 7.5CM)",
+      "fecha": "2026-11-07",
+      "id": 1794264976331,
+      "metrado": "108.05 M2",
+      "nivel": "4to Nivel",
+      "partida": {
+        "categoria": "ARQUITECTURA",
+        "codigo": "03.04.01.01",
+        "color": "#42A5F5",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 640.57,
+        "nombre": "CONTRAPISO C:H 1:8, E=5CM",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "PISOS Y PAVIMENTOS",
+          "CONTRAPISOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "1-2-3/B-C-D-E-E'-F",
+      "elemento": "CONTRAPISO (ESPESOR DE VACIADO 4CM)",
+      "fecha": "2026-11-07",
+      "id": 1794264984133,
+      "metrado": "64 M2",
+      "nivel": "Azotea",
+      "partida": {
+        "categoria": "ARQUITECTURA",
+        "codigo": "03.04.01.01",
+        "color": "#42A5F5",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 640.57,
+        "nombre": "CONTRAPISO C:H 1:8, E=5CM",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "PISOS Y PAVIMENTOS",
+          "CONTRAPISOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "1-2-3/A-B-C-D-E-E'-F",
+      "elemento": "CONTRAPISO (ESPESOR DE VACIADO 7.5CM)",
+      "fecha": "2026-11-07",
+      "id": 1794264992228,
+      "metrado": "111 M2",
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "ARQUITECTURA",
+        "codigo": "03.04.01.01",
+        "color": "#42A5F5",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 640.57,
+        "nombre": "CONTRAPISO C:H 1:8, E=5CM",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "PISOS Y PAVIMENTOS",
+          "CONTRAPISOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "2-3/B",
+      "elemento": "LOSA SUPERIOR MESON M302",
+      "fecha": "2026-11-07",
+      "id": 1794264999348,
+      "metrado": "2.96 M2",
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "MESONES",
+        "codigo": "01.01.03.12.04",
+        "color": "#8D6E63",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 103.98,
+        "nombre": "CURADO DE CONCRETO EN MESONES",
+        "nueva": false,
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "MESON DE CONCRETO"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "VERIFICACIÓN Y CONTROL TOPOGRÁFICO",
+      "ejes": "2-3/A-B-C-D",
+      "elemento": "COTAS DE RASANTE Y ESPESORES FINALES DE LA CAPA DE BASE COMPACTADA EN LOS AMBIENTES DE HALL DE MUESTRAS, RECEPCIÓN, DEPÓSITO Y COOLER, COMPROBANDO LAS TOLERANCIAS DE NIVELACIÓN Y DEJANDO LA SUPERFICIE LIBERADA PARA EL TRAZO Y VACIADO DE FALSO PISO.",
+      "fecha": "2026-11-07",
+      "id": 1794265682105,
+      "metrado": "",
+      "nivel": "1er Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.01",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 14,
+        "nombre": "CONTROL TOPOGRAFICO DURANTE LA EJECUCION DE OBRA",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CONTROL TOPOGRÁFICO",
+      "ejes": "1-2-3/B-C-D-E-E'-F",
+      "elemento": "NIVELES DE ASENTADO DE LADRILLO PASTELERO Y VERIFICACIÓN DE PENDIENTES PLUVIALES HACIA LOS SUMIDEROS DE DRENAJE",
+      "fecha": "2026-11-07",
+      "id": 1794267066839,
+      "metrado": "",
+      "nivel": "Azotea",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.01",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 14,
+        "nombre": "CONTROL TOPOGRAFICO DURANTE LA EJECUCION DE OBRA",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "TARRAJEO",
+      "ejes": "1-2-3/A",
+      "elemento": "MUROS DE ALBAÑILERIA",
+      "fecha": "2026-11-09",
+      "id": 1794274575185,
+      "metrado": "9.95 M2",
+      "nivel": "1er Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "03.02.01",
+        "color": "#9B59B6",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 986.31,
+        "nombre": "TARRAJEO EN SUPERFICIES DE MUROS INTERIORES (ALBAÑILERIA,COLUMNETA Y VIGUETA) MEZCLA C:A 1:5, E=1.5 cm",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "REVOQUES Y REVESTIMIENTOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "TARRAJEO",
+      "ejes": "2-3/A-B (SS.HH. MIXTO)",
+      "elemento": "MUROS DE ALBAÑILERIA",
+      "fecha": "2026-11-09",
+      "id": 1794274756690,
+      "metrado": "10.33 M2",
+      "nivel": "1er Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "03.02.01",
+        "color": "#9B59B6",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 986.31,
+        "nombre": "TARRAJEO EN SUPERFICIES DE MUROS INTERIORES (ALBAÑILERIA,COLUMNETA Y VIGUETA) MEZCLA C:A 1:5, E=1.5 cm",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "REVOQUES Y REVESTIMIENTOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "TARRAJEO",
+      "ejes": "2/A-B (CUARTO ELECTRICO)",
+      "elemento": "MUROS DE ALBAÑILERIA",
+      "fecha": "2026-11-09",
+      "id": 1794274809294,
+      "metrado": "11.05 M2",
+      "nivel": "1er Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "03.02.01",
+        "color": "#9B59B6",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 986.31,
+        "nombre": "TARRAJEO EN SUPERFICIES DE MUROS INTERIORES (ALBAÑILERIA,COLUMNETA Y VIGUETA) MEZCLA C:A 1:5, E=1.5 cm",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "REVOQUES Y REVESTIMIENTOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ENCOFRADO",
+      "ejes": "2/C-D",
+      "elemento": "VIGUETA VA-2",
+      "fecha": "2026-11-09",
+      "id": 1794275159108,
+      "metrado": "0.735 M2",
+      "nivel": "1er Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.02",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 120.72,
+        "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN VIGUETAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ENCOFRADO",
+      "ejes": "2-3/C-D",
+      "elemento": "VIGUETA VA-2",
+      "fecha": "2026-11-09",
+      "id": 1794275167057,
+      "metrado": "0.705 M2",
+      "nivel": "1er Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.02",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 120.72,
+        "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN VIGUETAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "VACIADO",
+      "ejes": "3/E-E'-F",
+      "elemento": "PARANTES DE MESON M303",
+      "fecha": "2026-11-09",
+      "id": 1794275420070,
+      "metrado": "0.13 M3",
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "MESONES",
+        "codigo": "01.01.03.12.01",
+        "color": "#8D6E63",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 10.48,
+        "nombre": "CONCRETO EN MESONES F'C=175 KG/CM2,C/CEMENTO TIPO IP",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "MESON DE CONCRETO"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ASENTADO DE LADRILLO",
+      "ejes": "1/F (ZONA INTERMEDIA ENTRE EDIFICACION EXISTENTE Y NUEVA)",
+      "elemento": "MUROS DE ALBAÑILERIA",
+      "fecha": "2026-11-09",
+      "id": 1794275509270,
+      "metrado": "",
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "MUROS",
+        "codigo": "03.01.01.01",
+        "color": "#607D8B",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 531.92,
+        "nombre": "MURO DE LADRILLO K.K. TIPO V DE CABEZA, C/MEZCLA C:A 1:5",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "MUROS Y TABIQUES DE ALBAÑILERIA",
+          "MUROS DE LADRILLO KING KONG DE ARCILLA"
+        ]
+      },
+      "pct": 25
+    },
+    {
+      "descripcion": "ASENTADO DE LADRILLO",
+      "ejes": "3/F (ZONA INTERMEDIA ENTRE EDIFICACION EXISTENTE Y NUEVA)",
+      "elemento": "MUROS DE ALBAÑILERIA",
+      "fecha": "2026-11-09",
+      "id": 1794275516897,
+      "metrado": "",
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "MUROS",
+        "codigo": "03.01.01.01",
+        "color": "#607D8B",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 531.92,
+        "nombre": "MURO DE LADRILLO K.K. TIPO V DE CABEZA, C/MEZCLA C:A 1:5",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "MUROS Y TABIQUES DE ALBAÑILERIA",
+          "MUROS DE LADRILLO KING KONG DE ARCILLA"
+        ]
+      },
+      "pct": 25
+    },
+    {
+      "descripcion": "REPLANTEO Y ALINEAMIENTO",
+      "ejes": "2-3/A-B",
+      "elemento": "TARRAJEO DEL MURO DEL SERVICIO HIGIÉNICO MIXTO",
+      "fecha": "2026-11-09",
+      "id": 1794275544925,
+      "metrado": "SE UTILIZO EN NIVEL LASER TOPOGRÁFICO.",
+      "nivel": "1er Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.01",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 14,
+        "nombre": "CONTROL TOPOGRAFICO DURANTE LA EJECUCION DE OBRA",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "NIVELACIÓN Y TRAZO TOPOGRÁFICO",
+      "ejes": "1-2-3/B-C-D-E-E'-F",
+      "elemento": "COLOCADO DEL LADRILLO PASTELERO UBICADO EN EL TECHO, VERIFICÁNDOSE QUE EL PARAPETO QUEDARA EN 0.86M.",
+      "fecha": "2026-11-09",
+      "id": 1794275544926,
+      "metrado": "",
+      "nivel": "Azotea",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.01",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 14,
+        "nombre": "CONTROL TOPOGRAFICO DURANTE LA EJECUCION DE OBRA",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "REPLANTEO TOPOGRÁFICO",
+      "ejes": "2-3/E-E'-F",
+      "elemento": "BRUÑAS A CADA 0.90M EN EL ÁREA DE RECEPCIÓN DE MUESTRA",
+      "fecha": "2026-11-10",
+      "id": 1794364099394,
+      "metrado": "",
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.01",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 14,
+        "nombre": "CONTROL TOPOGRAFICO DURANTE LA EJECUCION DE OBRA",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CONTROL TOPOGRÁFICO",
+      "ejes": "2-3/E-E'-F",
+      "elemento": "NIVEL DE VACIADO DE CONCRETO DEL PISO CORRESPONDIENTE A LA COTA NPT = +13.14 M, EN EL ÁREA DE RECEPCIÓN DE MUESTRAS, VERIFICANDO EL CUMPLIMIENTO DE LOS NIVELES ESTABLECIDOS PARA LA EJECUCIÓN DEL VACIADO.",
+      "fecha": "2026-11-10",
+      "id": 1794364099395,
+      "metrado": "VOLUMEN=18.61 M2 X 0.09 M =1.68 M3",
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.01",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 14,
+        "nombre": "CONTROL TOPOGRAFICO DURANTE LA EJECUCION DE OBRA",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "REPLANTEO Y TRAZO TOPOGRÁFICO",
+      "ejes": "—",
+      "elemento": "LOSA INFERIOR DE LOS MESONES M-501 Y M-502 PARA EL ENCOFRADO Y POSTERIOR VACIADO DE CONCRETO",
+      "fecha": "2026-11-10",
+      "id": 1794364099398,
+      "metrado": "VOL. LOSA INF. M-501= 0.39M3 Y VOL. LOSA INF. M-502= 0.27M3 (NO SE CONSIDERÓ EL ARMADO DE ACERO PARA EL VACIADO DE CONCRETO DE LA LOSA INFERIOR DEL MESÓN)",
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.01",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 14,
+        "nombre": "CONTROL TOPOGRAFICO DURANTE LA EJECUCION DE OBRA",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "1-2-3/A",
+      "elemento": "MUROS DE ALBAÑILERIA",
+      "fecha": "2026-11-10",
+      "id": 1794365917392,
+      "metrado": "9.95 M2",
+      "nivel": "1er Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "03.02.01",
+        "color": "#9B59B6",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 986.31,
+        "nombre": "TARRAJEO EN SUPERFICIES DE MUROS INTERIORES (ALBAÑILERIA,COLUMNETA Y VIGUETA) MEZCLA C:A 1:5, E=1.5 cm",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "REVOQUES Y REVESTIMIENTOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "2-3/A-B (SS.HH. MIXTO)",
+      "elemento": "MUROS DE ALBAÑILERIA",
+      "fecha": "2026-11-10",
+      "id": 1794365919378,
+      "metrado": "10.33 M2",
+      "nivel": "1er Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "03.02.01",
+        "color": "#9B59B6",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 986.31,
+        "nombre": "TARRAJEO EN SUPERFICIES DE MUROS INTERIORES (ALBAÑILERIA,COLUMNETA Y VIGUETA) MEZCLA C:A 1:5, E=1.5 cm",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "REVOQUES Y REVESTIMIENTOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "2/A-B (CUARTO ELECTRICO)",
+      "elemento": "MUROS DE ALBAÑILERIA",
+      "fecha": "2026-11-10",
+      "id": 1794365921940,
+      "metrado": "11.05 M2",
+      "nivel": "1er Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "03.02.01",
+        "color": "#9B59B6",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 986.31,
+        "nombre": "TARRAJEO EN SUPERFICIES DE MUROS INTERIORES (ALBAÑILERIA,COLUMNETA Y VIGUETA) MEZCLA C:A 1:5, E=1.5 cm",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "REVOQUES Y REVESTIMIENTOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "DESENCOFRADO Y CURADO",
+      "ejes": "3/E-E'-F",
+      "elemento": "PARANTES DE MESON M303",
+      "fecha": "2026-11-10",
+      "id": 1794366090735,
+      "metrado": "2.66 M2",
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "MESONES",
+        "codigo": "01.01.03.12.04",
+        "color": "#8D6E63",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 103.98,
+        "nombre": "CURADO DE CONCRETO EN MESONES",
+        "nueva": false,
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "MESON DE CONCRETO"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "VACIADO",
+      "ejes": "1/A-B",
+      "elemento": "LOSA INFERIOR MESON M501",
+      "fecha": "2026-11-10",
+      "id": 1794366213292,
+      "metrado": "0.24 M3",
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "MESONES",
+        "codigo": "01.01.03.12.01",
+        "color": "#8D6E63",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 10.48,
+        "nombre": "CONCRETO EN MESONES F'C=175 KG/CM2,C/CEMENTO TIPO IP",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "MESON DE CONCRETO"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "VACIADO",
+      "ejes": "2-3/A",
+      "elemento": "LOSA INFERIO MESON M502",
+      "fecha": "2026-11-10",
+      "id": 1794366213987,
+      "metrado": "0.17 M3",
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "MESONES",
+        "codigo": "01.01.03.12.01",
+        "color": "#8D6E63",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 10.48,
+        "nombre": "CONCRETO EN MESONES F'C=175 KG/CM2,C/CEMENTO TIPO IP",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "MESON DE CONCRETO"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ENCOFRADO",
+      "ejes": "3/E-E'-F",
+      "elemento": "LOSA SUPERIOR MESON M303",
+      "fecha": "2026-11-10",
+      "id": 1794366565564,
+      "metrado": "2.57 M2",
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "MESONES",
+        "codigo": "01.01.03.12.02",
+        "color": "#8D6E63",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 103.98,
+        "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN MESONES",
+        "nueva": false,
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "MESON DE CONCRETO"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "VACIADO",
+      "ejes": "2-3/E-E'-F",
+      "elemento": "CONTRAPISO ACABADO DE PISO PULIDO CON BRUÑAS",
+      "fecha": "2026-11-10",
+      "id": 1794366790963,
+      "metrado": "1.68 M3",
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "ARQUITECTURA",
+        "codigo": "03.04.03.01",
+        "color": "#42A5F5",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 143.74,
+        "nombre": "PISOS: CONCRETO F'C=175 KG/CM2,E= 4\" (ACAB. CEMENTO SEMI PULIDO Y BRUÑADO)",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "PISOS Y PAVIMENTOS",
+          "PISOS DE CONCRETO"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "VACIADO",
+      "ejes": "2/C-D",
+      "elemento": "VIGUETA VA-2",
+      "fecha": "2026-11-10",
+      "id": 1794368015565,
+      "metrado": "0.05 M3",
+      "nivel": "1er Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.01",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 13.27,
+        "nombre": "CONCRETO EN VIGUETAS F'C= 175 KG/CM2, C/CEMENTO TIPO IP",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "VACIADO",
+      "ejes": "2-3/C-D",
+      "elemento": "VIGUETAS VA-1",
+      "fecha": "2026-11-10",
+      "id": 1794368047447,
+      "metrado": "0.03 M3",
+      "nivel": "1er Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.01",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 13.27,
+        "nombre": "CONCRETO EN VIGUETAS F'C= 175 KG/CM2, C/CEMENTO TIPO IP",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "VERIFICACIÓN DEL NIVEL",
+      "ejes": "1-2-3/B-C-D-E-F",
+      "elemento": "LADRILLO PASTELERO N=+19.44M, ENCONTRÁNDOSE VARIACIONES DE +/-3MM UBICADO EN EL TECHO.",
+      "fecha": "2026-11-11",
+      "id": 1794532455545,
+      "metrado": "",
+      "nivel": "Azotea",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.01",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 14,
+        "nombre": "CONTROL TOPOGRAFICO DURANTE LA EJECUCION DE OBRA",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "REPLANTEO Y TRAZO TOPOGRÁFICO",
+      "ejes": "1-2/A-B (CUARTO ELECTRICO) , 2-3/C-D",
+      "elemento": "BUZONES DE CONCRETO, 2 UNIDADES (0.70M X 0.70M EXTERIOR) DE LAS INSTALACIONES ELÉCTRICAS",
+      "fecha": "2026-11-11",
+      "id": 1794532455546,
+      "metrado": "",
+      "nivel": "1er Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.01",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 14,
+        "nombre": "CONTROL TOPOGRAFICO DURANTE LA EJECUCION DE OBRA",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "REPLANTEO Y TRAZO TOPOGRÁFICO",
+      "ejes": "2-3/A-B-C (M503 Y M505) , 1-2/E-E'-F (M504)",
+      "elemento": "LOSA INFERIOR DE LOS MESONES M-503, M-504 Y M-505 PARA EL ENCOFRADO Y POSTERIOR VACIADO DE CONCRETO",
+      "fecha": "2026-11-11",
+      "id": 1794532455548,
+      "metrado": "VOLUMEN M-503= 0.58M3, M-504= 0.38M3, M-505= 0.27M3",
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.01",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 14,
+        "nombre": "CONTROL TOPOGRAFICO DURANTE LA EJECUCION DE OBRA",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "DESENCOFRADO Y CURADO",
+      "ejes": "2/C-D",
+      "elemento": "VIGUETA VA-2",
+      "fecha": "2026-11-11",
+      "id": 1794533414348,
+      "metrado": "0.74 M2",
+      "nivel": "1er Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.04",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 120.72,
+        "nombre": "CURADO DE CONCRETO EN VIGUETAS",
+        "nueva": false,
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "DESENCOFRADO Y CURADO",
+      "ejes": "2-3/C-D",
+      "elemento": "VIGUETA VA-2",
+      "fecha": "2026-11-11",
+      "id": 1794533415433,
+      "metrado": "0.71 M2",
+      "nivel": "1er Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.02",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 120.72,
+        "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN VIGUETAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "1-2-3/A",
+      "elemento": "MUROS DE ALBAÑILERIA",
+      "fecha": "2026-11-11",
+      "id": 1794533596800,
+      "metrado": "9.95 M2",
+      "nivel": "1er Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "03.02.01",
+        "color": "#9B59B6",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 986.31,
+        "nombre": "TARRAJEO EN SUPERFICIES DE MUROS INTERIORES (ALBAÑILERIA,COLUMNETA Y VIGUETA) MEZCLA C:A 1:5, E=1.5 cm",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "REVOQUES Y REVESTIMIENTOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "2-3/A-B (SS.HH. MIXTO)",
+      "elemento": "MUROS DE ALBAÑILERIA",
+      "fecha": "2026-11-11",
+      "id": 1794533599134,
+      "metrado": "10.33 M2",
+      "nivel": "1er Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "03.02.01",
+        "color": "#9B59B6",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 986.31,
+        "nombre": "TARRAJEO EN SUPERFICIES DE MUROS INTERIORES (ALBAÑILERIA,COLUMNETA Y VIGUETA) MEZCLA C:A 1:5, E=1.5 cm",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "REVOQUES Y REVESTIMIENTOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "2/A-B (CUARTO ELECTRICO)",
+      "elemento": "MUROS DE ALBAÑILERIA",
+      "fecha": "2026-11-11",
+      "id": 1794533600350,
+      "metrado": "11.05 M2",
+      "nivel": "1er Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "03.02.01",
+        "color": "#9B59B6",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 986.31,
+        "nombre": "TARRAJEO EN SUPERFICIES DE MUROS INTERIORES (ALBAÑILERIA,COLUMNETA Y VIGUETA) MEZCLA C:A 1:5, E=1.5 cm",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "REVOQUES Y REVESTIMIENTOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ARMADO DE ACERO",
+      "ejes": "2-3/E-E'-F",
+      "elemento": "LOSA SUPERIOR MESON M303",
+      "fecha": "2026-11-11",
+      "id": 1794534163058,
+      "metrado": "17.75 KG",
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "MESONES",
+        "codigo": "01.01.03.12.03",
+        "color": "#8D6E63",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 883.79,
+        "nombre": "ACERO EN MESON DE CONCRETO Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "MESON DE CONCRETO"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ENCOFRADO",
+      "ejes": "1-2/E-E'-F (M504) , 2-3/A-B (M503) , 2-3/B-C (M505)",
+      "elemento": "FRISO PARA VACIADO DE LOSA INFERIOR DE MESONES",
+      "fecha": "2026-11-11",
+      "id": 1794534728626,
+      "metrado": "1.20 M2",
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "MESONES",
+        "codigo": "01.01.03.12.02",
+        "color": "#8D6E63",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 103.98,
+        "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN MESONES",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "MESON DE CONCRETO"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ASENTADO DE LADRILLO",
+      "ejes": "1-2-3/D-E-E'-F",
+      "elemento": "PASTELERO PARA CUBIERTA",
+      "fecha": "2026-11-11",
+      "id": 1794535185214,
+      "metrado": "48.51 M2",
+      "nivel": "Azotea",
+      "partida": {
+        "categoria": "ARQUITECTURA",
+        "codigo": "03.06.02",
+        "color": "#42A5F5",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 69.3,
+        "nombre": "CUBIERTA CON LADRILLO PASTELERO",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "COBERTURA"
+        ]
+      },
+      "pct": 70
+    },
+    {
+      "descripcion": "REPLANTEO Y TRAZO TOPOGRÁFICO",
+      "ejes": "—",
+      "elemento": "LOSA INFERIOR DE LOS MESONES M-401 Y M-403 PARA EL ENCOFRADO Y POSTERIOR VACIADO DE CONCRETO",
+      "fecha": "2026-11-12",
+      "id": 1794600293482,
+      "metrado": "VOLUMEN M-401= 0.39M3 Y VOLUMEN M-403= 0.88M3",
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.01",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 14,
+        "nombre": "CONTROL TOPOGRAFICO DURANTE LA EJECUCION DE OBRA",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "VERIFICACIÓN DEL NIVEL DE VACIADO",
+      "ejes": "2-3/E-E'-F",
+      "elemento": "CONCRETO DEL MESÓN DEL MUEBLE FIJO M-303 UBICADO EN EL ÁREA DE SALA DE ANÁLISIS DE CALIDAD DE AIRE",
+      "fecha": "2026-11-12",
+      "id": 1794600293484,
+      "metrado": "",
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.01",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 14,
+        "nombre": "CONTROL TOPOGRAFICO DURANTE LA EJECUCION DE OBRA",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ASENTADO DE LADRILLO",
+      "ejes": "1-2-3/B-C-D",
+      "elemento": "PASTELERO PARA CUBIERTA",
+      "fecha": "2026-11-12",
+      "id": 1794600801128,
+      "metrado": "20.79 M2",
+      "nivel": "Azotea",
+      "partida": {
+        "categoria": "ARQUITECTURA",
+        "codigo": "03.06.02",
+        "color": "#42A5F5",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 69.3,
+        "nombre": "CUBIERTA CON LADRILLO PASTELERO",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "COBERTURA"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ASENTADO DE LADRILLO",
+      "ejes": "3/F (ZONA INTERMEDIA ENTRE LA EDIF. EXISTENTE Y NUEVA)",
+      "elemento": "MURO DE ALBAÑILERIA",
+      "fecha": "2026-11-12",
+      "id": 1794604679436,
+      "metrado": "4.87 M2",
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "MUROS",
+        "codigo": "03.01.01.01",
+        "color": "#607D8B",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 531.92,
+        "nombre": "MURO DE LADRILLO K.K. TIPO V DE CABEZA, C/MEZCLA C:A 1:5",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "MUROS Y TABIQUES DE ALBAÑILERIA",
+          "MUROS DE LADRILLO KING KONG DE ARCILLA"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ASENTADO DE LADRILLO",
+      "ejes": "1/F (ZONA INTERMEDIA ENTRE LA EDIF. EXISTENTE Y NUEVA)",
+      "elemento": "MURO DE ALBAÑILERIA",
+      "fecha": "2026-11-12",
+      "id": 1794608850854,
+      "metrado": "5.97M2",
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "MUROS",
+        "codigo": "03.01.01.01",
+        "color": "#607D8B",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 531.92,
+        "nombre": "MURO DE LADRILLO K.K. TIPO V DE CABEZA, C/MEZCLA C:A 1:5",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "MUROS Y TABIQUES DE ALBAÑILERIA",
+          "MUROS DE LADRILLO KING KONG DE ARCILLA"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "VACIADO",
+      "ejes": "1/A-B",
+      "elemento": "LOSA INFERIOR MESON M401",
+      "fecha": "2026-11-12",
+      "id": 1794610384525,
+      "metrado": "0.39 M3",
+      "nivel": "4to Nivel",
+      "partida": {
+        "categoria": "MESONES",
+        "codigo": "01.01.03.12.01",
+        "color": "#8D6E63",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 10.48,
+        "nombre": "CONCRETO EN MESONES F'C=175 KG/CM2,C/CEMENTO TIPO IP",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "MESON DE CONCRETO"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "VACIADO",
+      "ejes": "3/A-B-C",
+      "elemento": "LOSA INFERIOR MESON M403",
+      "fecha": "2026-11-12",
+      "id": 1794610395585,
+      "metrado": "0.88 M3",
+      "nivel": "4to Nivel",
+      "partida": {
+        "categoria": "MESONES",
+        "codigo": "01.01.03.12.01",
+        "color": "#8D6E63",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 10.48,
+        "nombre": "CONCRETO EN MESONES F'C=175 KG/CM2,C/CEMENTO TIPO IP",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "MESON DE CONCRETO"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "DESENCOFRADO Y CURADO",
+      "ejes": "2-3/B",
+      "elemento": "LOSA SUPERIOR MESON M302",
+      "fecha": "2026-11-12",
+      "id": 1794610736250,
+      "metrado": "2.95 M2",
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "MESONES",
+        "codigo": "01.01.03.12.01",
+        "color": "#8D6E63",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 10.48,
+        "nombre": "CONCRETO EN MESONES F'C=175 KG/CM2,C/CEMENTO TIPO IP",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "MESON DE CONCRETO"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "VACIADO",
+      "ejes": "1/A-B",
+      "elemento": "LOSA INFERIOR MESON M401",
+      "fecha": "2026-11-12",
+      "id": 1794610909070,
+      "metrado": "0.39 M3",
+      "nivel": "4to Nivel",
+      "partida": {
+        "categoria": "MESONES",
+        "codigo": "01.01.03.12.01",
+        "color": "#8D6E63",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 10.48,
+        "nombre": "CONCRETO EN MESONES F'C=175 KG/CM2,C/CEMENTO TIPO IP",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "MESON DE CONCRETO"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "VACIADO",
+      "ejes": "3/E-E'-F",
+      "elemento": "LOSA INFERIOR MESON M303",
+      "fecha": "2026-11-12",
+      "id": 1794611924098,
+      "metrado": "0.22 M3",
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "MESONES",
+        "codigo": "01.01.03.12.01",
+        "color": "#8D6E63",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 10.48,
+        "nombre": "CONCRETO EN MESONES F'C=175 KG/CM2,C/CEMENTO TIPO IP",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "MESON DE CONCRETO"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "REPLANTEO Y ALINEAMIENTO TOPOGRÁFICO",
+      "ejes": "2-3/C-D",
+      "elemento": "MURO DE ALBAÑILERÍA CONFINADA, COMO PARTE DE LOS TRABAJOS PRELIMINARES PARA LA EJECUCIÓN DEL TARRAJEO EN EL ÁREA DE COOLER",
+      "fecha": "2026-11-13",
+      "id": 1794669060318,
+      "metrado": "",
+      "nivel": "1er Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.01",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 14,
+        "nombre": "CONTROL TOPOGRAFICO DURANTE LA EJECUCION DE OBRA",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ARMADO DE ACERO",
+      "ejes": "1/F (ZONA INTERMEDIA ENTRE LA EDIF. EXISTENTE Y NUEVA)",
+      "elemento": "VIGUETAS VA-2",
+      "fecha": "2026-11-13",
+      "id": 1794670681126,
+      "metrado": "9.83 KG",
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.03",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 1208.68,
+        "nombre": "ACERO EN VIGUETAS Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ARMADO DE ACERO",
+      "ejes": "3/F (ZONA INTERMEDIA ENTRE LA EDIF. EXISTENTE Y NUEVA)",
+      "elemento": "VIGUETA VA-2",
+      "fecha": "2026-11-13",
+      "id": 1794670746592,
+      "metrado": "8.48 KG",
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.03",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 1208.68,
+        "nombre": "ACERO EN VIGUETAS Fy=4200 kg/cm2 GRADO 60",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ENCOFRADO",
+      "ejes": "1/F , 3/F (ZONA INTERMEDIA ENTRE LA EDIF. EXISTENTE Y NUEVA)",
+      "elemento": "COLUMENTAS CA-2",
+      "fecha": "2026-11-13",
+      "id": 1794671916267,
+      "metrado": "11.60 M2 (04 UND)",
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.02",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 392.85,
+        "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN COLUMNETAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "TARRAJEO",
+      "ejes": "2-3/C-D",
+      "elemento": "MURO DE ALBAÑILERIA",
+      "fecha": "2026-11-13",
+      "id": 1794672436832,
+      "metrado": "6.40 M2",
+      "nivel": "1er Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "03.02.01",
+        "color": "#9B59B6",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 986.31,
+        "nombre": "TARRAJEO EN SUPERFICIES DE MUROS INTERIORES (ALBAÑILERIA,COLUMNETA Y VIGUETA) MEZCLA C:A 1:5, E=1.5 cm",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "REVOQUES Y REVESTIMIENTOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "ESCARIFICADO",
+      "ejes": "ZOTEA EN LA EDIFICACION EXISTENTE",
+      "elemento": "PISO EXISTENTE PREVIO AL COLOCADO DEL LADRILLO PASTELERO",
+      "fecha": "2026-11-13",
+      "id": 1794673005547,
+      "metrado": "",
+      "nivel": "Azotea",
+      "partida": {
+        "categoria": "ARQUITECTURA",
+        "codigo": "03.14.01.01",
+        "color": "#42A5F5",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 133.2,
+        "nombre": "PICADO Y RETIRO DE LADRILLO PASTELERO",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "ACONDICIONAMIENTO DE BLOQUE EXISTENTE",
+          "PICADO Y RETIRO"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "1/A-B",
+      "elemento": "LOSA INFERIOR MESON M401",
+      "fecha": "2026-11-13",
+      "id": 1794673075475,
+      "metrado": "2.35 M2",
+      "nivel": "4to Nivel",
+      "partida": {
+        "categoria": "MESONES",
+        "codigo": "01.01.03.12.04",
+        "color": "#8D6E63",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 103.98,
+        "nombre": "CURADO DE CONCRETO EN MESONES",
+        "nueva": false,
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "MESON DE CONCRETO"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "3/A-B-C",
+      "elemento": "LOSA INFERIOR MESON M403",
+      "fecha": "2026-11-13",
+      "id": 1794673078187,
+      "metrado": "5.09 M2",
+      "nivel": "4to Nivel",
+      "partida": {
+        "categoria": "MESONES",
+        "codigo": "01.01.03.11.06",
+        "color": "#8D6E63",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 36,
+        "nombre": "CURADO DE CONCRETO EN MESONES",
+        "nueva": false,
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "PARAPETO"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "3/E-E'-F",
+      "elemento": "LOSA INFERIOR MESON M303",
+      "fecha": "2026-11-13",
+      "id": 1794673087548,
+      "metrado": "2.24 M2",
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "MESONES",
+        "codigo": "01.01.03.12.04",
+        "color": "#8D6E63",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 103.98,
+        "nombre": "CURADO DE CONCRETO EN MESONES",
+        "nueva": false,
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "MESON DE CONCRETO"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "REPLANTEO, TRAZO Y NIVELACIÓN TOPOGRÁFICA",
+      "ejes": "1-2/A.B",
+      "elemento": "LOSAS INFERIORES CORRESPONDIENTES A LOS MUEBLES FIJOS M-301, UBICADO EN EL ÁREA DE SALA DE ANÁLISIS DE CAMPO DE AIRE DEL TERCER NIVEL, Y M-404, UBICADO EN EL ÁREA DE ICP MASA DEL CUARTO NIVEL, CON LA FINALIDAD DE VERIFICAR Y ESTABLECER LAS DIMENSIONES, ALINEAMIENTOS Y NIVELES CORRESPONDIENTES PARA SU CORRECTA EJECUCIÓN.",
+      "fecha": "2026-11-14",
+      "id": 1794752239214,
+      "metrado": "SE REALIZO LA NIVELACIÓN TOPOGRÁFICA EN EL SEGUNDO NIVEL DONDE SE ENCONTRÓ CRUCES DE TUBERÍAS QUE SE ENCUENTRAN 5MM Y HASTA 1CM POR ENCIMA DEL NIVEL DE VACIADO.",
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.01",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 14,
+        "nombre": "CONTROL TOPOGRAFICO DURANTE LA EJECUCION DE OBRA",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "VERIFICACIÓN DE LA DIMENSIÓN",
+      "ejes": "2/C-D",
+      "elemento": "PUERTA P-05 (0.90M) DEL ÁREA DE GUARDIANÍA",
+      "fecha": "2026-11-14",
+      "id": 1794752239215,
+      "metrado": "EQUIPO UTILIZADO: NIVEL LÁSER TOPOGRÁFICO.",
+      "nivel": "1er Nivel",
+      "partida": {
+        "categoria": "OTROS",
+        "codigo": "11.01.01",
+        "color": "#90A4AE",
+        "especialidad": "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+        "especialidad_cod": "11",
+        "metrado": 14,
+        "nombre": "CONTROL TOPOGRAFICO DURANTE LA EJECUCION DE OBRA",
+        "nueva": true,
+        "ruta": [
+          "OBRAS PROVISIONALES Y TRABAJOS PRELIMINARES",
+          "TRABAJOS PRELIMINARES"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "DESENCOFRADO Y CURADO",
+      "ejes": "1/F , 3/F (ZONA INTERMEDIA ENTRE LA EDIF. EXISTENTE Y NUEVA)",
+      "elemento": "COLUMENTAS CA-2",
+      "fecha": "2026-11-14",
+      "id": 1794753458484,
+      "metrado": "11.60 M2 (04 UND)",
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "01.01.03.07.02",
+        "color": "#9B59B6",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 392.85,
+        "nombre": "ENCOFRADO Y DESENCOFRADO NORMAL EN COLUMNETAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "COLUMNETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "DESENCOFRADO Y CURADO",
+      "ejes": "1/F , 3/F (ZONA INTERMEDIA ENTRE LA EDIF. EXISTENTE Y NUEVA)",
+      "elemento": "VIGUETA VA-2",
+      "fecha": "2026-11-14",
+      "id": 1794754383073,
+      "metrado": "1.50 M2",
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "VIGUETAS",
+        "codigo": "01.01.03.09.04",
+        "color": "#3498DB",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 120.72,
+        "nombre": "CURADO DE CONCRETO EN VIGUETAS",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "VIGUETAS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "TARRAJEO",
+      "ejes": "1/F , 3/F (ZONA INTERMEDIA ENTRE LA EDIF. EXISTENTE Y NUEVA)",
+      "elemento": "MUROS DE ALBAÑILERIA",
+      "fecha": "2026-11-14",
+      "id": 1794754739434,
+      "metrado": "10.84 M2",
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "03.02.01",
+        "color": "#9B59B6",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 986.31,
+        "nombre": "TARRAJEO EN SUPERFICIES DE MUROS INTERIORES (ALBAÑILERIA,COLUMNETA Y VIGUETA) MEZCLA C:A 1:5, E=1.5 cm",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "REVOQUES Y REVESTIMIENTOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "TARRAJEO",
+      "ejes": "2/C-D",
+      "elemento": "MURO DE ALBAÑILERIA",
+      "fecha": "2026-11-14",
+      "id": 1794755329236,
+      "metrado": "6.25 M2",
+      "nivel": "1er Nivel",
+      "partida": {
+        "categoria": "COLUMNETAS",
+        "codigo": "03.02.01",
+        "color": "#9B59B6",
+        "especialidad": "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+        "especialidad_cod": "03",
+        "metrado": 986.31,
+        "nombre": "TARRAJEO EN SUPERFICIES DE MUROS INTERIORES (ALBAÑILERIA,COLUMNETA Y VIGUETA) MEZCLA C:A 1:5, E=1.5 cm",
+        "ruta": [
+          "ARQUITECTURA, EVACUACION Y SEÑALIZACION",
+          "REVOQUES Y REVESTIMIENTOS"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "1/A-B, 2-3/A, 3/A-B, 1/E-F, 3/B-C",
+      "elemento": "LOSA INFERIOR MESONES M501, M502, M503, M504, M505",
+      "fecha": "2026-11-14",
+      "id": 1794755833841,
+      "metrado": "13.25 M2",
+      "nivel": "5to Nivel",
+      "partida": {
+        "categoria": "MESONES",
+        "codigo": "01.01.03.12.04",
+        "color": "#8D6E63",
+        "especialidad": "ESTRUCTURAS",
+        "especialidad_cod": "01",
+        "metrado": 103.98,
+        "nombre": "CURADO DE CONCRETO EN MESONES",
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "MESON DE CONCRETO"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "1/A-B, 3/A-B-C",
+      "elemento": "LOSA INFERIOR MESON M401, M403",
+      "fecha": "2026-11-14",
+      "id": 1794755876724,
+      "metrado": "8.54 M2",
+      "nivel": "4to Nivel",
+      "partida": {
+        "categoria": "MESONES",
+        "codigo": "01.01.03.12.04",
+        "color": "#8D6E63",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 103.98,
+        "nombre": "CURADO DE CONCRETO EN MESONES",
+        "nueva": false,
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "MESON DE CONCRETO"
+        ]
+      },
+      "pct": 100
+    },
+    {
+      "descripcion": "CURADO",
+      "ejes": "3/E-E'-F",
+      "elemento": "MESON M303",
+      "fecha": "2026-11-14",
+      "id": 1794756336015,
+      "metrado": "5.55 M2",
+      "nivel": "3er Nivel",
+      "partida": {
+        "categoria": "MESONES",
+        "codigo": "01.01.03.12.04",
+        "color": "#8D6E63",
+        "especialidad": "ESTRUCTURAS",
+        "metrado": 103.98,
+        "nombre": "CURADO DE CONCRETO EN MESONES",
+        "nueva": false,
+        "ruta": [
+          "ESTRUCTURAS",
+          "EDIFICIO LABORATORIO",
+          "OBRAS DE CONCRETO ARMADO",
+          "MESON DE CONCRETO"
+        ]
+      },
+      "pct": 100
     }
   ],
   "actividades_manuales": {
@@ -48505,6 +50825,80 @@
       "Se procedió con el tendido, alineamiento y empalme de tuberías para las redes sanitarias de distribución y derivación en el tercer nivel, entre los ejes 2-3 y el tramo C-D-E-F.",
       "Se realizó el tendido, colocación y sujeción de tuberías de PVC-SAP para las canalizaciones de los circuitos eléctricos en el sexto nivel, entre los ejes 2-3 y el tramo B-C-D.",
       "Se ejecutaron labores de orden, aseo y limpieza general en las áreas de trabajo del sexto nivel, realizando el acopio, segregación y despeje de residuos excedentes."
+    ],
+    "2026-11-04": [
+      "Se ejecutaron labores de orden y limpieza en el tercer nivel, procediéndose con el despeje y humedecido de la superficie de losa para dejar el área completamente preparada previo al vaciado de contrapisos.",
+      "Se realizó la prueba hidrostática de presión en las redes de distribución de agua del tercer nivel mediante bomba de prueba manual, alcanzando y manteniendo una presión de 155 PSI sin evidenciar fugas ni pérdidas manométricas, otorgándose la conformidad y liberación técnica de la instalación.",
+      "Se procedió con las maniobras de izaje vertical, acarreo y colocación de concreto f'c = 175 kg/cm² para el vaciado de contrapisos en los ambientes programados del tercer nivel.",
+      "Se efectuaron maniobras de izaje y descenso mecánico de material excedente y desmonte proveniente del tercer y sexto nivel hacia la zona de acopio en planta baja, facilitando su posterior eliminación y despejando los frentes de trabajo.",
+      "Se realizó el control de calidad en estado fresco mediante el ensayo de asentamiento (Slump) con el cono de Abrams al concreto f'c = 175 kg/cm², obteniéndose un revenimiento de 4'', declarándose la mezcla conforme y con consistencia apta para su colocación",
+      "Se tomaron 03 probetas cilíndricas de concreto f'c = 175 kg/cm² (cemento Tipo IP) para los ensayos normativos de resistencia a la compresión axial a las edades de 7, 14 y 28 días, vinculadas a los vaciados del tercer nivel.",
+      "Se realizaron labores de orden, aseo y limpieza permanente en los frentes de trabajo del sexto nivel (azotea), procediendo con la recolección, segregación y retiro de residuos de obra."
+    ],
+    "2026-11-05": [
+      "Se ejecutó la habilitación, alineamiento y fijación de frisos de madera y reglas maestras para la modulación y delimitación de los paños destinados al vaciado de contrapiso en el sexto nivel.",
+      "Se realizó el control de calidad en estado fresco mediante el ensayo de asentamiento (Slump) con el cono de Abrams al concreto f'c = 175 kg/cm², obteniéndose un revenimiento de 5.5'', declarándose la mezcla conforme y con consistencia adecuada para su colocación.",
+      "Se tomaron 03 probetas cilíndricas de concreto f'c = 175 kg/cm² para los ensayos normativos de resistencia a la compresión axial a los 7, 14 y 28 días, correspondientes a los vaciados de contrapiso del sexto nivel.",
+      "Se procedió con las maniobras de izaje vertical, acarreo y colocación de concreto f'c = 175 kg/cm² para el vaciado de contrapisos y conformación de pendientes pluviales en el sexto nivel.",
+      "Se ejecutaron los trabajos de compactación de material granular para base correspondiente a la capa N° 05 mediante equipo liviano (plancha compactadora), en el primer nivel entre los ejes 2-3 y el tramo A-B-C-D.",
+      "Se realizaron las labores de curado continuo mediante humedecimiento y riego con agua sobre la superficie de los contrapisos ejecutados en el tercer, cuarto y quinto nivel, favoreciendo la correcta hidratación del cemento y mitigando la retracción plástica.",
+      "Se ejecutaron los trabajos de trazo, tendido e instalación de redes de distribución de agua fría con tuberías de PVC-SAP y accesorios de unión en los ambientes correspondientes al segundo nivel.",
+      "Se realizó el tendido, colocación y aseguramiento de tuberías de PVC-SAP para las canalizaciones de circuitos eléctricos en muros y losa del segundo nivel, dejándolas fijadas con abrazaderas para garantizar su estabilidad."
+    ],
+    "2026-11-06": [
+      "Se ejecutó la habilitación y colocación de frisos de madera para delimitación de los paños de vaciado de contrapiso en el sexto nivel.",
+      "Se realizaron los trabajos de acabado superficial pulido y perfilado de bruñas de modulación y dilatación en la superficie del contrapiso/piso, en el sexto nivel entre los ejes 2-3 y el tramo B-C.",
+      "Se procedió con las maniobras de izaje vertical, traslado y colocación de concreto f'c = 175 kg/cm² para la continuidad del vaciado de contrapisos en el sexto nivel.",
+      "Se realizó el control de calidad en estado fresco mediante el ensayo de asentamiento (Slump) con el cono de Abrams al concreto f'c = 175 kg/cm², obteniéndose un revenimiento de 5'', declarándose la mezcla conforme y con trabajabilidad óptima para su vaciado.",
+      "Se tomaron 03 probetas cilíndricas de concreto f'c = 175 kg/cm² (cemento Tipo IP) para los ensayos normativos de resistencia a la compresión axial a los 7, 14 y 28 días, vinculadas al vaciado de la jornada.",
+      "Se culminó con los trabajos de compactación de material granular para base correspondiente a la capa N° 05 mediante equipo liviano (apisonador), verificando niveles y rasantes en el primer nivel entre los ejes 2-3 y el tramo A-B-C-D. VOLUMEN COMPACTADO 5.43M3",
+      "Se continuó con los trabajos de trazo, picado de regatas, tendido y fijación de tuberías de PVC-SAP para canalizaciones de circuitos eléctricos en muros y losa del segundo nivel.",
+      "Se continuó con el tendido, colocación y acople de accesorios en las redes sanitarias de distribución de agua y derivaciones de desagüe en los ambientes del segundo nivel, con el fin de liberar el area para el vaciado del contrapiso.",
+      "Se ejecutaron labores de orden, barrido y despeje de residuos de mezcla y desmonte en la caja de escaleras entre el tercer y cuarto nivel, garantizando vías de evacuación limpias y seguras."
+    ],
+    "2026-11-07": [
+      "Se ejecutaron labores de orden y limpieza general de fin de semana del primer al sexto nivel y en las escaleras, realizando el recojo y retiro de desmonte generado por el picado de muros para tuberías eléctricas y sanitarias (segundo al cuarto nivel), pedazos de madera y clavos del retiro de frisos, bolsas vacías de cemento, restos de concreto del vaciado de contrapisos (tercer al sexto nivel), recortes de tubos de PVC y tecnopor, así como el barrido de tierra y material sobrante de la base en el primer nivel, trasladando todo al punto de acopio de desmonte y dejando las áreas completamente limpias y transitables."
+    ],
+    "2026-11-09": [
+      "Se realizó el tendido, colocación y fijación de tuberías de PVC-SAP para los circuitos de instalaciones eléctricas en muros y losa del segundo nivel, dejándolas aseguradas con abrazaderas para evitar desplazamientos.",
+      "Se ejecutaron los trabajos de instalación y empalme de tuberías de agua y desagüe con sus respectivos accesorios en los ambientes de servicios higiénicos del cuarto nivel, verificando alineamientos y pendientes de caída.",
+      "Se inició la colocación y asentado de ladrillo pastelero en el sexto nivel (azotea), utilizando mortero con aditivo impermeabilizante y alineando las hiladas con las pendientes de caída hacia los sumideros de lluvia.",
+      "Se procedió con la preparación de mortero utilizando mezcladora (trompito) directamente en el sexto nivel, controlando la dosificación de arena, cemento, agua y aditivo impermeabilizante para abastecer el asentado del ladrillo pastelero."
+    ],
+    "2026-11-10": [
+      "Se realizó el zarandeo y acopio de arena fina en la zona de preparación de materiales, retirando impurezas y piedras para dejar el insumo listo para los trabajos de tarrajeo.",
+      "Se ejecutó la colocación y aseguramiento de frisos de madera para la delimitación y control de niveles en el vaciado de contrapiso, en el quinto nivel entre los ejes 2-3 y el tramo E-F.",
+      "Se realizó el control de consistencia mediante el ensayo de asentamiento (Slump) con el cono de Abrams al concreto f'c = 175 kg/cm², obteniéndose 4'', declarándose la mezcla conforme y con trabajabilidad adecuada para su colocación.",
+      "Se tomaron 03 probetas cilíndricas de muestra del concreto f'c = 175 kg/cm² para los ensayos normativos de resistencia a la compresión a los 7, 14 y 28 días, vinculadas al vaciado del quinto nivel.",
+      "Se continuó con los trabajos de colocación y asentado de ladrillo pastelero en la azotea entre los ejes 1-2 y el tramo E-F, utilizando mezcla de mortero con aditivo impermeabilizante y respetando las pendientes de caída hacia los sumideros pluviales.",
+      "Se realizaron las maniobras de izaje vertical y acarreo de materiales y concreto f'c = 175 kg/cm² hacia el quinto nivel, abasteciendo el frente de trabajo para el vaciado de pisos."
+    ],
+    "2026-11-11": [
+      "Se procedió con el zarandeo, acopio de aproximadamente 7.00 m³ de tierra de chacra, retirando piedras, raíces e impurezas para su utilización en el sistema de puesta a tierra y áreas del proyecto.",
+      "Se realizaron los trabajos de excavación, limpieza y acondicionamiento de la fosa para el pozo a tierra del cuarto eléctrico en el primer nivel, dejándola lista para la instalación de puesta a tierra y el relleno con tierra.",
+      "Se realizó la preparación y mezclado de mortero con aditivo impermeabilizante en el sexto nivel (azotea), abasteciendo de mezcla el frente de trabajo para el asentado del ladrillo pastelero.",
+      "Se continuó con el tendido, corte, fijación y entubado de redes de agua y desagüe, así como de tuberías para circuitos eléctricos en muros y pisos del segundo nivel, asegurando su correcta posición antes de los vaciados y tarrajeos.",
+      "Se efectuaron las labores de curado continuo mediante riego y humedecimiento con agua en la superficie de los pisos y contrapisos del tercer, cuarto, quinto y sexto nivel, garantizando la humedad adecuada para el fraguado del concreto.",
+      "Se realizaron las maniobras de izaje vertical, acarreo y colocación de mezcla de concreto hacia el quinto nivel para el vaciado de la losa inferior del mesón de trabajo de laboratorio, verificando niveles y encofrados."
+    ],
+    "2026-11-12": [
+      "Se ejecutaron los trabajos de replanteo, tendido e instalación de tuberías de agua y derivaciones de desagüe con sus respectivos accesorios en los servicios higiénicos del tercer nivel, entre los ejes 2-3 y el tramo D-E.",
+      "Se procedió con el zarandeo de tierra negra de chacra y su preparación mediante mezclado homogéneo con bentonita sódica, cemento conductivo y aditivo gel (Thor-Gel), acondicionando la mezcla química para reducir la resistividad del terreno en el sistema de puesta a tierra.",
+      "Se realizó el relleno y compactación manual por capas del pozo a tierra ubicado debajo del área del tragaluz en el primer nivel (entre los ejes 2-3 y el tramo C-D).",
+      "Se efectuaron labores de curado continuo mediante riego y humedecimiento constante con agua sobre las superficies de muros y elementos tarrajeados en el primer nivel."
+    ],
+    "2026-11-13": [
+      "Se ejecutaron y concluyeron los trabajos de trazo y corte de ladrillos pasteleros para el ajuste en remates perimetrales, encuentros con muros y zonas de sumideros pluviales en el sexto nivel (azotea).",
+      "Se inició el emboquillado y sellado de juntas entre los ladrillos pasteleros colocados en el sexto nivel, utilizando mortero fluido con aditivo impermeabilizante para garantizar la estanqueidad y evitar filtraciones en la cobertura.",
+      "Se procedió con las maniobras de descenso y traslado de arena gruesa excedente desde el sexto nivel hacia el primer nivel, realizándose su acopio ordenado para su uso en los siguientes frentes de trabajo.",
+      "Se realizó la prueba hidrostática de presión en las redes de agua del segundo nivel mediante bomba manual (balde hidráulico), manteniéndose una presión constante de 150 PSI en el horario de 15:00 a 16:00 horas sin registrar fugas ni caídas de presión en el manómetro, procediéndose con su liberación técnica para autorizar el vaciado de contrapiso.",
+      "Se realizó la inspección y verificación de las condiciones de almacenamiento y fecha de fabricación/vencimiento de las bolsas de cemento acopiadas en el almacén de obra, constatando que el material se encuentra en óptimas condiciones de conservación para su uso en mezclas."
+    ],
+    "2026-11-14": [
+      "Se ejecutaron los trabajos de tendido, colocación y fijación de tuberías de PVC-SAP y cajas rectangulares y de pase para los circuitos de instalaciones eléctricas en muros y losa del segundo nivel.",
+      "Se realizó el picado y escarificado en la superficie de columnetas y viguetas de concreto armado sobre el eje 1 y el eje 3, en la zona de encuentro entre la nueva edificación y la estructura existente, generando la rugosidad necesaria para asegurar la adherencia del tarrajeo.",
+      "Se procedió con el trazo, colocación y empalme de tuberías de agua y ramales de desagüe con sus respectivos accesorios en los ambientes de servicios higiénicos del tercer nivel.",
+      "Se continuó con los trabajos de emboquillado y sellado de juntas entre ladrillos pasteleros empleando mortero fluido con aditivo impermeabilizante en la cobertura de azotea, avanzando sobre el tramo D-E entre los ejes 1-2-3."
     ]
   },
   "asistencia_data": {
@@ -55278,6 +57672,342 @@
       "DNI-60063989": "P",
       "DNI-71029856": "F",
       "DNI-72231284": "F",
+      "DNI-72640698": "P",
+      "DNI-72719771": "P",
+      "PERS-1783522023693": "P"
+    },
+    "2026-11-04": {
+      "DNI-01314118": "P",
+      "DNI-04404023": "P",
+      "DNI-04411815": "P",
+      "DNI-04422073": "P",
+      "DNI-04426955": "P",
+      "DNI-04426985": "P",
+      "DNI-04427469": "P",
+      "DNI-04429752": "P",
+      "DNI-04430128": "P",
+      "DNI-04430448": "P",
+      "DNI-04438285": "P",
+      "DNI-04745520": "P",
+      "DNI-04745598": "P",
+      "DNI-22093849": "P",
+      "DNI-24680359": "P",
+      "DNI-40087835": "P",
+      "DNI-40208445": "P",
+      "DNI-40235704": "P",
+      "DNI-40476480": "P",
+      "DNI-41487259": "P",
+      "DNI-42195924": "P",
+      "DNI-42523690": "P",
+      "DNI-42781545": "P",
+      "DNI-43262198": "P",
+      "DNI-43507814": "P",
+      "DNI-44551286": "P",
+      "DNI-44830919": "P",
+      "DNI-44873812": "P",
+      "DNI-45206976": "P",
+      "DNI-46488431": "P",
+      "DNI-60063989": "P",
+      "DNI-71029856": "P",
+      "DNI-72231284": "P",
+      "DNI-72640698": "P",
+      "DNI-72719771": "P",
+      "PERS-1783522023693": "P"
+    },
+    "2026-11-05": {
+      "DNI-01314118": "P",
+      "DNI-04404023": "P",
+      "DNI-04411815": "P",
+      "DNI-04422073": "P",
+      "DNI-04426955": "P",
+      "DNI-04426985": "P",
+      "DNI-04427469": "P",
+      "DNI-04429752": "P",
+      "DNI-04430128": "P",
+      "DNI-04430448": "P",
+      "DNI-04438285": "P",
+      "DNI-04745520": "P",
+      "DNI-04745598": "P",
+      "DNI-22093849": "P",
+      "DNI-24680359": "P",
+      "DNI-40087835": "P",
+      "DNI-40208445": "P",
+      "DNI-40235704": "P",
+      "DNI-40476480": "P",
+      "DNI-41487259": "P",
+      "DNI-42195924": "P",
+      "DNI-42523690": "P",
+      "DNI-42781545": "P",
+      "DNI-43262198": "P",
+      "DNI-43507814": "P",
+      "DNI-44551286": "CP",
+      "DNI-44830919": "P",
+      "DNI-44873812": "P",
+      "DNI-45206976": "P",
+      "DNI-46488431": "P",
+      "DNI-60063989": "P",
+      "DNI-71029856": "P",
+      "DNI-72640698": "P",
+      "DNI-72719771": "P",
+      "PERS-1783522023693": "P"
+    },
+    "2026-11-06": {
+      "DNI-01314118": "P",
+      "DNI-04404023": "P",
+      "DNI-04411815": "P",
+      "DNI-04422073": "P",
+      "DNI-04426955": "P",
+      "DNI-04426985": "P",
+      "DNI-04427469": "P",
+      "DNI-04429752": "P",
+      "DNI-04430128": "P",
+      "DNI-04430448": "P",
+      "DNI-04438285": "P",
+      "DNI-04745520": "P",
+      "DNI-04745598": "F",
+      "DNI-22093849": "P",
+      "DNI-24680359": "P",
+      "DNI-40087835": "P",
+      "DNI-40208445": "P",
+      "DNI-40235704": "P",
+      "DNI-40476480": "P",
+      "DNI-41487259": "P",
+      "DNI-42195924": "P",
+      "DNI-42523690": "P",
+      "DNI-42781545": "P",
+      "DNI-43262198": "P",
+      "DNI-43507814": "P",
+      "DNI-44551286": "P",
+      "DNI-44830919": "P",
+      "DNI-44873812": "P",
+      "DNI-45206976": "P",
+      "DNI-46488431": "P",
+      "DNI-60063989": "P",
+      "DNI-71029856": "P",
+      "DNI-72640698": "P",
+      "DNI-72719771": "P",
+      "PERS-1783522023693": "P"
+    },
+    "2026-11-07": {
+      "DNI-01314118": "P",
+      "DNI-04404023": "P",
+      "DNI-04411815": "P",
+      "DNI-04422073": "P",
+      "DNI-04426955": "P",
+      "DNI-04426985": "P",
+      "DNI-04427469": "P",
+      "DNI-04429752": "P",
+      "DNI-04430128": "P",
+      "DNI-04430448": "P",
+      "DNI-04438285": "P",
+      "DNI-04745520": "P",
+      "DNI-04745598": "P",
+      "DNI-22093849": "P",
+      "DNI-24680359": "P",
+      "DNI-40087835": "P",
+      "DNI-40208445": "P",
+      "DNI-40235704": "P",
+      "DNI-40476480": "P",
+      "DNI-41487259": "P",
+      "DNI-42195924": "P",
+      "DNI-42523690": "P",
+      "DNI-42781545": "P",
+      "DNI-43262198": "P",
+      "DNI-43507814": "P",
+      "DNI-44551286": "P",
+      "DNI-44830919": "P",
+      "DNI-44873812": "P",
+      "DNI-45206976": "P",
+      "DNI-46488431": "P",
+      "DNI-60063989": "P",
+      "DNI-71029856": "F",
+      "DNI-72640698": "P",
+      "DNI-72719771": "P",
+      "PERS-1783522023693": "P"
+    },
+    "2026-11-09": {
+      "DNI-01314118": "P",
+      "DNI-04404023": "P",
+      "DNI-04411815": "P",
+      "DNI-04422073": "P",
+      "DNI-04426955": "P",
+      "DNI-04426985": "P",
+      "DNI-04427469": "P",
+      "DNI-04429752": "P",
+      "DNI-04430128": "P",
+      "DNI-04430448": "P",
+      "DNI-04438285": "P",
+      "DNI-04745520": "P",
+      "DNI-04745598": "P",
+      "DNI-22093849": "P",
+      "DNI-24680359": "P",
+      "DNI-40087835": "P",
+      "DNI-40208445": "P",
+      "DNI-40235704": "P",
+      "DNI-40476480": "P",
+      "DNI-41487259": "P",
+      "DNI-42195924": "P",
+      "DNI-42523690": "P",
+      "DNI-42781545": "P",
+      "DNI-43262198": "P",
+      "DNI-43507814": "P",
+      "DNI-44551286": "P",
+      "DNI-44830919": "P",
+      "DNI-44873812": "P",
+      "DNI-45206976": "P",
+      "DNI-46488431": "P",
+      "DNI-60063989": "P",
+      "DNI-71029856": "P",
+      "DNI-72640698": "P",
+      "DNI-72719771": "P",
+      "PERS-1783522023693": "P"
+    },
+    "2026-11-10": {
+      "DNI-01314118": "P",
+      "DNI-04404023": "P",
+      "DNI-04411815": "P",
+      "DNI-04422073": "P",
+      "DNI-04426955": "P",
+      "DNI-04426985": "P",
+      "DNI-04427469": "P",
+      "DNI-04429752": "P",
+      "DNI-04430128": "P",
+      "DNI-04430448": "P",
+      "DNI-04438285": "P",
+      "DNI-04745520": "P",
+      "DNI-04745598": "P",
+      "DNI-22093849": "P",
+      "DNI-24680359": "P",
+      "DNI-40087835": "P",
+      "DNI-40208445": "P",
+      "DNI-40235704": "P",
+      "DNI-40476480": "P",
+      "DNI-41487259": "P",
+      "DNI-42195924": "P",
+      "DNI-42523690": "P",
+      "DNI-42781545": "P",
+      "DNI-43262198": "P",
+      "DNI-43507814": "P",
+      "DNI-44551286": "P",
+      "DNI-44830919": "P",
+      "DNI-44873812": "P",
+      "DNI-45206976": "P",
+      "DNI-46488431": "P",
+      "DNI-60063989": "P",
+      "DNI-71029856": "P",
+      "DNI-72640698": "P",
+      "DNI-72719771": "P",
+      "PERS-1783522023693": "P"
+    },
+    "2026-11-11": {
+      "DNI-01314118": "P",
+      "DNI-04404023": "P",
+      "DNI-04411815": "P",
+      "DNI-04422073": "P",
+      "DNI-04426955": "P",
+      "DNI-04426985": "P",
+      "DNI-04427469": "P",
+      "DNI-04429752": "P",
+      "DNI-04430128": "P",
+      "DNI-04430448": "P",
+      "DNI-04438285": "P",
+      "DNI-04745520": "P",
+      "DNI-04745598": "P",
+      "DNI-22093849": "P",
+      "DNI-24680359": "P",
+      "DNI-40087835": "P",
+      "DNI-40208445": "P",
+      "DNI-40235704": "P",
+      "DNI-40476480": "P",
+      "DNI-41487259": "P",
+      "DNI-42195924": "P",
+      "DNI-42523690": "P",
+      "DNI-42781545": "P",
+      "DNI-43262198": "P",
+      "DNI-43507814": "P",
+      "DNI-44551286": "P",
+      "DNI-44830919": "P",
+      "DNI-44873812": "P",
+      "DNI-45206976": "P",
+      "DNI-46488431": "P",
+      "DNI-60063989": "F",
+      "DNI-71029856": "P",
+      "DNI-72640698": "P",
+      "DNI-72719771": "P",
+      "PERS-1783522023693": "P"
+    },
+    "2026-11-12": {
+      "DNI-01314118": "P",
+      "DNI-04404023": "P",
+      "DNI-04411815": "P",
+      "DNI-04422073": "P",
+      "DNI-04426955": "P",
+      "DNI-04426985": "P",
+      "DNI-04427469": "P",
+      "DNI-04429752": "P",
+      "DNI-04430128": "P",
+      "DNI-04430448": "P",
+      "DNI-04438285": "P",
+      "DNI-04745520": "P",
+      "DNI-04745598": "P",
+      "DNI-22093849": "P",
+      "DNI-24680359": "P",
+      "DNI-40087835": "P",
+      "DNI-40208445": "P",
+      "DNI-40235704": "P",
+      "DNI-40476480": "P",
+      "DNI-41487259": "P",
+      "DNI-42195924": "P",
+      "DNI-42523690": "P",
+      "DNI-42781545": "P",
+      "DNI-43262198": "P",
+      "DNI-43507814": "P",
+      "DNI-44551286": "P",
+      "DNI-44830919": "P",
+      "DNI-44873812": "P",
+      "DNI-45206976": "P",
+      "DNI-46488431": "P",
+      "DNI-60063989": "P",
+      "DNI-71029856": "P",
+      "DNI-72231284": "P",
+      "DNI-72640698": "CP",
+      "DNI-72719771": "P",
+      "PERS-1783522023693": "P"
+    },
+    "2026-11-14": {
+      "DNI-01314118": "P",
+      "DNI-04404023": "P",
+      "DNI-04411815": "P",
+      "DNI-04422073": "P",
+      "DNI-04426955": "P",
+      "DNI-04426985": "P",
+      "DNI-04427469": "P",
+      "DNI-04429752": "P",
+      "DNI-04430128": "P",
+      "DNI-04430448": "P",
+      "DNI-04438285": "P",
+      "DNI-04745520": "P",
+      "DNI-04745598": "P",
+      "DNI-22093849": "P",
+      "DNI-24680359": "P",
+      "DNI-40087835": "P",
+      "DNI-40208445": "P",
+      "DNI-40235704": "P",
+      "DNI-40476480": "P",
+      "DNI-41487259": "P",
+      "DNI-42195924": "P",
+      "DNI-42523690": "P",
+      "DNI-42781545": "P",
+      "DNI-43262198": "P",
+      "DNI-43507814": "P",
+      "DNI-44551286": "P",
+      "DNI-44830919": "P",
+      "DNI-44873812": "P",
+      "DNI-45206976": "P",
+      "DNI-46488431": "P",
+      "DNI-60063989": "P",
+      "DNI-71029856": "P",
+      "DNI-72231284": "P",
       "DNI-72640698": "P",
       "DNI-72719771": "P",
       "PERS-1783522023693": "P"
@@ -62820,6 +65550,466 @@
         "nombre": "Nivel laser topográfico"
       }
     ],
+    "2026-11-04": [
+      {
+        "cant": 1,
+        "nombre": "Taladro"
+      },
+      {
+        "cant": 1,
+        "nombre": "Circular Manual"
+      },
+      {
+        "cant": 0,
+        "nombre": "Camion baranda"
+      },
+      {
+        "cant": 1,
+        "nombre": "Mezcladora"
+      },
+      {
+        "cant": 1,
+        "nombre": "Vibradora"
+      },
+      {
+        "cant": 1,
+        "nombre": "Estación Total"
+      },
+      {
+        "cant": 1,
+        "nombre": "Circular de Banco"
+      },
+      {
+        "cant": 1,
+        "nombre": "Winche eléctrico"
+      },
+      {
+        "cant": 0,
+        "nombre": "Apisonador"
+      },
+      {
+        "cant": 1,
+        "nombre": "Nivel"
+      },
+      {
+        "cant": 1,
+        "nombre": "Nivel laser topográfico"
+      }
+    ],
+    "2026-11-05": [
+      {
+        "cant": 1,
+        "nombre": "Taladro"
+      },
+      {
+        "cant": 1,
+        "nombre": "Circular Manual"
+      },
+      {
+        "cant": 0,
+        "nombre": "Camion baranda"
+      },
+      {
+        "cant": 1,
+        "nombre": "Mezcladora"
+      },
+      {
+        "cant": 1,
+        "nombre": "Vibradora"
+      },
+      {
+        "cant": 1,
+        "nombre": "Estación Total"
+      },
+      {
+        "cant": 1,
+        "nombre": "Circular de Banco"
+      },
+      {
+        "cant": 1,
+        "nombre": "Winche eléctrico"
+      },
+      {
+        "cant": 0,
+        "nombre": "Apisonador"
+      },
+      {
+        "cant": 1,
+        "nombre": "Nivel"
+      },
+      {
+        "cant": 1,
+        "nombre": "Nivel laser topográfico"
+      }
+    ],
+    "2026-11-06": [
+      {
+        "cant": 1,
+        "nombre": "Taladro"
+      },
+      {
+        "cant": 1,
+        "nombre": "Circular Manual"
+      },
+      {
+        "cant": 0,
+        "nombre": "Camion baranda"
+      },
+      {
+        "cant": 1,
+        "nombre": "Mezcladora"
+      },
+      {
+        "cant": 1,
+        "nombre": "Vibradora"
+      },
+      {
+        "cant": 1,
+        "nombre": "Estación Total"
+      },
+      {
+        "cant": 1,
+        "nombre": "Circular de Banco"
+      },
+      {
+        "cant": 1,
+        "nombre": "Winche eléctrico"
+      },
+      {
+        "cant": 2,
+        "nombre": "Apisonador"
+      },
+      {
+        "cant": 1,
+        "nombre": "Nivel"
+      },
+      {
+        "cant": 1,
+        "nombre": "Nivel laser topográfico"
+      }
+    ],
+    "2026-11-07": [
+      {
+        "cant": 1,
+        "nombre": "Taladro"
+      },
+      {
+        "cant": 1,
+        "nombre": "Circular Manual"
+      },
+      {
+        "cant": 0,
+        "nombre": "Camion baranda"
+      },
+      {
+        "cant": 1,
+        "nombre": "Mezcladora"
+      },
+      {
+        "cant": 1,
+        "nombre": "Vibradora"
+      },
+      {
+        "cant": 1,
+        "nombre": "Estación Total"
+      },
+      {
+        "cant": 1,
+        "nombre": "Circular de Banco"
+      },
+      {
+        "cant": 1,
+        "nombre": "Winche eléctrico"
+      },
+      {
+        "cant": 2,
+        "nombre": "Apisonador"
+      },
+      {
+        "cant": 1,
+        "nombre": "Nivel"
+      },
+      {
+        "cant": 1,
+        "nombre": "Nivel laser topográfico"
+      }
+    ],
+    "2026-11-09": [
+      {
+        "cant": 1,
+        "nombre": "Taladro"
+      },
+      {
+        "cant": 1,
+        "nombre": "Circular Manual"
+      },
+      {
+        "cant": 0,
+        "nombre": "Camion baranda"
+      },
+      {
+        "cant": 1,
+        "nombre": "Mezcladora"
+      },
+      {
+        "cant": 1,
+        "nombre": "Vibradora"
+      },
+      {
+        "cant": 1,
+        "nombre": "Estación Total"
+      },
+      {
+        "cant": 1,
+        "nombre": "Circular de Banco"
+      },
+      {
+        "cant": 1,
+        "nombre": "Winche eléctrico"
+      },
+      {
+        "cant": 2,
+        "nombre": "Apisonador"
+      },
+      {
+        "cant": 1,
+        "nombre": "Nivel"
+      },
+      {
+        "cant": 1,
+        "nombre": "Nivel laser topográfico"
+      }
+    ],
+    "2026-11-10": [
+      {
+        "cant": 1,
+        "nombre": "Taladro"
+      },
+      {
+        "cant": 1,
+        "nombre": "Circular Manual"
+      },
+      {
+        "cant": 0,
+        "nombre": "Camion baranda"
+      },
+      {
+        "cant": 1,
+        "nombre": "Mezcladora"
+      },
+      {
+        "cant": 1,
+        "nombre": "Vibradora"
+      },
+      {
+        "cant": 1,
+        "nombre": "Estación Total"
+      },
+      {
+        "cant": 1,
+        "nombre": "Circular de Banco"
+      },
+      {
+        "cant": 1,
+        "nombre": "Winche eléctrico"
+      },
+      {
+        "cant": 0,
+        "nombre": "Apisonador"
+      },
+      {
+        "cant": 1,
+        "nombre": "Nivel"
+      },
+      {
+        "cant": 1,
+        "nombre": "Nivel laser topográfico"
+      }
+    ],
+    "2026-11-11": [
+      {
+        "cant": 1,
+        "nombre": "Taladro"
+      },
+      {
+        "cant": 1,
+        "nombre": "Circular Manual"
+      },
+      {
+        "cant": 0,
+        "nombre": "Camion baranda"
+      },
+      {
+        "cant": 1,
+        "nombre": "Mezcladora"
+      },
+      {
+        "cant": 1,
+        "nombre": "Vibradora"
+      },
+      {
+        "cant": 1,
+        "nombre": "Estación Total"
+      },
+      {
+        "cant": 1,
+        "nombre": "Circular de Banco"
+      },
+      {
+        "cant": 1,
+        "nombre": "Winche eléctrico"
+      },
+      {
+        "cant": 0,
+        "nombre": "Apisonador"
+      },
+      {
+        "cant": 1,
+        "nombre": "Nivel"
+      },
+      {
+        "cant": 1,
+        "nombre": "Nivel laser topográfico"
+      }
+    ],
+    "2026-11-12": [
+      {
+        "cant": 1,
+        "nombre": "Taladro"
+      },
+      {
+        "cant": 1,
+        "nombre": "Circular Manual"
+      },
+      {
+        "cant": 0,
+        "nombre": "Camion baranda"
+      },
+      {
+        "cant": 1,
+        "nombre": "Mezcladora"
+      },
+      {
+        "cant": 1,
+        "nombre": "Vibradora"
+      },
+      {
+        "cant": 1,
+        "nombre": "Estación Total"
+      },
+      {
+        "cant": 1,
+        "nombre": "Circular de Banco"
+      },
+      {
+        "cant": 1,
+        "nombre": "Winche eléctrico"
+      },
+      {
+        "cant": 2,
+        "nombre": "Apisonador"
+      },
+      {
+        "cant": 1,
+        "nombre": "Nivel"
+      },
+      {
+        "cant": 1,
+        "nombre": "Nivel laser topográfico"
+      }
+    ],
+    "2026-11-13": [
+      {
+        "cant": 1,
+        "nombre": "Taladro"
+      },
+      {
+        "cant": 1,
+        "nombre": "Circular Manual"
+      },
+      {
+        "cant": 0,
+        "nombre": "Camion baranda"
+      },
+      {
+        "cant": 1,
+        "nombre": "Mezcladora"
+      },
+      {
+        "cant": 1,
+        "nombre": "Vibradora"
+      },
+      {
+        "cant": 1,
+        "nombre": "Estación Total"
+      },
+      {
+        "cant": 1,
+        "nombre": "Circular de Banco"
+      },
+      {
+        "cant": 1,
+        "nombre": "Winche eléctrico"
+      },
+      {
+        "cant": 2,
+        "nombre": "Apisonador"
+      },
+      {
+        "cant": 1,
+        "nombre": "Nivel"
+      },
+      {
+        "cant": 1,
+        "nombre": "Nivel laser topográfico"
+      }
+    ],
+    "2026-11-14": [
+      {
+        "cant": 1,
+        "nombre": "Taladro"
+      },
+      {
+        "cant": 1,
+        "nombre": "Circular Manual"
+      },
+      {
+        "cant": 0,
+        "nombre": "Camion baranda"
+      },
+      {
+        "cant": 1,
+        "nombre": "Mezcladora"
+      },
+      {
+        "cant": 1,
+        "nombre": "Vibradora"
+      },
+      {
+        "cant": 1,
+        "nombre": "Estación Total"
+      },
+      {
+        "cant": 1,
+        "nombre": "Circular de Banco"
+      },
+      {
+        "cant": 1,
+        "nombre": "Winche eléctrico"
+      },
+      {
+        "cant": 2,
+        "nombre": "Apisonador"
+      },
+      {
+        "cant": 1,
+        "nombre": "Nivel"
+      },
+      {
+        "cant": 1,
+        "nombre": "Nivel laser topográfico"
+      }
+    ],
     "MEZCLADORA_Mayo_2026": {
       "meta": {
         "nombre_equipo": "ALQUILER DE MEZCLADORA",
@@ -63337,6 +66527,156 @@
           "tFin": "15:30",
           "tIni": "14:00",
           "tot": "3.00"
+        }
+      ]
+    },
+    "APISONADOR_Marzo_2026": {
+      "meta": {
+        "nombre_equipo": "SERVICIO DE ALQUILER DE APISONADOR",
+        "os_equipo": "0001620"
+      },
+      "rows": [
+        {
+          "mes": "Marzo",
+          "fecha": "2026-03-19",
+          "dia": "jueves",
+          "mIni": "08:00",
+          "mFin": "12:00",
+          "mCant": "4.00",
+          "tIni": "",
+          "tFin": "",
+          "tCant": "",
+          "tot": "4.00",
+          "comb": "0.75",
+          "desc": "Culminación del relleno masivo y compactación mecánica de la calicata en el primer nivel (ejes 2-3/B-C). Preparación de plataforma de cimentación y verificación de niveles."
+        }
+      ]
+    },
+    "APISONADOR_Mayo_2026": {
+      "meta": {
+        "nombre_equipo": "SERVICIO DE ALQUILER DE APISONADOR",
+        "os_equipo": "0001620"
+      },
+      "rows": [
+        {
+          "mes": "Mayo",
+          "fecha": "2026-05-03",
+          "dia": "domingo",
+          "mIni": "08:00",
+          "mFin": "12:00",
+          "mCant": "4.00",
+          "tIni": "13:00",
+          "tFin": "16:30",
+          "tCant": "3.50",
+          "tot": "7.50",
+          "comb": "1.00",
+          "desc": "Inicio de compactado en el eje D-E entre 1-2-3 en el segundo nivel. Extendido, humectación homogénea y compactación mecánica de la primera capa de material granular seleccionado."
+        },
+        {
+          "mes": "Mayo",
+          "fecha": "2026-05-05",
+          "dia": "martes",
+          "mIni": "08:00",
+          "mFin": "12:00",
+          "mCant": "4.00",
+          "tIni": "13:00",
+          "tFin": "16:00",
+          "tCant": "3.00",
+          "tot": "7.00",
+          "comb": "1.00",
+          "desc": "Asiento N° 211: Continuación y consolidación de compactado eje D-E 2do nivel. Densificación mecánica perimetral con apisonador de capas de relleno estructural adyacentes a columnetas y muros."
+        },
+        {
+          "mes": "Mayo",
+          "fecha": "2026-05-08",
+          "dia": "viernes",
+          "mIni": "08:00",
+          "mFin": "12:00",
+          "mCant": "4.00",
+          "tIni": "13:00",
+          "tFin": "16:30",
+          "tCant": "3.50",
+          "tot": "7.50",
+          "comb": "1.00",
+          "desc": "Asiento N° 218: Colocado de impermeabilizante RC en muro MC-1 antes de la compactación. Nivelación y compactación mecánica de base confinada con apisonador previo al vaciado de suelo cemento."
+        },
+        {
+          "mes": "Mayo",
+          "fecha": "2026-05-12",
+          "dia": "martes",
+          "mIni": "08:00",
+          "mFin": "12:00",
+          "mCant": "4.00",
+          "tIni": "13:00",
+          "tFin": "16:00",
+          "tCant": "3.00",
+          "tot": "7.00",
+          "comb": "1.00",
+          "desc": "Asiento N° 218: Verificación y registro de compactación en zona del muro MC-1 en 2do y 3er nivel. Nivelación y compactación mecánica de relleno estructural entre edificación nueva y muro existente."
+        },
+        {
+          "mes": "Mayo",
+          "fecha": "2026-05-21",
+          "dia": "jueves",
+          "mIni": "08:00",
+          "mFin": "12:00",
+          "mCant": "4.00",
+          "tIni": "13:00",
+          "tFin": "16:30",
+          "tCant": "3.50",
+          "tot": "7.50",
+          "comb": "1.00",
+          "desc": "Asiento N° 235 (Inspectoría): Se solicita relleno y compactación urgente en primer piso para asegurar estabilidad estructural por zapata expuesta. Se ejecutó perfilado y compactado con apisonador."
+        },
+        {
+          "mes": "Mayo",
+          "fecha": "2026-05-25",
+          "dia": "lunes",
+          "mIni": "08:00",
+          "mFin": "12:00",
+          "mCant": "4.00",
+          "tIni": "13:00",
+          "tFin": "16:00",
+          "tCant": "3.00",
+          "tot": "7.00",
+          "comb": "1.00",
+          "desc": "Asiento N° 240 (Inspectoría): Se reitera requerimiento de relleno y compactado en primer piso. Tendido, nivelación y compactación mecánica con apisonador conformando plataforma de suelo seleccionado."
+        },
+        {
+          "mes": "Mayo",
+          "fecha": "2026-05-29",
+          "dia": "viernes",
+          "mIni": "08:00",
+          "mFin": "12:00",
+          "mCant": "4.00",
+          "tIni": "13:00",
+          "tFin": "16:30",
+          "tCant": "3.50",
+          "tot": "7.50",
+          "comb": "1.00",
+          "desc": "Asiento N° 252 (Inspectoría): Se autorizó empleo de suelo cemento para relleno y compactación entre edificación nueva y existente. Trabajos de acondicionamiento y compactado mecánico de franja de transición."
+        }
+      ]
+    },
+    "APISONADOR_Junio_2026": {
+      "meta": {
+        "nombre_equipo": "SERVICIO DE ALQUILER DE APISONADOR",
+        "os_equipo": "0001620"
+      },
+      "rows": [
+        {
+          "mes": "Junio",
+          "fecha": "2026-06-04",
+          "dia": "jueves",
+          "mIni": "08:30",
+          "mFin": "12:00",
+          "mCant": "3.50",
+          "tIni": "13:30",
+          "tFin": "15:00",
+          "tCant": "1.50",
+          "tot": "5.00",
+          "comb": "0.75",
+          "desc": "Asiento N° 259 (Inspectoría): Se constatan espacios en 2º y 3º piso para relleno y compactado. Se ejecutó nivelación y compactado mecánico con apisonador, completando las 60.00 HM del servicio y cierre."
         }
       ]
     }
@@ -73817,6 +77157,1044 @@
           "detalle": "PIEDRA CHANCADA DE ½ IN"
         }
       ]
+    },
+    "2026-11-04": {
+      "ingresos": [
+        {
+          "cant": "!",
+          "detalle": "O/C N° 2619"
+        }
+      ],
+      "ocurrencias": "ADELANTOS DEL PROVEEDOR SIN ORDEN DE COMPRA:\n•\t200 UND MAMELUCOS TABEK\n•\t03 UND TUBOS 4 IN\n•\t08 UND CONECTOR 4 IN\n•\t02 UND ADITIBO IMPERMEABILIZANTE\n•\t25 UND ADITIVO ENDURECEDOR\n•\t30 UND CAJAS METALICAS 10 IN\n•\t05 UND CANDADOS PARA WINCHE\nTAMBIEN ESTA COMPLETANDO LA ORDEN DE LOS AGREGADOS 15 M3 DE ARENA GRUESA",
+      "salidas": [
+        {
+          "cant": "7 UND",
+          "detalle": "TRAJE DESCARTABLE PARA PROTECCION TIPO MAMELUCO EN TELA NO TEJIDA DE POLIETILENO DE ALTA DENSIDAD TALLA M-STEELPRO"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "PROTECTOR AUDITIVO (OREJERA) PARA CASCO – NACIONAL"
+        },
+        {
+          "cant": "02 UND",
+          "detalle": "LENTES DE SEGURIDAD CON PROTECCION ULTRAVIOLETA – SEGPRO"
+        },
+        {
+          "cant": "01 PAR",
+          "detalle": "GUANTE ANTICORTE – STEELPRO"
+        },
+        {
+          "cant": "01 PAR",
+          "detalle": "GUANTE DE HILO"
+        },
+        {
+          "cant": "01 PAR",
+          "detalle": "GUANTE DE JEBE CALIBRE 35-NACIONAL"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "CHALECO DE DRIL TIPO PERIODISTA UNISEX-NACIONAL"
+        },
+        {
+          "cant": "100 UND",
+          "detalle": "ABRAZADERA DE ACERO INOXIDABLE 3/4 IN – NACIONAL"
+        },
+        {
+          "cant": "150 UND",
+          "detalle": "ABRAZADERA DE ACERO INOXIDABLE 1 IN – NACIONAL"
+        },
+        {
+          "cant": "03 UND",
+          "detalle": "SOCKET CON BASE PARA FOCO-NACIONAL"
+        },
+        {
+          "cant": "15 UND",
+          "detalle": "TAPON MACHO DE PVC 3/4 in"
+        },
+        {
+          "cant": "10 UND",
+          "detalle": "CINTA TEFLON 3/4 in X 12m - C&A"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "REDUCCION PARA SOLDAR O PEGAR  DE PVC 4 IN X 2 IN"
+        },
+        {
+          "cant": "05 UND",
+          "detalle": "YEE PARA SOLDAR O PEGAR DE PVC SAL 4 in X 2 in"
+        },
+        {
+          "cant": "03 UND",
+          "detalle": "CODO PARA SOLDAR O PEGAR DE PVC PARA DESAGÜE 4 in X 90°"
+        },
+        {
+          "cant": "04 UND",
+          "detalle": "AGUA MINERAL SIN GAS X 20 L –CIELO"
+        },
+        {
+          "cant": "2975 KG",
+          "detalle": "CEMENTO PORTLAND TIPO IP"
+        },
+        {
+          "cant": "5.00 M3",
+          "detalle": "ARENA GRUESA"
+        },
+        {
+          "cant": "5.00 M3",
+          "detalle": "PIEDRA CHANCADA DE ½ IN"
+        }
+      ]
+    },
+    "2026-11-05": {
+      "ingresos": [
+        {
+          "cant": "!",
+          "detalle": "NO HAY INGRESO"
+        }
+      ],
+      "ocurrencias": "",
+      "salidas": [
+        {
+          "cant": "06 UND",
+          "detalle": "TRAJE DESCARTABLE PARA PROTECCION TIPO MAMELUCO EN TELA NO TEJIDA DE POLIETILENO DE ALTA DENSIDAD TALLA M-STEELPRO"
+        },
+        {
+          "cant": "02 UND",
+          "detalle": "FAJA DE PROTECCION LUMBAR PARA TRANSPORTE DE CARGA TALLA L- STEELPRO"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "LENTES DE SEGURIDAD CON PROTECCION ULTRAVIOLETA – SEGPRO"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "TAPON DE OIDO DE POLIMERO INDIVIDUAL CON ESTUCHE - STEELPRO"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "GUANTE ANTICORTE"
+        },
+        {
+          "cant": "01 PAR",
+          "detalle": "GUANTE DE JEBE CALIBRE 35-NACIONAL"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "RODILLERAS PARA PROTECCION - NACIONAL"
+        },
+        {
+          "cant": "05 UND",
+          "detalle": "BALDES DE PLASTICO"
+        },
+        {
+          "cant": "02 UND",
+          "detalle": "PAPEL TOALLA HOJA SIMPLE BLANCO X 305 m – IMPORTADO"
+        },
+        {
+          "cant": "20 UND",
+          "detalle": "TEE CON ROSCA DE PVC SAP 3/4 in"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "FORMADOR DE EMPAQUETADURA 143 g - ADEX."
+        },
+        {
+          "cant": "10 UND",
+          "detalle": "CINTA TEFLON 3/4 in X 12m - C&A"
+        },
+        {
+          "cant": "05 UND",
+          "detalle": "DISCO DE CORTE PARA FIERRO 4 in - NORTON"
+        },
+        {
+          "cant": "10 UND",
+          "detalle": "TUBO DE PVC PARA DESAGÜE SAL 2 in X 3 m"
+        },
+        {
+          "cant": "25 UND",
+          "detalle": "TUBO DE PVC PARA INSTALACIONES ELÉCTRICAS SAP 3/4 in x 3 m"
+        },
+        {
+          "cant": "04 UND",
+          "detalle": "TUBO DE PVC PARA INSTALACIONES ELÉCTRICAS SAP 1 in x 3m"
+        },
+        {
+          "cant": "10 UND",
+          "detalle": "NIPLE DE PVC 3/4 in X 1 in- PAVCO"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "TUBO DE PVC 3/4 in X 5 m CON ROSCA – PAVCO"
+        },
+        {
+          "cant": "02 UND",
+          "detalle": "AGUA MINERAL SIN GAS X 20 L –CIELO"
+        },
+        {
+          "cant": "03 UND",
+          "detalle": "ADITIVO IMPERMEBILIZANTE PARA MORTERO Y CONCRETO X 20 L-SIKA"
+        },
+        {
+          "cant": "02 UND",
+          "detalle": "CORDEL DE NAYLONPARA TRAZO"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "DRIZA DE POLIPROPILENO 1/8 IN X100 M-NACIONAL"
+        },
+        {
+          "cant": "04 UND",
+          "detalle": "ESCOBAS DE CERDAS DE PAJA  -NACIONAL"
+        },
+        {
+          "cant": "10 UND",
+          "detalle": "ESCOBILLA MANUAL CERDA DE ACERO CON MANGO 4 IN –UYUSTOOLS"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "PALA TIPO CUCHARA DE METAL DE MANGO DE METAL –NACINAL"
+        },
+        {
+          "cant": "06 UND",
+          "detalle": "REGLAS DE ALUMINIO DE USO EN LA CONSTRUCCION 1 ½ in X3 ½ in X6 m-NACIONAL"
+        },
+        {
+          "cant": "01 GLN",
+          "detalle": "REMOVEDOR DE OXIDO"
+        },
+        {
+          "cant": "1700 KG",
+          "detalle": "CEMENTO PORTLAND TIPO IP"
+        },
+        {
+          "cant": "2.82 M3",
+          "detalle": "ARENA GRUESA"
+        },
+        {
+          "cant": "2.60 M3",
+          "detalle": "PIEDRA CHANCADA DE ½ IN"
+        }
+      ]
+    },
+    "2026-11-06": {
+      "ingresos": [
+        {
+          "cant": "!",
+          "detalle": "NO HAY INGRESO"
+        }
+      ],
+      "ocurrencias": "•\tSE PRESTO MADERA A LA OBRA JOSE CARLOS MARIATEGUI\n•\tNOS PRESTAMOS CON ACTA  01 BALDE DE ANTISOL DE LA OBRA JOSE CARLOS MARIATEGUI",
+      "salidas": [
+        {
+          "cant": "03 UND",
+          "detalle": "TRAJE DESCARTABLE PARA PROTECCION TIPO MAMELUCO EN TELA NO TEJIDA DE POLIETILENO DE ALTA DENSIDAD TALLA M-STEELPRO"
+        },
+        {
+          "cant": "07 UND",
+          "detalle": "RODILLERAS PARA PROTECCION - NACIONAL"
+        },
+        {
+          "cant": "05 UND",
+          "detalle": "LENTES DE SEGURIDAD CON PROTECCION ULTRAVIOLETA – SEGPRO"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "PROTECTOR AUDITIVO (OREJERA) PARA CASCO - NACIONAL"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "FILTRO  PARA RESPIRADOR  DE PROCTECCION CONTRA POLVOS  Y PARTICULAS -3M"
+        },
+        {
+          "cant": "01 PAR",
+          "detalle": "GUANTE DE JEBE CALIBRE 35-NACIONAL"
+        },
+        {
+          "cant": "03 PAR",
+          "detalle": "GUANTE ANTICORTE"
+        },
+        {
+          "cant": "02 PAR",
+          "detalle": "GUANTE BADANA"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "FAJA DE PROTECCION LUMBAR PARA TRANSPORTE DE CARGA TALLA L- STEELPRO"
+        },
+        {
+          "cant": "04 KG",
+          "detalle": "CLAVO 4 IN"
+        },
+        {
+          "cant": "6 KG",
+          "detalle": "ALAMBRE N°8"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "ESCALERA DE ALUMINIO TIPO TIJERA DE 7 PASOS-TRUPER"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "DISCO DE DESBASTE 4 ½ IN –CONCRETO IMPORTADO"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "DISCO PARA AMOLADORA DE DESBASTE 4 ½ IN -NACIONAL"
+        },
+        {
+          "cant": "05 UND",
+          "detalle": "DISCO DE CORTE PARA FIERRO 4 in - NORTON"
+        },
+        {
+          "cant": "03 UND",
+          "detalle": "TEE CON ROSCA DE PVC SAP 1/2 in - NACIONAL"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "LAPIZ BICOLOR PUNTA GRUESA -NACIONAL"
+        },
+        {
+          "cant": "02 UND",
+          "detalle": "PLUMON DE TINTA INDELEBLE PUNTA MEDIANA COLOR NEGRO-ARTESCO"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "AGUA MINERAL SIN GAS X 20 L –CIELO"
+        },
+        {
+          "cant": "04 GLN",
+          "detalle": "GASHOL"
+        },
+        {
+          "cant": "722.50 KG",
+          "detalle": "CEMENTO PORTLAND TIPO IP"
+        },
+        {
+          "cant": "1.2 M3",
+          "detalle": "ARENA GRUESA"
+        },
+        {
+          "cant": "1.1 M3",
+          "detalle": "PIEDRA CHANCADA DE ½ IN"
+        }
+      ]
+    },
+    "2026-11-07": {
+      "ingresos": [
+        {
+          "cant": "!",
+          "detalle": "NO HAY INGRESO"
+        }
+      ],
+      "ocurrencias": "",
+      "salidas": [
+        {
+          "cant": "01 UND",
+          "detalle": "TRAJE DESCARTABLE PARA PROTECCION TIPO MAMELUCO EN TELA NO TEJIDA DE POLIETILENO DE ALTA DENSIDAD TALLA M-STEELPRO"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "BROCA PARA CONCRETO ¾ IN"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "CINCEL DE ACERO PUNTA PALA SDS PLUS X 25 CM- BOSCH"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "BROCA PARA CONCRETO DE 1 IN"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "DISCO PARA AMOLADORA DE DESBASTE 4 ½ IN-NACIONAL"
+        },
+        {
+          "cant": "04 UND",
+          "detalle": "FULMINANTE 22mm COLOR VERDE X 100 – IMPORTADO"
+        },
+        {
+          "cant": "300 UND",
+          "detalle": "CLAVO DE ACERO PARA FIJACION A POLVORA ¾ IN – IMPORTADO"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "PISTOLA PARA FIJAR CLAVOS"
+        }
+      ]
+    },
+    "2026-11-09": {
+      "ingresos": [
+        {
+          "cant": "!",
+          "detalle": "NO HAY INGRESO"
+        }
+      ],
+      "ocurrencias": "•\tLA OBRA EL MALECON DEVOLVIO 50 BOLSAS DE CEMENTO",
+      "salidas": [
+        {
+          "cant": "04 UND",
+          "detalle": "TRAJE DESCARTABLE PARA PROTECCION TIPO MAMELUCO EN TELA NO TEJIDA DE POLIETILENO DE ALTA DENSIDAD TALLA M-STEELPRO"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "CORTAVIENTO  PROTECTOR  DE DRIL PARA USO DEBAJO CASCO-NACIONAL"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "ANTEOJOS DE SEGURIDAD DE POLICARBONATO PARA PROTECCIÓN DE LENTES DE MEDIDA – STEELPRO"
+        },
+        {
+          "cant": "01 PAR",
+          "detalle": "GUANTE ANTICORTE"
+        },
+        {
+          "cant": "01 PAR",
+          "detalle": "GUANTE BADANA"
+        },
+        {
+          "cant": "03 UND",
+          "detalle": "LAPIZ BICOLOR PUNTA GRUESA -NACIONAL"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "POLIESTIRENO EXPANDIDO 1in X 1.20m X 2.40 m"
+        },
+        {
+          "cant": "02 KG",
+          "detalle": "YESO X25 KG –NACIONAL"
+        },
+        {
+          "cant": "01 PAR",
+          "detalle": "GUANTE DE JEBE"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "MARTILLO DE GOMA DE 24 OZ - NACIONAL"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "DISCO DE CORTE PARA MADERA 7 ¼  in"
+        },
+        {
+          "cant": "02 UND",
+          "detalle": "DISCO DE CORTE PARA FIERRO 4 in - NORTON"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "CORDEL DE NAILON PARA TRAZO – NACIONAL"
+        },
+        {
+          "cant": "04 UND",
+          "detalle": "CONECTOR DE COBRE DE 3/4 in - NACIONAL"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "ANTICORROSIVO EPOXICO Y PUENTE DE ADHERENCIA X 1 KG – SIKA"
+        },
+        {
+          "cant": "05 UND",
+          "detalle": "TUBO DE PVC 1/2 in"
+        },
+        {
+          "cant": "20 M",
+          "detalle": "CONDUCTOR COBRE TIPO WP (CPI), CABLEADO DE 25 mm2 - CELSA"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "PEGAMENTO PARA PVC - OATEY"
+        },
+        {
+          "cant": "02 UND",
+          "detalle": "TUBO DE PVC PARA DESAGUE SAP 4 in X 3 m"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "ADITIVO IMPERMEABILIZANTE PARA MORTERO Y CONCRETO X 20 L –SIKA"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "PAPEL TOALLA HOJA SIMPLE BLANCO X 305 m – IMPORTADO"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "AGUA MINERAL SIN GAS X 20 L –CIELO"
+        },
+        {
+          "cant": "467.50 KG",
+          "detalle": "CEMENTO PORTLAND TIPO IP"
+        },
+        {
+          "cant": "0.6 M",
+          "detalle": "3 ARENA GRUESA"
+        },
+        {
+          "cant": "0.18 M",
+          "detalle": "3 PIEDRA CHANCADA DE ½ IN"
+        },
+        {
+          "cant": "0.80 M",
+          "detalle": "3  ARENA FINA"
+        }
+      ]
+    },
+    "2026-11-10": {
+      "ingresos": [
+        {
+          "cant": "!",
+          "detalle": "NO HAY INGRESO"
+        }
+      ],
+      "ocurrencias": "",
+      "salidas": [
+        {
+          "cant": "05 UND",
+          "detalle": "TRAJE DESCARTABLE PARA PROTECCION TIPO MAMELUCO EN TELA NO TEJIDA DE POLIETILENO DE ALTA DENSIDAD TALLA M-STEELPRO"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "GUANTE DE HILO"
+        },
+        {
+          "cant": "02 PAR",
+          "detalle": "GUANTE DE JEBE"
+        },
+        {
+          "cant": "02 UND",
+          "detalle": "LENTES DE SEGURIDAD CON PROTECCION ULTRAVIOLETA"
+        },
+        {
+          "cant": "19 UND",
+          "detalle": "CONECTOR DE PVC SAP 3/4 in"
+        },
+        {
+          "cant": "03 UND",
+          "detalle": "CEMENTO CONDUCTIVO X 25 kg – THORGEM"
+        },
+        {
+          "cant": "02 UND",
+          "detalle": "BENTONITA SODICA X 25 KG"
+        },
+        {
+          "cant": "02 UND",
+          "detalle": "GEL SEMICONDUCTOR INSOLUBLE E HIGROSCOPICO PARA PUESTA A TIERRA X 5 kg – THORGEL"
+        },
+        {
+          "cant": "06 UND",
+          "detalle": "TUBO DE PVC PARA INSTALACIONES ELÉCTRICAS SAP 3/4 in X 3 m"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "DISCO DE CORTE PARA CONCRETO 4 ½ IN"
+        },
+        {
+          "cant": "05 UND",
+          "detalle": "TEE PARA SOLDAR O PEGAR DE PVC SAP PARA DESAGUE 4 IN"
+        },
+        {
+          "cant": "15 UND",
+          "detalle": "TUBO DE PVC PARA DESAGÜE SAL 2 in X 3 m - NICOLL"
+        },
+        {
+          "cant": "02 UND",
+          "detalle": "DISCO DE CORTE PARA FIERRO 4 in - NORTON"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "AGUA MINERAL SIN GAS X 20 L –CIELO"
+        },
+        {
+          "cant": "1020 KG",
+          "detalle": "CEMENTO PORTLAND TIPO IP"
+        },
+        {
+          "cant": "1.60 M",
+          "detalle": "3 ARENA GRUESA"
+        },
+        {
+          "cant": "1.60 M",
+          "detalle": "3 PIEDRA CHANCADA DE ½ IN"
+        },
+        {
+          "cant": "0.50 M",
+          "detalle": "3  ARENA FINA"
+        }
+      ]
+    },
+    "2026-11-11": {
+      "ingresos": [
+        {
+          "cant": "!",
+          "detalle": "NO HAY INGRESO"
+        }
+      ],
+      "ocurrencias": "•\tSE DEVOLVIO A LA OBRA JOSE CARLOS MARIATEGUI SEGÚN ACTA EPP Y ALAMBRE",
+      "salidas": [
+        {
+          "cant": "04 UND",
+          "detalle": "TRAJE DESCARTABLE PARA PROTECCION TIPO MAMELUCO EN TELA NO TEJIDA DE POLIETILENO DE ALTA DENSIDAD TALLA M-STEELPRO"
+        },
+        {
+          "cant": "01 PAR",
+          "detalle": "GUANTE BADANA"
+        },
+        {
+          "cant": "02 UND",
+          "detalle": "LENTES DE SEGURIDAD CON PROTECCION ULTRAVIOLETA"
+        },
+        {
+          "cant": "02 PAR",
+          "detalle": "BOTA DE CUERO CON PUNTA DE ACERO UNISEX-SANDER"
+        },
+        {
+          "cant": "01 PAR",
+          "detalle": "GUANTE DE JEBE"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "CHALECO DE DRIL TIPO PERIODISTA UNISEX-NACIONAL"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "WINCHA PASACABLE DE METAL 30 m- NACIONAL"
+        },
+        {
+          "cant": "06 UND",
+          "detalle": "CINCEL DE ACERO PUNTA PALA SDS PLUS X 25 cm – BOSCH"
+        },
+        {
+          "cant": "06 UND",
+          "detalle": "CINCEL DE ACERO PUNTA PLANA SDS PLUS X 25 cm – BOSCH"
+        },
+        {
+          "cant": "05 UND",
+          "detalle": "DISCO DE CORTE PARA FIERRO 4 in – NORTON"
+        },
+        {
+          "cant": "20 UND",
+          "detalle": "CONECTOR DE PVC SAP 3/4 in – TUBOPLAST"
+        },
+        {
+          "cant": "02 UND",
+          "detalle": "BAJA LENGUA DE MADERA ADULTO X 100  - ALKHOFAR"
+        },
+        {
+          "cant": "02 UND",
+          "detalle": "CABESTRILLO DE BRAZO TALLA L- NACIONAL"
+        },
+        {
+          "cant": "02 UND",
+          "detalle": "CAJA DE CARTON DESCARTABLE PARA MATERIAL PUNZOCORTANTE X 7.5 L –BIO DESCARTEX"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "COLLARIN CERVICAL RIGIDO PARA ADULTO- GENERICO"
+        },
+        {
+          "cant": "05 UND",
+          "detalle": "COMPRESA GASA QUIRURGICA RADIOPACA ESTERIL 48 cm X 48 cm X 5 –ALKHOFAR"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "INMOVILIZADOR OE CABEZA – IMPORTADO"
+        },
+        {
+          "cant": "100 UND",
+          "detalle": "LANCETA DESCARTABLE RETRACTIL 18GX1.8 mm-  ACCU-CHEK"
+        },
+        {
+          "cant": "02 UND",
+          "detalle": "NAFAZOLINA 120 µg/mL SOL OFT 15mL-FLORIL"
+        },
+        {
+          "cant": "50 UND",
+          "detalle": "DET TIRA REACTIVA PARA GLUCOSA EN SANGRE – INSTANT"
+        },
+        {
+          "cant": "02 UND",
+          "detalle": "TORNIQUETE MECANICO PARA MIEMBRO INFERIOR- IMPORTADO"
+        },
+        {
+          "cant": "10 UND",
+          "detalle": "VENDA ELASTICA 6 in X 5 yd – GENERICO"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "AGUA MINERAL SIN GAS X 20 L –CIELO"
+        },
+        {
+          "cant": "722.5 KG",
+          "detalle": "CEMENTO PORTLAND TIPO IP"
+        },
+        {
+          "cant": "2.4 M3",
+          "detalle": "ARENA GRUESA"
+        },
+        {
+          "cant": "1.2 M3",
+          "detalle": "PIEDRA CHANCADA DE ½ IN"
+        }
+      ]
+    },
+    "2026-11-12": {
+      "ingresos": [
+        {
+          "cant": "!",
+          "detalle": "NO HAY INGRESO QUE YO SEPA"
+        }
+      ],
+      "ocurrencias": "",
+      "salidas": [
+        {
+          "cant": "02 UND",
+          "detalle": "TRAJE DESCARTABLE PARA PROTECCION TIPO MAMELUCO EN TELA NO TEJIDA DE POLIETILENO DE ALTA DENSIDAD TALLA M-STEELPRO"
+        },
+        {
+          "cant": "01 PAR",
+          "detalle": "BOTA DE CUERO CON PUNTA DE ACERO UNISEX-SANDER"
+        },
+        {
+          "cant": "04 UND",
+          "detalle": "LENTES DE SEGURIDAD CON PROTECCION ULTRAVIOLETA"
+        },
+        {
+          "cant": "01 PAR",
+          "detalle": "GUANTE DE BADANA UNISEX"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "PANTALON DE DENIM CON CINTA REFLECTIVA PARA CABALLERO -NACIONAL"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "RODILLERAS PARA PROTECCION - NACIONAL"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "ANTEOJOS DE SEGURIDAD DE POLICARBONATO PARA PROTECCIÓN DE LENTES DE MEDIDA – STEELPRO"
+        },
+        {
+          "cant": "53 UND",
+          "detalle": "LADRILLO  PARA TECHO 15CM X30CM X30CM- DIAMANTE"
+        },
+        {
+          "cant": "237 UND",
+          "detalle": "LADRILLO PASTELERO 3 CM X 24 CM X24 CM - PIRAMIDE"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "DISCO DE CORTE PARA MADERA 7 1/4 IN- TRUPER"
+        },
+        {
+          "cant": "06 UND",
+          "detalle": "TRIPLAY(TABLERO CONTRACHAPADO) DE LUPUNA 4  m.m X 1.22 m X2.44m -DILOMA"
+        },
+        {
+          "cant": "02 UND",
+          "detalle": "PLUMON DE TINTA INDELEBLE PUNTA MEDIANA COLOR NEGRO- ARTESCO"
+        },
+        {
+          "cant": "10 UND",
+          "detalle": "CODO PARA SOLDAR O PEGAR DE PVC 2 in X 45º - PAVCO"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "FORMADOR DE EMPAQUETADURA 143 g - ADEX."
+        },
+        {
+          "cant": "01 GLN",
+          "detalle": "REMOVEDOR DE OXIOO - CHEMA"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "MALLA  RASCHEL AL 90%"
+        },
+        {
+          "cant": "02 UND",
+          "detalle": "MARTILLO DE GOMA DE 24 OZ – NACIONAL"
+        },
+        {
+          "cant": "1.92 UND",
+          "detalle": "YESO X25KG – NACIONAL"
+        },
+        {
+          "cant": "06 UND",
+          "detalle": "ESCOBILLA MANUAL CERDA DE ACERO CON MANGO 4 In- TRUPER"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "ADHESIVO EPOXICO EN GEL X 1KG -SIKA"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "PROTECTOR SOLAR  FPS 55 UVA -UVB CRM 1L –NACIONAL"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "BOLSA POLIETILENO 4UM X90 CM X 1.50 APROX - NACIONAL"
+        },
+        {
+          "cant": "02 UND",
+          "detalle": "GEL SEMICONDUCTOR INSOLUBLE E HIGROSCOPICO PARA PUESTA A TIERRA X 5 kg – THORGEL"
+        },
+        {
+          "cant": "03 UND",
+          "detalle": "ÁCIDO MURIÁTICOX1 gal - NACIONAL."
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "ALGODON HIDROFILO X 500 g – CKF"
+        },
+        {
+          "cant": "05 UND",
+          "detalle": "BOLSA DE POLIETILENO 3 um X 50 cm X 70 cm APROX. COLOR NEGRO –CONTINENTAL"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "CLORURO DE SODIO P.A. X1L- MEDIC"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "ESPARADRAPO IMPERMEABLE DE TELA 5.00 cm X4.50 m – MEDICAL"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "GASA ESTERIL PRECORTADA 10 cm X 10 cm – MEDICAL"
+        },
+        {
+          "cant": "04 UND",
+          "detalle": "GASA PARAFINADA 10 cm X 10 cm –JELONET"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "GUANTE DESCARTABLE DE POLIETILENO X 100 – MEDIC"
+        },
+        {
+          "cant": "05 PAR",
+          "detalle": "GUANTE QUIRURGICO ESTERIL DESCARTABLE N° 7- ALKHOFAR"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "JABON GERMICIDA LIQUIDO X4 LAPROX. – DARYZA"
+        },
+        {
+          "cant": "03 UND",
+          "detalle": "LEJIA (HIPOCLORITO DE SODIO) AL 7.5% X 1 gal – NACIONAL"
+        },
+        {
+          "cant": "100 UND",
+          "detalle": "MASCARILLA DESCARTABLE TIPO N-95 - 3M"
+        },
+        {
+          "cant": "03 UND",
+          "detalle": "PAÑO DE MICROFIBRA 40 cm X 40 cm APROX. - NACIONAL."
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "PEROXIDO DE HIDROGENO 10 V SOL 1 L-ALKOFARMA"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "YODOPOVIDONA USP X1 L - NACIONAL."
+        },
+        {
+          "cant": "04 UND",
+          "detalle": "CEMENTO CONDUCTIVO X 25 kg – THORGEM"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "LAPIZ BICOLOR  PUNTA GRUESA –NACIONAL"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "LAPIZ BICOLOR PUNTA GRUESA - NACIONAL"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "AGUA MINERAL SIN GAS X 20 L –CIELO"
+        },
+        {
+          "cant": "923 KG",
+          "detalle": "CEMENTO PORTLAND TIPO IP"
+        },
+        {
+          "cant": "2.20 M3",
+          "detalle": "ARENA GRUESA"
+        },
+        {
+          "cant": "0.70 M3",
+          "detalle": "PIEDRA CHANCADA DE ½ IN"
+        },
+        {
+          "cant": "15 M3",
+          "detalle": "TIERRA DE CHACRA"
+        }
+      ]
+    },
+    "2026-11-13": {
+      "ingresos": [
+        {
+          "cant": "!",
+          "detalle": "NO HAY INGRESO QUE YO SEPA       …..  :V"
+        }
+      ],
+      "ocurrencias": "LLEGO 15 M3 DE PIEDRA CHANCADA\n10 UND DE CAJAS ELECTRICAS DE 10 IN (ADELANTO)",
+      "salidas": [
+        {
+          "cant": "02 UND",
+          "detalle": "TRAJE DESCARTABLE PARA PROTECCION TIPO MAMELUCO EN TELA NO TEJIDA DE POLIETILENO DE ALTA DENSIDAD TALLA M-STEELPRO"
+        },
+        {
+          "cant": "02 UND",
+          "detalle": "LENTES DE SEGURIDAD CON PROTECCION ULTRAVIOLETA"
+        },
+        {
+          "cant": "02 PAR",
+          "detalle": "GUANTE DE BADANA UNISEX"
+        },
+        {
+          "cant": "08 UND",
+          "detalle": "VALVULA DE COMPUERTA 3/4 in – CIM"
+        },
+        {
+          "cant": "16 UND",
+          "detalle": "CODO CON ROSCA DE PVC 3/4 in X 90°"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "FORMADOR DE EMPAQUETADURA 143 g - ADEX."
+        },
+        {
+          "cant": "16 UND",
+          "detalle": "UNION CONROSCA UNIVERSAL DE PVC 3/4 in"
+        },
+        {
+          "cant": "20 UND",
+          "detalle": "CINTA TEFLON 1/2 in X 10 m"
+        },
+        {
+          "cant": "14 UND",
+          "detalle": "NIPLE DE PVC 3/4 in X 1 in- PAVCO"
+        },
+        {
+          "cant": "03 UND",
+          "detalle": "BROCA DE ACERO PARA ROTOMARTILLO 10 in - NACIONAL"
+        },
+        {
+          "cant": "02 UND",
+          "detalle": "BROCA PARA CONCRETO 1 In - IMPORTADO"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "BROCA PARA METAL  1/2 in -TRUPER"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "DISCO DE CORTE PARA MADERA 7 1/4 IN- TRUPER"
+        },
+        {
+          "cant": "03 UND",
+          "detalle": "POLIESTIRENO EXPANDIDO 1 in X 1.20 m X 2.40 m-NACIONAL"
+        },
+        {
+          "cant": "30 UND",
+          "detalle": "POLIESTIRENO EXPANDIDO 12 cm X SOc:m X 1.20 m-NACIONAL"
+        },
+        {
+          "cant": "05 UND",
+          "detalle": "DISCO DE CORTE PARA FIERRO 4 in – NORTON"
+        },
+        {
+          "cant": "01 KG",
+          "detalle": "WAIPE INDUSTRIAL-LACOSTE"
+        },
+        {
+          "cant": "10 UND",
+          "detalle": "CINTA TEFLON 3/4 in X 12m - C&A"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "PAPEL TOALLA HOJA SIMPLE BLANCO X 305 m – IMPORTADO"
+        },
+        {
+          "cant": "20 UND",
+          "detalle": "CONECTOR DE PVC SAP 3/4 in – TUBOPLAST"
+        },
+        {
+          "cant": "11 KG",
+          "detalle": "ALAMBRE DE ACERO NEGRO RECOCIDO CALIBRE 8- METALICK"
+        },
+        {
+          "cant": "06 UND",
+          "detalle": "AGUA MINERAL SIN GAS X 20 L –CIELO"
+        },
+        {
+          "cant": "850 KG",
+          "detalle": "CEMENTO PORTLAND TIPO IP"
+        },
+        {
+          "cant": "2.30 M3",
+          "detalle": "ARENA GRUESA"
+        },
+        {
+          "cant": "0.70 M3",
+          "detalle": "PIEDRA CHANCADA DE ½ IN"
+        }
+      ]
+    },
+    "2026-11-14": {
+      "ingresos": [
+        {
+          "cant": "!",
+          "detalle": "NO HAY INGRESO QUE YO SEPA       …..  :V"
+        }
+      ],
+      "ocurrencias": "",
+      "salidas": [
+        {
+          "cant": "03 UND",
+          "detalle": "TRAJE DESCARTABLE PARA PROTECCION TIPO MAMELUCO EN TELA NO TEJIDA DE POLIETILENO DE ALTA DENSIDAD TALLA M-STEELPRO"
+        },
+        {
+          "cant": "03 KG",
+          "detalle": "WAIPE INDUSTRIAL-LACOSTE"
+        },
+        {
+          "cant": "05 UND",
+          "detalle": "DISCO DE CORTE PARA FIERRO 4 in – NORTON"
+        },
+        {
+          "cant": "02 UND",
+          "detalle": "DISCO DE CORTE PARA CONCRETO 4 1/2 IN- NORTON"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "PLUMON DE TINTA INDELEBLE PUNTA MEDIANA COLOR NEGRO- ARTESCO"
+        },
+        {
+          "cant": "08 UND",
+          "detalle": "VARILLA DE FIERRO CORRUGADO FY=4200 kg/cm2 GRADO 60 DE 1/2 in X9.00 m"
+        },
+        {
+          "cant": "03 UND",
+          "detalle": "TUBO DE PVC 2 in X 5 m- PAVCO"
+        },
+        {
+          "cant": "15 UND",
+          "detalle": "TUBO DE PVC PARA DESAGUE SAP 2 in X 3 m – TUBOPLAST"
+        },
+        {
+          "cant": "01 UND",
+          "detalle": "AGUA MINERAL SIN GAS X 20 L –CIELO"
+        },
+        {
+          "cant": "255 KG",
+          "detalle": "CEMENTO PORTLAND TIPO IP"
+        },
+        {
+          "cant": "0.70 M3",
+          "detalle": "ARENA FINA"
+        }
+      ]
     }
   },
   "observaciones_data": {
@@ -74576,6 +78954,39 @@
     ],
     "2026-11-03": [
       "El día de hoy 03/11/2026 se impartió la charla de seguridad a cargo del Ing. Fernando Miranda con el tema \"Peligros y riesgos en la manipulación de cemento\", dirigida al personal de la edificación del laboratorio ambiental. Durante la sesión, se instruyó a los trabajadores sobre las afecciones respiratorias, lesiones musculoesqueléticas y problemas dermatológicos, como la dermatitis por contacto, que pueden derivarse del manejo inadecuado y constante de este material en la obra. Se enfatizó que, debido a las frecuentes labores de preparación de mezclas y vaciado que demanda la construcción de esta infraestructura, el uso obligatorio, correcto y permanente del equipo de protección personal específico —como respiradores, guantes impermeables, lentes de seguridad y ropa de manga larga—, así como la adopción de posturas ergonómicas al levantar las bolsas, son medidas preventivas innegociables para evitar daños agudos o crónicos a la salud."
+    ],
+    "2026-11-04": [
+      "El día de hoy 04/11/2026 se impartió la charla de seguridad a cargo del Ing. Fernando Miranda con el tema \"Documentación de seguridad en obra\", dirigida al personal de la edificación del laboratorio ambiental. Durante la sesión, se dio a conocer de manera detallada todo el portafolio documentario de Seguridad y Salud Ocupacional que gestiona y presenta el área SSOMA, explicando a los trabajadores la función específica y la importancia de cada formato dentro del sistema de gestión. Se enfatizó que, debido a la complejidad normativa y operativa que demanda la construcción de esta infraestructura, el correcto manejo y archivo de estos registros —como el Plan de Seguridad, matrices IPERC base, procedimientos (PETS), inspecciones y formatos de capacitación— constituye el respaldo técnico y legal innegociable para garantizar un entorno de trabajo verdaderamente controlado, organizado y transparente."
+    ],
+    "2026-11-05": [
+      "El día de hoy 05/11/2026 se impartió la charla de seguridad a cargo del Ing. Fernando Miranda con el tema \"Prevención de desórdenes osteomusculares\", dirigida al personal de la edificación del laboratorio ambiental. Durante la sesión, se instruyó a los trabajadores sobre los riesgos ergonómicos asociados a las posturas forzadas, los movimientos repetitivos y el levantamiento inadecuado de cargas, factores que pueden generar lesiones crónicas en la columna vertebral, articulaciones y músculos. Se enfatizó que, debido a la alta exigencia física, el traslado manual de materiales y las labores operativas constantes que demanda la construcción de esta infraestructura, aplicar técnicas correctas de levantamiento (flexionando las rodillas y manteniendo la espalda recta), evitar sobreesfuerzos y realizar trabajo en equipo para cargas pesadas son medidas preventivas innegociables para preservar la salud del sistema locomotor."
+    ],
+    "2026-11-06": [
+      "El día de hoy 06/11/2026 se impartió la charla de seguridad a cargo del Ing. Fernando Miranda con el tema \"Enfermedades ocupacionales según su oficio\", dirigida al personal de la edificación del laboratorio ambiental. Durante la sesión, se hizo de conocimiento las principales enfermedades profesionales a las que están expuestos los trabajadores según su especialidad, detallando los riesgos de afecciones respiratorias y dermatológicas en albañiles y pintores, los problemas musculoesqueléticos en fierreros y carpinteros, la pérdida auditiva y síndrome por vibración en operadores de compactadoras, y los riesgos biomecánicos en el personal eléctrico y sanitario. Se enfatizó que, frente a la exposición constante a los peligros específicos que demanda cada labor en la construcción de esta infraestructura, el uso obligatorio y correcto del equipo de protección personal (EPP) adecuado para cada área, sumado a la adopción de posturas ergonómicas, son medidas preventivas innegociables para evitar el desarrollo de patologías crónicas irreversibles.",
+      "Se deja expresa constancia respecto al Asiento del 05 de noviembre de 2026, en el cual, por error involuntario en el punto III. Equipos y Maquinarias, se omitió consignar la operatividad de: 02 Apisonadores . Al respecto, se precisa que la presencia y uso efectivo de dicho equipo en obra durante la jornada del 05/11/2026 queda debidamente acreditada, sustentada y en plena concordancia con los registros y reportes del Área de Control de Calidad, donde se verificó la ejecución de los trabajos de: Compactación de material granular base correspondiente a la capa N° 05 mediante equipo liviano."
+    ],
+    "2026-11-07": [
+      "El día de hoy 07/11/2026 se impartió la charla de seguridad a cargo del Tec. Julio César Huarache Rios con el tema \"La importancia de reportar los incidentes: Salva vidas\", dirigida al personal de la edificación del laboratorio ambiental. Durante la sesión, se instruyó a los trabajadores sobre el valor vital de comunicar de forma inmediata y transparente cualquier cuasi accidente, evento inesperado o condición insegura, por más leve que parezca, antes de que se convierta en un accidente grave con daños reales. Se enfatizó que, frente a los riesgos constantes y las exigentes actividades constructivas que demanda esta infraestructura, el reporte oportuno de un incidente no tiene como fin buscar culpables, sino que es una herramienta preventiva innegociable para identificar fallas, corregirlas a tiempo y proteger la vida de todos los compañeros en la obra."
+    ],
+    "2026-11-09": [
+      "El día de hoy 09/11/2026 se impartió la charla de seguridad a cargo del personal SSOMA con el tema \"Dinámica de Trabajo en Equipo: el ciego, el mudo y el manco\", dirigida al personal de la edificación del laboratorio ambiental. Durante la sesión, se realizó una actividad práctica y participativa para instruir a los trabajadores sobre la importancia vital de la empatía, la comunicación asertiva y la dependencia mutua en el entorno laboral. Se enfatizó que, frente a la complejidad de las actividades constructivas y los riesgos compartidos que demanda esta infraestructura, el trabajo coordinado —donde cada compañero actúa como los ojos, la voz o el apoyo del otro ante un peligro— es una medida preventiva innegociable para alertar sobre condiciones subestándar y evitar incidentes."
+    ],
+    "2026-11-10": [
+      "El día de hoy 10/11/2026 se impartió la charla de seguridad a cargo del Ing. Fernando Miranda con el tema \"Atención de golpes de calor en obra\", dirigida al personal de la edificación del laboratorio ambiental. Durante la sesión, se instruyó a los trabajadores sobre los signos de alarma y los primeros auxilios inmediatos frente a un golpe de calor, una urgencia médica grave ocasionada por la exposición prolongada a altas temperaturas ambientales combinada con la deshidratación. Se enfatizó que, frente a la exigencia física bajo el sol que demandan las diversas actividades constructivas de esta infraestructura, el consumo constante de agua, el aprovechamiento de los periodos de descanso en la sombra y la rápida acción para auxiliar y refrescar a cualquier compañero que presente mareos, confusión o fatiga extrema, son medidas preventivas innegociables para evitar descompensaciones severas.",
+      "Para el Vaciado del contrapiso en el 5to Nivel en los ejes 2-3/E-E'-F, se consideró un desnivel de -0.03 m respecto al nivel NPT establecido, en la ubicación del sumidero de la bajada de aguas pluviales, a fin de permitir la conformación de las pendientes de evacuación, comprendidas entre 0.05 % y 1 %, según las condiciones de ejecución."
+    ],
+    "2026-11-11": [
+      "El día de hoy 11/11/2026 se impartió la charla de salud ocupacional a cargo de la Lic. Enf. Jianella Isabel Maquera Huanca con el tema \"La automedicación y los riesgos que causa\", dirigida al personal de la edificación del laboratorio ambiental. Durante la sesión, se instruyó a los trabajadores sobre los graves peligros de consumir analgésicos, antiinflamatorios o cualquier otro medicamento sin prescripción médica con el fin de aliviar dolores musculares, resfriados o malestares comunes. Se enfatizó que, frente a la alta exigencia física, el uso de herramientas y la concentración que demanda la construcción de esta infraestructura, sufrir efectos secundarios imprevistos como somnolencia, mareos, visión borrosa o reacciones alérgicas en pleno frente de trabajo puede desencadenar accidentes muy graves. Por ello, reportar cualquier dolencia y consultar únicamente con un profesional de la salud son medidas preventivas innegociables para evitar complicaciones médicas y operativas."
+    ],
+    "2026-11-12": [
+      "El día de hoy 12/11/2026 se impartió la charla de seguridad a cargo del Ing. Fernando Miranda con el tema \"Los factores humanos que causan accidentes\", dirigida al personal de la edificación del laboratorio ambiental. Durante la sesión, se instruyó a los trabajadores sobre cómo el exceso de confianza, la prisa por terminar una tarea, la falta de concentración, la fatiga o el desconocimiento son las verdaderas causas detrás de la gran mayoría de los incidentes en obra, superando incluso a las fallas mecánicas o de los equipos. Se enfatizó que, frente a las diversas y exigentes actividades constructivas que demanda esta infraestructura, evitar los atajos, mantener la atención plena en cada procedimiento y no ejecutar una labor si no se está debidamente capacitado o en óptimas condiciones, son medidas preventivas innegociables para neutralizar el error humano.",
+      "Se deja constancia que, con fecha 07/11/2026, se da inicio a la O/S N° 7998, notificada el 06/11/2026, correspondiente al servicio de Alquiler de Baños Químicos, cuyo periodo de prestación se computa desde el 07/11/2026, correspondiente a su primera y única conformidad, en el marco de la ejecución del proyecto “Laboratorio Ambiental San Agustín de Torata – Componente I”."
+    ],
+    "2026-11-13": [
+      "El día de hoy 13/11/2026 se impartió la charla de salud ocupacional a cargo de la Lic. Enf. Jianella Isabel Maquera Huanca con el tema \"Prevención del Helicobacter Pylori\", dirigida al personal de la edificación del laboratorio ambiental. Durante la sesión, se instruyó a los trabajadores sobre los graves riesgos de esta bacteria que infecta el estómago y es causante de gastritis crónicas y úlceras, la cual se transmite principalmente por el consumo de agua o alimentos contaminados y por una deficiente higiene de manos. Se enfatizó que, frente a las condiciones del entorno de obra y las actividades operativas que demanda la construcción de esta infraestructura, el lavado de manos obligatorio con agua y jabón antes de ingerir los alimentos y después de usar los servicios higiénicos, así como el consumo estricto de las comidas únicamente en las áreas limpias y autorizadas, son medidas preventivas innegociables para evitar el contagio de enfermedades gastrointestinales."
+    ],
+    "2026-11-14": [
+      "El día de hoy 14/11/2026 se impartió la charla de seguridad a cargo del Ing. Fernando Miranda con el tema \"La importancia del uso del mango de sujeción en las amoladoras\", dirigida al personal de la edificación del laboratorio ambiental. Durante la sesión, se instruyó a los trabajadores sobre el altísimo riesgo que representa operar esta herramienta de poder con una sola mano, perdiendo la capacidad de reaccionar y controlar el equipo ante un posible atasco del disco y el violento efecto de retroceso brusco (kickback). Se enfatizó que, frente a las exigentes labores de corte, esmerilado y pulido que demanda la construcción de esta infraestructura, el uso obligatorio, correcto y permanente del mango de sujeción lateral de la amoladora es una medida preventiva innegociable para asegurar la estabilidad, absorber las vibraciones y evitar cortes profundos, fracturas o amputaciones."
     ]
   },
   "parrafos_editados": {
@@ -90768,6 +95179,786 @@
         },
         {
           "cant": 0,
+          "rol": "Enfermera"
+        },
+        {
+          "cant": 1,
+          "rol": "Asistente Administrativo"
+        }
+      ]
+    },
+    "2026-11-04": {
+      "obrero": [
+        {
+          "cant": 1,
+          "cat": "Capataz"
+        },
+        {
+          "cant": 13,
+          "cat": "Operarios"
+        },
+        {
+          "cant": 8,
+          "cat": "Oficiales"
+        },
+        {
+          "cant": 4,
+          "cat": "Oficiales Guardianes"
+        },
+        {
+          "cant": 1,
+          "cat": "Oficial Prevencionista"
+        },
+        {
+          "cant": 9,
+          "cat": "Peones"
+        }
+      ],
+      "tecnico": [
+        {
+          "cant": 1,
+          "rol": "Ing. Residente"
+        },
+        {
+          "cant": 1,
+          "rol": "Administrador"
+        },
+        {
+          "cant": 1,
+          "rol": "Almacenero"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. de Seguridad"
+        },
+        {
+          "cant": 0,
+          "rol": "Ing. Ambiental"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. Calidad"
+        },
+        {
+          "cant": 0,
+          "rol": "Especialista en Procesos de Selección"
+        },
+        {
+          "cant": 1,
+          "rol": "Topógrafo"
+        },
+        {
+          "cant": 2,
+          "rol": "Asistentes técnicos"
+        },
+        {
+          "cant": 1,
+          "rol": "Asistente Logístico"
+        },
+        {
+          "cant": 0,
+          "rol": "Enfermera"
+        },
+        {
+          "cant": 1,
+          "rol": "Asistente Administrativo"
+        }
+      ]
+    },
+    "2026-11-05": {
+      "obrero": [
+        {
+          "cant": 1,
+          "cat": "Capataz"
+        },
+        {
+          "cant": 12,
+          "cat": "Operarios"
+        },
+        {
+          "cant": 7,
+          "cat": "Oficiales"
+        },
+        {
+          "cant": 4,
+          "cat": "Oficiales Guardianes"
+        },
+        {
+          "cant": 1,
+          "cat": "Oficial Prevencionista"
+        },
+        {
+          "cant": 9,
+          "cat": "Peones"
+        }
+      ],
+      "tecnico": [
+        {
+          "cant": 1,
+          "rol": "Ing. Residente"
+        },
+        {
+          "cant": 1,
+          "rol": "Administrador"
+        },
+        {
+          "cant": 1,
+          "rol": "Almacenero"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. de Seguridad"
+        },
+        {
+          "cant": 0,
+          "rol": "Ing. Ambiental"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. Calidad"
+        },
+        {
+          "cant": 0,
+          "rol": "Especialista en Procesos de Selección"
+        },
+        {
+          "cant": 1,
+          "rol": "Topógrafo"
+        },
+        {
+          "cant": 2,
+          "rol": "Asistentes técnicos"
+        },
+        {
+          "cant": 1,
+          "rol": "Asistente Logístico"
+        },
+        {
+          "cant": 0,
+          "rol": "Enfermera"
+        },
+        {
+          "cant": 1,
+          "rol": "Asistente Administrativo"
+        }
+      ]
+    },
+    "2026-11-06": {
+      "obrero": [
+        {
+          "cant": 1,
+          "cat": "Capataz"
+        },
+        {
+          "cant": 13,
+          "cat": "Operarios"
+        },
+        {
+          "cant": 6,
+          "cat": "Oficiales"
+        },
+        {
+          "cant": 4,
+          "cat": "Oficiales Guardianes"
+        },
+        {
+          "cant": 1,
+          "cat": "Oficial Prevencionista"
+        },
+        {
+          "cant": 9,
+          "cat": "Peones"
+        }
+      ],
+      "tecnico": [
+        {
+          "cant": 1,
+          "rol": "Ing. Residente"
+        },
+        {
+          "cant": 1,
+          "rol": "Administrador"
+        },
+        {
+          "cant": 1,
+          "rol": "Almacenero"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. de Seguridad"
+        },
+        {
+          "cant": 0,
+          "rol": "Ing. Ambiental"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. Calidad"
+        },
+        {
+          "cant": 0,
+          "rol": "Especialista en Procesos de Selección"
+        },
+        {
+          "cant": 1,
+          "rol": "Topógrafo"
+        },
+        {
+          "cant": 2,
+          "rol": "Asistentes técnicos"
+        },
+        {
+          "cant": 1,
+          "rol": "Asistente Logístico"
+        },
+        {
+          "cant": 0,
+          "rol": "Enfermera"
+        },
+        {
+          "cant": 1,
+          "rol": "Asistente Administrativo"
+        }
+      ]
+    },
+    "2026-11-07": {
+      "obrero": [
+        {
+          "cant": 1,
+          "cat": "Capataz"
+        },
+        {
+          "cant": 13,
+          "cat": "Operarios"
+        },
+        {
+          "cant": 7,
+          "cat": "Oficiales"
+        },
+        {
+          "cant": 4,
+          "cat": "Oficiales Guardianes"
+        },
+        {
+          "cant": 1,
+          "cat": "Oficial Prevencionista"
+        },
+        {
+          "cant": 8,
+          "cat": "Peones"
+        }
+      ],
+      "tecnico": [
+        {
+          "cant": 1,
+          "rol": "Ing. Residente"
+        },
+        {
+          "cant": 1,
+          "rol": "Administrador"
+        },
+        {
+          "cant": 1,
+          "rol": "Almacenero"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. de Seguridad"
+        },
+        {
+          "cant": 0,
+          "rol": "Ing. Ambiental"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. Calidad"
+        },
+        {
+          "cant": 0,
+          "rol": "Especialista en Procesos de Selección"
+        },
+        {
+          "cant": 1,
+          "rol": "Topógrafo"
+        },
+        {
+          "cant": 2,
+          "rol": "Asistentes técnicos"
+        },
+        {
+          "cant": 1,
+          "rol": "Asistente Logístico"
+        },
+        {
+          "cant": 0,
+          "rol": "Enfermera"
+        },
+        {
+          "cant": 1,
+          "rol": "Asistente Administrativo"
+        }
+      ]
+    },
+    "2026-11-09": {
+      "obrero": [
+        {
+          "cant": 1,
+          "cat": "Capataz"
+        },
+        {
+          "cant": 13,
+          "cat": "Operarios"
+        },
+        {
+          "cant": 7,
+          "cat": "Oficiales"
+        },
+        {
+          "cant": 4,
+          "cat": "Oficiales Guardianes"
+        },
+        {
+          "cant": 1,
+          "cat": "Oficial Prevencionista"
+        },
+        {
+          "cant": 9,
+          "cat": "Peones"
+        }
+      ],
+      "tecnico": [
+        {
+          "cant": 1,
+          "rol": "Ing. Residente"
+        },
+        {
+          "cant": 1,
+          "rol": "Administrador"
+        },
+        {
+          "cant": 1,
+          "rol": "Almacenero"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. de Seguridad"
+        },
+        {
+          "cant": 0,
+          "rol": "Ing. Ambiental"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. Calidad"
+        },
+        {
+          "cant": 0,
+          "rol": "Especialista en Procesos de Selección"
+        },
+        {
+          "cant": 1,
+          "rol": "Topógrafo"
+        },
+        {
+          "cant": 2,
+          "rol": "Asistentes técnicos"
+        },
+        {
+          "cant": 1,
+          "rol": "Asistente Logístico"
+        },
+        {
+          "cant": 1,
+          "rol": "Enfermera"
+        },
+        {
+          "cant": 1,
+          "rol": "Asistente Administrativo"
+        }
+      ]
+    },
+    "2026-11-10": {
+      "obrero": [
+        {
+          "cant": 1,
+          "cat": "Capataz"
+        },
+        {
+          "cant": 13,
+          "cat": "Operarios"
+        },
+        {
+          "cant": 7,
+          "cat": "Oficiales"
+        },
+        {
+          "cant": 4,
+          "cat": "Oficiales Guardianes"
+        },
+        {
+          "cant": 1,
+          "cat": "Oficial Prevencionista"
+        },
+        {
+          "cant": 9,
+          "cat": "Peones"
+        }
+      ],
+      "tecnico": [
+        {
+          "cant": 1,
+          "rol": "Ing. Residente"
+        },
+        {
+          "cant": 1,
+          "rol": "Administrador"
+        },
+        {
+          "cant": 1,
+          "rol": "Almacenero"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. de Seguridad"
+        },
+        {
+          "cant": 0,
+          "rol": "Ing. Ambiental"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. Calidad"
+        },
+        {
+          "cant": 0,
+          "rol": "Especialista en Procesos de Selección"
+        },
+        {
+          "cant": 1,
+          "rol": "Topógrafo"
+        },
+        {
+          "cant": 2,
+          "rol": "Asistentes técnicos"
+        },
+        {
+          "cant": 1,
+          "rol": "Asistente Logístico"
+        },
+        {
+          "cant": 1,
+          "rol": "Enfermera"
+        },
+        {
+          "cant": 1,
+          "rol": "Asistente Administrativo"
+        }
+      ]
+    },
+    "2026-11-11": {
+      "obrero": [
+        {
+          "cant": 1,
+          "cat": "Capataz"
+        },
+        {
+          "cant": 13,
+          "cat": "Operarios"
+        },
+        {
+          "cant": 7,
+          "cat": "Oficiales"
+        },
+        {
+          "cant": 4,
+          "cat": "Oficiales Guardianes"
+        },
+        {
+          "cant": 1,
+          "cat": "Oficial Prevencionista"
+        },
+        {
+          "cant": 8,
+          "cat": "Peones"
+        }
+      ],
+      "tecnico": [
+        {
+          "cant": 1,
+          "rol": "Ing. Residente"
+        },
+        {
+          "cant": 1,
+          "rol": "Administrador"
+        },
+        {
+          "cant": 1,
+          "rol": "Almacenero"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. de Seguridad"
+        },
+        {
+          "cant": 0,
+          "rol": "Ing. Ambiental"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. Calidad"
+        },
+        {
+          "cant": 0,
+          "rol": "Especialista en Procesos de Selección"
+        },
+        {
+          "cant": 1,
+          "rol": "Topógrafo"
+        },
+        {
+          "cant": 2,
+          "rol": "Asistentes técnicos"
+        },
+        {
+          "cant": 1,
+          "rol": "Asistente Logístico"
+        },
+        {
+          "cant": 1,
+          "rol": "Enfermera"
+        },
+        {
+          "cant": 1,
+          "rol": "Asistente Administrativo"
+        }
+      ]
+    },
+    "2026-11-12": {
+      "obrero": [
+        {
+          "cant": 1,
+          "cat": "Capataz"
+        },
+        {
+          "cant": 13,
+          "cat": "Operarios"
+        },
+        {
+          "cant": 8,
+          "cat": "Oficiales"
+        },
+        {
+          "cant": 4,
+          "cat": "Oficiales Guardianes"
+        },
+        {
+          "cant": 1,
+          "cat": "Oficial Prevencionista"
+        },
+        {
+          "cant": 8,
+          "cat": "Peones"
+        }
+      ],
+      "tecnico": [
+        {
+          "cant": 1,
+          "rol": "Ing. Residente"
+        },
+        {
+          "cant": 1,
+          "rol": "Administrador"
+        },
+        {
+          "cant": 1,
+          "rol": "Almacenero"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. de Seguridad"
+        },
+        {
+          "cant": 0,
+          "rol": "Ing. Ambiental"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. Calidad"
+        },
+        {
+          "cant": 0,
+          "rol": "Especialista en Procesos de Selección"
+        },
+        {
+          "cant": 1,
+          "rol": "Topógrafo"
+        },
+        {
+          "cant": 2,
+          "rol": "Asistentes técnicos"
+        },
+        {
+          "cant": 1,
+          "rol": "Asistente Logístico"
+        },
+        {
+          "cant": 1,
+          "rol": "Enfermera"
+        },
+        {
+          "cant": 1,
+          "rol": "Asistente Administrativo"
+        }
+      ]
+    },
+    "2026-11-13": {
+      "obrero": [
+        {
+          "cant": 0,
+          "cat": "Capataz"
+        },
+        {
+          "cant": 0,
+          "cat": "Operarios"
+        },
+        {
+          "cant": 0,
+          "cat": "Oficiales"
+        },
+        {
+          "cant": 0,
+          "cat": "Oficiales Guardianes"
+        },
+        {
+          "cant": 0,
+          "cat": "Oficial Prevencionista"
+        },
+        {
+          "cant": 0,
+          "cat": "Peones"
+        }
+      ],
+      "tecnico": [
+        {
+          "cant": 1,
+          "rol": "Ing. Residente"
+        },
+        {
+          "cant": 1,
+          "rol": "Administrador"
+        },
+        {
+          "cant": 1,
+          "rol": "Almacenero"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. de Seguridad"
+        },
+        {
+          "cant": 0,
+          "rol": "Ing. Ambiental"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. Calidad"
+        },
+        {
+          "cant": 0,
+          "rol": "Especialista en Procesos de Selección"
+        },
+        {
+          "cant": 1,
+          "rol": "Topógrafo"
+        },
+        {
+          "cant": 2,
+          "rol": "Asistentes técnicos"
+        },
+        {
+          "cant": 1,
+          "rol": "Asistente Logístico"
+        },
+        {
+          "cant": 1,
+          "rol": "Enfermera"
+        },
+        {
+          "cant": 1,
+          "rol": "Asistente Administrativo"
+        }
+      ]
+    },
+    "2026-11-14": {
+      "obrero": [
+        {
+          "cant": 1,
+          "cat": "Capataz"
+        },
+        {
+          "cant": 13,
+          "cat": "Operarios"
+        },
+        {
+          "cant": 8,
+          "cat": "Oficiales"
+        },
+        {
+          "cant": 4,
+          "cat": "Oficiales Guardianes"
+        },
+        {
+          "cant": 1,
+          "cat": "Oficial Prevencionista"
+        },
+        {
+          "cant": 9,
+          "cat": "Peones"
+        }
+      ],
+      "tecnico": [
+        {
+          "cant": 1,
+          "rol": "Ing. Residente"
+        },
+        {
+          "cant": 1,
+          "rol": "Administrador"
+        },
+        {
+          "cant": 1,
+          "rol": "Almacenero"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. de Seguridad"
+        },
+        {
+          "cant": 0,
+          "rol": "Ing. Ambiental"
+        },
+        {
+          "cant": 1,
+          "rol": "Ing. Calidad"
+        },
+        {
+          "cant": 0,
+          "rol": "Especialista en Procesos de Selección"
+        },
+        {
+          "cant": 1,
+          "rol": "Topógrafo"
+        },
+        {
+          "cant": 2,
+          "rol": "Asistentes técnicos"
+        },
+        {
+          "cant": 1,
+          "rol": "Asistente Logístico"
+        },
+        {
+          "cant": 1,
           "rol": "Enfermera"
         },
         {

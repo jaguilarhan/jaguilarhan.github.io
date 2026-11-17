@@ -518,7 +518,8 @@
     <button class="btn-word" id="btn-informe-mensual" style="background:#6a1b9a">📊 Informe Mensual</button>
     <button class="btn-word" id="btn-asistencia" style="background:#00695c">🧑‍🔧 Asistencia</button>
     <button class="btn-word" id="btn-control-equipos" style="background:#e65100">🚜 Control Equipos</button>
-    <button class="btn-word" id="btn-partes-diarios" style="background:#4f46e5">📋 Partes Diarios</button>
+    <button class="btn-word" id="btn-partes-diarios" style="background:#4f46e5">📋 Partes Vibrador</button>
+    <button class="btn-word" id="btn-partes-apisonador" style="background:#0284c7">🚜 Partes Apisonador</button>
   </div>
 </header>
 
@@ -3433,6 +3434,13 @@ document.getElementById('btn-control-equipos').addEventListener('click', () => {
 document.getElementById('btn-partes-diarios').addEventListener('click', () => {
   window.open('partes.html', '_blank');
 });
+
+const btnPartesApisonador = document.getElementById('btn-partes-apisonador');
+if (btnPartesApisonador) {
+  btnPartesApisonador.addEventListener('click', () => {
+    window.open('partes_apisonador.html', '_blank');
+  });
+}
 
 document.getElementById('btn-asistencia').addEventListener('click', () => {
   window.open('asistencia.html', '_blank');
