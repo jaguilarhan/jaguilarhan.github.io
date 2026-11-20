@@ -66530,28 +66530,6 @@
         }
       ]
     },
-    "APISONADOR_Marzo_2026": {
-      "meta": {
-        "nombre_equipo": "SERVICIO DE ALQUILER DE APISONADOR",
-        "os_equipo": "0001620"
-      },
-      "rows": [
-        {
-          "mes": "Marzo",
-          "fecha": "2026-03-19",
-          "dia": "jueves",
-          "mIni": "08:00",
-          "mFin": "12:00",
-          "mCant": "4.00",
-          "tIni": "",
-          "tFin": "",
-          "tCant": "",
-          "tot": "4.00",
-          "comb": "0.75",
-          "desc": "Culminación del relleno masivo y compactación mecánica de la calicata en el primer nivel (ejes 2-3/B-C). Preparación de plataforma de cimentación y verificación de niveles."
-        }
-      ]
-    },
     "APISONADOR_Mayo_2026": {
       "meta": {
         "nombre_equipo": "SERVICIO DE ALQUILER DE APISONADOR",
@@ -66560,73 +66538,78 @@
       "rows": [
         {
           "mes": "Mayo",
-          "fecha": "2026-05-03",
-          "dia": "domingo",
+          "fecha": "2026-05-04",
+          "dia": "lunes",
           "mIni": "08:00",
           "mFin": "12:00",
           "mCant": "4.00",
           "tIni": "13:00",
-          "tFin": "16:30",
-          "tCant": "3.50",
-          "tot": "7.50",
-          "comb": "1.00",
-          "desc": "Inicio de compactado en el eje D-E entre 1-2-3 en el segundo nivel. Extendido, humectación homogénea y compactación mecánica de la primera capa de material granular seleccionado."
-        },
-        {
-          "mes": "Mayo",
-          "fecha": "2026-05-05",
-          "dia": "martes",
-          "mIni": "08:00",
-          "mFin": "12:00",
-          "mCant": "4.00",
-          "tIni": "13:00",
-          "tFin": "16:00",
-          "tCant": "3.00",
-          "tot": "7.00",
-          "comb": "1.00",
-          "desc": "Asiento N° 211: Continuación y consolidación de compactado eje D-E 2do nivel. Densificación mecánica perimetral con apisonador de capas de relleno estructural adyacentes a columnetas y muros."
+          "tFin": "15:00",
+          "tCant": "2.00",
+          "tot": "6.00",
+          "comb": "0.80",
+          "desc": "• Se dio inicio a los trabajos de compactado de relleno en el 2do nivel: Eje 1-2 / D-E, área de cuarto de limpieza y descarte de materiales (área: 7.61 m²), y Eje 2-3 / D-E, área d...",
+          "equipo": "APISONADOR VIBRATORIO BAILARINA N° 2"
         },
         {
           "mes": "Mayo",
           "fecha": "2026-05-08",
           "dia": "viernes",
           "mIni": "08:00",
-          "mFin": "12:00",
-          "mCant": "4.00",
-          "tIni": "13:00",
-          "tFin": "16:30",
-          "tCant": "3.50",
-          "tot": "7.50",
-          "comb": "1.00",
-          "desc": "Asiento N° 218: Colocado de impermeabilizante RC en muro MC-1 antes de la compactación. Nivelación y compactación mecánica de base confinada con apisonador previo al vaciado de suelo cemento."
+          "mFin": "09:30",
+          "mCant": "1.50",
+          "tIni": "",
+          "tFin": "",
+          "tCant": "",
+          "tot": "1.50",
+          "comb": "0.20",
+          "desc": "• Se ejecutó la compactación con apisonador vibratorio BAILARINA para la nivelación de la base en el tercer nivel, entre el muro existente y el muro de contención MC-1, entre los e...",
+          "equipo": "APISONADOR VIBRATORIO BAILARINA N° 1"
         },
         {
           "mes": "Mayo",
           "fecha": "2026-05-12",
           "dia": "martes",
           "mIni": "08:00",
-          "mFin": "12:00",
-          "mCant": "4.00",
-          "tIni": "13:00",
-          "tFin": "16:00",
-          "tCant": "3.00",
-          "tot": "7.00",
-          "comb": "1.00",
-          "desc": "Asiento N° 218: Verificación y registro de compactación en zona del muro MC-1 en 2do y 3er nivel. Nivelación y compactación mecánica de relleno estructural entre edificación nueva y muro existente."
+          "mFin": "09:30",
+          "mCant": "1.50",
+          "tIni": "",
+          "tFin": "",
+          "tCant": "",
+          "tot": "1.50",
+          "comb": "0.20",
+          "desc": "• Se ejecutó el relleno y compactación con apisonador vibratorio BAILARINA de la base para el vaciado de suelo cemento, en el tercer nivel, entre los ejes E y E', entre el muro de ...",
+          "equipo": "APISONADOR VIBRATORIO BAILARINA N° 2"
         },
         {
           "mes": "Mayo",
-          "fecha": "2026-05-21",
-          "dia": "jueves",
+          "fecha": "2026-05-20",
+          "dia": "miércoles",
           "mIni": "08:00",
           "mFin": "12:00",
           "mCant": "4.00",
           "tIni": "13:00",
-          "tFin": "16:30",
-          "tCant": "3.50",
-          "tot": "7.50",
-          "comb": "1.00",
-          "desc": "Asiento N° 235 (Inspectoría): Se solicita relleno y compactación urgente en primer piso para asegurar estabilidad estructural por zapata expuesta. Se ejecutó perfilado y compactado con apisonador."
+          "tFin": "15:00",
+          "tCant": "2.00",
+          "tot": "6.00",
+          "comb": "0.80",
+          "desc": "• Se ejecutó el relleno y compactación con material base, primera capa, con apisonador vibratorio BAILARINA en el tercer nivel, en las siguientes áreas:   - Sala de análisis de cal...",
+          "equipo": "APISONADOR VIBRATORIO BAILARINA N° 1"
+        },
+        {
+          "mes": "Mayo",
+          "fecha": "2026-05-22",
+          "dia": "viernes",
+          "mIni": "07:30",
+          "mFin": "12:00",
+          "mCant": "4.50",
+          "tIni": "13:00",
+          "tFin": "15:30",
+          "tCant": "2.50",
+          "tot": "7.00",
+          "comb": "0.90",
+          "desc": "• Se ejecutó el relleno y compactación con material base, segunda y tercera capa, con apisonador vibratorio BAILARINA en el tercer nivel, en las siguientes áreas:   - Sala de análi...",
+          "equipo": "APISONADOR VIBRATORIO BAILARINA N° 2"
         },
         {
           "mes": "Mayo",
@@ -66635,26 +66618,43 @@
           "mIni": "08:00",
           "mFin": "12:00",
           "mCant": "4.00",
-          "tIni": "13:00",
-          "tFin": "16:00",
-          "tCant": "3.00",
-          "tot": "7.00",
-          "comb": "1.00",
-          "desc": "Asiento N° 240 (Inspectoría): Se reitera requerimiento de relleno y compactado en primer piso. Tendido, nivelación y compactación mecánica con apisonador conformando plataforma de suelo seleccionado."
+          "tIni": "",
+          "tFin": "",
+          "tCant": "",
+          "tot": "4.00",
+          "comb": "0.50",
+          "desc": "• Se ejecutó el levantamiento de observaciones correspondientes a los trabajos de compactación realizados en el tercer nivel, en la segunda y tercera capa, en Sala de análisis de c...",
+          "equipo": "APISONADOR VIBRATORIO BAILARINA N° 1"
         },
         {
           "mes": "Mayo",
           "fecha": "2026-05-29",
           "dia": "viernes",
           "mIni": "08:00",
-          "mFin": "12:00",
-          "mCant": "4.00",
-          "tIni": "13:00",
-          "tFin": "16:30",
-          "tCant": "3.50",
-          "tot": "7.50",
-          "comb": "1.00",
-          "desc": "Asiento N° 252 (Inspectoría): Se autorizó empleo de suelo cemento para relleno y compactación entre edificación nueva y existente. Trabajos de acondicionamiento y compactado mecánico de franja de transición."
+          "mFin": "11:30",
+          "mCant": "3.50",
+          "tIni": "13:30",
+          "tFin": "14:30",
+          "tCant": "1.00",
+          "tot": "4.50",
+          "comb": "0.60",
+          "desc": "• Se ejecutó el relleno y compactación con material base en la cuarta capa con Apisonador Vibratorio Bailarina N° 1 en el tercer nivel en la Sala de análisis de calidad de aire, ub...",
+          "equipo": "APISONADOR VIBRATORIO BAILARINA N° 1"
+        },
+        {
+          "mes": "Mayo",
+          "fecha": "2026-05-29",
+          "dia": "viernes",
+          "mIni": "08:00",
+          "mFin": "11:30",
+          "mCant": "3.50",
+          "tIni": "13:30",
+          "tFin": "14:30",
+          "tCant": "1.00",
+          "tot": "4.50",
+          "comb": "0.60",
+          "desc": "• Se ejecutó el relleno y compactación con material base en la cuarta capa con Apisonador Vibratorio Bailarina N° 2 en el tercer nivel en la Sala de balanzas, ubicada entre los eje...",
+          "equipo": "APISONADOR VIBRATORIO BAILARINA N° 2"
         }
       ]
     },
@@ -66666,17 +66666,86 @@
       "rows": [
         {
           "mes": "Junio",
-          "fecha": "2026-06-04",
-          "dia": "jueves",
-          "mIni": "08:30",
-          "mFin": "12:00",
+          "fecha": "2026-06-02",
+          "dia": "martes",
+          "mIni": "08:00",
+          "mFin": "11:30",
           "mCant": "3.50",
           "tIni": "13:30",
-          "tFin": "15:00",
-          "tCant": "1.50",
+          "tFin": "14:30",
+          "tCant": "1.00",
+          "tot": "4.50",
+          "comb": "0.60",
+          "desc": "• Se ejecutó el tendido, perfilado y compactado mecánico de la cuarta capa de material de relleno estructural con Apisonador Vibratorio Bailarina N° 1 en el tercer nivel, sector ej...",
+          "equipo": "APISONADOR VIBRATORIO BAILARINA N° 1"
+        },
+        {
+          "mes": "Junio",
+          "fecha": "2026-06-02",
+          "dia": "martes",
+          "mIni": "08:00",
+          "mFin": "11:30",
+          "mCant": "3.50",
+          "tIni": "13:30",
+          "tFin": "14:30",
+          "tCant": "1.00",
+          "tot": "4.50",
+          "comb": "0.60",
+          "desc": "• Se culminó el tendido, perfilado y compactado mecánico de la cuarta capa de material de relleno estructural con Apisonador Vibratorio Bailarina N° 2 en el tercer nivel, sector ej...",
+          "equipo": "APISONADOR VIBRATORIO BAILARINA N° 2"
+        },
+        {
+          "mes": "Junio",
+          "fecha": "2026-06-04",
+          "dia": "jueves",
+          "mIni": "07:30",
+          "mFin": "12:00",
+          "mCant": "4.50",
+          "tIni": "13:00",
+          "tFin": "15:30",
+          "tCant": "2.50",
+          "tot": "7.00",
+          "comb": "0.90",
+          "desc": "• Habiéndose culminado la compactación de la cuarta capa en la actividad anterior, se ejecutó el relleno y compactación de la quinta capa de material de relleno estructural con api...",
+          "equipo": "APISONADOR VIBRATORIO BAILARINA N° 1"
+        }
+      ]
+    },
+    "APISONADOR_Abril_2026": {
+      "meta": {
+        "nombre_equipo": "SERVICIO DE ALQUILER DE APISONADOR",
+        "os_equipo": "0001620"
+      },
+      "rows": [
+        {
+          "mes": "Abril",
+          "fecha": "2026-04-07",
+          "dia": "martes",
+          "mIni": "08:00",
+          "mFin": "12:00",
+          "mCant": "4.00",
+          "tIni": "13:30",
+          "tFin": "14:30",
+          "tCant": "1.00",
           "tot": "5.00",
-          "comb": "0.75",
-          "desc": "Asiento N° 259 (Inspectoría): Se constatan espacios en 2º y 3º piso para relleno y compactado. Se ejecutó nivelación y compactado mecánico con apisonador, completando las 60.00 HM del servicio y cierre."
+          "comb": "0.65",
+          "desc": "• Se ejecutó el relleno y compactación de la calicata de exploración de sección circular, ubicada en el primer nivel, ubicación en los ejes 2-3/B-C, de 1.00 m de diámetro y 2.80 m ...",
+          "equipo": "APISONADOR VIBRATORIO BAILARINA N° 1"
+        },
+        {
+          "mes": "Abril",
+          "fecha": "2026-04-08",
+          "dia": "miércoles",
+          "mIni": "08:00",
+          "mFin": "12:00",
+          "mCant": "4.00",
+          "tIni": "",
+          "tFin": "",
+          "tCant": "",
+          "tot": "4.00",
+          "comb": "0.50",
+          "desc": "• Se culminó el relleno y compactación de la calicata de exploración de sección circular, ubicada en el primer nivel, ubicación en los ejes 2-3/B-C, de 1.00 m de diámetro y 2.80 m ...",
+          "equipo": "APISONADOR VIBRATORIO BAILARINA N° 1"
         }
       ]
     }
