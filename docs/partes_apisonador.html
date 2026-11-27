@@ -486,6 +486,7 @@
     <button class="btn btn-warning" onclick="restablecerOriginales()">⚡ Restablecer Partes Originales</button>
     <button class="btn btn-primary" onclick="guardarCambiosLocal(true)">💾 Guardar Cambios</button>
     <button class="btn btn-success" onclick="imprimirModo('dos')">🖨️ Imprimir Todo (Original + Cargo por Hoja)</button>
+    <button class="btn" style="background:#0d9488;color:#fff;" onclick="imprimirModo('seguidos')">🖨️ Imprimir 2 Seguidos (Sin Cargo)</button>
     <button class="btn btn-secondary" onclick="imprimirModo('una')">📄 Imprimir 1 por Hoja (A4 Vertical)</button>
     <a href="partes.html" class="btn" style="background:#4f46e5;color:#fff;font-weight:600;">⚡ Ver Partes Vibrador (O/S 5600)</a>
     <a href="index.html" class="btn btn-outline">🏠 Inicio</a>
@@ -506,6 +507,7 @@
     <span>Modo de Vista:</span>
     <select id="selModoVista" onchange="cambiarModoVista(this.value)">
       <option value="dos" selected>2 por Hoja A4 Horizontal (Original a la izquierda + Cargo a la derecha)</option>
+      <option value="seguidos">2 por Hoja A4 Horizontal (Seguidos sin Cargo: Parte 1 + Parte 2...)</option>
       <option value="una">1 por Hoja A4 Vertical (Página completa)</option>
     </select>
 
@@ -3508,6 +3510,25 @@ function renderHojas() {
       `;
       cont.appendChild(hoja);
     });
+  } else if (modoActual === 'seguidos') {
+    // 2 partes seguidos por hoja A4 horizontal (sin cargo: Parte 1 + Parte 2, Parte 3 + Parte 4, ...)
+    for (let i = 0; i < partes.length; i += 2) {
+      const hoja = document.createElement('div');
+      hoja.className = 'hoja-a4 modo-dos';
+
+      const derHtml = (i + 1 < partes.length)
+        ? renderParteHTML(partes[i + 1], i + 1, 'ORIGINAL')
+        : '<div class="parte-box-vacia"></div>';
+
+      hoja.innerHTML = `
+        <div class="cut-divider">
+          <div class="cut-scissor">✂</div>
+        </div>
+        ${renderParteHTML(partes[i], i, 'ORIGINAL')}
+        ${derHtml}
+      `;
+      cont.appendChild(hoja);
+    }
   } else {
     // 1 parte por hoja A4 vertical
     partes.forEach((p, idx) => {
@@ -3921,7 +3942,15 @@ function actualizarTotales() {
   const elGas = document.getElementById('lblStatGasolina');
   if (elGas) elGas.innerText = `${sumGas.toFixed(2)} Gls Gasolina`;
   const elBadge = document.getElementById('lblBadgePartes');
-  if (elBadge) elBadge.innerText = `${partes.length} Partes Listos (Original + Cargo)`;
+  if (elBadge) {
+    if (modoActual === 'seguidos') {
+      elBadge.innerText = `${partes.length} Partes en ${Math.ceil(partes.length / 2)} Hojas (Seguidos s/ Cargo)`;
+    } else if (modoActual === 'una') {
+      elBadge.innerText = `${partes.length} Partes (1 por Hoja Vertical)`;
+    } else {
+      elBadge.innerText = `${partes.length} Partes Listos (Original + Cargo)`;
+    }
+  }
 }
 
 // GUARDAR CAMBIOS
@@ -3979,7 +4008,7 @@ function restablecerOriginales() {
 function cambiarModoVista(modo) {
   modoActual = modo;
   const pageRule = document.getElementById('page-rule');
-  if (modo === 'dos') {
+  if (modo === 'dos' || modo === 'seguidos') {
     pageRule.innerText = '@page { size: A4 landscape; margin: 5mm 6mm; }';
   } else {
     pageRule.innerText = '@page { size: A4 portrait; margin: 8mm 10mm; }';
